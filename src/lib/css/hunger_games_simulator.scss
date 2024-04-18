@@ -1,0 +1,341 @@
+@import '_vars';
+
+section { position: relative; }
+
+h2:first-of-type { margin-bottom: 1rem; }
+
+h3, h4, h5 { color: $accentlight; }
+
+#game-wrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+
+#add-events-dialog {
+	p { margin: 0; padding-top: 0; }
+	p + p { margin-block-start: 0; }
+	code { color: var(--accentlight); }
+
+	&-content {
+		display: grid;
+		gap: .5rem;
+		grid-template-columns: auto 1fr;
+		padding-top: 0;
+
+		* { font-size: var(--text-size); }
+
+		label {
+			grid-column: 1;
+			display: block;
+			text-align: right;
+		}
+
+		input {
+			grid-column: 2;
+			padding: 0;
+		}
+	}
+}
+
+#changelog-dialog { max-width: min(90rem, 100vw); }
+
+#game { display: none; }
+
+#character-selects {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 2rem;
+
+	margin-top: 4rem;
+
+	img { justify-content: center; }
+
+	div {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-end;
+
+		* { align-items: revert; }
+	}
+}
+
+form.game-character {
+	input { padding: 0; }
+
+	select, option, input {
+		width: 15rem;
+		border: none;
+	}
+
+	label {
+		margin-right: 1rem;
+		width: 6rem;
+	}
+}
+
+.name-and-pronouns {
+	gap: .75rem;
+	flex-direction: column !important;
+}
+
+.image-wrapper {
+	position: relative;
+	aspect-ratio: 1 / 1;
+
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+
+	margin-left: 1rem;
+	margin-right: 1rem;
+	border: 3px ridge $accentcolour;
+	width: 13.5rem;
+	height: 13.5rem;
+
+
+	img {
+		display: flex;
+		align-items: center !important;
+	}
+}
+
+.tribute-image {
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+
+.game-character {
+	flex-direction: row;
+	align-items: end;
+	margin: 0;
+	input { padding-block: .225rem !important; }
+}
+
+input, select, button { padding-block: .225rem; }
+
+#add-character-button-wrapper {
+	position: relative;
+	width: 25rem;
+	height: 10.5rem;
+
+	#add-character {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+		bottom: 2rem;
+		left: 2rem;
+
+		border: none;
+		padding: 0;
+		width: 0;
+
+		box-shadow: none;
+		background: red;
+
+		&:hover::before { color: white; }
+
+		&::before {
+			position: absolute;
+			top: -4rem;
+			left: 10rem;
+
+			content: '+';
+
+			font-size: 10rem;
+			color: $accentlight;
+			transition: color .5s;
+		}
+	}
+}
+
+.character-delete, .image-remove {
+	margin-left: auto;
+	width: 15rem;
+
+	border: none;
+	font-size: var(--text-size);
+}
+
+#start-game-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-top: 2rem;
+
+	button {
+		padding: .4rem;
+		font-size: 1.5rem;
+		width: 12rem;
+	}
+}
+
+h6 {
+	margin-bottom: 0;
+	font-size: calc(var(--text-size) * 1.1);
+	color: $accentlight;
+}
+
+.tribute-name { color: $accentlight; }
+.tribute-stats p { margin: .25rem; }
+.tribute-stats-header { margin: 6rem auto 2rem auto; }
+
+.tribute-winner {
+	color: $accentlight;
+	font-variant: small-caps;
+	font-weight: bold;
+}
+
+.event-message-wrapper, .death-message-wrapper, .tribute-stats-wrapper { margin-bottom: 3rem; }
+.event-message-images, .death-message-image { margin-bottom: 1rem; }
+.death-message-image img { filter: grayscale(100%); }
+.event-message-images {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+
+	.image-wrapper {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.event-message, .death-message, .round-fatalities {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 50rem;
+	text-align: center !important;
+}
+
+.round-fatalities { text-align: center; }
+.round-fatalities-wrapper { margin-bottom: 3rem; }
+
+.alive-stats, .dead-stats {
+	display: flex;
+	gap: 2rem;
+
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#advance-game, #abort-game {
+	display: block;
+	margin: 0 auto;
+
+	width: 10rem;
+	height: 3.5rem;
+	font-size: 1.75rem;
+}
+
+button {
+	border: none;
+	padding-inline: 1rem;
+	font-size: var(--text-size);
+}
+
+#game-before-content { text-align: center !important; }
+
+#game-buttons-wrapper {
+	position: relative;
+	justify-content: end;
+
+	button {
+		display: block;
+		font-size: 1.75rem;
+	}
+}
+
+#advance-game {
+	right: 50%;
+	transform: translateX(50%);
+	position: absolute;
+}
+
+#abort-game {
+	width: 12rem;
+	margin: 0;
+}
+
+#edit-events-table-wrapper {
+	overflow-y: scroll;
+	max-height: 60vh;
+
+	.event-list-stage-header {
+		td {
+			padding: 1.5rem 0 .125rem 0;
+			color: $accentlight;
+			font-weight: bold;
+		}
+
+		&:hover { outline: none; }
+	}
+
+	input[type=checkbox] {
+		appearance: none;
+		position: relative;
+		aspect-ratio: 1 / 1;
+
+		margin: 0;
+		border: 1px groove $accentcolour;
+		width: 14px;
+		height: 14px;
+
+		background: white;
+
+		&:checked {
+			background: $accentlight;
+
+			&::after {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+
+				content: url('$lib/images/checkmark.svg');
+
+				color: black;
+				transform: translate(-50%, -50%);
+			}
+		}
+	}
+
+	td,th { padding: 0 1rem; }
+
+	th:not(:first-child) {
+		min-width: 5rem;
+		text-align: left;
+	}
+
+	td:first-child {
+		padding-left: 0;
+		padding-right: 0;
+		width: 1rem;
+	}
+
+	:is(td, th):nth-child(2) { padding-left: 0; }
+
+	td:last-child { padding-right: 0; }
+
+	tbody tr:hover { outline: 1px solid $accentlight; }
+
+	thead th {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+
+		background: $accentblack;
+		color: $accentlight;
+	}
+}
+
+#tribute-stats-buttons { margin-bottom: 2rem; }
+
+abbr {
+	border: none;
+	text-decoration: none;
+}

@@ -1,0 +1,12 @@
+<svg width="4175" height="4175" version="1.1" viewBox="0 0 4175 4175" xmlns="http://www.w3.org/2000/svg">
+ <style type="text/css">.st0{fill:#FFFFFF;}</style>
+ <g transform="translate(135.5,257.5)">
+  <circle cx="1952" cy="1830" r="2087.5" fill="#9146ff" stroke-width="1.0986"/>
+  <g transform="translate(764.32 602.32)">
+   <polygon class="st0" points="2200 1300 1800 1700 1400 1700 1050 2050 1050 1700 600 1700 600 200 2200 200"/>
+   <path d="m500 0-500 500v1800h600v500l500-500h400l900-900v-1400zm1700 1300-400 400h-400l-350 350v-350h-450v-1500h1600z"/>
+   <rect x="1700" y="550" width="200" height="600"/>
+   <rect x="1150" y="550" width="200" height="600"/>
+  </g>
+ </g>
+</svg>

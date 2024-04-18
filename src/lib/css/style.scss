@@ -1,0 +1,175 @@
+@import 'vars';
+
+* {
+	margin-block-start: 0;
+	accent-color: $accentlight;
+}
+
+img { display: block; }
+
+html, body { overflow-x: hidden; }
+
+html {
+	scrollbar-color: $accentlight $accentblack;
+	scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+	width: .675rem;
+	&-track { background: $accentblack; }
+	&-thumb {
+		border-radius: 15px;
+		border: 2px solid $accentblack;
+		background: $accentlight;
+		&:hover { background: $accentcolour; }
+	}
+}
+
+::-moz-selection, ::selection {
+	color: white;
+	background: $accentlight;
+}
+
+code, pre, samp, kbd, var { font-family: $code-font; }
+
+body {
+	--body-background-colour: #fafafe;
+	--text-colour: black;
+	--content-box-shadow-colour: rgba(0, 0, 0, .2);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: var(--body-background-colour);
+	color: var(--text-colour);
+
+	margin: 0;
+	font-family: "Segoe UI Variable", "Segoe UI", system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+body.dark {
+	--body-background-colour: var(--accentblack);
+	--text-colour: #fafafe;
+	--content-box-shadow-colour: rgba(0, 0, 0, .3);
+
+	main {
+		background: var(--body-background-colour);
+	}
+}
+
+main {
+	background: white;
+}
+
+.bright-link {
+	color: $accentlight;
+	&:hover { color: $accentcolour; }
+}
+
+.smaller-image { max-width: 17.5rem; }
+
+.small-image { max-width: 25rem; }
+
+.center { text-align: center; }
+
+#cookie-notice {
+	position: fixed;
+	right: 2rem;
+	bottom: 2rem;
+	left: 2rem;
+	z-index: 10000;
+
+	padding: 1rem;
+	height: auto;
+
+	box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
+	background: white;
+
+	p { font-size: 1rem; }
+
+	div {
+		display: flex;
+		gap: 2rem;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	button, input[type=submit] {
+		border: 1px solid $accentcolour;
+		width: 7rem;
+
+		background: $accentlighter;
+		font-size: 1rem;
+
+		&:hover {
+			background: $accentcolour;
+			color: white;
+			cursor: pointer;
+		}
+	}
+}
+
+@import 'text';
+@import 'content';
+@import 'components';
+@import 'utils';
+
+#banner {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+
+	margin: 0;
+	width: 100%;
+	height: $banner-height;
+
+	// box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .5), 0 2px 1rem black;
+	box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .25), 0 2px 1rem black;
+	background-image: url("$lib/images/banner_spring.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+h1 {
+	position: absolute;
+	top: 8rem;
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+
+	color: white;
+	font-size: 4rem;
+	text-align: center;
+	text-shadow: -3px 3px rgba(0, 0, 0, .8);
+	text-transform: uppercase;
+}
+
+#h1-underline {
+	position: absolute;
+	top: 12.5rem;
+	right: 0;
+	left: 0;
+	z-index: 1;
+
+	border: .4em solid $accentlight;
+	background: $accentlight;
+}
+
+@media all and (display-mode: fullscreen) {
+	header {
+		display: none !important;
+	}
+}
+
+
+#h1-underline {
+	width: var(--h1-underline-length);
+}
+
+@media (max-width: 900px) {
+	#h1-underline {
+		width: var(--h1-underline-length-short);
+	}
+}

@@ -1,0 +1,41 @@
+@import 'vars';
+$h2-decoration-height: 1.1rem;
+
+body {
+	background: $accentblack;
+	color: white;
+}
+
+main { margin-top: $navbar-height !important; }
+
+#content-wrapper { min-height: calc(100vh - #{$content-wrapper-padding-top}); }
+
+.stripe {
+	position: relative;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin: 3rem 0;
+	min-height: 7rem;
+
+	background: $accentlight;
+	color: $accentdarker;
+	font-size: 2rem;
+	text-transform: uppercase;
+
+	&::before, &::after {
+		position: absolute;
+		right: 0;
+		left: 0;
+
+		content: "";
+		height: $h2-decoration-height;
+
+		background-image: url("$lib/images/border.svg");
+		background-size: auto 1.5em;
+		color: $accentdarker;
+		font-size: .75rem;
+	}
+}

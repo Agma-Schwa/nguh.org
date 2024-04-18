@@ -1,0 +1,5 @@
+<svg width="30" height="75" version="1.1" viewBox="0 0 30 75" xmlns="http://www.w3.org/2000/svg" id="hamburger">
+    <rect width="30" height="10"  y="20"      rx="10"/>
+    <rect width="30" height="10" y="15" rx="10"/>
+    <rect width="30" height="10" y="30" rx="10"/>
+</svg>
