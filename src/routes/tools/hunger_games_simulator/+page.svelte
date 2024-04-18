@@ -364,7 +364,7 @@ If specified in percent, this is relative to the total number of tributes, alive
                 someone will come and help you.
             </p>
             <p>
-                Alternatively, you can also file an issue <a href="https://github.com/Agma-Schwa/nguh.org/issues/new">
+                Alternatively, you can also file an issue <a href="https://github.com/Agma-Schwa/nguh.org/issues/new?assignees=Sirraide&labels=Hunger+Games+Simulator&projects=&template=hunger-games-simulator-bug.md&title=%5BHGS%5D+Insert+a+brief+description+of+your+problem+here">
                 here</a>. This requires you to have a free GitHub account.
             </p>
             <p>
