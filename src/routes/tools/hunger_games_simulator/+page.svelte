@@ -165,6 +165,15 @@ If specified in percent, this is relative to the total number of tributes, alive
 <template id="changelog-dialog-template">
     <div id="changelog">
         <div class="changelog-day">
+            <h4>18 April 2024</h4>
+            <ul>
+                <li>
+                    The entirety of nguh.org, including this simulator, is now open source on
+                    <a href="https://github.com/Agma-Schwa/nguh.org">GitHub</a>.
+                </li>
+            </ul>
+        </div>
+        <div class="changelog-day">
             <h4>09 April 2024</h4>
             <ul>
                 <li>
@@ -355,12 +364,12 @@ If specified in percent, this is relative to the total number of tributes, alive
                 someone will come and help you.
             </p>
             <p>
-                Alternatively, you can also file an issue <a href="https://gitlab.com/agma-schwa-public/hunger-games-simulator/-/issues/new">
-                here</a>. This requires you to have a free GitLab account.
+                Alternatively, you can also file an issue <a href="https://github.com/Agma-Schwa/nguh.org/issues/new">
+                here</a>. This requires you to have a free GitHub account.
             </p>
             <p>
-                The source code of the Agma Schwa Hunger Games Simulator, is hosted in
-                <a href="https://gitlab.com/agma-schwa-public/hunger-games-simulator">this GitLab repository</a>.
+                The source code of nguh.org, including the Hunger Games Simulator, is hosted in
+                <a href="https://github.com/Agma-Schwa/nguh.org">this GitHub repository</a>.
             </p>
             <p>
                 Support the game developer, Ætérnal, on <a href="https://www.patreon.com/sirraide">Patreon</a>.
