@@ -224,7 +224,6 @@
                 <div class="other-drop-down-content drop-down-content-centre">
                     <a data-sveltekit-reload href="/tools/hunger_games_simulator" class="child-element"
                        id="page_hunger_games_simulator">Hunger Games Simulator</a>
-                    <!--<a href="/tools/sca" class="child-element" id="page_sca">SCA++</a>-->
                     <a href="/tools/speedrun" class="child-element" id="page_speedrun">Speedrun</a>
                 </div>
             </div>

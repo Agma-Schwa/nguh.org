@@ -147,64 +147,6 @@ img:hover { cursor: pointer; }
     justify-content: center;
 }
 
-/*.dialog {
-    position: absolute;
-    z-index: 9999;
-
-    background: white;
-    box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
-
-    p { padding: 1rem; }
-
-    button {
-        border: 1px solid $accentcolour;
-        min-width: 6rem;
-        font-size: var(--text-size);
-    }
-
-    input {
-        padding-right: 1rem;
-        padding-left: 1rem;
-    }
-
-    h5 {
-        display: block;
-        margin-bottom: 0;
-        padding: .5rem;
-
-        background: $accentblack;
-        text-align: center;
-        font-size: calc(var(--text-size) * 1.1);
-    }
-
-    div:not(.dialog-element) {
-        display: flex;
-        gap: 2rem;
-        padding: 1rem;
-        justify-content: center;
-    }
-
-    .dialog-element {
-        padding-right: 1rem;
-        padding-left: 1rem;
-    }
-
-    .file-input-control {
-        gap: .55rem;
-
-        button { width: 11.5rem; }
-
-        input {
-            &[type=file] { display: none; }
-            &[type=text] {
-                width: 100%;
-                padding: 0;
-                font-size: var(--text-size);
-            }
-        }
-    }
-}*/
-
 $bg-colour: #2D2A2E;
 $bg-darker: darken($bg-colour, 10%);
 $bg-accent: lighten($bg-colour, 10%);

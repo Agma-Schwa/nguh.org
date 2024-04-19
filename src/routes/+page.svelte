@@ -112,7 +112,6 @@
 </section>
 
 <section class="flex-row gap2 mgt1rem">
-    <!--    <img src="../images/index/agma2.jpg" alt="agma2" style="width: auto; height: 20em" class="cover">-->
     <article class="pars">
         <p>Disclaimer:</p>
         <p>All of the content of the Arodjun language, the pthm language, and any of the Sern-Cahilan languages,

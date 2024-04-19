@@ -139,7 +139,6 @@
                 <th>Killers</th>
             </tr>
             </thead>
-            <!--        /<tbody id="edit-events-tbody"></tbody>-->
         </table>
     </div>
 </template>
@@ -378,11 +377,13 @@ If specified in percent, this is relative to the total number of tributes, alive
                 Thanks also to GitHub user @spaulmark for implementing the bulk-upload feature.
             </p>
             <button id="open-changelog">Changelog</button>
-            <!--<h3>New Features</h3>
+
+            <!--
+            <h3>New Features</h3>
             <p>
-                Due to popular request, character setups created by ‘Save Characters’ will now also be able
-                to save uploaded images. See the Changelog above for more details.
-            </p>-->
+                [INSERT ANNOUNCEMENT TEXT HERE]
+            </p>
+            -->
 
         </section>
         <Stripe>Choose your characters</Stripe>
