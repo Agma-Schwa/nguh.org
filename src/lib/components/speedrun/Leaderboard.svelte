@@ -4,7 +4,17 @@
     export let scores: [string, string][];
 </script>
 
-<div>
+<style lang="scss">
+    .leaderboard {
+        max-width: min(100%, 500px);
+
+        .speedrun-category-image {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="leaderboard">
     <h4>{name}</h4>
     <img src="{image}" alt="{name}" class="speedrun-category-image">
     {#if scores.length}

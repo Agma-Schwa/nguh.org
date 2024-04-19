@@ -16,6 +16,10 @@ table:not(.table-no-style):not(.stack-trace) {
 		font-size: 1.3em;
 	}
 
+	@media (max-width: 900px) {
+		td, th { font-size: 1.1em; }
+	}
+
 	th {
 		font-weight: normal;
 		text-align: center;

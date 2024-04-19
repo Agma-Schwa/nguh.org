@@ -29,11 +29,16 @@ ol {
 	object-fit: cover;
 }
 
+.leaderboards {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
 @media (max-width: 900px) {
 	table {
-		width: 75%;
-		margin-right: auto;
-		margin-left: auto;
+		width: 100%;
+		margin-inline: 0;
 
 		colgroup col:first-child { width: 1.5rem }
 
@@ -48,37 +53,10 @@ ol {
 		margin-right: auto;
 		margin-left: auto;
 		height: auto;
-		width: 75%;
-	}
-}
-
-form {
-	input {
-		&[name=name] { width: 15rem; }
-		&[name=discord_tag] { width: 10rem; }
-		&[name=discriminator] { width: 3rem; }
-		&[name=url] { width: clamp(15rem, 60vw, 50rem); }
-		&[name=name_same_as_tag] { margin-left: 3rem; }
-
-		&.time {
-			width: 3rem;
-			+ span {
-				margin-left: .25rem;
-				margin-right: .25rem;
-			}
-		}
 	}
 
-	#hash {
-		width: calc(2rem - 4px - 2px);
-		text-align: center;
-	}
-}
-
-@media (max-width: 900px) {
-	form {
-		#name-row { flex-direction: column; }
-		input[name=name_same_as_tag] { margin: 0; }
-		input[name] + div { margin-top: .3rem; }
+	.leaderboards {
+		flex-direction: column;
+		align-items: center;
 	}
 }

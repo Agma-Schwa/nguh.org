@@ -1,85 +1,45 @@
 <script lang="ts">
-    import type {ActionData} from "../../../../.svelte-kit/types/src/routes/tools/speedrun/$types";
-
-    import {page} from "$app/stores";
-
     import '$lib/css/speedrun.scss'
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
     import Leaderboard from "$lib/components/speedrun/Leaderboard.svelte";
-
-    import any_per_cent_image from '$lib/images/speedrun/original-any-percent.png'
-    import any_per_cent_mod_image from '$lib/images/speedrun/infl1.png'
+    import any_per_cent_image from '$lib/images/speedrun/any percent.png'
     import dice_per_cent_image from '$lib/images/speedrun/dice percent.png'
-    import dice_per_cent_mod_image from '$lib/images/speedrun/dice percent mod.png'
-    import {browser} from "$app/environment";
-    import {afterNavigate} from "$app/navigation";
-
-    export let form: ActionData
-
-    afterNavigate(async () => {
-        if (document.readyState !== 'loading')
-            await DisplayResultDialog()
-        else {
-            window.addEventListener('DOMContentLoaded', DisplayResultDialog)
-        }
-    })
-
-    async function DisplayResultDialog() {
-        const Dialog = (await import("$lib/js/dialog")).Dialog
-        if (form?.success) {
-            Dialog.make('Success', '<p>Your run has been submitted successfully.</p>', ['OK'], 'success-dialog').open().and()
-        } else if ($page.status === 429) {
-            Dialog.error(
-                '<p>You have submitted too many runs in a short period of time. Please wait a while before submitting another run.</p>' +
-                '<p>Additional submissions within that time period will be ignored and will add to the time you will have to wait.</p>'
-            )
-        } else if ($page.status >= 400 && $page.status < 500) {
-            Dialog.error(
-                '<p>It seems that you have submitted an invalid run. Please check that you have filled in all the fields correctly and try again.</p>'
-            )
-        } else if ($page.status >= 500) {
-            Dialog.error(
-                '<p>An error occurred while submitting your run. Please try again later. If the problem persists, please contact the ' +
-                'mods on the Agma Schwa Discord server.</p>'
-            )
-        }
-    }
 </script>
 
 <Page name="Speedrun" />
 
-<Stripe>Conlang speedrunning</Stripe>
+<Stripe>Conlang Speedrunning</Stripe>
 <section class="flex-row gap2 flex-same-size">
 	<YouTubeVideo src="https://www.youtube.com/embed/M66m38w-s6c" />
 	<article class="pars">
-		<p>The Agma Schwa Conlang Speedrunning Method is described below,
+		<p>
+		    The Agma Schwa Conlang Speedrunning Method is described below,
 			with the dice rolls being optional, either to randomize the
-			challenge level or to avoid indecisiveness. </p>
-		<p>If you make a speedrun and would like to submit your time for the leaderboard,
-			record your attempt with the time visible and submit it to the
-			<a href="https://discord.gg/zCA2Urv7Tc"> Agma Schwa Discord server</a>
-			or to <a href="mailto:nguhmail@gmail.com">nguhmail@gmail.com</a>.</p>
+			challenge level or to avoid indecisiveness.
+        </p>
+        <p>
+            If you make a speedrun and would like to submit your time for the leaderboard,
+            record your attempt with the time visible, upload it somewhere where it’s publically
+            accessible (e.g. on YouTube), and submit it in the <strong>#speedrun</strong> channel
+            on the <a href="https://discord.gg/zCA2Urv7Tc">Agma Schwa Discord Server</a>; include
+            the time and the category you are submitting for in your submission.
+        </p>
 
 		<p><strong>Click <a href="#rules">here</a> for a step-by-step description of the rules.</strong></p>
-
-		<p><strong>Click <a href="#submit-h2">here</a> to submit a run.</strong></p>
-
 		<p>NB: We do our best to update the documentation below as needed; however, should it differ from
 			<a href="https://drive.google.com/open?id=14P1VrhrO3r8COqmOqvT82-DVKE8ykERjvHU059_Zf0A"><strong><em>the Official Google Doc</em></strong></a>,
 			then the latter takes precedence.</p>
 	</article>
 </section>
 
-
 <Stripe>Leaderboard</Stripe>
 <section>
 	<article class="pars">
 		<p>
 		    The following lists, which are small but growing, are of proven conlang
-			speedrun records according to this method. To submit a time, please see
-			the <a href="#submit-h2">submitting a run</a> section below.
+			speedrun records according to this method.
         </p>
 		<p>
 		    Dice% is defined as: A run where any variables that are presented with dice
@@ -92,7 +52,7 @@
         </p>
 
 	</article>
-	<article class="flex-row gap2">
+	<article class="leaderboards">
 	    <Leaderboard
 	        name="Original Dice%"
 	        image={dice_per_cent_image}
@@ -122,58 +82,6 @@
 	    />
 	</article>
 </section>
-
-<Stripe>Submitting a Run</Stripe>
-<section>
-	<p>In order to submit a run, please fill in the form below. To submit a run, you must be a member of the
-		Agma Schwa <a href="https://discord.gg/zCA2Urv7Tc">Discord Server</a>, and include your
-        Discord <abbr title="If your username still includes a discriminator (e.g. #1234), please include that too.">
-        <em>username</em></abbr> in the form below. Your submission will then appear in the
-		<strong>#speedrun</strong> channel on the Discord and subsequently be posted to this page if found valid.</p>
-
-	<p>You also need to put your Discord ID in the corresponding field below. If you don’t know how to make IDs visible,
-		you can use the <code>/id</code> command in any channel on the Agma Schwa Discord server, and the bot will tell
-		you what it is.</p>
-
-	<p>Upload a recording of the run somewhere where it’s publicly accessible (YouTube, for instance,
-		as a public or unlisted video), and put its URL in the <code>URL</code> field below.</p>
-	<div class="flex-row form-wrapper">
-		<form id="submit-run-form" name="submit_run" method="post" action="/speedrun?/submit">
-			<label for="username" id="tag_label">Discord Username</label>
-			<div class="row">
-				<input value="1234" type="text" id="username" name="username" required min="1" max="255" maxlength="255">
-			</div>
-
-			<label for="username" id="tag_id">Discord ID</label>
-			<div class="row">
-				<input value="1234" type="text" id="id" name="id" required min="1" max="255" maxlength="255">
-			</div>
-
-			<label for="hh"><abbr title="Your time (hh:mm:ss)">Time</abbr></label>
-			<div class="row">
-				<input type="number" class="time" id="hh" name="hh" value="00" required min="0" maxlength="2">
-				<span>:</span>
-				<input type="number" class="time" name="mm" value="00" required max="60" min="0" maxlength="2">
-				<span>:</span>
-				<input type="number" class="time" name="ss" value="00" required max="60" min="0" maxlength="2">
-			</div>
-
-			<label for="category"><abbr title="See above">Category</abbr></label>
-			<div class="row">
-				<select name="category" id="category" required>
-					<option value="Original+Dice%">Original Dice%</option>
-					<option value="Original+Any%">Original Any%</option>
-				</select>
-			</div>
-
-			<label for="url">URL</label>
-			<div class="row"><input value="http://localhost:5173/speedrun#submit-h2" type="url" id="url" name="url" required maxlength="1024"></div>
-
-			<div class="submit-wrapper"><input type="submit" value="Submit"></div>
-		</form>
-	</div>
-</section>
-
 
 <Stripe>Agma Schwa’s Conlang Speedrun (Any%) Requirements</Stripe>
 <section>
