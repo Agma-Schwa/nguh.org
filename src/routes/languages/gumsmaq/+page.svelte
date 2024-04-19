@@ -13,5 +13,5 @@
         Sounds are created exclusively with “chews” and “squelches,” which can almost be accounted for by representations of clicks
         and fricatives in the International Phonetic Alphabet. These weak approximation create the “Romanization” for Gumsmaq.
     </p>
-	<p>If you dare, the GUMSMAQQER is <a href="https://github.com/Sirraide/gumsmaqqer">here</a>.</p>
+    <p>If you dare, the GUMSMAQQER is <a href="https://github.com/Sirraide/gumsmaqqer">here</a>.</p>
 </BasicLanguagePage>

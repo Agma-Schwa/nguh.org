@@ -19,132 +19,132 @@ $code-font: FiraCode, "JetBrains Mono", "Source Code Pro", monospace;
 $video-width-16-to-9: 56.25%;
 
 :root {
-	--accentcolour: #{$accentcolour};
-	--accentlight: rgba(206, 169, 100, 1);
-	--accentlighter: #{lighten($accentlight, 20)};
-	--accentblack: #{$accentblack};
-	--accentdarker: #{darken($accentcolour, 20)};
-	--accentcolour-gradient: linear-gradient(rgba(206, 169, 100, 0), rgba(206, 169, 100, 1), rgba(206, 169, 100, 0));
-	--accentmedium: #{$accentmedium};
-	--accentred: #{$accentred};
-	--accentred-dark: #{$accentred-dark};
-	--base-video-sz-unit: 3rem;
-	--text-size: 1.2rem;
-	--abs-text-size: 1.2em;
-	--h-colour: #{$accentcolour};
-	--bg-colour: white;
+    --accentcolour: #{$accentcolour};
+    --accentlight: rgba(206, 169, 100, 1);
+    --accentlighter: #{lighten($accentlight, 20)};
+    --accentblack: #{$accentblack};
+    --accentdarker: #{darken($accentcolour, 20)};
+    --accentcolour-gradient: linear-gradient(rgba(206, 169, 100, 0), rgba(206, 169, 100, 1), rgba(206, 169, 100, 0));
+    --accentmedium: #{$accentmedium};
+    --accentred: #{$accentred};
+    --accentred-dark: #{$accentred-dark};
+    --base-video-sz-unit: 3rem;
+    --text-size: 1.2rem;
+    --abs-text-size: 1.2em;
+    --h-colour: #{$accentcolour};
+    --bg-colour: white;
 }
 
 @font-face {
-	font-family: DecoBorders;
-	src: local('DecoBorders'), url('$lib/fonts/DecoBorders/Decoborders-W0R9.woff') format('woff');
+    font-family: DecoBorders;
+    src: local('DecoBorders'), url('$lib/fonts/DecoBorders/Decoborders-W0R9.woff') format('woff');
 }
 
 @font-face {
-	font-family: CharisSIL;
-	src: local('Charis SIL'), local('Charis-SIL'), url('$lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
+    font-family: CharisSIL;
+    src: local('Charis SIL'), local('Charis-SIL'), url('$lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
 }
 
 @font-face {
-	font-family: CharisSIL;
-	font-style: italic;
-	src: local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
+    font-family: CharisSIL;
+    font-style: italic;
+    src: local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
 }
 
 @font-face {
-	font-family: CharisSIL;
-	font-weight: bold;
-	src: local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('$lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
+    font-family: CharisSIL;
+    font-weight: bold;
+    src: local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('$lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
 }
 
 @font-face {
-	font-family: CharisSIL;
-	font-weight: bold;
-	font-style: italic;
-	src: local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
+    font-family: CharisSIL;
+    font-weight: bold;
+    font-style: italic;
+    src: local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	src: local('Lato'), url('$lib/fonts/Lato/Lato_Regular.woff') format('woff');
+    font-family: LatoFont;
+    src: local('Lato'), url('$lib/fonts/Lato/Lato_Regular.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-style: italic;
-	src: local('Lato Italic'), local('Lato-Italic'), url('$lib/fonts/Lato/Lato_Italic.woff') format('woff');
+    font-family: LatoFont;
+    font-style: italic;
+    src: local('Lato Italic'), local('Lato-Italic'), url('$lib/fonts/Lato/Lato_Italic.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: bold;
-	src: local('Lato Bold'), local('Lato-Bold'), url('$lib/fonts/Lato/Lato_Bold.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: bold;
+    src: local('Lato Bold'), local('Lato-Bold'), url('$lib/fonts/Lato/Lato_Bold.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: bold;
-	font-style: italic;
-	src: local('Lato Bold Italic'), local('Lato-Bold-Italic'), url('$lib/fonts/Lato/Lato_BoldItalic.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: bold;
+    font-style: italic;
+    src: local('Lato Bold Italic'), local('Lato-Bold-Italic'), url('$lib/fonts/Lato/Lato_BoldItalic.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: 1000;
-	src: local('Lato Black'), local('Lato-Black'), url('$lib/fonts/Lato/Lato_Black.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: 1000;
+    src: local('Lato Black'), local('Lato-Black'), url('$lib/fonts/Lato/Lato_Black.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: 1000;
-	font-style: italic;
-	src: local('Lato Black Italic'), local('Lato-Black-Italic'), url('$lib/fonts/Lato/Lato_BlackItalic.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: 1000;
+    font-style: italic;
+    src: local('Lato Black Italic'), local('Lato-Black-Italic'), url('$lib/fonts/Lato/Lato_BlackItalic.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: 200;
-	src: local('Lato Light'), local('Lato-Light'), url('$lib/fonts/Lato/Lato_Light.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: 200;
+    src: local('Lato Light'), local('Lato-Light'), url('$lib/fonts/Lato/Lato_Light.woff') format('woff');
 }
 
 @font-face {
-	font-family: LatoFont;
-	font-weight: 200;
-	font-style: italic;
-	src: local('Lato Light Italic'), local('Lato-Light-Italic'), url('$lib/fonts/Lato/Lato_LightItalic.woff') format('woff');
+    font-family: LatoFont;
+    font-weight: 200;
+    font-style: italic;
+    src: local('Lato Light Italic'), local('Lato-Light-Italic'), url('$lib/fonts/Lato/Lato_LightItalic.woff') format('woff');
 }
 
 @font-face {
-	font-family: FiraCode;
-	src: local('Fira Code'), local('Fira-Code'), url('$lib/fonts/FiraCode/FiraCode-Regular.woff') format('woff');
+    font-family: FiraCode;
+    src: local('Fira Code'), local('Fira-Code'), url('$lib/fonts/FiraCode/FiraCode-Regular.woff') format('woff');
 }
 
 @mixin scrollbar {
-	scrollbar-color: $accentlight white;
+    scrollbar-color: $accentlight white;
 
-	&::-webkit-scrollbar {
-		&:vertical { width: .675rem; }
-		&:horizontal { height: .675rem; }
+    &::-webkit-scrollbar {
+        &:vertical { width: .675rem; }
+        &:horizontal { height: .675rem; }
 
-		&-track { background: white; }
-		&-thumb {
-			background: $accentlight;
-			border-radius: 15px;
-			border: 2px solid white;
-			&:hover { background: $accentcolour; }
-		}
-	}
+        &-track { background: white; }
+        &-thumb {
+            background: $accentlight;
+            border-radius: 15px;
+            border: 2px solid white;
+            &:hover { background: $accentcolour; }
+        }
+    }
 
 }
 
 @mixin button {
-	background: $accentlight;
-	color: $accentdarker;
-	transition: background .5s, color .5s;
+    background: $accentlight;
+    color: $accentdarker;
+    transition: background .5s, color .5s;
 
-	&:hover {
-		background: $accentcolour;
-		color: white;
-		cursor: pointer;
-	}
+    &:hover {
+        background: $accentcolour;
+        color: white;
+        cursor: pointer;
+    }
 }

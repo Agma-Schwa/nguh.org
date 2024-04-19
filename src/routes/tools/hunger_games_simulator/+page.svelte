@@ -139,7 +139,7 @@
                 <th>Killers</th>
             </tr>
             </thead>
-            <!--		/<tbody id="edit-events-tbody"></tbody>-->
+            <!--        /<tbody id="edit-events-tbody"></tbody>-->
         </table>
     </div>
 </template>

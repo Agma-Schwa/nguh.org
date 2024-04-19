@@ -8,19 +8,19 @@ ul li { list-style-image: url("$lib/images/fleur-de-lis.svg"); }
 a { text-decoration: none; }
 
 p {
-	margin-block-start: 0;
-	&.list-head + & { margin-block-start: 0; }
-	& + & { margin-block-start: 1rem; }
+    margin-block-start: 0;
+    &.list-head + & { margin-block-start: 0; }
+    & + & { margin-block-start: 1rem; }
 }
 
 li {
-	&::marker { color: $accentcolour; }
-	& + & { margin-top: .5rem; }
+    &::marker { color: $accentcolour; }
+    & + & { margin-top: .5rem; }
 }
 
 .list-head {
-	color: $accentcolour;
-	margin-bottom: 0;
+    color: $accentcolour;
+    margin-bottom: 0;
 }
 
 .no-mg-block-start { margin-block-start: 0; }
@@ -28,19 +28,19 @@ li {
 .no-color li::marker { color: black; }
 
 .spaced-button-group {
-	width: 100%;
-	a + a { margin-top: 2rem; }
+    width: 100%;
+    a + a { margin-top: 2rem; }
 
-	@at-root & a, .link-button {
-		display: block;
-		width: 100%;
-		height: 2rem;
+    @at-root & a, .link-button {
+        display: block;
+        width: 100%;
+        height: 2rem;
 
-		line-height: 2rem;
-		text-align: center;
+        line-height: 2rem;
+        text-align: center;
 
-		@include button;
-	}
+        @include button;
+    }
 }
 
 button { @include button; }
@@ -48,8 +48,8 @@ button { @include button; }
 // ========== HEADERS ==========
 
 h1, h2, h3, h4, h5, h6, a {
-	color: var(--h-colour);
-	font-family: LatoFont, Arial, Noto Sans, sans-serif;
+    color: var(--h-colour);
+    font-family: LatoFont, Arial, Noto Sans, sans-serif;
 }
 
 h1, h2 { font-weight: 1000; }
@@ -57,76 +57,76 @@ h1, h2 { font-weight: 1000; }
 h1, h2, h3 { text-align: center; }
 
 h2 {
-	font-size: 3rem;
-	&.stripe:first-of-type { margin-top: 0; }
+    font-size: 3rem;
+    &.stripe:first-of-type { margin-top: 0; }
 }
 
 h3 { font-size: 2rem; }
 
 h4 {
-	text-align: center;
-	margin-bottom: .5rem;
-	font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: .5rem;
+    font-size: 1.2rem;
 }
 
 .h3small {
-	font-size: 1.5rem;
-	font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .stripe {
-	position: relative;
+    position: relative;
 
-	margin: 3rem 0;
-	min-height: 10rem;
+    margin: 3rem 0;
+    min-height: 10rem;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-	background: $accentlight;
-	color: $accentdarker;
+    background: $accentlight;
+    color: $accentdarker;
 
-	&::before, &::after {
-		position: absolute;
-		left: 0;
-		right: 0;
-		height: $h2-decoration-height;
+    &::before, &::after {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: $h2-decoration-height;
 
-		content: "";
-		background-image: url("$lib/images/border.svg");
-		background-size: auto 1.5em;
-		font-size: 1rem;
-		color: $accentdarker;
-	}
+        content: "";
+        background-image: url("$lib/images/border.svg");
+        background-size: auto 1.5em;
+        font-size: 1rem;
+        color: $accentdarker;
+    }
 
-	&::before { top: 0; }
-	&::after { bottom: 0; }
+    &::before { top: 0; }
+    &::after { bottom: 0; }
 
-	@at-root &:first-child, .content-first-h2 { margin-top: 0; }
+    @at-root &:first-child, .content-first-h2 { margin-top: 0; }
 }
 
 
 .text-left {
-	text-align: left;
-	font-weight: bold;
+    text-align: left;
+    font-weight: bold;
 }
 
 @media (max-width: 1250px) {
-	:root { --text-size: 1.1rem !important; }
+    :root { --text-size: 1.1rem !important; }
 }
 
 @media (max-width: 900px) {
-	:root { --text-size: 1rem !important; }
+    :root { --text-size: 1rem !important; }
 
-	h2 {
-		font-weight: bold;
-		&:not(stripe), span { font-size: max(1.5rem, 4vw); }
-	}
+    h2 {
+        font-weight: bold;
+        &:not(stripe), span { font-size: max(1.5rem, 4vw); }
+    }
 
-	h3 { font-size: 1.5rem; }
+    h3 { font-size: 1.5rem; }
 
-	.stripe { min-height: 7rem; }
-	.stripe:first-of-type { margin-top: 0; }
+    .stripe { min-height: 7rem; }
+    .stripe:first-of-type { margin-top: 0; }
 }
 

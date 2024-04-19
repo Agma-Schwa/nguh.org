@@ -25,9 +25,9 @@
 
 <Stripe>History</Stripe>
 <section>
-	<div class="flex-row flex-same-size gap2 mgb1rem">
-		<div><img src="$lib/images/the_channel/album 1.png" alt="ŋə music" class="mg0auto"></div>
-		<article>
+    <div class="flex-row flex-same-size gap2 mgb1rem">
+        <div><img src="$lib/images/the_channel/album 1.png" alt="ŋə music" class="mg0auto"></div>
+        <article>
             <p>
                 Robert Cole, aka 'Nguh', has been writing stories and drawing comics since he was a little kid.
                 He began conlanging as a middle schooler in the early 2010s, though he had no idea that "conlanging"
@@ -84,9 +84,9 @@
 
 <Stripe>Content</Stripe>
 <section>
-	<div class="flex-row flex-same-size gap2 mgb1rem">
-		<div><img src="$lib/images/the_channel/thum.jpg" alt="Allophone Video Thumbnail" class="mg0auto"></div>
-		<article>
+    <div class="flex-row flex-same-size gap2 mgb1rem">
+        <div><img src="$lib/images/the_channel/thum.jpg" alt="Allophone Video Thumbnail" class="mg0auto"></div>
+        <article>
             <p>
                 The content of the Agma Schwa YouTube channel has evolved quite a bit since its first releases in the
                 fall of 2019. At first, most videos were explanations of the progress of the development of Arodjun, with
@@ -103,10 +103,10 @@
                 Nguh and Ætérnal began a tradition of creating over-the-top cursed conlang showcases. Hyperpirate,
                 Gumsmaq, and Santaa are a few examples.
             </p>
-		</article>
-	</div>
+        </article>
+    </div>
 
-	<p>
+    <p>
         After the release of the book <a href="https://www.amazon.com/dp/1737701502/">“A Grammar of the Arodjun
         Language”</a> to Amazon Direct Publishing, Nguh began to focus on the many other languages spoken in the Dog
         Days world. :·pʰ.ð.m, Nashan, Permechikan, and Prins are a few examples. This is expected to lead to
@@ -125,10 +125,10 @@
 
 <Stripe>Participate!</Stripe>
 <section>
-	<p>
-	    The Agma Schwa Community would love to have you! Join the Discord Server, join the subreddit r/AgmaSchwa, and
-		follow Nguh on Instagram and Twitter!
+    <p>
+        The Agma Schwa Community would love to have you! Join the Discord Server, join the subreddit r/AgmaSchwa, and
+        follow Nguh on Instagram and Twitter!
     </p>
 
-	<p>Videos typically come out as premieres on Sundays. See you in the live chat!</p>
+    <p>Videos typically come out as premieres on Sundays. See you in the live chat!</p>
 </section>

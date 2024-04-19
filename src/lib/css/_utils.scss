@@ -1,27 +1,27 @@
 @mixin tlbr($class-name, $property, $value) {
-	@each $name, $direction in (
-		't': 'top',
-		'l': 'left',
-		'b': 'bottom',
-		'r': 'right'
-	) { .#{$class-name}#{$name}#{$value} { #{$property}-#{$direction}: #{$value}; } }
+    @each $name, $direction in (
+        't': 'top',
+        'l': 'left',
+        'b': 'bottom',
+        'r': 'right'
+    ) { .#{$class-name}#{$name}#{$value} { #{$property}-#{$direction}: #{$value}; } }
 }
 
 @mixin flex { display: flex; }
 
 @mixin flex-row {
-	@include flex;
-	flex-direction: row;
+    @include flex;
+    flex-direction: row;
 }
 
 @mixin flex-column {
-	@include flex;
-	flex-direction: column;
+    @include flex;
+    flex-direction: column;
 }
 
 @mixin link-hover {
-	background: white;
-	color: $accentcolour;
+    background: white;
+    color: $accentcolour;
 }
 
 @include tlbr(mg, margin, 0);
@@ -50,45 +50,45 @@
 .align-start { align-items: flex-start; }
 
 .grid2 {
-	display: grid;
-	gap: 1rem;
-	grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .grid3 {
-	display: grid;
-	gap: 1rem;
-	grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .flex-row2 {
-	@include flex-row;
-	& > * { max-width: 50%; }
+    @include flex-row;
+    & > * { max-width: 50%; }
 }
 
 .flex-centre {
-	align-items: center;
-	justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .text-hr {
-	border: 2px solid $accentcolour;
-	width: 80%;
-	border-radius: 50%;
-	padding: 0 2rem;
+    border: 2px solid $accentcolour;
+    width: 80%;
+    border-radius: 50%;
+    padding: 0 2rem;
 }
 
 .image-centred {
-	max-width: 50%;
-	margin: 1rem auto;
+    max-width: 50%;
+    margin: 1rem auto;
 }
 
 .image-centred-caption {
-	margin-bottom: 2rem;
-	text-align: center;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 .float-left {
-	float: left;
-	margin-right: 1rem;
+    float: left;
+    margin-right: 1rem;
 }

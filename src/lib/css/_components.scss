@@ -1,208 +1,208 @@
 @use 'sass:math';
 
 table:not(.table-no-style):not(.stack-trace) {
-	tr:nth-child(even) { background-color: $accentlighter; }
-	th, td:first-child { background-color: $accentlight; }
+    tr:nth-child(even) { background-color: $accentlighter; }
+    th, td:first-child { background-color: $accentlight; }
 
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: .5rem;
-	border: 1px solid $accentcolour;
-	border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: .5rem;
+    border: 1px solid $accentcolour;
+    border-collapse: collapse;
 
-	td, th {
-		border-top: 1px solid $accentcolour;
-		padding: .5rem;
-		font-size: 1.3em;
-	}
+    td, th {
+        border-top: 1px solid $accentcolour;
+        padding: .5rem;
+        font-size: 1.3em;
+    }
 
-	@media (max-width: 900px) {
-		td, th { font-size: 1.1em; }
-	}
+    @media (max-width: 900px) {
+        td, th { font-size: 1.1em; }
+    }
 
-	th {
-		font-weight: normal;
-		text-align: center;
-	}
+    th {
+        font-weight: normal;
+        text-align: center;
+    }
 
-	.lborder { border-left: 1px solid $accentcolour; }
-	.align-right { text-align: right; }
+    .lborder { border-left: 1px solid $accentcolour; }
+    .align-right { text-align: right; }
 }
 
 .stack-trace {
-	margin-left: 2rem;
-	font-family: $code-font;
+    margin-left: 2rem;
+    font-family: $code-font;
 
-	&-text, &-info { margin-block-end: 0; }
-	&-text { font-weight: bold }
-	&-func { color: #A9DC76; }
-	&-file { color: #FFD866; }
-	&-line { color: #AB9DF2; }
+    &-text, &-info { margin-block-end: 0; }
+    &-text { font-weight: bold }
+    &-func { color: #A9DC76; }
+    &-file { color: #FFD866; }
+    &-line { color: #AB9DF2; }
 }
 
 .single-row-table {
-	border: 1px solid $accentcolour;
-	border-collapse: collapse;
+    border: 1px solid $accentcolour;
+    border-collapse: collapse;
 
-	td:nth-child(odd) { background-color: white; }
-	td:nth-child(even) { background-color: $accentlighter; }
-	td { border: 1px solid $accentcolour; }
+    td:nth-child(odd) { background-color: white; }
+    td:nth-child(even) { background-color: $accentlighter; }
+    td { border: 1px solid $accentcolour; }
 }
 
 .table {
-	&-label {
-		display: block;
-		margin-bottom: .5rem;
+    &-label {
+        display: block;
+        margin-bottom: .5rem;
 
-		text-align: center;
-		font-size: 1.2em;
-		color: $accentcolour;
-	}
+        text-align: center;
+        font-size: 1.2em;
+        color: $accentcolour;
+    }
 
-	&-wrapper {
-		@include scrollbar;
-		margin-bottom: 2rem;
-		overflow-x: auto;
-	}
+    &-wrapper {
+        @include scrollbar;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+    }
 }
 
 
 
 .tab {
-	display: flex;
-	overflow: hidden;
-	border: 1px solid $accentcolour;
-	background: $accentlighter;
+    display: flex;
+    overflow: hidden;
+    border: 1px solid $accentcolour;
+    background: $accentlighter;
 
-	button {
-		outline: none;
-		border: none;
-		padding: 1rem;
+    button {
+        outline: none;
+        border: none;
+        padding: 1rem;
 
-		background: $accentlighter;
-		font-size: 1.5rem;
+        background: $accentlighter;
+        font-size: 1.5rem;
 
-		transition: background .5s, color .5s;
-		cursor: pointer;
+        transition: background .5s, color .5s;
+        cursor: pointer;
 
-		&:hover {
-			background: $accentcolour;
-			color: white;
-		}
-	}
+        &:hover {
+            background: $accentcolour;
+            color: white;
+        }
+    }
 
-	.selected-button {
-		background: $accentcolour;
-		color: white;
-	}
+    .selected-button {
+        background: $accentcolour;
+        color: white;
+    }
 
-	&-wrapper {
-		margin-top: 2rem;
-		margin-bottom: 2rem;
-	}
+    &-wrapper {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
 
-	&-container { position: relative; }
-	&-content { border: 1px solid $accentcolour; }
+    &-container { position: relative; }
+    &-content { border: 1px solid $accentcolour; }
 }
 
 iframe {
-	margin: 0 auto;
-	border: none;
+    margin: 0 auto;
+    border: none;
 }
 
 .embedded-doc {
-	width: 100%;
-	height: 60rem;
+    width: 100%;
+    height: 60rem;
 }
 
 .iframe-wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 img:hover { cursor: pointer; }
 
 #image-preview {
-	position: fixed;
-	inset: 0;
-	z-index: 9998;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
 
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 
-	display: none;
-	align-items: center;
-	justify-content: center;
+    display: none;
+    align-items: center;
+    justify-content: center;
 
-	background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .5);
 }
 
 #image-preview-container {
-	position: absolute;
-	inset: 5rem;
+    position: absolute;
+    inset: 5rem;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /*.dialog {
-	position: absolute;
-	z-index: 9999;
+    position: absolute;
+    z-index: 9999;
 
-	background: white;
-	box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
+    background: white;
+    box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
 
-	p { padding: 1rem; }
+    p { padding: 1rem; }
 
-	button {
-		border: 1px solid $accentcolour;
-		min-width: 6rem;
-		font-size: var(--text-size);
-	}
+    button {
+        border: 1px solid $accentcolour;
+        min-width: 6rem;
+        font-size: var(--text-size);
+    }
 
-	input {
-		padding-right: 1rem;
-		padding-left: 1rem;
-	}
+    input {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
 
-	h5 {
-		display: block;
-		margin-bottom: 0;
-		padding: .5rem;
+    h5 {
+        display: block;
+        margin-bottom: 0;
+        padding: .5rem;
 
-		background: $accentblack;
-		text-align: center;
-		font-size: calc(var(--text-size) * 1.1);
-	}
+        background: $accentblack;
+        text-align: center;
+        font-size: calc(var(--text-size) * 1.1);
+    }
 
-	div:not(.dialog-element) {
-		display: flex;
-		gap: 2rem;
-		padding: 1rem;
-		justify-content: center;
-	}
+    div:not(.dialog-element) {
+        display: flex;
+        gap: 2rem;
+        padding: 1rem;
+        justify-content: center;
+    }
 
-	.dialog-element {
-		padding-right: 1rem;
-		padding-left: 1rem;
-	}
+    .dialog-element {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
 
-	.file-input-control {
-		gap: .55rem;
+    .file-input-control {
+        gap: .55rem;
 
-		button { width: 11.5rem; }
+        button { width: 11.5rem; }
 
-		input {
-			&[type=file] { display: none; }
-			&[type=text] {
-				width: 100%;
-				padding: 0;
-				font-size: var(--text-size);
-			}
-		}
-	}
+        input {
+            &[type=file] { display: none; }
+            &[type=text] {
+                width: 100%;
+                padding: 0;
+                font-size: var(--text-size);
+            }
+        }
+    }
 }*/
 
 $bg-colour: #2D2A2E;
@@ -214,225 +214,225 @@ $border: 1px solid var(--bg-border);
 .dialog-spaced > * + * { margin-top: 1rem; }
 
 dialog {
-	position: absolute;
-	z-index: 98;
-	top: 50%;
-	left: 50%;
-	bottom: auto !important;
-	right: auto !important;
+    position: absolute;
+    z-index: 98;
+    top: 50%;
+    left: 50%;
+    bottom: auto !important;
+    right: auto !important;
 
-	display: none;
-	flex-direction: column;
-	justify-content: space-between;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
 
-	border: $border;
-	box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
-	padding: 0;
-	max-width: 90vw;
-	min-width: 50ch;
-	width: fit-content;
+    border: $border;
+    box-shadow: 10px 10px 2em rgba(0, 0, 0, .5);
+    padding: 0;
+    max-width: 90vw;
+    min-width: 50ch;
+    width: fit-content;
 
-	background: $accentblack;
-	color: $fg-colour;
-	font-size: var(--text-size);
+    background: $accentblack;
+    color: $fg-colour;
+    font-size: var(--text-size);
 
-	--title-bar-colour: #{$accentlight};
-	--title-bar-text-colour: #{$accentdarker};
-	--svg-button-bg: var(--title-bar-colour);
-	--svg-button-hover-bg: #{$accentcolour};
+    --title-bar-colour: #{$accentlight};
+    --title-bar-text-colour: #{$accentdarker};
+    --svg-button-bg: var(--title-bar-colour);
+    --svg-button-hover-bg: #{$accentcolour};
 
-	&::backdrop { background: rgba(0, 0, 0, .5); }
-	& > *, fieldset { padding: .5rem; }
-	fieldset + fieldset { margin-top: 1rem; }
+    &::backdrop { background: rgba(0, 0, 0, .5); }
+    & > *, fieldset { padding: .5rem; }
+    fieldset + fieldset { margin-top: 1rem; }
 
-	fieldset {
-		width: fit-content;
-		border: 1px solid var(--accentlighter);
-	}
+    fieldset {
+        width: fit-content;
+        border: 1px solid var(--accentlighter);
+    }
 
-	select {
-		border: none;
-		background-color: var(--accentlight);
-		color: var(--accentdarker);
-		font-size: var(--text-size);
-		transition: background-color .5s, color .5s;
+    select {
+        border: none;
+        background-color: var(--accentlight);
+        color: var(--accentdarker);
+        font-size: var(--text-size);
+        transition: background-color .5s, color .5s;
 
-		&:hover {
-			background: var(--accentcolour);
-			color: white;
-		}
-	}
+        &:hover {
+            background: var(--accentcolour);
+            color: white;
+        }
+    }
 
-	input {
-		&[disabled] { background: lightgrey; }
-		&[type=number] {
-			width: 5rem;
-			border: none;
-			font-size: var(--text-size);
-		}
-	}
+    input {
+        &[disabled] { background: lightgrey; }
+        &[type=number] {
+            width: 5rem;
+            border: none;
+            font-size: var(--text-size);
+        }
+    }
 
-	pre {
-		word-wrap: break-word;
-		overflow-x: auto;
-		white-space: pre-wrap;
-	}
+    pre {
+        word-wrap: break-word;
+        overflow-x: auto;
+        white-space: pre-wrap;
+    }
 
-	h5 {
-		display: block;
-		margin-bottom: 0;
-		padding: .5rem;
+    h5 {
+        display: block;
+        margin-bottom: 0;
+        padding: .5rem;
 
-		background: $accentblack;
-		text-align: center;
-		font-size: calc(var(--text-size) * 1.1);
-	}
+        background: $accentblack;
+        text-align: center;
+        font-size: calc(var(--text-size) * 1.1);
+    }
 
-	.file-input-control {
-		gap: .55rem;
+    .file-input-control {
+        gap: .55rem;
 
 
-		button { width: 11.5rem; }
+        button { width: 11.5rem; }
 
-		input {
-			&[type=file] { display: none; }
-			&[type=text] {
-				font-size: var(--text-size);
-				width: 100%;
-				padding: 0;
-			}
-		}
-	}
+        input {
+            &[type=file] { display: none; }
+            &[type=text] {
+                font-size: var(--text-size);
+                width: 100%;
+                padding: 0;
+            }
+        }
+    }
 
-	.dialog {
-		&-close-button, &-close-button * { height: 100%; }
+    .dialog {
+        &-close-button, &-close-button * { height: 100%; }
 
-		&-content {
-			display: flex;
-			flex-direction: column;
-			gap: .75rem;
+        &-content {
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
 
-			padding: 1rem 1rem .5rem;
-			overflow-y: auto;
+            padding: 1rem 1rem .5rem;
+            overflow-y: auto;
 
-			p { margin-block: 0; }
-			p + p { margin-block-start: -.5rem; }
-		}
+            p { margin-block: 0; }
+            p + p { margin-block-start: -.5rem; }
+        }
 
-		&-controls {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-evenly;
-			padding: 1rem;
-		}
+        &-controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            padding: 1rem;
+        }
 
-		&-title {
-			-webkit-user-select: none;
-			-webkit-user-drag: element;
+        &-title {
+            -webkit-user-select: none;
+            -webkit-user-drag: element;
 
-			position: relative;
-			z-index: 99;
+            position: relative;
+            z-index: 99;
 
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-end;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
 
-			margin: 0;
-			padding: 0;
-			width: 100%;
-			height: 2.5rem;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 2.5rem;
 
-			background: var(--title-bar-colour);
-			text-align: center;
-			color: var(--title-bar-text-colour);
+            background: var(--title-bar-colour);
+            text-align: center;
+            color: var(--title-bar-text-colour);
 
-			&-content {
-				position: absolute;
-				top: 50%;
-				left: 50%;
+            &-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
 
-				width: fit-content;
-				transform: translate(-50%, -50%);
-			}
+                width: fit-content;
+                transform: translate(-50%, -50%);
+            }
 
-			svg.close-button-icon {
-				pointer-events: auto;
-				background: var(--svg-button-bg);
-				&:hover { background: var(--svg-button-hover-bg); }
-			}
+            svg.close-button-icon {
+                pointer-events: auto;
+                background: var(--svg-button-bg);
+                &:hover { background: var(--svg-button-hover-bg); }
+            }
 
-			* { fill: var(--title-bar-text-colour); }
-		}
-	}
+            * { fill: var(--title-bar-text-colour); }
+        }
+    }
 
-	.error-dialog-content {
-		max-width: 50ch;
-	}
+    .error-dialog-content {
+        max-width: 50ch;
+    }
 }
 
 
 .form-wrapper {
-	display: flex;
-	margin-top: 3rem;
+    display: flex;
+    margin-top: 3rem;
 
-	align-content: center;
-	justify-content: center;
+    align-content: center;
+    justify-content: center;
 }
 
 form {
-	display: flex;
-	margin: 0 auto;
-	gap: 1rem;
-	flex-direction: column;
+    display: flex;
+    margin: 0 auto;
+    gap: 1rem;
+    flex-direction: column;
 
-	label { margin-bottom: -.75rem; }
+    label { margin-bottom: -.75rem; }
 
-	input {
-		border: 1px solid $accentcolour;
-		font-size: var(--text-size);
-		padding-inline: 2px;
+    input {
+        border: 1px solid $accentcolour;
+        font-size: var(--text-size);
+        padding-inline: 2px;
 
-		&[disabled] { background-color: #ddd; }
-		&[type=submit] {
-			@include button;
-			min-width: 7rem;
-		}
-	}
+        &[disabled] { background-color: #ddd; }
+        &[type=submit] {
+            @include button;
+            min-width: 7rem;
+        }
+    }
 
-	select, option {
-		background: $accentlight;
-		color: $accentdarker;
-		border: 1px solid $accentcolour;
-		font-size: var(--text-size);
-	}
+    select, option {
+        background: $accentlight;
+        color: $accentdarker;
+        border: 1px solid $accentcolour;
+        font-size: var(--text-size);
+    }
 
-	.disabled { color: #aaa; }
+    .disabled { color: #aaa; }
 
-	.submit-wrapper {
-		display: flex;
-		margin-top: 1rem;
-		justify-content: flex-end;
-	}
+    .submit-wrapper {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: flex-end;
+    }
 
-	.row {
-		display: flex;
-		flex-direction: row;
-	}
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
 }
 
 .danger-button {
-	background: $accentred;
-	color: antiquewhite;
+    background: $accentred;
+    color: antiquewhite;
 
-	&:hover { background: $accentdarker; }
+    &:hover { background: $accentdarker; }
 }
 
 @media (max-width: 900px) {
-	table th, table td {
-		font-size: 1rem;
-		padding: .2rem;
-	}
+    table th, table td {
+        font-size: 1rem;
+        padding: .2rem;
+    }
 
-	#image-preview-container, #dialog-inner { inset: 1rem; }
+    #image-preview-container, #dialog-inner { inset: 1rem; }
 }
 

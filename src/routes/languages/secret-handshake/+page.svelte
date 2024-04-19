@@ -10,10 +10,10 @@
     before_docs="Below is the Google Sheets document for Secret Handshake,
         which includes the dictionary, sample phrases, a compound word dictionary, and grammatical information."
 >
-	<article class="pars">
-		<p>The Secret Handshake (SH) is a language created by Agma Schwa in 2022, intended to be a grammatically simple minilang that
+    <article class="pars">
+        <p>The Secret Handshake (SH) is a language created by Agma Schwa in 2022, intended to be a grammatically simple minilang that
             can be communicated by pulsing the fingers of one hand in different sequences and patterns in order to create meaning.
             Meaning is distinguished by "fingemes" and a selection of four possible rhythyms that can combine up to two fingemes.
-		</p>
-	</article>
+        </p>
+    </article>
 </BasicLanguagePage>

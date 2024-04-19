@@ -1,22 +1,22 @@
 @use '_vars' as *;
 
 @each $num, $content in (
-	'12': '1,2. ',
-	'23': '2,3. ',
-	'34': '3,4. ',
-	'3' : '3. ',
-	'4' : '4. ',
-	'5' : '5. ',
-	'6' : '6. ',
-	'1234': '1–4. ',
-	'2345': '2–5. ',
-	'56': '5,6. '
+    '12': '1,2. ',
+    '23': '2,3. ',
+    '34': '3,4. ',
+    '3' : '3. ',
+    '4' : '4. ',
+    '5' : '5. ',
+    '6' : '6. ',
+    '1234': '1–4. ',
+    '2345': '2–5. ',
+    '56': '5,6. '
 ) { ._#{$num}::marker { content: '#{$content}'; } }
 
 ol {
-	ol, ul {
-		&, &::marker { color: black; }
-	}
+    ol, ul {
+        &, &::marker { color: black; }
+    }
 }
 
 #prerequisites a { text-decoration: underline; }
@@ -24,39 +24,39 @@ ol {
 .speedrun-time-col { font-weight: bold; }
 
 .speedrun-category-image {
-	height: 15rem;
-	width: auto;
-	object-fit: cover;
+    height: 15rem;
+    width: auto;
+    object-fit: cover;
 }
 
 .leaderboards {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 @media (max-width: 900px) {
-	table {
-		width: 100%;
-		margin-inline: 0;
+    table {
+        width: 100%;
+        margin-inline: 0;
 
-		colgroup col:first-child { width: 1.5rem }
+        colgroup col:first-child { width: 1.5rem }
 
-		tbody {
-			td, th {
-				&:nth-child(2) { padding-left: .5rem; }
-			}
-		}
-	}
+        tbody {
+            td, th {
+                &:nth-child(2) { padding-left: .5rem; }
+            }
+        }
+    }
 
-	#content .speedrun-category-image {
-		margin-right: auto;
-		margin-left: auto;
-		height: auto;
-	}
+    #content .speedrun-category-image {
+        margin-right: auto;
+        margin-left: auto;
+        height: auto;
+    }
 
-	.leaderboards {
-		flex-direction: column;
-		align-items: center;
-	}
+    .leaderboards {
+        flex-direction: column;
+        align-items: center;
+    }
 }
