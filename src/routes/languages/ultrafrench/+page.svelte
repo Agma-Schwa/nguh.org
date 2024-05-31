@@ -11,8 +11,7 @@
 <h2 class="stripe"><span>Resources</span></h2>
 <section>
     <p>
-        In <a href="/UF-GRAMMAR.pdf">this document</a>, one can find the comprehensive grammar of the ULTRAFRENCH language, ‘ULTRAFRENCH’ being
+        In <a href="/static/UF-GRAMMAR.pdf">this document</a>, one can find the comprehensive grammar of the ULTRAFRENCH language, ‘ULTRAFRENCH’ being
         the colloquial term for the language truly being spoken in the land known by some as ‘France’.
     </p>
-    
 </section>
