@@ -18,7 +18,7 @@
             going to be revamped, so the original Fandom continuity may be slightly
             invalidated by the time it arrives here on nguh.org.
         </p>
-        <a href="https://gambianholiday.fandom.com/wiki/Gambian_Holiday_Wiki" class="link-button"
+        <a href="https://gambianholiday.nguh.org/w/index.php?title=Main_Page" class="link-button"
            style="font-size: 1.5em; max-width: 30rem; height: 4rem; line-height: 4rem; padding: .4rem; margin: 3rem auto 1rem auto">
             Enter the Gambian Holiday Wiki</a>
     </article>
