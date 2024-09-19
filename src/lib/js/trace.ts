@@ -7,7 +7,7 @@ export function FormatError(e: Error): string {
     let table = `<table class="stack-trace"><tbody>${stack.split('\n').map(r => `<tr>${r}</tr>`).join('\n')}</tbody></table>`
 
     return `<p class="stack-trace-text">${e.message}</p>${table}<p class="stack-trace-info">Check the console for more information.</p>`
-        + `<p>If you think that this is a bug, please take a screenshot and report it <a href="https://gitlab.com/agma-schwa-public/nguh.org-frontend/-/issues/new">here</a></p>`
+        + `<p>If you think that this is a bug, please take a screenshot and report it <a href="https://github.com/Agma-Schwa/nguh.org/issues">here</a></p>`
 }
 
 export function FormatStackTrace(trace: string | undefined, field_separator: string = 'span'): string {

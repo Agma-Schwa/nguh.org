@@ -371,7 +371,10 @@ export class Dialog<T = any> {
     }
 
     /** Open a new error dialog. */
-    static error(e: string | Error, title: string = 'Error') { Dialog.__error(e, title).catch() }
+    static error(e: string | Error, title: string = 'Error') { Dialog.__error(e, title, true).catch() }
+
+    /** Open a new error dialog; don’t include a help message indicating that this might be a bug. */
+    static error_raw(e: string | Error) { Dialog.__error(e, 'Error', false).catch() }
 
     /** Open a new file dialog. */
     static file(title: string, options: FileDialogOptions): DialogPromise<FileDialogResult> {
@@ -520,7 +523,7 @@ export class Dialog<T = any> {
             dialog.handle.style.top = ClampYOffs(dialog.handle.offsetTop, dialog.handle, window_y) + 'px'
     }
 
-    static async __error(e: string | Error, title: string = 'Error') {
+    static async __error(e: string | Error, title: string = 'Error', show_help: boolean) {
         /// Also log the error to the console.
         console.error(e)
 
@@ -533,7 +536,10 @@ export class Dialog<T = any> {
         dialog.content.classList.add('error-dialog-content')
 
         /// Set the text.
-        dialog.content.innerHTML = typeof e === 'string' || e instanceof UserError ? `<p>${e}</p>` : FormatError(e)
+        dialog.content.innerHTML =
+            typeof e === 'string' || e instanceof UserError || !show_help
+                ? `<p>${'message' in e ? e.message : e}</p>`
+                : FormatError(e)
 
         /// Make the title bar red.
         dialog.TitleColour('var(--accentred)', 'var(--accentred-dark)', 'white')

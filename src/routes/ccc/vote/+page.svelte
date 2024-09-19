@@ -16,7 +16,7 @@
         if (e.result.status == 204) __dialog.info(
             "Success",
             "Your votes have been submitted successfully."
-        )
+        ); else if (e.result.type === 'error') __dialog.error_raw(e.result.error)
     }
 </script>
 
