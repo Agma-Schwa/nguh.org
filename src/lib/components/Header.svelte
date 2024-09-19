@@ -183,7 +183,7 @@
             <span id="page-index-text">AGMA SCHWA</span>
         </a>
         <div id="hamburger-container" on:click={ToggleHamburger}>
-            <svg width="1.5em" height="1.2em" version="1.1" viewBox="0 0 1.5em 1.2em" xmlns="http://www.w3.org/2000/svg"
+            <svg width="1.5em" height="1.2em" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  id="hamburger">
                 <rect width="1.5em" height=".2em"/>
                 <rect width="1.5em" height=".2em" y=".5em"/>
