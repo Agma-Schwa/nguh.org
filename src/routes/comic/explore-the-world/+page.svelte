@@ -8,7 +8,7 @@
 
 <Page name="The World of Djogawa Djororx" />
 
-<Backdrop image="/comic/1-0-en.png" />
+<Backdrop image="/comic/1/0-en.png" />
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
 
 <Stripe>The World, 2067 AR</Stripe>
