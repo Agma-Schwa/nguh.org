@@ -22,13 +22,25 @@
 
 <style lang="scss">
     #submit-form {
-        width: max-content;
+        width: min(100%, 40rem);
         display: flex;
         align-items: center;
 
         input[type=submit] {
             margin-top: 1rem;
-            font-size: var(--text-size)
+            font-size: var(--text-size);
+            height: 2rem;
+            line-height: 2rem;
+            width: min(100%, 10rem);
+        }
+
+        label {
+            width: 100%;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            select { flex-grow: 1; }
         }
     }
 </style>
