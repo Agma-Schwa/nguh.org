@@ -7,6 +7,7 @@
     import img_facebook from '$lib/images/facebook.png'
     import img_reddit from '$lib/images/reddit.png'
     import img_twitch from '$lib/images/twitch-logo-with-background.svg'
+    import img_github from '$lib/images/github-mark.svg'
 
     import {MouseoverContext} from "../js/mouseover";
     import {onMount} from 'svelte'
@@ -37,6 +38,9 @@
         </a>
         <a href="https://www.twitch.tv/agmaschwa">
             <img src="{img_twitch}" alt="twitch" class="non-previewable-icon">
+        </a>
+        <a href="https://github.com/Agma-Schwa/nguh.org">
+            <img src="{img_github}" alt="github" class="non-previewable-icon">
         </a>
     </div>
 </div>
