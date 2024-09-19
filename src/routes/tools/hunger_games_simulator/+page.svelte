@@ -359,8 +359,8 @@ If specified in percent, this is relative to the total number of tributes, alive
         <section>
             <p>
                 If you'd like to report a bug or suggest a feature, you can do so on the
-                <a href="https://discord.gg/zCA2Urv7Tc">Agma Schwa Discord Server</a>. Just @ the Mods and
-                someone will come and help you.
+                <a href="https://discord.gg/zCA2Urv7Tc">Agma Schwa Discord Server</a>. Just ping Ætérnal
+                in the #hunger-games-simulator channel.
             </p>
             <p>
                 Alternatively, you can also file an issue <a href="https://github.com/Agma-Schwa/nguh.org/issues/new?assignees=Sirraide&labels=Hunger+Games+Simulator&projects=&template=hunger-games-simulator-bug.md&title=%5BHGS%5D+Insert+a+brief+description+of+your+problem+here">
