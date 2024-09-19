@@ -50,17 +50,21 @@
 <Stripe>Hi, {$page.data.session.user?.name}</Stripe>
 <section>
     <p>
-        This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
-        below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
-        2 your second favourite and so on. If you don’t have 6 favourite languages, set any remaining slots to
-        <code>&lt;none&gt;</code>, which is the first option (e.g. if you only want to vote for 3 languages,
-        select <code>&lt;none&gt;</code> for top 4–6).
+    This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
+    below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
+    2 your second favourite and so on. If you don’t have 6 favourite languages, set any remaining slots to
+    <code>&lt;none&gt;</code>, which is the first option (e.g. if you only want to vote for 3 languages,
+    select <code>&lt;none&gt;</code> for top 4–6).
     </p>
 
     <p>
-        You cannot select the same language multiple times, and you can only vote once. However, you can
-        revisit this page at any time and submit another set of votes, which will override your previous
-        votes.
+    You cannot select the same language multiple times, and you can only vote once. However, you can
+    revisit this page at any time and submit another set of votes, which will override your previous
+    votes.
+    </p>
+
+    <p>
+    If you have questions, please contact Ætérnal on the Agma Schwa Discord server.
     </p>
 
     <form method="POST" id="submit-form" use:enhance={() => ShowDialog}>

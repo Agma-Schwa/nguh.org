@@ -34,8 +34,14 @@
         <p>
         You need to sign in with Google in order to vote for the CCC. This is so we can deduplicate
         submissions and make sure we don’t get trolls who vote 10000 times.
+        </p>
 
+        <p>
         We only store your email address alongside your votes and only for the duration of the CCC.
+        </p>
+
+        <p>
+        If you have questions, please contact Ætérnal on the Agma Schwa Discord server.
         </p>
 
         <div class="button-wrapper">
