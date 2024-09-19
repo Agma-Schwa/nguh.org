@@ -92,26 +92,26 @@ main {
         align-items: center;
         justify-content: flex-start;
     }
-
-    button, input[type=submit] {
-        border: 1px solid $accentcolour;
-        width: 7rem;
-
-        background: $accentlighter;
-        font-size: 1rem;
-
-        &:hover {
-            background: $accentcolour;
-            color: white;
-            cursor: pointer;
-        }
-    }
 }
 
 @import 'text';
 @import 'content';
 @import 'components';
 @import 'utils';
+
+input[type=submit] {
+    border: 1px solid $accentcolour;
+    width: 7rem;
+
+    background: $accentlighter;
+    font-size: 1rem;
+
+    &:hover {
+        background: $accentcolour;
+        color: white;
+        cursor: pointer;
+    }
+}
 
 #banner {
     position: relative;

@@ -11,3 +11,6 @@ node_modules
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Individual static data
+/static/ccc-langs.json
