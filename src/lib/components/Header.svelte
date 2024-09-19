@@ -225,6 +225,7 @@
                     <a data-sveltekit-reload href="/tools/hunger_games_simulator" class="child-element"
                        id="page_hunger_games_simulator">Hunger Games Simulator</a>
                     <a href="/tools/speedrun" class="child-element" id="page_speedrun">Speedrun</a>
+                    <a href="/ccc/vote" class="child-element" id="page_ccc_vote">CCC Voting Form</a>
                 </div>
             </div>
 

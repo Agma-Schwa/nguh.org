@@ -1,5 +1,6 @@
 import {error, redirect} from "@sveltejs/kit";
 import type {LayoutServerLoad} from "./$types";
+import {CCC_FORM_ENABLED} from '$env/static/private';
 
 interface Vote {
     email: string,
@@ -29,5 +30,7 @@ export const load: LayoutServerLoad = async (event) => {
         )
     })
 
-    return { session, vote }
+    // Check if the voting form is enabled.
+    const enabled = CCC_FORM_ENABLED === "TRUE";
+    return { session, vote, enabled }
 }

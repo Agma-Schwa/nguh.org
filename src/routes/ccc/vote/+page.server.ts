@@ -1,5 +1,6 @@
 import type {Actions} from "@sveltejs/kit";
 import {error} from "@sveltejs/kit";
+import {CCC_FORM_ENABLED} from '$env/static/private';
 
 function wrap(s: FormDataEntryValue | null) {
     if (typeof s !== "string") throw error(400, "Invalid vote");
@@ -9,10 +10,13 @@ function wrap(s: FormDataEntryValue | null) {
 
 export const actions: Actions = {
     default: async(event) => {
-        // Sanity check.
+        // Make sure the user is logged in.
         const session = await event.locals.auth()
         const email = session?.user?.email
         if (!email) throw error(401, "Not logged in");
+
+        // Make sure the form is enabled.
+        if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled");
 
         // Extract the vote.
         const data = await event.request.formData()
