@@ -16,9 +16,9 @@ interface Vote {
 }
 
 function ConvertNull(s: FormDataEntryValue | null) {
-    if (typeof s !== "string") throw error(400, "Invalid vote");
-    if (s == "<none>") return null;
-    return s;
+    if (typeof s !== "string") throw error(400, "Invalid vote")
+    if (s == "<none>") return null
+    return s
 }
 
 export const actions: Actions = {
@@ -29,7 +29,7 @@ export const actions: Actions = {
         if (!email) throw redirect(303, "/ccc/login")
 
         // Make sure the form is enabled.
-        if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled");
+        if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled")
 
         // Extract the vote.
         const data = await event.request.formData()
@@ -46,7 +46,7 @@ export const actions: Actions = {
         // they indicate no vote.
         for (const vote of votes)
             if (vote && votes.filter(v => v === vote).length > 1)
-                throw error(400, `You cannot vote for '${vote}' more than once!`);
+                throw error(400, `You cannot vote for '${vote}' more than once!`)
 
         // Save it to the db.
         event.locals.db.run(`
@@ -69,8 +69,8 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async (event) => {
     // Make sure the user is logged in.
-    const session = await event.locals.auth();
-    if (!session) throw redirect(307, "/ccc/login");
+    const session = await event.locals.auth()
+    if (!session) throw redirect(307, "/ccc/login")
 
     // Get their previous vote.
     const vote: Vote = await new Promise(async (resolve) => {
@@ -85,9 +85,9 @@ export const load: PageServerLoad = async (event) => {
     })
 
     // Grab the languages.
-    const langs = JSON.parse(fs.readFileSync(`static/ccc-langs.json`).toString())
+    const langs = JSON.parse(fs.readFileSync('static/ccc-langs.json').toString())
 
     // Check if the voting form is enabled.
-    const enabled = CCC_FORM_ENABLED === "TRUE";
+    const enabled = CCC_FORM_ENABLED === "TRUE"
     return { session, vote, enabled, langs }
 }
