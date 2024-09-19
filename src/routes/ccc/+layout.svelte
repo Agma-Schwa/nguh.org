@@ -22,12 +22,12 @@
         border-radius: 0 0 5rem 5rem;
 
         font-size: var(--text-size);
-        font-style: italic;
         text-align: center;
         color: white;
 
         .name {
-            color: var(--accentmedium);
+            color: var(--accentlighter);
+            font-weight: bold;
         }
 
         a {
