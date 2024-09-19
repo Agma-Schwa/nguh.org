@@ -1,7 +1,33 @@
-import { redirect } from "@sveltejs/kit";
+import {error, redirect} from "@sveltejs/kit";
+import type {LayoutServerLoad} from "./$types";
 
-export const load = async (event) => {
+interface Vote {
+    email: string,
+    time_unix_ms: number,
+    top1: string | null,
+    top2: string | null,
+    top3: string | null,
+    top4: string | null,
+    top5: string | null,
+    top6: string | null
+}
+
+export const load: LayoutServerLoad = async (event) => {
+    // Make sure the user is logged in.
     const session = await event.locals.auth();
     if (!session) throw redirect(307, "/ccc/login");
-    return { session }
+
+    // Get their previous vote.
+    const vote: Vote = await new Promise(async (resolve) => {
+        event.locals.db.get(
+            'SELECT * FROM votes WHERE email = ?;',
+            [session.user?.email],
+            (err: Error, row: Vote) => {
+                if (err) throw error(500, err)
+                resolve(row)
+            }
+        )
+    })
+
+    return { session, vote }
 }

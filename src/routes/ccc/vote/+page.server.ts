@@ -1,5 +1,5 @@
 import type {Actions} from "@sveltejs/kit";
-import {error, redirect} from "@sveltejs/kit";
+import {error} from "@sveltejs/kit";
 
 function wrap(s: FormDataEntryValue | null) {
     if (typeof s !== "string") throw error(400, "Invalid vote");
@@ -7,7 +7,7 @@ function wrap(s: FormDataEntryValue | null) {
     return s;
 }
 
-export const actions = {
+export const actions: Actions = {
     default: async(event) => {
         // Sanity check.
         const session = await event.locals.auth()
@@ -39,4 +39,4 @@ export const actions = {
             wrap(data.get('top6'))  // top6
         ])
     }
-} satisfies Actions;
+}
