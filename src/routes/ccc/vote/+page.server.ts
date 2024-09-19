@@ -16,6 +16,20 @@ export const actions: Actions = {
 
         // Extract the vote.
         const data = await event.request.formData()
+        const votes = [
+            wrap(data.get('top1')),
+            wrap(data.get('top2')),
+            wrap(data.get('top3')),
+            wrap(data.get('top4')),
+            wrap(data.get('top5')),
+            wrap(data.get('top6'))
+        ]
+
+        // Validate that there are no duplicates. We allow duplicate nulls because
+        // they indicate no vote.
+        for (const vote of votes)
+            if (vote && votes.filter(v => v === vote).length > 1)
+                throw error(400, `You cannot vote for '${vote}' more than once!`);
 
         // Save it to the db.
         event.locals.db.run(`
@@ -31,12 +45,7 @@ export const actions: Actions = {
         `, [
             email,                  // email
             new Date().getTime(),   // time_unix_ms
-            wrap(data.get('top1')), // top1
-            wrap(data.get('top2')), // top2
-            wrap(data.get('top3')), // top3
-            wrap(data.get('top4')), // top4
-            wrap(data.get('top5')), // top5
-            wrap(data.get('top6'))  // top6
+            ...votes                // top1–top6
         ])
     }
 }
