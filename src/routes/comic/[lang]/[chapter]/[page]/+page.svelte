@@ -2,24 +2,9 @@
     import Page from "$lib/components/Page.svelte";
     import NavButtons from "$lib/components/comic/NavButtons.svelte";
     import Backdrop from "$lib/components/Backdrop.svelte";
-    import {onMount} from "svelte";
     import { style } from 'svelte-body';
-    import {afterNavigate} from "$app/navigation";
 
     export let data;
-
-    function SaveScrollOffset() {
-        localStorage.setItem('comic-scroll', window.scrollY.toString());
-    }
-
-    onMount(() => {
-        localStorage.removeItem('comic-scroll');
-    })
-
-    afterNavigate(() => {
-        const scroll = localStorage.getItem('comic-scroll');
-        if (scroll) window.scrollTo(0, parseInt(scroll));
-    });
 </script>
 
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
@@ -47,8 +32,8 @@
 
 <div class="switch-languages-button">
     <a
+        data-sveltekit-noscroll
         class="link-button switch-languages"
-        on:click={SaveScrollOffset}
         href="/comic/{data.lang === 'en' ? 'ar' : 'en'}/{data.chapter}/{data.page}"
     ><span>EN</span>&nbsp;⟳&nbsp;<span>AR</span></a>
 </div>

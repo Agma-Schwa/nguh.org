@@ -33,28 +33,21 @@
         if (data.page !== 0) return data.page - 1;
         return LastPageForChapter(data, data.chapter - 1);
     }
-
-    function ClearScrollOffset() {
-        localStorage.removeItem('comic-scroll');
-    }
 </script>
 
 <div class="buttons">
     <a
         class="link-button {BackButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/1/0"
     >&lt;&lt;&lt;</a>
 
     <a
         class="link-button {BackButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/{Math.max(data.chapter - 1, 1)}/0"
     >&lt;&lt;</a>
 
     <a
         class="link-button {BackButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/{data.page === 0 ? data.chapter - 1 : data.chapter}/{PreviousPage(data)}"
     >&lt;</a>
 
@@ -62,7 +55,6 @@
 
     <a
         class="link-button {ForwardButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/{
             data.page === LastPageForChapter(data, data.chapter) ? data.chapter + 1 : data.chapter
         }/{NextPage(data)}"
@@ -70,7 +62,6 @@
 
     <a
         class="link-button {ForwardButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/{Math.min(data.chapter + 1, data.pages.length)}/{
             data.chapter === data.pages.length ? LastPageForChapter(data, data.chapter) : 0
         }"
@@ -78,7 +69,6 @@
 
     <a
         class="link-button {ForwardButtonState(data)}"
-        on:click={ClearScrollOffset}
         href="/comic/{data.lang}/{data.pages.length}/{LastPageForChapter(data, data.pages.length)}"
     >&gt;&gt;&gt;</a>
 </div>
