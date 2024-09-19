@@ -10,7 +10,11 @@ const auth = SvelteKitAuth({
     providers: [GoogleProvider({
         clientId: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET
-    })]
+    })],
+    pages: {
+        signIn: '/login',
+        signOut: '/login',
+    }
 })
 
 function check(e: Error | null) {
