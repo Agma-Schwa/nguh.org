@@ -1,5 +1,5 @@
 import type {Actions} from "@sveltejs/kit";
-import {error} from "@sveltejs/kit";
+import {error, redirect} from "@sveltejs/kit";
 import {CCC_FORM_ENABLED} from '$env/static/private';
 
 function wrap(s: FormDataEntryValue | null) {
@@ -13,7 +13,7 @@ export const actions: Actions = {
         // Make sure the user is logged in.
         const session = await event.locals.auth()
         const email = session?.user?.email
-        if (!email) throw error(401, "Not logged in");
+        if (!email) throw redirect(303, "/ccc/login")
 
         // Make sure the form is enabled.
         if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled");

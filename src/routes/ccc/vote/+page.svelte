@@ -6,6 +6,7 @@
     import type {ActionResult} from "@sveltejs/kit";
     import {onMount} from "svelte";
     import type {Dialog} from "$lib/js/dialog";
+    import {goto} from "$app/navigation";
 
     // Hack so this only runs on the client.
     let __dialog: typeof Dialog;
@@ -13,10 +14,16 @@
 
     // Show a success dialog after submitting.
     function ShowDialog(e: {result: ActionResult, update: () => void}) {
-        if (e.result.status == 204) __dialog.info(
-            "Success",
-            "Your votes have been submitted successfully."
-        ); else if (e.result.type === 'error') __dialog.error_raw(e.result.error)
+        if (e.result.status == 204) {
+            __dialog.info(
+                "Success",
+                "Your votes have been submitted successfully."
+            )
+        } else if (e.result.status === 303) {
+            goto('/ccc/login')
+        } else if (e.result.type === 'error') {
+            __dialog.error_raw(e.result.error)
+        }
     }
 </script>
 
