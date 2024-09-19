@@ -11,9 +11,49 @@
 
     import {MouseoverContext} from "../js/mouseover";
     import {onMount} from 'svelte'
+
+    // Compute the current season.
+    function GetSeason() {
+        let month = new Date().getMonth()
+        switch (month) {
+            // November, December, January, February
+            case 10:
+            case 11:
+            case 0:
+            case 1:
+                return 'winter'
+
+            // March, April, May
+            case 2:
+            case 3:
+            case 4:
+                return 'spring'
+
+            // June, July, August
+            case 5:
+            case 6:
+            case 7:
+                return 'summer'
+
+            // September, October
+            case 8:
+            case 9:
+                return 'autumn'
+        }
+
+        // Should never be reached.
+        return 'spring'
+    }
 </script>
 
-<div id="banner">
+<style lang="scss">
+.banner-spring { background-image: url("$lib/images/banner_spring.png"); }
+.banner-summer { background-image: url("$lib/images/banner_summer.jpg"); }
+.banner-autumn { background-image: url("$lib/images/banner_autumn.jpg"); }
+.banner-winter { background-image: url("$lib/images/banner_winter.jpg"); }
+</style>
+
+<div id="banner" class="banner-{GetSeason()}">
     <div id="icons">
         <a href="https://www.youtube.com/@AgmaSchwa">
             <img src="{img_youtube}" alt="youtube" class="non-previewable-icon">
