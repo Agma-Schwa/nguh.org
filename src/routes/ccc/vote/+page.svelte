@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { page } from "$app/stores";
+    import {page} from "$app/stores";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
-    import { enhance } from '$app/forms';
+    import {enhance} from '$app/forms';
     import type {ActionResult} from "@sveltejs/kit";
     import {onMount} from "svelte";
     import type {Dialog} from "$lib/js/dialog";
