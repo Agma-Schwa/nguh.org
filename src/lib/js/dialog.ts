@@ -383,6 +383,13 @@ export class Dialog<T = any> {
         return Dialog.MakeMultiFileDialog(title, options).open()
     }
 
+    /** Open a new dialog that displays a message. */
+    static info(title: string, content: string) {
+        const d = Dialog.make(title, content, ['OK']);
+        d.on('OK', () => d.resolve(null))
+        d.open().catch()
+    }
+
     /** Create a new file dialog without opening it. */
     static MakeFileDialog(title: string, options: FileDialogOptions): Dialog<FileDialogResult> {
         /// Initialise the dialog.

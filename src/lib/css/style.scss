@@ -113,6 +113,12 @@ input[type=submit] {
     }
 }
 
+button {
+    border: none;
+    padding-inline: 1rem;
+    font-size: var(--text-size);
+}
+
 #banner {
     position: relative;
 

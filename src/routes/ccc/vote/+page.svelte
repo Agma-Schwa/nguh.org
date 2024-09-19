@@ -2,6 +2,22 @@
     import { page } from "$app/stores";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
+    import { enhance } from '$app/forms';
+    import type {ActionResult} from "@sveltejs/kit";
+    import {onMount} from "svelte";
+    import type {Dialog} from "$lib/js/dialog";
+
+    // Hack so this only runs on the client.
+    let __dialog: typeof Dialog;
+    onMount(async () => { __dialog = (await import("$lib/js/dialog")).Dialog })
+
+    // Show a success dialog after submitting.
+    function ShowDialog(e: {result: ActionResult, update: () => void}) {
+        if (e.result.status == 204) __dialog.info(
+            "Success",
+            "Your votes have been submitted successfully."
+        )
+    }
 </script>
 
 <style lang="scss">
@@ -33,7 +49,7 @@
         votes.
     </p>
 
-    <form method="POST" action="?/vote" id="submit-form">
+    <form method="POST" id="submit-form" use:enhance={() => ShowDialog}>
         {#each [1, 2, 3, 4, 5, 6] as entry}
             <label>
                 Top {entry}:
