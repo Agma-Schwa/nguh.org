@@ -30,7 +30,7 @@
 
         a {
             font-style: normal;
-            color: var(--accentmedium);
+            color: var(--accentlighter);
         }
     }
 }
