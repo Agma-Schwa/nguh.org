@@ -38,9 +38,11 @@
 <Stripe>Hi, {$page.data.session.user?.name}</Stripe>
 <section>
     <p>
-        This is the official CCC voting form. As a reminder, the voting process works as follows: below,
-        there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
-        2 your second favourite and so on.
+        This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
+        below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
+        2 your second favourite and so on. If you don’t have 6 favourite languages, set any remaining slots to
+        <code>&lt;none&gt;</code>, which is the first option (e.g. if you only want to vote for 3 languages,
+        select <code>&lt;none&gt;</code> for top 4–6).
     </p>
 
     <p>
@@ -54,6 +56,7 @@
             <label>
                 Top {entry}:
                 <select name="top{entry}">
+                    <option value="<none>">&lt;none&gt;</option>
                     {#each $page.data.langs.sort() as lang}
                         <option value="{lang}">{lang}</option>
                     {/each}

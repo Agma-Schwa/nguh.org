@@ -14,3 +14,6 @@ vite.config.ts.timestamp-*
 
 # Individual static data
 /static/ccc-langs.json
+
+# Database.
+/www.db

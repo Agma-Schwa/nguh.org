@@ -1,6 +1,12 @@
 import type {Actions} from "@sveltejs/kit";
 import {error, redirect} from "@sveltejs/kit";
 
+function wrap(s: FormDataEntryValue | null) {
+    if (typeof s !== "string") throw error(400, "Invalid vote");
+    if (s == "<none>") return null;
+    return s;
+}
+
 export const actions = {
     default: async(event) => {
         // Sanity check.
@@ -23,14 +29,14 @@ export const actions = {
                 top5 = excluded.top5,
                 top6 = excluded.top6;
         `, [
-            email,                // email
-            new Date().getTime(), // time_unix_ms
-            data.get('top1'),     // top1
-            data.get('top2'),     // top2
-            data.get('top3'),     // top3
-            data.get('top4'),     // top4
-            data.get('top5'),     // top5
-            data.get('top6')      // top6
+            email,                  // email
+            new Date().getTime(),   // time_unix_ms
+            wrap(data.get('top1')), // top1
+            wrap(data.get('top2')), // top2
+            wrap(data.get('top3')), // top3
+            wrap(data.get('top4')), // top4
+            wrap(data.get('top5')), // top5
+            wrap(data.get('top6'))  // top6
         ])
     }
 } satisfies Actions;
