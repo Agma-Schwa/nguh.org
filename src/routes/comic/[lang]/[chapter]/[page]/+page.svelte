@@ -2,9 +2,7 @@
     import Page from "$lib/components/Page.svelte";
     import NavButtons from "$lib/components/comic/NavButtons.svelte";
     import Backdrop from "$lib/components/Backdrop.svelte";
-    import {page} from "$app/stores";
-    import {onDestroy, onMount} from "svelte";
-    import {browser} from "$app/environment";
+    import {onMount} from "svelte";
     import { style } from 'svelte-body';
     import {afterNavigate} from "$app/navigation";
 
@@ -28,11 +26,11 @@
 
 <svelte:head>
     {#if data.page !== 0}
-        <link rel="preload" as="image" href='/comic/{data.chapter}-{data.page - 1}-{data.lang}.png'>
+        <link rel="preload" as="image" href='/comic/{data.chapter}/{data.page - 1}-{data.lang}.png'>
     {/if}
-    <link rel="preload" as="image" href='/comic/{data.chapter}-{data.page}-{data.lang === "en" ? "ar" : "en"}.png'>
-    {#if data.page !== data.pages[data.chapter]}
-        <link rel="preload" as="image" href='/comic/{data.chapter}-{data.page + 1}-{data.lang}.png'>
+    <link rel="preload" as="image" href='/comic/{data.chapter}/{data.page}-{data.lang === "en" ? "ar" : "en"}.png'>
+    {#if data.page !== data.pages[data.chapter - 1]}
+        <link rel="preload" as="image" href='/comic/{data.chapter}/{data.page + 1}-{data.lang}.png'>
     {/if}
 </svelte:head>
 
@@ -43,7 +41,7 @@
 {/if}
 
 <Backdrop
-    image="/comic/{data.chapter}-{data.page}-en.png"
+    image="/comic/{data.chapter}/{data.page}-en.png"
     transparent={true}
 />
 
@@ -56,7 +54,7 @@
 </div>
 
 <NavButtons {data} />
-<img src='/comic/{data.chapter}-{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon page">
+<img src='/comic/{data.chapter}/{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon page">
 <NavButtons {data} />
 
 <style lang="scss">

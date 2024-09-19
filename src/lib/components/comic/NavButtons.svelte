@@ -1,26 +1,22 @@
 <script lang="ts">
-    import Stripe from "$lib/components/Stripe.svelte";
-    import {onMount} from "svelte";
-
-    interface RouteParams {
+    interface ServerData {
         lang: string
         chapter: number
         page: number,
         pages: number[]
     }
 
+    export let data: ServerData;
 
-    export let data: RouteParams;
-
-    function LastPageForChapter(data: RouteParams, chapter: number): number {
+    function LastPageForChapter(data: ServerData, chapter: number): number {
         return data.pages[chapter - 1]; /// Chapters are 1-indexed.
     }
 
-    function BackButtonState(data: RouteParams): string {
+    function BackButtonState(data: ServerData): string {
         return data.page === 0 && data.chapter === 1 ? 'disabled' : '';
     }
 
-    function ForwardButtonState(data: RouteParams): string {
+    function ForwardButtonState(data: ServerData): string {
         if (
             data.chapter === data.pages.length &&
             data.page == LastPageForChapter(data, data.chapter)
@@ -28,12 +24,12 @@
         return '';
     }
 
-    function NextPage(data: RouteParams): number {
+    function NextPage(data: ServerData): number {
         if (data.page === LastPageForChapter(data, data.chapter)) return 0;
         return data.page + 1;
     }
 
-    function PreviousPage(data: RouteParams): number {
+    function PreviousPage(data: ServerData): number {
         if (data.page !== 0) return data.page - 1;
         return LastPageForChapter(data, data.chapter - 1);
     }

@@ -1,16 +1,25 @@
+import * as fs from "fs";
+
 interface RouteParams {
     lang: string
     chapter: number
-    page: number,
-    last_page: number
+    page: number
 }
 
 export function load({ params }: { params: RouteParams }) {
-    let chapter = Number(params.chapter)
+    // Do a directory listing. Each directory in 'comic' is a chapter.
+    const chapters = fs.readdirSync('static/comic');
+    const pages: number[] = []
+    for (const c of chapters) pages.push(
+        fs.readdirSync(`static/comic/${c}`)
+            .map(path => Number(path.split('-')[0]))
+            .reduce((a, b) => Math.max(a, b), 0)
+    )
+
     return {
         lang: params.lang,
-        chapter: chapter,
+        chapter: Number(params.chapter),
         page: Number(params.page),
-        pages: [26,  8], /// Number of pages per chapter.
+        pages,
     }
 }
