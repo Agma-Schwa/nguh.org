@@ -21,7 +21,7 @@
 </style>
 
 <Page name="{$page.data.session ? 'Logout' : 'Login'}"/>
-<Stripe>{$page.data.session ? `Hi, ${$page.data.session.user?.name}` : 'Log in to continue'}</Stripe>
+<Stripe>Cursed Conlang Circus</Stripe>
 <section>
     {#if $page.data.session}
         <p>Are you sure you want to log out?</p>

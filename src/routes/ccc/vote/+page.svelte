@@ -47,7 +47,7 @@
 
 {#if $page.data.session}
 <Page name="CCC Voting Form"/>
-<Stripe>Hi, {$page.data.session.user?.name}</Stripe>
+<Stripe>Cursed Conlang Circus</Stripe>
 <section>
     <p>
     This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:

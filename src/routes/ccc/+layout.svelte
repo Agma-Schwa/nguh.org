@@ -4,6 +4,8 @@
 
 <style lang="scss">
 #login-info {
+    z-index: 1;
+
     position: fixed;
     top: 4rem;
     right: 0;
