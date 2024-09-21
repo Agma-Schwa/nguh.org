@@ -205,6 +205,7 @@
                 <a href="/languages/gumsmaq" id="page_gumsmaq">Gumsmaq</a>
                 <a href="/languages/nashan" id="page_nashan">Nashan</a>
                 <a href="/languages/permechikan" id="page_permechikan">Permechikan</a>
+                <a href="/languages/portugoose" id="page_portugoose">Portugoose</a>
                 <a href="/languages/prins" id="page_prins">Prins</a>
                 <a href="/languages/pthm" id="page_pthm">pʰ.ð.m</a>
                 <a href="/languages/rabbid" id="page_rabbid">Rabbid</a>
