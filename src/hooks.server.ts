@@ -1,7 +1,7 @@
 import type {Handle} from "@sveltejs/kit";
 
 import {SvelteKitAuth} from '@auth/sveltekit';
-import {Database} from "sqlite3";
+import sqlite3 from "sqlite3";
 import GoogleProvider from '@auth/core/providers/google';
 import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET} from '$env/static/private';
 import {error} from "@sveltejs/kit";
@@ -27,7 +27,7 @@ export const handle: Handle = async (data) => {
     // Initialise DB.
     if (!data.event.locals.db) {
         // Connect to DB.
-        const db = data.event.locals.db = new Database('www.db', check)
+        const db = data.event.locals.db = new sqlite3.Database('www.db', check)
 
         // Set up tables.
         db.run(`
