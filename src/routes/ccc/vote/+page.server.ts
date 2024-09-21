@@ -85,7 +85,7 @@ export const load: PageServerLoad = async (event) => {
     })
 
     // Grab the languages.
-    const langs = JSON.parse(fs.readFileSync('static/ccc-langs.json').toString())
+    const langs = JSON.parse(fs.readFileSync('../static/ccc-langs.json').toString())
 
     // Check if the voting form is enabled.
     const enabled = CCC_FORM_ENABLED === "TRUE"
