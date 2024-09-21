@@ -3,7 +3,7 @@ import type {Handle} from "@sveltejs/kit";
 import {SvelteKitAuth} from '@auth/sveltekit';
 import sqlite3 from "sqlite3";
 import GoogleProvider from '@auth/core/providers/google';
-import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET} from '$env/static/private';
+import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, AUTH_SECRET} from '$env/static/private';
 import {error} from "@sveltejs/kit";
 
 const auth = SvelteKitAuth({
@@ -15,7 +15,8 @@ const auth = SvelteKitAuth({
         signIn: '/login',
         signOut: '/login',
     },
-    trustHost: true
+    trustHost: true,
+    secret: AUTH_SECRET
 })
 
 function check(e: Error | null) {
