@@ -8,10 +8,10 @@ interface RouteParams {
 
 export function load({ params }: { params: RouteParams }) {
     // Do a directory listing. Each directory in 'comic' is a chapter.
-    const chapters = fs.readdirSync('static/comic');
+    const chapters = fs.readdirSync('../static/comic');
     const pages: number[] = []
     for (const c of chapters) pages.push(
-        fs.readdirSync(`static/comic/${c}`)
+        fs.readdirSync(`../static/comic/${c}`)
             .map(path => Number(path.split('-')[0]))
             .reduce((a, b) => Math.max(a, b), 0)
     )

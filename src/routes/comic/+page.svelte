@@ -4,7 +4,7 @@
     import Backdrop from "$lib/components/Backdrop.svelte";
     import { style } from 'svelte-body';
 
-    const first_page = '/comic/1/1-en.png'
+    const first_page = '/static/comic/1/1-en.png'
 </script>
 
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
@@ -14,7 +14,7 @@
 </svelte:head>
 
 <Page name="Dog Days" />
-<Backdrop image="/comic/1/0-en.png" />
+<Backdrop image="/static/comic/1/0-en.png" />
 
 <Stripe>A Webcomic by Agma Schwa</Stripe>
 <img src="$lib/images/comic/image-cover.png" alt="Cover Page" style="margin-block: -3rem">

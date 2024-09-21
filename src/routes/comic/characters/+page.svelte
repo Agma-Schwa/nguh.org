@@ -24,7 +24,7 @@
 
 <Page name="Meet the Characters" />
 
-<Backdrop image="/comic/1/0-en.png" />
+<Backdrop image="/static/comic/1/0-en.png" />
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
 
 <Stripe>Characters</Stripe>
