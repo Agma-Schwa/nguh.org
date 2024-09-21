@@ -14,7 +14,8 @@ const auth = SvelteKitAuth({
     pages: {
         signIn: '/login',
         signOut: '/login',
-    }
+    },
+    trustHost: true
 })
 
 function check(e: Error | null) {
