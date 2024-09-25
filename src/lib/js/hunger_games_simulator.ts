@@ -981,6 +981,7 @@ namespace UI {
     <li><code>A</code> = accusative; e.g. <code>%A2</code> = ‘him’ if the 3rd player’s pronouns are he/…</li>
     <li><code>G</code> = genitive; e.g. <code>%G2</code> = ‘his’ if the 3rd player’s pronouns are he/…</li>
     <li><code>R</code> = reflexive; e.g. <code>%R2</code> = ‘himself’ if the 3rd player’s pronouns are he/…</li>
+    <li><code>e</code> = 3rd person sg. ‘-es’; e.g. <code>bash%e2</code> = ‘bash’ if the 3rd player is plural, and ‘bashes’ otherwise</li>
     <li><code>s</code> = 3rd person sg. ‘-s’; e.g. <code>drink%s2</code> = ‘drink’ if the 3rd player is plural, and ‘drinks’ otherwise</li>
     <li><code>y</code> = ‘-y/-ies’; e.g. <code>fl%y2</code> = ‘fly’ if the 3rd player is plural, and ‘flies’ otherwise</li>
     <li><code>i</code> = ‘is/are’; e.g. <code>%i2</code> = ‘are’ if the 3rd player is plural, and ‘is’ otherwise</li>
@@ -1153,6 +1154,7 @@ function ComposeEventMessage(event: GameEvent): string {
                 case 'y':
                 case 'i':
                 case 'h':
+                case 'e':
                 case '!': {
                     let c = m[i++];
                     if (isdigit(m[i])) {
@@ -1161,35 +1163,20 @@ function ComposeEventMessage(event: GameEvent): string {
                         if (check_bounds(event, index)) {
                             let tribute = event.players_involved[index]
                             switch (c) {
-                                case 'N':
-                                    text = tribute.uses_pronouns ? tribute.pronouns.nominative : tribute.name
-                                    break
-                                case 'A':
-                                    text = tribute.uses_pronouns ? tribute.pronouns.accusative : tribute.name
-                                    break
-                                case 'G':
-                                    text = tribute.uses_pronouns ? tribute.pronouns.genitive : tribute.name + '’s'
-                                    break
-                                case 'R':
-                                    text = tribute.uses_pronouns ? tribute.pronouns.reflexive : tribute.name
-                                    break
-                                case 's': /// 3SG /-s
-                                    text = tribute.plural ? '' : 's'
-                                    break
-                                case 'y': /// 3SG -y/-ies
-                                    text = tribute.plural ? 'y' : 'ies'
-                                    break
-                                case 'i': /// 3SG are/is
-                                    text = tribute.plural ? 'are' : 'is'
-                                    break
-                                case 'h': /// 3SG have/has
-                                    text = tribute.plural ? 'have' : 'has'
-                                    break
-                                case '!': /// 3SG aren't/isn't
-                                    text = tribute.plural ? 'aren\'t' : 'isn\'t'
-                                    break
-                                default:
-                                    continue
+                                // Pronouns
+                                case 'N': text = tribute.uses_pronouns ? tribute.pronouns.nominative : tribute.name; break
+                                case 'A': text = tribute.uses_pronouns ? tribute.pronouns.accusative : tribute.name; break
+                                case 'G': text = tribute.uses_pronouns ? tribute.pronouns.genitive : tribute.name + '’s'; break
+                                case 'R': text = tribute.uses_pronouns ? tribute.pronouns.reflexive : tribute.name; break
+
+                                // Singular/plural specifiers.
+                                case 'e': text = tribute.plural ? '' : 'es'; break            // 3SG        / -es
+                                case 's': text = tribute.plural ? '' : 's'; break             // 3SG        / -s
+                                case 'y': text = tribute.plural ? 'y' : 'ies'; break          // 3SG -y     / -ies
+                                case 'i': text = tribute.plural ? 'are' : 'is'; break         // 3SG are    / is
+                                case 'h': text = tribute.plural ? 'have' : 'has'; break       // 3SG have   / has
+                                case '!': text = tribute.plural ? 'aren\'t' : 'isn\'t'; break // 3SG aren't / isn't
+                                default: continue
                             }
                             composed += text
                         } else composed += "(error)"

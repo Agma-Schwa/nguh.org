@@ -164,6 +164,15 @@ If specified in percent, this is relative to the total number of tributes, alive
 <template id="changelog-dialog-template">
     <div id="changelog">
         <div class="changelog-day">
+            <h4>25 September 2024</h4>
+            <ul>
+                <li>
+                    Added a format specifier, <code>%e</code>, for verbs that have ‘-es’ in the
+                    3rd person singular, e.g. ‘bash/bashes’, ‘catch/catches’.
+                </li>
+            </ul>
+        </div>
+        <div class="changelog-day">
             <h4>18 April 2024</h4>
             <ul>
                 <li>
