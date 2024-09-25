@@ -327,7 +327,7 @@ If specified in percent, this is relative to the total number of tributes, alive
     </div>
 </template>
 
-<h2 class="stripe"><span>Info</span></h2>
+<Stripe>Info</Stripe>
 <div id="game-wrapper">
     <div id="create-game">
         <section>

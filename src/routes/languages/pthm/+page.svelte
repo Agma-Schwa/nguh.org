@@ -37,8 +37,7 @@
         case noun referring to the act of speaking <em>:·pʰ.ð.m</em></h4>
 </section>
 
-<h2 class="stripe"><span>Phonology</span></h2>
-
+<Stripe>Phonology</Stripe>
 <section>
     <article class="flex-row gap1">
         <div><h3><em>:·pʰ.ð.m</em> Vowels</h3>

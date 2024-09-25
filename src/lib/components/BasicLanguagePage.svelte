@@ -7,7 +7,7 @@
     export let name: string
     export let stripe: string
     export let video: string
-    export let docs: string
+    export let docs: string | undefined
     export let before_docs: string | undefined
 </script>
 

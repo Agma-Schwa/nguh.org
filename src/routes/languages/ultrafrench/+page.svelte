@@ -1,5 +1,6 @@
 <script>
     import BasicLanguagePage from "$lib/components/BasicLanguagePage.svelte";
+    import Stripe from "$lib/components/Stripe.svelte";
 </script>
 
 <BasicLanguagePage
@@ -8,7 +9,7 @@
     video="https://www.youtube.com/embed/FCQYPzJgy0Q"
 />
 
-<h2 class="stripe"><span>Resources</span></h2>
+<Stripe>Resources</Stripe>
 <section>
     <p>
         In <a href="/static/UF-GRAMMAR.pdf">this document</a>, one can find the comprehensive grammar of the ULTRAFRENCH language, ‘ULTRAFRENCH’ being

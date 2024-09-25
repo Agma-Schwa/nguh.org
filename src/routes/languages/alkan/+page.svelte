@@ -1,6 +1,7 @@
 <script>
     import BasicLanguagePage from "$lib/components/BasicLanguagePage.svelte";
     import DocumentView from "$lib/components/DocumentView.svelte";
+    import Stripe from "$lib/components/Stripe.svelte";
 </script>
 
 <BasicLanguagePage
@@ -9,7 +10,7 @@
     video="https://www.youtube.com/embed/P45uZf4B-aw"
 />
 
-<h2 class="stripe"><span>Resources</span></h2>
+<Stripe>Resources</Stripe>
 <section>
     <p>
         This Google Sheets document is where Alkan was created, and contains
