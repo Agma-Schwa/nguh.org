@@ -3,6 +3,7 @@
     import {onMount} from "svelte";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
+    import Ribbon from "$lib/components/Ribbon.svelte";
 
     let __impl
     onMount(() => {
@@ -11,6 +12,7 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
+<Ribbon><em>Last Updated: 25 September 2024</em></Ribbon>
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->
