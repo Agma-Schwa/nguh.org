@@ -1,10 +1,32 @@
 import type {Handle} from "@sveltejs/kit";
+import type {LanguagePage} from "$lib/js/types";
 
+import * as fs from "node:fs";
 import {SvelteKitAuth} from '@auth/sveltekit';
 import sqlite3 from "sqlite3";
 import GoogleProvider from '@auth/core/providers/google';
 import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, AUTH_SECRET} from '$env/static/private';
 import {error} from "@sveltejs/kit";
+
+// Grab all language pages.
+const lang_pages = fs.readdirSync('src/routes/languages').filter(e => !e.startsWith('+')).sort()
+
+// Some languages have custom page names, so load those.
+const page_names = JSON.parse(fs.readFileSync('src/routes/pagename-overrides.json').toString())
+
+// And compose them.
+const langs: LanguagePage[] = []
+for (const page of lang_pages) {
+    // If there is a page name override, use that.
+    if (`/languages/${page}` in page_names) {
+        langs.push({page, name: page_names[`/languages/${page}`]})
+        continue
+    }
+
+    // Otherwise, convert underscores and hyphens to spaces and
+    // capitalise the first letter of every word.
+    langs.push({page, name: page.replace(/[_-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())})
+}
 
 const auth = SvelteKitAuth({
     providers: [GoogleProvider({
@@ -26,8 +48,10 @@ function check(e: Error | null) {
 }
 
 export const handle: Handle = async (data) => {
-    // Initialise DB.
+    // Initialise locals.
     if (!data.event.locals.db) {
+        data.event.locals.langs = langs
+
         // Connect to DB.
         const db = data.event.locals.db = new sqlite3.Database('www.db', check)
 

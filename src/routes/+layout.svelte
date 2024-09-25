@@ -7,6 +7,7 @@
 
     import { page_title } from "$lib/page_title";
     import {afterNavigate} from "$app/navigation";
+    import type {LayoutData} from "./$types";
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement
@@ -14,6 +15,8 @@
     interface ImagePreview extends HTMLElement {
         cloned_preview?: Node
     }
+
+    export let data: LayoutData
 
     function OpenImagePreview() {
         let instance = this
@@ -82,7 +85,7 @@
     </div>
 </div>
 
-<Header />
+<Header langs={data.langs} />
 <Banner />
 <h1>{$page_title === 'Agma Schwa' ? 'WELCOME!' : $page_title}</h1>
 <hr id="h1-underline" style="--h1-underline-length: {h1_underline_length}rem; --h1-underline-length-short: {h1_underline_length_short}rem;">

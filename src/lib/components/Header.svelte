@@ -1,9 +1,13 @@
 <script lang="ts">
+    import type {LanguagePage} from "$lib/js/types";
+
     import {afterNavigate} from "$app/navigation";
     import {onMount} from "svelte";
     import {browser} from "$app/environment";
-    function InitHeader() {
 
+    export let langs: LanguagePage[]
+
+    function InitHeader() {
         let nav = document.getElementsByTagName('header')[0]
 
         /// Some pages may not have a header
@@ -196,23 +200,9 @@
         <div id="languages-drop-down">
             <a href="/languages" id="page_languages">Languages</a>
             <div id="languages-drop-down-content">
-                <a href="/languages/alkan" id="page_alkan">Alkan</a>
-                <a href="/languages/arodjun" id="page_arodjun">Arodjun</a>
-                <a href="/languages/hallowed-ween" id="page_hallowed-ween">Hallowed Ween</a>
-                <a href="/languages/hvasvan" id="page_hvasvan">Hvasvan</a>
-                <a href="/languages/hyperformal" id="page_hyperformal">HyperFormal</a>
-                <a href="/languages/hyperpirate" id="page_hyperpirate">HyperPirate</a>
-                <a href="/languages/gumsmaq" id="page_gumsmaq">Gumsmaq</a>
-                <a href="/languages/nashan" id="page_nashan">Nashan</a>
-                <a href="/languages/permechikan" id="page_permechikan">Permechikan</a>
-                <a href="/languages/portugoose" id="page_portugoose">Portugoose</a>
-                <a href="/languages/prins" id="page_prins">Prins</a>
-                <a href="/languages/pthm" id="page_pthm">pʰ.ð.m</a>
-                <a href="/languages/rabbid" id="page_rabbid">Rabbid</a>
-                <a href="/languages/santaa" id="page_santaa">Santaa</a>
-                <a href="/languages/secret-handshake" id="page_secret-handshake">Secret Handshake</a>
-                <a href="/languages/ultrafrench" id="page_ultrafrench">ULTRAFRENCH</a>
-                <a href="/languages/xomitec" id="page_xomitec">Xo:mi.te;</a>
+                {#each langs as lang}
+                    <a href="/languages/{lang.page}" id="page_{lang.page}">{lang.name}</a>
+                {/each}
             </div>
         </div>
         <a href="/comic" id="page_comic">Comic</a>
