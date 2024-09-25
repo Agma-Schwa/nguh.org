@@ -170,6 +170,10 @@ If specified in percent, this is relative to the total number of tributes, alive
                     Added a format specifier, <code>%e</code>, for verbs that have ‘-es’ in the
                     3rd person singular, e.g. ‘bash/bashes’, ‘catch/catches’.
                 </li>
+                <li>
+                    Updated the description to reflect the fact that you can now add events directly
+                    from the events dialog without having to download and upload a JSON file.
+                </li>
             </ul>
         </div>
         <div class="changelog-day">
@@ -359,8 +363,8 @@ If specified in percent, this is relative to the total number of tributes, alive
             <p>
                 The events are mainly taken from the brantsteele.net simulator, though some members of our community
                 have contributed to the event list as well. You can disable existing events or add custom events by
-                clicking the ‘Edit Events’ button below. Currently, the only way to add your own events is to download
-                all events as json, modify the file, and reupload them.
+                clicking the ‘Settings’ button below and then ‘Edit Events’. You can also add new events, download
+                all events, and upload your own.
             </p>
         </section>
 
@@ -384,6 +388,9 @@ If specified in percent, this is relative to the total number of tributes, alive
             </p>
             <p>
                 Thanks also to GitHub user @spaulmark for implementing the bulk-upload feature.
+            </p>
+            <p>
+                Last Update: 25 September 2024.
             </p>
             <button id="open-changelog">Changelog</button>
 
