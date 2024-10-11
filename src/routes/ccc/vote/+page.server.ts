@@ -26,7 +26,7 @@ export const actions: Actions = {
         if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled")
 
         // TESTING. DELETE LATER.
-        process.stdout.write("Request from: " + event.getClientAddress() + "\n");
+        process.stdout.write("Request from: " + event.locals.x_real_ip + "\n");
 
         // Extract the vote.
         const data = await event.request.formData()
@@ -57,9 +57,9 @@ export const actions: Actions = {
                 top5 = excluded.top5,
                 top6 = excluded.top6;
         `, [
-            event.getClientAddress(), // ip
-            new Date().getTime(),     // time_unix_ms
-            ...votes                  // top1–top6
+            event.locals.x_real_ip, // ip
+            new Date().getTime(),   // time_unix_ms
+            ...votes                // top1–top6
         ])
     }
 }
@@ -69,7 +69,7 @@ export const load: PageServerLoad = async (event) => {
     const vote: Vote = await new Promise(async (resolve) => {
         event.locals.db.get(
             'SELECT * FROM votes WHERE ip = ?;',
-            [event.getClientAddress()],
+            [event.locals.x_real_ip],
             (err: Error, row: Vote) => {
                 if (err) throw error(500, err)
                 resolve(row)

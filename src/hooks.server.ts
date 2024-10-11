@@ -33,6 +33,7 @@ function LoadLanguagePages() {
 const ccc_submissions: string[] = fs.readFileSync('../static/ccc-langs.txt')
     .toString()
     .split('\n')
+    .map(e => e.length > 50 ? `${e.slice(0, 50)}...` : e)
     .filter(e => e.length > 0)
 
 // Sanity check: ensure we have no duplicates.
@@ -68,6 +69,9 @@ export const handle: Handle = async ({event, resolve}) => {
             ) STRICT;
         `, check)
     }
+
+    console.log(event.request.headers)
+    event.locals.x_real_ip = event.request.headers.get('X-Real-IP') ?? event.getClientAddress()
 
     // Pass the request further down the chain.
     return resolve(event)

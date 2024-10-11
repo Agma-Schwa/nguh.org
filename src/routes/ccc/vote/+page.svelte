@@ -80,7 +80,7 @@
                 Top {entry}:
                 <select name="top{entry}">
                     <option value="<none>">&lt;none&gt;</option>
-                    {#each $page.data.langs.sort() as lang}
+                    {#each $page.data.langs as lang}
                         {#if $page.data.vote && $page.data.vote[`top${entry}`] === lang}
                             <option value="{lang}" selected>{lang}</option>
                         {:else}
