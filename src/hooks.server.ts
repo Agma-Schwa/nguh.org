@@ -4,6 +4,7 @@ import type {LanguagePage} from "$lib/js/types";
 import * as fs from "node:fs";
 import sqlite3 from "sqlite3";
 import {error} from "@sveltejs/kit";
+import {building} from "$app/environment";
 
 // Grab all language pages.
 function LoadLanguagePages() {
@@ -69,9 +70,6 @@ export const handle: Handle = async ({event, resolve}) => {
             ) STRICT;
         `, check)
     }
-
-    console.log(event.request.headers)
-    event.locals.x_real_ip = event.request.headers.get('X-Real-IP') ?? event.getClientAddress()
 
     // Pass the request further down the chain.
     return resolve(event)

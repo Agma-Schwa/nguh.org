@@ -3,6 +3,8 @@ import type {PageServerLoad} from "./$types";
 import {error} from "@sveltejs/kit";
 import {CCC_FORM_ENABLED} from '$env/static/private';
 
+export const prerender = false;
+
 interface Vote {
     email: string,
     time_unix_ms: number,
@@ -20,13 +22,18 @@ function ConvertNull(s: FormDataEntryValue | null) {
     return s
 }
 
+function GetUserIP(req: Request): string {
+    console.log(req.headers)
+    const hdr = req.headers.get('X-Real-IP')
+    if (!hdr) throw error(500, "Invalid request header")
+    return hdr;
+}
+
 export const actions: Actions = {
     default: async(event) => {
         // Make sure the form is enabled.
         if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled")
-
-        // TESTING. DELETE LATER.
-        process.stdout.write("Request from: " + event.locals.x_real_ip + "\n");
+        const ip = GetUserIP(event.request)
 
         // Extract the vote.
         const data = await event.request.formData()
@@ -57,9 +64,9 @@ export const actions: Actions = {
                 top5 = excluded.top5,
                 top6 = excluded.top6;
         `, [
-            event.locals.x_real_ip, // ip
-            new Date().getTime(),   // time_unix_ms
-            ...votes                // top1–top6
+            ip,                   // ip
+            new Date().getTime(), // time_unix_ms
+            ...votes              // top1–top6
         ])
     }
 }
@@ -69,7 +76,7 @@ export const load: PageServerLoad = async (event) => {
     const vote: Vote = await new Promise(async (resolve) => {
         event.locals.db.get(
             'SELECT * FROM votes WHERE ip = ?;',
-            [event.locals.x_real_ip],
+            [GetUserIP(event.request)],
             (err: Error, row: Vote) => {
                 if (err) throw error(500, err)
                 resolve(row)

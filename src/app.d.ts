@@ -10,7 +10,6 @@ declare global {
             db: Database;
             language_pages: LanguagePage[];
             ccc_submissions: string[];
-            x_real_ip: string;
         }
         // interface PageData {}
         // interface Platform {}
