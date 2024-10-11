@@ -1,8 +1,7 @@
 import type {Actions} from "@sveltejs/kit";
 import type {PageServerLoad} from "./$types";
-import {error, redirect} from "@sveltejs/kit";
+import {error} from "@sveltejs/kit";
 import {CCC_FORM_ENABLED} from '$env/static/private';
-import * as fs from 'fs';
 
 interface Vote {
     email: string,
@@ -23,13 +22,11 @@ function ConvertNull(s: FormDataEntryValue | null) {
 
 export const actions: Actions = {
     default: async(event) => {
-        // Make sure the user is logged in.
-        const session = await event.locals.auth()
-        const email = session?.user?.email
-        if (!email) throw redirect(303, "/ccc/login")
-
         // Make sure the form is enabled.
         if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled")
+
+        // TESTING. DELETE LATER.
+        process.stdout.write("Request from: " + event.getClientAddress() + "\n");
 
         // Extract the vote.
         const data = await event.request.formData()
@@ -51,7 +48,7 @@ export const actions: Actions = {
         // Save it to the db.
         event.locals.db.run(`
             INSERT INTO votes VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT (email) DO UPDATE SET
+            ON CONFLICT (ip) DO UPDATE SET
                 time_unix_ms = excluded.time_unix_ms,
                 top1 = excluded.top1,
                 top2 = excluded.top2,
@@ -60,23 +57,19 @@ export const actions: Actions = {
                 top5 = excluded.top5,
                 top6 = excluded.top6;
         `, [
-            email,                  // email
-            new Date().getTime(),   // time_unix_ms
-            ...votes                // top1–top6
+            event.getClientAddress(), // ip
+            new Date().getTime(),     // time_unix_ms
+            ...votes                  // top1–top6
         ])
     }
 }
 
 export const load: PageServerLoad = async (event) => {
-    // Make sure the user is logged in.
-    const session = await event.locals.auth()
-    if (!session) throw redirect(307, "/ccc/login")
-
     // Get their previous vote.
     const vote: Vote = await new Promise(async (resolve) => {
         event.locals.db.get(
-            'SELECT * FROM votes WHERE email = ?;',
-            [session.user?.email],
+            'SELECT * FROM votes WHERE ip = ?;',
+            [event.getClientAddress()],
             (err: Error, row: Vote) => {
                 if (err) throw error(500, err)
                 resolve(row)
@@ -84,10 +77,7 @@ export const load: PageServerLoad = async (event) => {
         )
     })
 
-    // Grab the languages.
-    const langs = JSON.parse(fs.readFileSync('../static/ccc-langs.json').toString())
-
     // Check if the voting form is enabled.
     const enabled = CCC_FORM_ENABLED === "TRUE"
-    return { session, vote, enabled, langs }
+    return { vote, enabled, langs: event.locals.ccc_submissions }
 }

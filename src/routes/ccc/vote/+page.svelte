@@ -52,7 +52,6 @@
     }
 </style>
 
-{#if $page.data.session}
 <Page name="CCC Voting Form"/>
 <Stripe>Cursed Conlang Circus</Stripe>
 <section>
@@ -100,4 +99,3 @@
     </p>
     {/if}
 </section>
-{/if}

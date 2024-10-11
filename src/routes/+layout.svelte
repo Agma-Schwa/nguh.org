@@ -85,7 +85,7 @@
     </div>
 </div>
 
-<Header langs={data.langs} />
+<Header langs={data.language_pages} />
 <Banner />
 <h1>{$page_title === 'Agma Schwa' ? 'WELCOME!' : $page_title}</h1>
 <hr id="h1-underline" style="--h1-underline-length: {h1_underline_length}rem; --h1-underline-length-short: {h1_underline_length_short}rem;">
