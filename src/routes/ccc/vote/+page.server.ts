@@ -23,7 +23,6 @@ function ConvertNull(s: FormDataEntryValue | null) {
 }
 
 function GetUserIP(req: Request): string {
-    console.log(req.headers)
     const hdr = req.headers.get('X-Real-IP')
     if (!hdr) throw error(500, "Invalid request header")
     return hdr;
