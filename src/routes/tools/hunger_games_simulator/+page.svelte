@@ -12,7 +12,7 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
-<Ribbon><em>Last Updated: 25 September 2024</em></Ribbon>
+<Ribbon><em>Last Updated: 28 October 2024</em></Ribbon>
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->
