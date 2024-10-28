@@ -166,6 +166,14 @@ If specified in percent, this is relative to the total number of tributes, alive
 <template id="changelog-dialog-template">
     <div id="changelog">
         <div class="changelog-day">
+            <h4>28 October 2024</h4>
+            <ul>
+                <li>
+                    Added a format specifier, <code>%w</code>, for ‘was/were’.
+                </li>
+            </ul>
+        </div>
+        <div class="changelog-day">
             <h4>25 September 2024</h4>
             <ul>
                 <li>
@@ -392,7 +400,7 @@ If specified in percent, this is relative to the total number of tributes, alive
                 Thanks also to GitHub user @spaulmark for implementing the bulk-upload feature.
             </p>
             <p>
-                Last Update: 25 September 2024.
+                Last Update: 28 October 2024.
             </p>
             <button id="open-changelog">Changelog</button>
 

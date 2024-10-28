@@ -987,6 +987,7 @@ namespace UI {
     <li><code>i</code> = ‘is/are’; e.g. <code>%i2</code> = ‘are’ if the 3rd player is plural, and ‘is’ otherwise</li>
     <li><code>h</code> = ‘has/have’; e.g. <code>%h2</code> = ‘have’ if the 3rd player is plural, and ‘has’ otherwise</li>
     <li><code>!</code> = ‘isn't/aren't’; e.g. <code>%!2</code> = ‘aren’t’ if the 3rd player is plural, and ‘isn’t’ otherwise</li>
+    <li><code>w</code> = ‘was/were’; e.g. <code>%w2</code> = ‘were’ if the 3rd player is plural, and ‘was’ otherwise</li>
 </ul>`
 
         const dialog = Dialog.make<void>('Add Event', description, ['Add', 'Cancel'], 'add-events-dialog')
@@ -1155,7 +1156,8 @@ function ComposeEventMessage(event: GameEvent): string {
                 case 'i':
                 case 'h':
                 case 'e':
-                case '!': {
+                case '!':
+                case 'w': {
                     let c = m[i++];
                     if (isdigit(m[i])) {
                         let index = m[i].charCodeAt(0) - char_zero
@@ -1176,6 +1178,7 @@ function ComposeEventMessage(event: GameEvent): string {
                                 case 'i': text = tribute.plural ? 'are' : 'is'; break         // 3SG are    / is
                                 case 'h': text = tribute.plural ? 'have' : 'has'; break       // 3SG have   / has
                                 case '!': text = tribute.plural ? 'aren\'t' : 'isn\'t'; break // 3SG aren't / isn't
+                                case 'w': text = tribute.plural ? 'were' : 'was'; break       // 3SG were   / was
                                 default: continue
                             }
                             composed += text
