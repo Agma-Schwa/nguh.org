@@ -10,7 +10,7 @@
 
 <Stripe>A Sern-Cahilan conlang in the <em>Dog Days</em> Universe</Stripe>
 <section>
-    <YouTubeVideo src="https://www.youtube.com/embed/b_QQ6OG0mO0" />
+    <YouTubeVideo src="https://www.youtube.com/embed/OhEydnV7txA?si=ypVxo9rpnhTkTGyf" />
 </section>
 
 <Stripe>Introduction and Phonology</Stripe>
