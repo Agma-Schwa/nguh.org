@@ -12,6 +12,6 @@
 <Stripe>Summary</Stripe>
 <section>
     <p>
-        Portugoose is the language spoken by the Portugeese of Portgual, as documented by Ætérnal and Agma Schwa. 
+        Portugoose is the language spoken by the Portugeese of Portugal, as documented by Ætérnal and Agma Schwa.
     </p>
 </section>
