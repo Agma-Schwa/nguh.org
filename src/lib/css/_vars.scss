@@ -15,6 +15,7 @@ $banner-height: 20rem;
 $content-wrapper-padding-top: 1cm;
 $ipafont: CharisSIL, "Doulos SIL", "Times New Roman", serif;
 $code-font: FiraCode, "JetBrains Mono", "Source Code Pro", monospace;
+$text-size: 1.2rem;
 
 $video-width-16-to-9: 56.25%;
 
@@ -29,7 +30,7 @@ $video-width-16-to-9: 56.25%;
     --accentred: #{$accentred};
     --accentred-dark: #{$accentred-dark};
     --base-video-sz-unit: 3rem;
-    --text-size: 1.2rem;
+    --text-size: #{$text-size};
     --abs-text-size: 1.2em;
     --h-colour: #{$accentcolour};
     --bg-colour: white;
@@ -117,6 +118,76 @@ $video-width-16-to-9: 56.25%;
 @font-face {
     font-family: FiraCode;
     src: local('Fira Code'), local('Fira-Code'), url('$lib/fonts/FiraCode/FiraCode-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 300;
+    font-style: normal;
+    src: local('Open Sans Light'), local('Open-Sans-Light'), url('$lib/fonts/Open Sans/OpenSans-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 300;
+    font-style: italic;
+    src: local('Open Sans Light Italic'), local('Open-Sans-Light-Italic'), url('$lib/fonts/Open Sans/OpenSans-LightItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 400;
+    font-style: normal;
+    src: local('Open Sans'), local('Open-Sans'), url('$lib/fonts/Open Sans/OpenSans-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 400;
+    font-style: italic;
+    src: local('Open Sans Italic'), local('Open-Sans-Italic'), url('$lib/fonts/Open Sans/OpenSans-Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 600;
+    font-style: normal;
+    src: local('Open Sans SemiBold'), local('Open-Sans-SemiBold'), url('$lib/fonts/Open Sans/OpenSans-SemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 600;
+    font-style: italic;
+    src: local('Open Sans SemiBold Italic'), local('Open-Sans-SemiBold-Italic'), url('$lib/fonts/Open Sans/OpenSans-SemiBoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 700;
+    font-style: normal;
+    src: local('Open Sans Bold'), local('Open-Sans-Bold'), url('$lib/fonts/Open Sans/OpenSans-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 700;
+    font-style: italic;
+    src: local('Open Sans Bold Italic'), local('Open-Sans-Bold-Italic'), url('$lib/fonts/Open Sans/OpenSans-BoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 800;
+    font-style: normal;
+    src: local('Open Sans ExtraBold'), local('Open-Sans-ExtraBold'), url('$lib/fonts/Open Sans/OpenSans-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: 800;
+    font-style: italic;
+    src: local('Open Sans ExtraBold Italic'), local('Open-Sans-ExtraBold-Italic'), url('$lib/fonts/Open Sans/OpenSans-ExtraBoldItalic.woff') format('woff');
 }
 
 @mixin scrollbar {

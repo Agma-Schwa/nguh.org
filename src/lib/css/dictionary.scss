@@ -1,0 +1,29 @@
+$border: 1px solid black;
+$headword-size: 1.3rem;
+$line-height: $headword-size; // To prevent the line height from changing if a line contains a reference to a word.
+
+@mixin serif-font {
+    font-family: CharisSIL, serif;
+    font-size: var(--text-size);
+    line-height: $line-height;
+}
+
+@mixin sans-font {
+    font-family: OpenSans, sans-serif;
+    font-style: normal;
+    line-height: $line-height;
+}
+
+@mixin small-caps {
+    @include sans-font;
+    font-variant: small-caps;
+    font-size: 1.4rem;
+    color: var(--accentcolour);
+}
+
+@mixin word-format {
+    @include serif-font;
+    font-weight: bold;
+    font-style: normal;
+    color: var(--accentdarker);
+}

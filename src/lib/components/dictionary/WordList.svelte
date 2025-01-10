@@ -16,8 +16,14 @@
         </summary>
         <div class="entry-content">
             {#if entry.etym}
-                <p class="etym"><strong>Etymology: </strong> {@html entry.etym}</p>
+                <p class="etym"><strong class="strong-small">Etymology: </strong> {@html entry.etym}</p>
             {/if}
+            {#if entry.forms}
+                <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
+            {/if}
+            <!--{#if entry.etym || entry.forms}
+                <div class="separator"></div>
+            {/if}-->
             {#if entry.def}
                 <p>{@html entry.def}</p>
             {/if}
@@ -33,19 +39,34 @@
 {/each}
 
 <style lang="scss">
-    $border: 1px solid black;
+    @use "$lib/css/dictionary" as *;
+    @use "$lib/css/_vars" as vars;
 
     strong {
         color: var(--accentdarker);
+    }
+
+    em {
+        @include serif-font;
     }
 
     p {
         margin: 0;
     }
 
+    ol {
+        padding-inline-start: 1.5rem;
+    }
+
+    li {
+        margin-top: 0;
+    }
+
     details {
         border: $border;
         border-bottom-style: none;
+        @include sans-font;
+        line-height: 1.75rem;
 
         &[open] {
             .short-def { display: none; }
@@ -75,7 +96,11 @@
         min-width: 33%;
     }
 
-    .etym {
-        margin-bottom: .5rem;
+    .etym, .forms {
+        font-size: vars.$text-size - .1; // Make this smaller since it’s less important information.
+    }
+
+    .strong-small {
+        font-weight: 600;
     }
 </style>

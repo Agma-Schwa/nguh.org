@@ -74,34 +74,38 @@
     <div id="last"></div>
 </section>
 
-<style lang="scss">
-    $border: 1px solid black;
+<!--
+TODO:
+    - Improve search.
+    - Move italic comment after definition to a separate line and make it smaller (maybe indented)
+        -> Separate LaTeX macro.
+    - Actually show the examples.
+    - Separate out examples from primary definition.
+    - '+\s{' -> '\s{+'
+-->
 
-    @mixin word-font {
-        font-family: "Minion 3 Semibold", "Charis SIL", serif;
-        font-weight: bold;
-        font-size: 1.4rem;
-        line-height: 1.4rem;
-        font-style: normal;
-        color: var(--accentdarker);
+<style lang="scss">
+    @use '$lib/css/dictionary' as *;
+
+    :global(.uf-font) {
+        font-family: CharisSIL, serif;
     }
 
     :global(uf-w) {
-        @include word-font;
+        @include word-format;
+        font-size: $headword-size;
     }
 
     :global(uf-s) {
-        font-variant: small-caps;
-        color: var(--accentcolour);
+        @include small-caps;
     }
 
     :global(uf-pf) {
+        @include serif-font;
         font-style: italic;
         &::before {
             content: "pf ";
-            font-variant: small-caps;
-            font-style: normal;
-            color: var(--accentcolour);
+            @include small-caps
         }
     }
 
@@ -126,12 +130,13 @@
         #search-input { margin-right: 2rem; }
 
         input {
-            @include word-font;
+            @include word-format;
             height: 100%;
             border: $border;
         }
 
         select {
+            @include sans-font;
             font-size: 1.4rem;
             height: 100%;
             border: $border;
