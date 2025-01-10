@@ -113,11 +113,21 @@ h4 {
 }
 
 @media (max-width: 1250px) {
-    :root { --text-size: 1.1rem !important; }
+    :root {
+        --text-smaller: .9rem !important;
+        --text-small: 1rem !important;
+        --text-size: 1.1rem !important;
+        --text-large: 1.2rem !important;
+    }
 }
 
 @media (max-width: 900px) {
-    :root { --text-size: 1rem !important; }
+    :root {
+        --text-smaller: .8rem !important;
+        --text-small: .9rem !important;
+        --text-size: 1rem !important;
+        --text-large: 1.1rem !important;
+    }
 
     h2 {
         font-weight: bold;

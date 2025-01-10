@@ -15,7 +15,6 @@ $banner-height: 20rem;
 $content-wrapper-padding-top: 1cm;
 $ipafont: CharisSIL, "Doulos SIL", "Times New Roman", serif;
 $code-font: FiraCode, "JetBrains Mono", "Source Code Pro", monospace;
-$text-size: 1.2rem;
 
 $video-width-16-to-9: 56.25%;
 
@@ -30,7 +29,10 @@ $video-width-16-to-9: 56.25%;
     --accentred: #{$accentred};
     --accentred-dark: #{$accentred-dark};
     --base-video-sz-unit: 3rem;
-    --text-size: #{$text-size};
+    --text-large: 1.4rem;
+    --text-size: 1.2rem;
+    --text-small: 1.1rem;
+    --text-smaller: 1.0rem;
     --abs-text-size: 1.2em;
     --h-colour: #{$accentcolour};
     --bg-colour: white;

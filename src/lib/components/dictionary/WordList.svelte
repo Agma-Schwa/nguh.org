@@ -21,9 +21,6 @@
             {#if entry.forms}
                 <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
             {/if}
-            <!--{#if entry.etym || entry.forms}
-                <div class="separator"></div>
-            {/if}-->
             {#if entry.def}
                 <p>{@html entry.def}</p>
             {/if}
@@ -31,6 +28,13 @@
                 <ol>
                 {#each entry.senses as sense}
                     <li>{@html sense.def}</li>
+                    {#if sense.examples?.length}
+                        <ul class="uf-dict-examples">
+                        {#each sense.examples as example}
+                            <li>{@html example}</li>
+                        {/each}
+                        </ul>
+                    {/if}
                 {/each}
                 </ol>
             {/if}
@@ -59,6 +63,10 @@
         margin-bottom: 0;
     }
 
+    ul {
+        margin-bottom: 3pt;
+    }
+
     li {
         margin-top: 0;
     }
@@ -76,10 +84,6 @@
         &:not([open]) {
             cursor: pointer;
         }
-
-        /*& + details {
-            margin-top: 1rem;
-        }*/
     }
 
     summary {
@@ -98,7 +102,7 @@
     }
 
     .etym, .forms {
-        font-size: vars.$text-size - .1; // Make this smaller since it’s less important information.
+        font-size: var(--text-smaller); // Make this smaller since it’s less important information.
     }
 
     .strong-small {

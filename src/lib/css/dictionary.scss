@@ -1,23 +1,23 @@
 $border: 1px solid black;
-$headword-size: 1.3rem;
-$line-height: $headword-size; // To prevent the line height from changing if a line contains a reference to a word.
+/*$headword-size: 1.3rem;
+$line-height: $headword-size; // To prevent the line height from changing if a line contains a reference to a word.*/
 
 @mixin serif-font {
     font-family: CharisSIL, serif;
     font-size: var(--text-size);
-    line-height: $line-height;
+    line-height: var(--text-size);
 }
 
 @mixin sans-font {
     font-family: OpenSans, sans-serif;
     font-style: normal;
-    line-height: $line-height;
+    line-height: var(--text-size);
 }
 
 @mixin small-caps {
     @include sans-font;
-    font-variant: small-caps;
-    font-size: 1.4rem;
+    font-variant: all-small-caps;
+    font-size: var(--text-large);
     color: var(--accentcolour);
 }
 

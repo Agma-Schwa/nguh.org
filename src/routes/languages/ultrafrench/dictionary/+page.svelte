@@ -79,9 +79,8 @@ TODO:
     - Improve search.
     - Move italic comment after definition to a separate line and make it smaller (maybe indented)
         -> Separate LaTeX macro.
-    - Actually show the examples.
     - Separate out examples from primary definition.
-    - '+\s{' -> '\s{+'
+    - '+\s{' -> '\s{+'; generally, include surrounding punctuation in \s{}.
 -->
 
 <style lang="scss">
@@ -93,7 +92,6 @@ TODO:
 
     :global(uf-w) {
         @include word-format;
-        font-size: $headword-size;
     }
 
     :global(uf-s) {
@@ -137,7 +135,7 @@ TODO:
 
         select {
             @include sans-font;
-            font-size: 1.4rem;
+            font-size: var(--text-large);
             height: 100%;
             border: $border;
             background: none;
