@@ -56,6 +56,7 @@
 
     ol {
         padding-inline-start: 1.5rem;
+        margin-bottom: 0;
     }
 
     li {
