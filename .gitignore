@@ -15,6 +15,7 @@ vite.config.ts.timestamp-*
 # Static data that is not part of git.
 /static/ccc-langs.json
 /static/comic
+/static/DICTIONARY.json
 
 # Database.
 /www.db
