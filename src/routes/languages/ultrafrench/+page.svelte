@@ -15,4 +15,7 @@
         In <a href="/static/UF-GRAMMAR.pdf">this document</a>, one can find the comprehensive grammar of the ULTRAFRENCH language, ‘ULTRAFRENCH’ being
         the colloquial term for the language truly being spoken in the land known by some as ‘France’.
     </p>
+    <p>
+        The interactive UF dictionary can be found <a href="/languages/ultrafrench/dictionary">here</a>.
+    </p>
 </section>
