@@ -7,7 +7,7 @@ export interface FullEntry {
     word: string,
     pos: string,
     etym?: string,
-    def?: string,
+    def?: Sense,
     forms?: string,
     senses?: Sense[],
     "def-search": string,

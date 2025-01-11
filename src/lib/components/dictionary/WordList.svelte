@@ -12,7 +12,7 @@
     <details>
         <summary>
             <span class="headword"><uf-w>{@html entry.word}</uf-w> <em>{@html entry.pos}</em></span>
-            <span class="short-def">{@html Truncate(entry.def ?? `1. ${entry?.senses[0].def}`)}</span>
+            <span class="short-def">{@html Truncate(entry?.def?.def ?? `1. ${entry?.senses?.[0].def}`)}</span>
         </summary>
         <div class="entry-content">
             {#if entry.etym}
@@ -22,7 +22,14 @@
                 <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
             {/if}
             {#if entry.def}
-                <p>{@html entry.def}</p>
+                <p>{@html entry.def.def}</p>
+                {#if entry.def.examples}
+                    <ul class="uf-dict-examples">
+                        {#each entry.def.examples as example}
+                            <li>{@html example}</li>
+                        {/each}
+                    </ul>
+                {/if}
             {/if}
             {#if entry?.senses?.length}
                 <ol>

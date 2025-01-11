@@ -7,7 +7,7 @@
     import Fuse from "fuse.js";
     import type {FullEntry} from "$lib/js/dictionary";
 
-    const enum SearchMode {
+    enum SearchMode {
         Headword = "Headword",
         Definition = "Definition",
     }
@@ -80,7 +80,10 @@ TODO:
     - Move italic comment after definition to a separate line and make it smaller (maybe indented)
         -> Separate LaTeX macro.
     - Separate out examples from primary definition.
-    - '+\s{' -> '\s{+'; generally, include surrounding punctuation in \s{}.
+    - ~~'+\s{' -> '\s{+'; generally, include surrounding punctuation in \s{}.~~ Actually, scratch that,
+      it’s more readable if the + is black.
+    - Decrease font size for small caps by 1 at the default zoom level (i.e. no media query)?
+    - Fix the double full stops everywhere.
 -->
 
 <style lang="scss">
