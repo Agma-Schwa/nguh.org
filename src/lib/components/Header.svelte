@@ -5,7 +5,11 @@
     import {onMount} from "svelte";
     import {browser} from "$app/environment";
 
-    export let langs: LanguagePage[]
+    interface Props {
+        langs: LanguagePage[];
+    }
+
+    let { langs }: Props = $props();
 
     function InitHeader() {
         let nav = document.getElementsByTagName('header')[0]
@@ -51,7 +55,7 @@
     let collapse_into_other: HTMLElement[]
     let navright: HTMLElement
     let hamburger_container: HTMLElement
-    let other_toggled = false
+    let other_toggled = $state(false)
 
     function __ReloadOther() {
         /// Collect relevant elements.
@@ -178,7 +182,7 @@
     afterNavigate(UpdateActiveHeader)
 </script>
 
-<svelte:window on:click={HandleClickOnWindow} />
+<svelte:window onclick={HandleClickOnWindow} />
 
 <header>
     <div class="flex-row">
@@ -186,7 +190,7 @@
             <img src="$lib/images/agma_logo.png" alt="agma_logo" class="non-previewable-icon">
             <span id="page-index-text">AGMA SCHWA</span>
         </a>
-        <div id="hamburger-container" on:click={ToggleHamburger}>
+        <div id="hamburger-container" onclick={ToggleHamburger}>
             <svg width="1.5em" height="1.2em" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  id="hamburger">
                 <rect width="1.5em" height=".2em"/>
@@ -209,8 +213,8 @@
         <a href="/merch" id="page_merch">Merch</a>
         <div id="other-collapsable">
             <div class="other-drop-down"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}>
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}>
                 <a href="/tools" id="page_tools">Tools</a>
                 <div class="other-drop-down-content drop-down-content-centre">
                     <a data-sveltekit-reload href="/tools/hunger_games_simulator" class="child-element"
@@ -221,20 +225,20 @@
             </div>
 
             <a href="/gambian_holiday" id="page_gambian_holiday"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}
             >Gambian Holiday Wiki</a>
 
             <a href="/support-us" id="page_support-us"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}
             >Support Us</a>
         </div>
         <div
             id="page_other"
-            on:mouseenter={EnterOther}
-            on:mouseleave={LeaveOther}
-            on:click={() => other_toggled = !other_toggled}
+            onmouseenter={EnterOther}
+            onmouseleave={LeaveOther}
+            onclick={() => other_toggled = !other_toggled}
         >Other</div>
     </nav>
 </header>

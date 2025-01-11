@@ -1,5 +1,9 @@
 <script lang="ts">
-    export let src: string
+    interface Props {
+        src: string;
+    }
+
+    let { src }: Props = $props();
 </script>
 
 <div class="iframe-wrapper yt-video-container mgb1rem">

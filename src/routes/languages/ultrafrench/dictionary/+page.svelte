@@ -40,8 +40,8 @@
     }
 
     // Search input.
-    let search_value: string = ''
-    let search_mode: string = SearchMode.Headword
+    let search_value: string = $state('')
+    let search_mode: string = $state(SearchMode.Headword)
 
     // Create the fuses.
     let fuses = new Map<string, Fuse<FullEntry>>()
@@ -51,9 +51,9 @@
     })
 
     // Headword search.
-    $: entries = search_value.length === 0 ?
+    let entries = $derived(search_value.length === 0 ?
         $page.data.dict.entries :
-        fuses.get(search_mode).search(NormaliseForSearch(search_value)).map(r => r.item)
+        fuses.get(search_mode).search(NormaliseForSearch(search_value)).map(r => r.item))
 </script>
 
 <Page name="ULTRAFRENCH Dictionary" />

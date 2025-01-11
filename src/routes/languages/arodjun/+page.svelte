@@ -491,7 +491,7 @@
 
     <div class="tab-wrapper">
         <div class="tab">
-            <button class="tab-button" id="button_arodjun_docs" on:click={() => OpenTab('arodjun_docs')}>
+            <button class="tab-button" id="button_arodjun_docs" onclick={() => OpenTab('arodjun_docs')}>
                 Documentation
             </button>
         </div>

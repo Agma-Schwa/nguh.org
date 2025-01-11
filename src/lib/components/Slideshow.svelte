@@ -1,9 +1,13 @@
 <script lang="ts">
     import {onMount, onDestroy} from "svelte";
 
-    export let slides: string[]
+    interface Props {
+        slides: string[];
+    }
 
-    let slideshow: HTMLDivElement
+    let { slides }: Props = $props();
+
+    let slideshow: HTMLDivElement = $state()
     let active: number
     let timestamp_last_switched: number
     let update_interval_handle = undefined
@@ -79,7 +83,7 @@
 
 <div class="slideshow" bind:this={slideshow}>
     <div class="slideshow-slides">
-        <div class="before" on:click={PreviousSlide} aria-hidden=true>❮</div>
+        <div class="before" onclick={PreviousSlide} aria-hidden=true>❮</div>
         {#each slides as slide, i}
             {#if i === 0}
                 <img class="active" src={slide} alt="Slide {i}">
@@ -87,14 +91,14 @@
                 <img src={slide} alt="Slide {i}">
             {/if}
         {/each}
-        <div class="after" on:click={NextSlide} aria-hidden=true>❯</div>
+        <div class="after" onclick={NextSlide} aria-hidden=true>❯</div>
     </div>
     <div class="slideshow-navbar">
         {#each slides as _, i}
             {#if i === 0}
-                <div class="active" on:click={() => JumpToSlide(i)} aria-hidden=true></div>
+                <div class="active" onclick={() => JumpToSlide(i)} aria-hidden=true></div>
             {:else}
-                <div on:click={() => JumpToSlide(i)} aria-hidden=true></div>
+                <div onclick={() => JumpToSlide(i)} aria-hidden=true></div>
             {/if}
         {/each}
     </div>

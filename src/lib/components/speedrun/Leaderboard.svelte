@@ -1,7 +1,11 @@
 <script lang="ts">
-    export let image: string;
-    export let name: string;
-    export let scores: [string, string][];
+    interface Props {
+        image: string;
+        name: string;
+        scores: [string, string][];
+    }
+
+    let { image, name, scores }: Props = $props();
 </script>
 
 <style lang="scss">

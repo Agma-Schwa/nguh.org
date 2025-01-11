@@ -1,8 +1,19 @@
 <script lang="ts">
-    export let name: string;
-    export let info: object;
-    export let image: string
-    export let rule_after: boolean = true;
+    interface Props {
+        name: string;
+        info: object;
+        image: string;
+        rule_after?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        name,
+        info,
+        image,
+        rule_after = true,
+        children
+    }: Props = $props();
 </script>
 
 <div class="character">
@@ -15,7 +26,7 @@
                 {key}: {value}
             {/each}
         </p>
-         <slot />
+         {@render children?.()}
     </div>
 </div>
 
