@@ -1,22 +1,28 @@
+<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
 <script lang="ts">
     import Header from '$lib/components/Header.svelte';
     import Banner from "$lib/components/Banner.svelte";
     import '$lib/css/style.scss';
     import '$lib/css/banner.scss';
-    import {afterUpdate, onDestroy, onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
 
     import { page_title } from "$lib/page_title";
     import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
 
-    let image_preview: ImagePreview
-    let image_preview_container: HTMLElement
+    let image_preview: ImagePreview = $state()
+    let image_preview_container: HTMLElement = $state()
 
     interface ImagePreview extends HTMLElement {
         cloned_preview?: Node
     }
 
-    export let data: LayoutData
+    interface Props {
+        data: LayoutData;
+        children?: import('svelte').Snippet;
+    }
+
+    let { data, children }: Props = $props();
 
     function OpenImagePreview() {
         let instance = this
@@ -54,22 +60,22 @@
                 img.addEventListener('click', OpenImagePreview)
     }
 
-    $: h1_underline_length = function () {
+    let h1_underline_length = $derived(function () {
         let len = Math.floor($page_title?.length * 1.5)
         return isFinite(len) ? len : 2
-    } ()
+    } ())
 
-    $: h1_underline_length_short = function() {
+    let h1_underline_length_short = $derived(function() {
         let len = Math.floor(($page_title?.length * 1.5) / 1.75)
         return isFinite(len) ? len : 2
-    } ()
+    } ())
 
     onMount(() => {
         // @ts-ignore
         window.SetOpenImagePreview = SetOpenImagePreview
     })
 
-    afterUpdate(() => {
+    $effect(() => {
         image_preview.onclick = CloseImagePreview
         SetOpenImagePreview()
     })
@@ -92,7 +98,7 @@
 
 <div id="content-wrapper">
     <main id="content">
-        <slot />
+        {@render children?.()}
         <footer>
             <hr id="footer-rule">
             For more information, see the YouTube channel

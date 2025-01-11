@@ -3,8 +3,12 @@
     import {browser} from "$app/environment";
     import {onDestroy, onMount} from "svelte";
 
-    export let image: string;
-    export let transparent = false;
+    interface Props {
+        image: string;
+        transparent?: boolean;
+    }
+
+    let { image, transparent = false }: Props = $props();
 
     function SetBackdrop() {
         /// @ts-ignore
