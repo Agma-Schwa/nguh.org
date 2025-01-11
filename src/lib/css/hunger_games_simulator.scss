@@ -43,38 +43,6 @@ h3, h4, h5 { color: $accentlight; }
 
 #game { display: none; }
 
-#character-selects {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2rem;
-
-    margin-top: 4rem;
-
-    img { justify-content: center; }
-
-    div {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-
-        * { align-items: revert; }
-    }
-}
-
-form.game-character {
-    input { padding: 0; }
-
-    select, option, input {
-        width: 15rem;
-        border: none;
-    }
-
-    label {
-        margin-right: 1rem;
-        width: 6rem;
-    }
-}
 
 .name-and-pronouns {
     gap: .75rem;

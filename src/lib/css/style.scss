@@ -1,5 +1,8 @@
 @use "sass:meta";
 @use 'vars' as *;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
     margin-block-start: 0;
