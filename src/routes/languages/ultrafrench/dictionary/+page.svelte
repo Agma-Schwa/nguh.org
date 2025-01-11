@@ -83,6 +83,8 @@ TODO:
     - Decrease font size for small caps by 1 at the default zoom level (i.e. no media query)?
     - 'archaic' -> '(archaic)' everywhere in the definition field only. ‘archaic’ is not a part of speech
       so it should never be in the POS field.
+
+    - Actually address all the warnings and depenency bot issues.
 -->
 
 <style lang="scss">

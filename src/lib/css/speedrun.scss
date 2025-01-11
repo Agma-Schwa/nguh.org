@@ -1,4 +1,4 @@
-@use '_vars' as *;
+@use 'vars' as *;
 
 @each $num, $content in (
     '12': '1,2. ',

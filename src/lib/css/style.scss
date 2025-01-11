@@ -1,4 +1,5 @@
-@import 'vars';
+@use "sass:meta";
+@use 'vars' as *;
 
 * {
     margin-block-start: 0;
@@ -94,10 +95,10 @@ main {
     }
 }
 
-@import 'text';
-@import 'content';
-@import 'components';
-@import 'utils';
+@include meta.load-css('text');
+@include meta.load-css('content');
+@include meta.load-css('components');
+@include meta.load-css('utils');
 
 input[type=submit] {
     border: 1px solid $accentcolour;
