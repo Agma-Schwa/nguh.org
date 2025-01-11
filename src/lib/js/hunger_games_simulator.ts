@@ -1254,7 +1254,6 @@ interface EventsShadowRoot extends ShadowRoot {
 /// ====================================================================== ///
 ///  Game                                                                  ///
 /// ====================================================================== ///
-
 /** The state of the game. This corresponds loosely to the screen being displayed. */
 enum GameState {
     DEAD,

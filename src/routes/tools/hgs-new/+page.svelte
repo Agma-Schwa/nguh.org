@@ -1,50 +1,181 @@
 <script lang="ts">
-    import '$lib/css/hunger_games_simulator.scss'
-    import {onMount} from "svelte";
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Ribbon from "$lib/components/Ribbon.svelte";
-    import {Dialog, FileType} from "$lib/js/dialog";
+import '$lib/css/hunger_games_simulator.scss'
+import Page from "$lib/components/Page.svelte";
+import Stripe from "$lib/components/Stripe.svelte";
+import Ribbon from "$lib/components/Ribbon.svelte";
+import {Dialog, FileType} from "$lib/js/dialog";
 
-    enum PronounSetting {
-        Masculine = "m",
-        Feminine = "f",
-        Common = "c",
-        None = "n",
-        Custom = "other",
+// ====================================================================== //
+//  Tags                                                                  //
+// ====================================================================== //
+class Tag {
+    static __next_id = 0
+
+    /** All known tags. The id of a tag is an index into this array. */
+    static registered_tags: Tag[] = []
+
+    /** Index of the tag in the tag list. */
+    readonly id: number
+
+    /** The actual name of the tag. */
+    __name: string
+    get name(): string { return this.__name }
+    set name(name: string) {
+        for (const {__name} of Tag.registered_tags)
+            if (name == __name)
+                throw Error(`A tag with the name ${name} already exists`)
+        this.__name = name
     }
 
-    interface TributeOptions {
-        name: string
-        custom_pronouns?: string
-        pronoun_option: PronounSetting
-        image_url?: string
+    /** Creates a new tag. You probably want to use Tag.for() instead. */
+    constructor(name: string) {
+        this.id = Tag.__next_id++
+        this.__name = name
+        Tag.registered_tags.push(this)
     }
 
-    /** Prompt the user for an image src to use for an <img>. */
-    function GetImage(tribute: TributeOptions) {
-        Dialog.file('Select an image', {
-            preserve_extern_urls: true,
-            description: '<p>You can input a local file or a public url.</p><p>The image can be in any format your browser supports.</p>',
-            type: FileType.RAW
-        }).and(res => { tribute.image_url = res.url })
+    /** Check if this tag is the same as another tag. */
+    __equal(b: Tag) { return this.id == b.id }
+
+    /**
+     * When serialised, a tag be represented by its name only.
+     * The tags themselves are stored separately.
+     */
+    toJSON() { return this.__name }
+
+    /** Check if two tags are equal. */
+    static equal(a: Tag | null | undefined, b: Tag | null | undefined) {
+        if (!(a instanceof Tag) || !(b instanceof Tag)) return false
+        if (!is(a, b.constructor)) return false
+        return a.__equal(b)
     }
 
-    // Tributes that are currently in the character selector.
-    let tributes: TributeOptions[] = $state([
-        {
-            name: "Player 1",
-            pronoun_option: PronounSetting.Masculine,
-        },
-        {
-            name: "Player 2",
-            pronoun_option: PronounSetting.Feminine,
-        },
-        {
-            name: "Player 3",
-            pronoun_option: PronounSetting.Custom,
-        },
-    ]);
+    /** Create a named tag for a given string. */
+    static for(name: string): Tag { return Tag.registered_tags.find(t => t.name == name) ?? new Tag(name) }
+
+    /** Dump all tags as JSON */
+    static toJSON() { return this.registered_tags }
+}
+
+// ====================================================================== //
+//  Tributes                                                              //
+// ====================================================================== //
+const enum PronounSetting {
+    Masculine = "m",
+    Feminine = "f",
+    Common = "c",
+    None = "n",
+    Custom = "other",
+}
+
+/** Tribute data on the character select screen.. */
+interface TributeCharacterSelectOptions {
+    name: string
+    custom_pronouns?: string
+    pronoun_option: PronounSetting
+    image_url?: string
+}
+
+/** The options passed to the `Tribute` constructor. */
+interface TributeOptions {
+    uses_pronouns: boolean
+    pronouns: TributePronouns
+    plural: boolean
+    image: string
+    tags?: Tag[]
+}
+
+/** The N/A/G/R pronouns used by a tribute. */
+interface TributePronouns {
+    nominative?: string
+    accusative?: string
+    genitive?: string
+    reflexive?: string
+}
+
+/** A tribute in game or on the character selection screen. */
+class Tribute {
+    raw_name: string
+    pronouns: TributePronouns
+    uses_pronouns: boolean
+    image_src: string
+    plural: boolean
+    kills: number
+    died_in_round: number
+    __tags: Tag[]
+
+    constructor(name: string, options: TributeOptions) {
+        this.raw_name = name
+        this.pronouns = {}
+        this.uses_pronouns = options.uses_pronouns ?? true
+        if (this.uses_pronouns) this.pronouns = {...options.pronouns}
+        this.image_src = options.image ?? ''
+        this.plural = options.plural ?? false
+        this.kills = 0
+        this.died_in_round = 0
+        this.__tags = []
+        if (options.tags) this.__tags.push(...options.tags)
+    }
+
+    /** Check whether this tribute has a given tag. */
+    has(t: Tag): boolean {
+        for (const tag of this.__tags)
+            if (Tag.equal(tag, t))
+                return true
+        return false
+    }
+
+    get name() { return `<span class="tribute-name">${this.raw_name}</span>` }
+    get image() { return `<img class="tribute-image" alt="${this.raw_name}" src="${this.image_src}"></img>` }
+
+    /** Add a tag to this tribute. */
+    tag(t: Tag): void { if (!this.has(t)) this.__tags.push(t) }
+}
+
+// ====================================================================== //
+//  Game                                                                  //
+// ====================================================================== //
+class Game {
+
+}
+
+/** Create a new game. */
+function CreateGame() {
+    game = new Game()
+}
+
+/** Prompt the user for an image src to use for an <img>. */
+function GetImage(tribute: TributeCharacterSelectOptions) {
+    Dialog.file('Select an image', {
+        preserve_extern_urls: true,
+        description: '<p>You can input a local file or a public url.</p><p>The image can be in any format your browser supports.</p>',
+        type: FileType.RAW
+    }).and(res => { tribute.image_url = res.url })
+}
+
+// The current game state.
+let game: Game | null = $state(null)
+
+// Remaining state for an ongoing game; this is all grouped together
+// to ensure that games don’t influence each other. The only reason the
+// game state is separate is because there is also a ‘game state’ for
+// rendering the character selection UI.
+
+// Tributes that are currently in the character selector.
+let tributes: TributeCharacterSelectOptions[] = $state([
+    {
+        name: "Player 1",
+        pronoun_option: PronounSetting.Masculine,
+    },
+    {
+        name: "Player 2",
+        pronoun_option: PronounSetting.Feminine,
+    },
+    {
+        name: "Player 3",
+        pronoun_option: PronounSetting.Custom,
+    },
+]);
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
@@ -118,6 +249,7 @@
     <button class="mt-4">Changelog</button>
 </section>
 
+{#if game === null}
 <Stripe>Choose your characters</Stripe>
 <section>
     <div class="mb-4"><p>Current Players: {tributes.length}</p></div>
@@ -213,7 +345,11 @@
             ></button>
         </div>
     </div>
+    <div class="flex justify-center mt-8">
+        <button onclick={CreateGame}>Start Game</button>
+    </div>
 </section>
+{/if}
 
 <style lang="scss">
     .game-character {
