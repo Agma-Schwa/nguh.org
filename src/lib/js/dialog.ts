@@ -1,4 +1,5 @@
 import { FormatError } from "./trace.js";
+import {browser} from "$app/environment";
 
 /// ====================================================================== ///
 ///  Utils                                                                 ///
@@ -170,7 +171,8 @@ export class Dialog<T = any> {
     static readonly open_dialogs: Dialog[] = []
 
     /// The close button in the title bar.
-    static readonly close_button_template = new DOMParser().parseFromString(`<div class="dialog-close-button" title="Close">
+    // @ts-ignore
+    static readonly close_button_template = !browser ? null :  new DOMParser().parseFromString(`<div class="dialog-close-button" title="Close">
         <svg class="close-button-icon" width="1cm" height="1cm" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <path d="M 40 38 L 62 60 L 60 62 L 38 40"/>
             <path d="M 60 38 L 38 60 L 40 62 L 62 40"/>
@@ -654,21 +656,23 @@ function MakeDraggable(container, header) {
 }
 
 /// Make sure we don't lose the dialogs when the window is resized.
-let oldsize = [window.innerWidth, window.innerHeight]
-window.addEventListener('resize', () => {
-    if (window.innerWidth < oldsize[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
-    if (window.innerHeight < oldsize[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
-    oldsize = [window.innerWidth, window.innerHeight]
-})
+if (browser) {
+    let oldsize = [window.innerWidth, window.innerHeight]
+    window.addEventListener('resize', () => {
+        if (window.innerWidth < oldsize[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
+        if (window.innerHeight < oldsize[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
+        oldsize = [window.innerWidth, window.innerHeight]
+    })
 
-/// Make sure the dialogs stay on the page when we scroll.
-let oldscroll = [window.scrollX, window.scrollY]
-window.addEventListener('scroll', e => {
-    if (window.scrollX != oldscroll[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
-    if (window.scrollY != oldscroll[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
-    oldscroll = [window.scrollX, window.scrollY]
-})
+    /// Make sure the dialogs stay on the page when we scroll.
+    let oldscroll = [window.scrollX, window.scrollY]
+    window.addEventListener('scroll', e => {
+        if (window.scrollX != oldscroll[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
+        if (window.scrollY != oldscroll[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
+        oldscroll = [window.scrollX, window.scrollY]
+    })
 
-/// Intercept ESCAPE to prevent it from closing the dialog in an invalid way.
-window.addEventListener('keydown', e => { if (e.code === 'Escape') e.preventDefault() })
-window.addEventListener('keyup', e => { if (e.code === 'Escape') Dialog.DismissTopmost() })
+    /// Intercept ESCAPE to prevent it from closing the dialog in an invalid way.
+    window.addEventListener('keydown', e => { if (e.code === 'Escape') e.preventDefault() })
+    window.addEventListener('keyup', e => { if (e.code === 'Escape') Dialog.DismissTopmost() })
+}

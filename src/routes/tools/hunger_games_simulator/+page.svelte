@@ -19,12 +19,6 @@
     <meta name="keywords" content="hunger games simulator hungergame hungergames hungergamessimulator humger-games simulator hunger-games-simulator">
 </svelte:head>
 
-<Stripe>Maintenance</Stripe>
-<section>
-    The Hunger Games Simulator is currently being migrated to Svelte 5; this may take a few days.
-</section>
-
-<!--
 <template id="game-character-setup-template">
     <form class="game-character">
         <div class="name-and-pronouns flex-column">
@@ -156,7 +150,7 @@
         <p style="max-width: 50ch;">Mouse over the names of settings (e.g. ‘Deaths per Round’) for a more detailed description.</p>
         <button id="edit-events" onclick="Game.UI.OpenEventsDialog()">Edit Events</button>
         <fieldset>
-            &lt;!&ndash; Do NOT indent the second line here as that will indent the text in the tooltip. &ndash;&gt;
+            <!-- Do NOT indent the second line here as that will indent the text in the tooltip. -->
             <legend><abbr title="The Simulator will try to make sure that this many tributes die each round.
 If specified in percent, this is relative to the total number of tributes, alive or dead.">Deaths per Round</abbr></legend>
             <select id="settings-dialog-fatalities-mode">
@@ -410,12 +404,12 @@ If specified in percent, this is relative to the total number of tributes, alive
             </p>
             <button id="open-changelog">Changelog</button>
 
-            &lt;!&ndash;
+            <!--
             <h3>New Features</h3>
             <p>
                 [INSERT ANNOUNCEMENT TEXT HERE]
             </p>
-            &ndash;&gt;
+            -->
 
         </section>
         <Stripe>Choose your characters</Stripe>
@@ -442,4 +436,4 @@ If specified in percent, this is relative to the total number of tributes, alive
             </div>
         </section>
     </div>
-</div>-->
+</div>

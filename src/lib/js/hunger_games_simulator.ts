@@ -258,15 +258,6 @@ function FinishAddingCharacter() {
     RegisterEventListeners()
 }
 
-/** Prompt the user for an image src to use for an <img>. */
-function GetImage(img: HTMLImageElement) {
-    Dialog.file('Select an image', {
-        preserve_extern_urls: true,
-        description: '<p>You can input a local file or a public url.</p><p>The image can be in any format your browser supports.</p>',
-        type: FileType.RAW
-    }).and(res => img.src = res.url)
-}
-
 /** Remove the add character button and update the player count. */
 function PrepareAddingCharacter() {
     /// Remove the button and update the player count.
@@ -768,7 +759,6 @@ class Tag {
 /// ====================================================================== ///
 ///  Tributes                                                              ///
 /// ====================================================================== ///
-
 /** The N/A/G/R pronouns used by a tribute. */
 interface TributePronouns {
     nominative?: string
@@ -2287,6 +2277,7 @@ Configuration.default_config = {
 /// ====================================================================== ///
 ///  Initialisation                                                        ///
 /// ====================================================================== ///
+/*
 async function __Init() {
     try {
         const setup = localStorage.getItem(`setup`)
@@ -2315,3 +2306,4 @@ if (document.readyState === 'complete') {
 /// We need to be able to use the `Game` class outside this script.
 /// @ts-ignore
 window.Game = Game
+*/
