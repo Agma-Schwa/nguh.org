@@ -23,6 +23,9 @@
             {/if}
             {#if entry.def}
                 <p>{@html entry.def.def}</p>
+                {#if entry.def.comment}
+                    <p><em class="comment">{@html entry.def.comment}</em></p>
+                {/if}
                 {#if entry.def.examples}
                     <ul class="uf-dict-examples">
                         {#each entry.def.examples as example}
@@ -34,7 +37,12 @@
             {#if entry?.senses?.length}
                 <ol>
                 {#each entry.senses as sense}
-                    <li>{@html sense.def}</li>
+                    <li>
+                        <p>{@html sense.def}</p>
+                        {#if sense.comment}
+                            <p><em class="comment">{@html sense.comment}</em></p>
+                        {/if}
+                    </li>
                     {#if sense.examples?.length}
                         <ul class="uf-dict-examples">
                         {#each sense.examples as example}
@@ -57,7 +65,7 @@
         color: var(--accentdarker);
     }
 
-    em {
+    em:not(.comment) {
         @include serif-font;
     }
 
@@ -109,7 +117,7 @@
     }
 
     .etym, .forms {
-        font-size: var(--text-smaller); // Make this smaller since it’s less important information.
+        font-size: var(--text-small); // Make this smaller since it’s less important information.
     }
 
     .strong-small {

@@ -1,5 +1,6 @@
 export interface Sense {
     def: string,
+    comment?: string,
     examples?: string[]
 }
 

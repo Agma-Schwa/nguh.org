@@ -70,6 +70,7 @@
             {/each}
         </select>
     </div>
+    <p>Click on the first line of an entry to expand or collapse it.</p>
     <WordList entries={entries} />
     <div id="last"></div>
 </section>
@@ -77,13 +78,11 @@
 <!--
 TODO:
     - Improve search.
-    - Move italic comment after definition to a separate line and make it smaller (maybe indented)
-        -> Separate LaTeX macro.
-    - Separate out examples from primary definition.
     - ~~'+\s{' -> '\s{+'; generally, include surrounding punctuation in \s{}.~~ Actually, scratch that,
       it’s more readable if the + is black.
     - Decrease font size for small caps by 1 at the default zoom level (i.e. no media query)?
-    - Fix the double full stops everywhere.
+    - 'archaic' -> '(archaic)' everywhere in the definition field only. ‘archaic’ is not a part of speech
+      so it should never be in the POS field.
 -->
 
 <style lang="scss">
