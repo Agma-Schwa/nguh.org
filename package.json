@@ -25,7 +25,7 @@
 		"prettier-plugin-svelte": "^3.2.6",
 		"sass": "^1.64.1",
 		"svelte": "^5.0.0",
-		"svelte-body": "^1.4.0",
+		"svelte-body": "^2.0.0",
 		"svelte-check": "^4.0.0",
 		"svelte-preprocess-import-assets": "^1.0.1",
 		"tailwindcss": "^3.3.3",
