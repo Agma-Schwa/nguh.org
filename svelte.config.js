@@ -8,7 +8,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [
 		importAssets(),
-		vitePreprocess(),
+		vitePreprocess({ script: true }),
 	],
 
 	kit: {
