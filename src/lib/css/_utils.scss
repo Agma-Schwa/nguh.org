@@ -1,3 +1,5 @@
+@use "vars" as *;
+
 @mixin tlbr($class-name, $property, $value) {
     @each $name, $direction in (
         't': 'top',

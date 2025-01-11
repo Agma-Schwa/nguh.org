@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "vars" as *;
+
 @use 'sass:math';
 
 table:not(.table-no-style):not(.stack-trace) {
@@ -148,8 +151,8 @@ img:hover { cursor: pointer; }
 }
 
 $bg-colour: #2D2A2E;
-$bg-darker: darken($bg-colour, 10%);
-$bg-accent: lighten($bg-colour, 10%);
+$bg-darker: color.adjust($bg-colour, $lightness: -10%);
+$bg-accent: color.adjust($bg-colour, $lightness: 10%);
 $fg-colour: #FCFCFA;
 $border: 1px solid var(--bg-border);
 

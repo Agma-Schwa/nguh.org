@@ -1,12 +1,13 @@
+@use "sass:color";
 $accentcolour: #857251;
-$accentmedium: #{lighten($accentcolour, 10)};
+$accentmedium: #{color.adjust($accentcolour, $lightness: 10%)};
 $accentlight: rgba(206, 169, 100, 1);
-$accentlighter: #{lighten($accentlight, 20)};
-$accentdarker: #{darken($accentcolour, 20)};
+$accentlighter: #{color.adjust($accentlight, $lightness: 20%)};
+$accentdarker: #{color.adjust($accentcolour, $lightness: -20%)};
 $accentblack: #1e1e1e;
 $accentred: #9d2c2c;
-$accentred-dark: #{darken($accentred, 30)};
-$accentlightblack: #{lighten($accentblack, 20)};
+$accentred-dark: #{color.adjust($accentred, $lightness: -30%)};
+$accentlightblack: #{color.adjust($accentblack, $lightness: 20%)};
 $accentcolour-gradient: linear-gradient(rgba(206, 169, 100, 0), rgba(206, 169, 100, 1), rgba(206, 169, 100, 0));
 
 $navbar-height: 4rem;
@@ -21,9 +22,9 @@ $video-width-16-to-9: 56.25%;
 :root {
     --accentcolour: #{$accentcolour};
     --accentlight: rgba(206, 169, 100, 1);
-    --accentlighter: #{lighten($accentlight, 20)};
+    --accentlighter: #{color.adjust($accentlight, $lightness: 20%)};
     --accentblack: #{$accentblack};
-    --accentdarker: #{darken($accentcolour, 20)};
+    --accentdarker: #{color.adjust($accentcolour, $lightness: -20%)};
     --accentcolour-gradient: linear-gradient(rgba(206, 169, 100, 0), rgba(206, 169, 100, 1), rgba(206, 169, 100, 0));
     --accentmedium: #{$accentmedium};
     --accentred: #{$accentred};
