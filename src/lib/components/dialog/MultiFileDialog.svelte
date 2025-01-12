@@ -5,8 +5,7 @@
 
     let the_dialog: Dialog
     let input: HTMLInputElement
-    let file_or_url = $state('')
-    let uploaded_file_data: File | undefined = $state(undefined)
+    let uploaded_files: File[] = $state([])
     let error: Error | string = $state('')
     let error_dialog: ErrorDialog
 
@@ -24,16 +23,15 @@
         preserve_extern_urls = false,
     }: Props = $props()
 
-    export function open(): Promise<FileDialogResult> {
-        file_or_url = ''
-        uploaded_file_data = undefined
+    export function open(): Promise<FileDialogResult[]> {
+        uploaded_files = []
         return the_dialog.open()
     }
 
     async function Accept() {
         try {
-            const data = await GetFileData(type, uploaded_file_data, file_or_url, preserve_extern_urls)
-            if (data) the_dialog.resolve(data)
+            const data = await Promise.all(uploaded_files.map(f => GetFileData(type, f, undefined, preserve_extern_urls)))
+            if (data.length !== 0) the_dialog.resolve(data)
         } catch (e: any) {
             error = e
             error_dialog.open()
@@ -41,12 +39,9 @@
     }
 
     function UpdateInput(event: Event) {
-        const file = (<HTMLInputElement>event.target)?.files?.item(0)
-        if (!file) return
-        uploaded_file_data = file
-
-        // Note: Browsers support fake Windows-style paths.
-        file_or_url = input.value.slice(input.value.lastIndexOf('\\') + 1)
+        const files = (<HTMLInputElement>event.target)?.files
+        if (!files || files.length === 0) return
+        uploaded_files = [...files]
     }
 </script>
 
@@ -55,19 +50,21 @@
 {#snippet content()}
     <p>{description}</p>
     <div class="flex file-input-control">
-        <input type="file" bind:this={input} onchange={UpdateInput}>
-        <input
-            type="text"
-            placeholder="Enter a URL or click 'Browse Files'"
-            disabled={!!uploaded_file_data}
-            bind:value={file_or_url}
-        >
+        <input type="file" multiple bind:this={input} onchange={UpdateInput}>
+        <p class="ml-4">
+            {#each uploaded_files.slice(0, 10) as file}
+                {file.name}<br>
+            {/each}
+            {#if uploaded_files.length > 10}
+                ...
+            {/if}
+        </p>
     </div>
 {/snippet}
 
 {#snippet controls()}
     <button onclick={() => input.click()}>Browse Files</button>
-    <button onclick={Accept} disabled={file_or_url === ''}>OK</button>
+    <button onclick={Accept} disabled={uploaded_files.length === 0}>OK</button>
     <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
 {/snippet}
 

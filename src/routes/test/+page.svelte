@@ -2,21 +2,22 @@
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
+    import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
 
     let test: SingleFileDialog
     let content: HTMLElement
-    $effect(() => {
+    $effect(Open);
+    function Open() {
         test.open()
-            .then(c => content.innerHTML = (c.data as string))
+            .then(c => content.innerHTML = c.data as string)
             .catch(e => content.innerHTML = `CANCELLED: ${e}` )
-    });
+    }
 </script>
 
 <Page name="Test"  />
 <Stripe>Test</Stripe>
 <section>
-    <div>Before Dialog</div>
+    <button onclick={Open}>Reopen</button>
     <SingleFileDialog title="Test Dialog" description="Foobar" type={'text'} bind:this={test} />
-    <div>After Dialog</div>
     <div bind:this={content}></div>
 </section>
