@@ -102,6 +102,7 @@ main {
 @include meta.load-css('content');
 @include meta.load-css('components');
 @include meta.load-css('utils');
+@include meta.load-css('dialog');
 
 input[type=submit] {
     border: 1px solid $accentcolour;
