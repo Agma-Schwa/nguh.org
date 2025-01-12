@@ -1,170 +1,6 @@
-import { FormatError } from "./trace.js";
-import {browser} from "$app/environment";
-
-/// ====================================================================== ///
-///  Utils                                                                 ///
-/// ====================================================================== ///
-
-function clamp(val, lo, hi) {
-    if (lo > hi) return lo
-    return val < lo ? lo : val > hi ? hi : val
-}
-
-/// Clamp an x or y offset (CSS left/top) within the window.
-function ClampXOffs(xoffs, el, window_x = innerWidth) {
-    const border_width = el.offsetWidth - el.clientWidth
-    return clamp(xoffs, window.scrollX, window_x - el.scrollWidth - border_width + window.scrollX)
-}
-
-function ClampYOffs(yoffs, el, window_y = innerHeight) {
-    const border_height = el.offsetHeight - el.clientHeight
-    return clamp(yoffs, window.scrollY, window_y - el.scrollHeight - border_height + window.scrollY)
-}
-
-export class HandledError extends Error {
-    constructor(cause?: Error) {
-        super('User should not see this.\n' +
-            'This should only appear in the browser console.\n' +
-            'If you can see this, please report it as a bug', {cause});
-    }
-}
-
-/// UserErrors behave just like Errors, except that their stack traces are
-/// not shown to the user when calling Dialog.error().
-export class UserError extends Error {
-    constructor(message: string) {
-        super(message);
-        Object.setPrototypeOf(this, UserError.prototype);
-    }
-}
-
-/// ====================================================================== ///
-///  Types & Interfaces                                                    ///
-/// ====================================================================== ///
-
-export type DialogButton = 'Yes' | 'No' | 'Cancel' | 'Apply' | 'OK' | 'Add' | 'Browse Files'
-export type DialogControl = DialogButton | '__CLOSE__'
-export type DialogAction<T> = (d: Dialog<T>) => void
-
-export enum FileType {
-    TEXT,
-    JSON,
-    RAW,
-}
-
-export interface FileDialogOptions {
-    description?: string
-    preserve_extern_urls?: boolean
-    type?: FileType
-}
-
-export class FileDialogResult {
-    readonly data: string | object | File
-    readonly type: FileType
-    url_saved?: string
-
-    constructor(data: string | object | File, type: FileType, is_url: boolean = false) {
-        this.data = data
-        this.type = type
-        if (is_url) this.url_saved = data as string
-    }
-
-    get url(): string {
-        if (this.url_saved) return this.url_saved
-
-        let blob: Blob
-        switch (this.type) {
-            case FileType.JSON:
-                blob = new Blob([JSON.stringify(this.data as object)], {type: 'application/json'})
-                break
-            case FileType.RAW:
-                blob = this.data as Blob
-                break
-            case FileType.TEXT:
-                blob = new Blob([this.data as string], {type: 'text'})
-                break
-            default:
-                throw new Error('Unreachable')
-        }
-
-        return URL.createObjectURL(blob)
-    }
-}
-
-interface FileDialogData {
-    file: File | string
-    preserve_extern_urls: boolean
-    textbox: HTMLInputElement
-    type: FileType
-    is_file: boolean
-}
-
-interface MultiFileDialogResult {
-    readonly files: string[] | object[] | File[]
-    readonly type: FileType
-}
-
-interface MultiFileDialogData {
-    files: FileList | null
-    par: HTMLParagraphElement
-    type: FileType
-}
-
-type InternalDialogData<T> = T extends FileDialogResult
-    ? FileDialogData
-    : T extends MultiFileDialogResult
-        ? MultiFileDialogData
-        : any
-
-const enum CSSKey {
-    TITLE_COL = '--title-bar-colour',
-    TITLE_TEXT_COL = '--title-bar-text-colour',
-    SVG_BTN_COL = '--svg-button-bg',
-    SVG_BTN_COL_HOV = '--svg-button-hover-bg',
-    SVG_BTN_TFILL = '--svg-button-transparent-fill',
-    SVG_BTN_TFILL_HOV = '--svg-button-hover-transparent-fill',
-}
-
 /// ====================================================================== ///
 ///  Dialog implementation                                                 ///
 /// ====================================================================== ///
-export class DialogPromise<T> {
-    readonly __dialog: Dialog<T>
-    readonly __handle: Promise<T>
-    __resolve: (value: T) => void
-    __reject: (reason?: any) => void
-
-    /** Same as Promise<T>.then(callback, () => {}). */
-    and(callback?: (t: T) => void): void { this.__handle.then(callback).catch(ignored => {}) }
-
-    /** Ignore promise rejections */
-    catch(): DialogPromise<T> {
-        this.__handle.catch(ignored => {})
-        return this
-    }
-
-    /** Same as Promise<T>.then(callback). */
-    then(callback?: (t: T) => void) { return this.__handle.then(callback) }
-
-    constructor(dialog: Dialog<T>) {
-        let that = this
-        this.__dialog = dialog
-        this.__handle = new Promise<T>((resolve, reject) => {
-            that.__resolve = (value: T) => {
-                that.__dialog.__have_promise = false
-                resolve(value)
-            }
-
-            that.__reject = (reason?: any) => {
-                that.__dialog.__have_promise = false
-                reject(reason)
-            }
-
-            that.__dialog.__have_promise = true
-        })
-    }
-}
-
 export class Dialog<T = any> {
     /// This is so we can make sure that the dialogs don't end up
     /// out of bounds when we resize the window
@@ -179,11 +15,6 @@ export class Dialog<T = any> {
         </svg>
     </div>`, 'text/html').body.children[0].cloneNode(true) as HTMLDivElement
 
-    static readonly __button_names: string[] = ['Yes', 'No', 'Cancel', 'Apply', 'OK']
-
-    /// Functions to run when this dialog is opened.
-    readonly __atopen: DialogAction<T>[] = []
-
     /// What action to take when a control is pressed.
     readonly __actions: Map<DialogControl, DialogAction<T>> = new Map()
 
@@ -193,10 +24,6 @@ export class Dialog<T = any> {
     /// This depends on the type of dialog.
     __data: InternalDialogData<T>
 
-    /// Promise handles.
-    __promise: DialogPromise<T>
-    __have_promise: boolean = false
-
     /// The actual dialog.
     readonly handle: HTMLDialogElement
 
@@ -205,59 +32,10 @@ export class Dialog<T = any> {
 
     /** Wrap a DOM dialog. */
     constructor(handle: HTMLDialogElement, controls: DialogButton[] = [], ephemeral: boolean = true) {
-        this.handle = handle
-        this.ephemeral = ephemeral
-
-        /// Get the close button.
-        let close_button = this.handle.getElementsByClassName('dialog-close-button');
-        if (close_button.length) {
-            this.__controls.set('__CLOSE__', close_button.item(0) as HTMLElement)
-            this.on('__CLOSE__', () => this.reject('Closed by user'))
-        }
-
-        /// Get any other preexisting controls.
-        let buttons = this.handle.getElementsByTagName('button')
-        for (const button of buttons) {
-            const text = button.innerText
-            if (text in Dialog.__button_names) this.__controls.set(text as DialogButton, button)
-        }
-
-        /// Add the controls, if any.
-        if (controls.length) {
-            /// Controls Wrapper.
-            const existing_controls = this.handle.querySelector('.dialog-controls')
-            const controls_element = existing_controls ?? document.createElement('div')
-            if (!existing_controls) {
-                controls_element.className = 'dialog-controls'
-                handle.appendChild(controls_element)
-            }
-
-            /// Create the controls.
-            for (const control_name of controls) {
-                if (this.__controls.has(control_name)) throw Error(`Duplicate control ${control_name}`)
-                const control = document.createElement('button')
-                control.innerText = control_name
-                controls_element.appendChild(control)
-                this.__controls.set(control_name, control)
-            }
-        }
-
-        /// Make the dialog draggable.
-        MakeDraggable(handle, handle.getElementsByTagName('div')[0])
+      // DONE
     }
 
     get content() { return this.handle.children[1]; }
-
-    /** Run a function every time this dialog is opened. */
-    AtOpen(fun: (d: Dialog<T>) => void) { this.__atopen.push(fun) }
-
-    /** Close this dialog. */
-    close() {
-        this.handle.close()
-        this.handle.style.display = 'none';
-        Dialog.open_dialogs.splice(Dialog.open_dialogs.indexOf(this), 1)
-        if (this.ephemeral) this.handle.remove()
-    }
 
     /** Take an action when a control is pressed. */
     on(control: DialogControl, action: DialogAction<T>) {
@@ -266,90 +44,6 @@ export class Dialog<T = any> {
 
         let that = this
         ;(<HTMLElement>this.__controls.get(control)).onclick = (e) => action(that)
-    }
-
-    /** Open this dialog. */
-    open(): DialogPromise<T> {
-        /// Create a new promise.
-        if (this.__have_promise) this.reject('reopened')
-        this.__promise = new DialogPromise<T>(this)
-
-        /// Set the dialog's position to the top left corner of the visible screen so that the page
-        /// doesn't scroll and so that the dialog has is maximum size when it is first made visible.
-        this.handle.style.left = ClampXOffs(window.scrollX, this.handle) + 'px'
-        this.handle.style.top = ClampYOffs(window.scrollY, this.handle) + 'px'
-
-        /// Show the dialog.
-        this.handle.style.display = 'flex';
-        this.handle.showModal()
-
-        /// Correct the position now that we know the dialog's width and height.
-        this.handle.style.left = ClampXOffs(innerWidth / 2 - this.handle.scrollWidth / 2 + window.scrollX, this.handle) + 'px'
-        this.handle.style.top = ClampYOffs(innerHeight / 2 - this.handle.scrollHeight / 2 + window.scrollY, this.handle) + 'px'
-
-        /// Run registered hooks.
-        for (let f of this.__atopen) f(this)
-
-        Dialog.open_dialogs.push(this)
-        return this.__promise
-    }
-
-    /** Reject the promise currently associated with this dialog. */
-    reject(reason?: any) {
-        this.close()
-        this.__promise.__reject(reason)
-    }
-
-    /** Resolve the promise currently associated with this dialog. */
-    resolve(value: T) {
-        this.close()
-        this.__promise.__resolve(value)
-    }
-
-    /** Set the title bar colour. */
-    TitleColour(normal: string, hover: string, text: string) {
-        let s = this.handle.style
-        s.setProperty(CSSKey.TITLE_COL, normal);
-        s.setProperty(CSSKey.TITLE_TEXT_COL, text);
-        s.setProperty(CSSKey.SVG_BTN_COL, normal);
-        s.setProperty(CSSKey.SVG_BTN_COL_HOV, hover);
-    }
-
-    /** Create a new DOM <dialog> with a title, contents, controls, and ID */
-    static make<T = any>(title: string, content: string | Node | null, controls: DialogButton[] = [], id?: string, ephemeral: boolean = true): Dialog<T> {
-        /// Create the dialog element.
-        const handle = document.createElement('dialog')
-        handle.className = 'modal'
-        document.body.appendChild(handle)
-
-        /// Add the id if we've specified one.
-        if (typeof id === 'string') handle.id = id
-
-        /// Add the title bar.
-        const title_bar = document.createElement('div')
-        title_bar.className = 'dialog-title'
-        handle.appendChild(title_bar)
-
-        /// Title bar text.
-        const title_bar_text = document.createElement('div')
-        title_bar_text.className = 'dialog-title-content'
-        title_bar_text.innerHTML = title
-        title_bar.appendChild(title_bar_text)
-
-        /// Close button.
-        const close_button = Dialog.close_button_template.cloneNode(true) as HTMLDivElement
-        title_bar.appendChild(close_button)
-
-        /// Content.
-        const content_element = document.createElement('div')
-        content_element.className = 'dialog-content'
-        handle.appendChild(content_element)
-
-        if (typeof content === 'string') content_element.innerHTML = content
-        else if (typeof content === 'object' && content) content_element.appendChild(content)
-
-        /// Create the dialog.
-        return new Dialog(handle, controls, ephemeral)
     }
 
     /** Open a new confirm dialog. */
@@ -375,9 +69,6 @@ export class Dialog<T = any> {
     /** Open a new error dialog. */
     static error(e: string | Error, title: string = 'Error') { Dialog.__error(e, title, true).catch() }
 
-    /** Open a new error dialog; don’t include a help message indicating that this might be a bug. */
-    static error_raw(e: string | Error) { Dialog.__error(e, 'Error', false).catch() }
-
     /** Open a new file dialog. */
     static file(title: string, options: FileDialogOptions): DialogPromise<FileDialogResult> {
         return Dialog.MakeFileDialog(title, options).open()
@@ -386,13 +77,6 @@ export class Dialog<T = any> {
     /** Open a new file dialog. */
     static files(title: string, options: FileDialogOptions): DialogPromise<MultiFileDialogResult> {
         return Dialog.MakeMultiFileDialog(title, options).open()
-    }
-
-    /** Open a new dialog that displays a message. */
-    static info(title: string, content: string) {
-        const d = Dialog.make(title, content, ['OK']);
-        d.on('OK', () => d.resolve(null))
-        d.open().catch()
     }
 
     /** Create a new file dialog without opening it. */
@@ -526,29 +210,7 @@ export class Dialog<T = any> {
     }
 
     static async __error(e: string | Error, title: string = 'Error', show_help: boolean) {
-        /// Also log the error to the console.
-        console.error(e)
-
-        /// Don't display the same error twice.
-        if (e instanceof HandledError) return;
-
-        /// Create a new dialog.
-        const dialog = Dialog.make<void>('Error', null, ['OK'])
-        dialog.on('OK', () => dialog.resolve())
-        dialog.content.classList.add('error-dialog-content')
-
-        /// Set the text.
-        dialog.content.innerHTML =
-            typeof e === 'string' || e instanceof UserError || !show_help
-                ? `<p>${'message' in e ? e.message : e}</p>`
-                : FormatError(e)
-
-        /// Make the title bar red.
-        dialog.TitleColour('var(--accentred)', 'var(--accentred-dark)', 'white')
-
-        /// Open it.
-        document.body.appendChild(dialog.handle)
-        await dialog.open().catch()
+        /// DONE
     }
 
     static async __fdata(file: File, type: FileType): Promise<string | object | File> {
@@ -565,93 +227,8 @@ export class Dialog<T = any> {
         return file
     }
 
-    static __mk_fdlog<T>(title: string, options: FileDialogOptions): Dialog<T> {
-        return Dialog.make<T>(title,
-            options.description ? options.description : 'Choose a file',
-            ['Browse Files', 'OK', 'Cancel'])
-    }
-
     static __mk_fdlog_ctrls<T>(dialog: Dialog<T>, multiple: boolean = false): { input: HTMLInputElement, box: HTMLInputElement | HTMLParagraphElement } {
-        let row = document.createElement('div')
-        let input = document.createElement('input')
-        row.classList.add('dialog-element', 'flex-row', 'file-input-control')
-        input.type = 'file'
-        input.multiple = multiple
 
-        /// Update the current file when the button is clicked.
-        dialog.on('Browse Files', () => input.click())
-
-        /// Do nothing if the user clicks 'Cancel'.
-        dialog.on('Cancel', () => dialog.reject('User clicked \'Cancel\''))
-
-        /// Append the elements.
-        row.appendChild(input)
-        dialog.content.append(row)
-
-        /// Append a textbox if this is a single file dialog.
-        if (!multiple) {
-            let box = document.createElement('input')
-            box.type = 'text'
-            box.placeholder = 'Enter a URL or click \'Browse files\''
-            row.appendChild(box)
-            return {input, box}
-        }
-
-        /// Otherwise, append an empty paragraph.
-        else {
-            const par = document.createElement('p')
-            par.className = 'mgl2rem'
-            row.appendChild(par)
-            return {input, box: par}
-        }
-    }
-}
-
-/// Make `container` move when the user clicks on and drags `header`.
-function MakeDraggable(container, header) {
-    /// Move `container` when we click and drag `header`
-    header.addEventListener('mousedown', drag)
-
-    /// This does most of the actual work.
-    function drag(e) {
-        e.preventDefault()
-
-        /// Position where we start dragging.
-        let x_drag_start = parseInt(e.clientX)
-        let y_drag_start = parseInt(e.clientY)
-
-        /// Move the element when the mouse moves. Stop dragging when we
-        /// release the element.
-        document.addEventListener('mouseup', stop_dragging)
-        document.addEventListener('mousemove', do_drag)
-
-        /// Move the element.
-        function do_drag(e) {
-            e.preventDefault()
-
-            /// The x/y distance we need to move.
-            const xdelta = x_drag_start - parseInt(e.clientX)
-            const ydelta = y_drag_start - parseInt(e.clientY)
-
-            /// The new top/left position
-            /// Make sure we don't drag the element outside the window
-            let new_x_offs = ClampXOffs(container.offsetLeft - xdelta, container)
-            let new_y_offs = ClampYOffs(container.offsetTop - ydelta, container);
-
-            /// The current position becomes the new start position.
-            x_drag_start = parseInt(e.clientX)
-            y_drag_start = parseInt(e.clientY)
-
-            /// Move the element.
-            container.style.top = new_y_offs + 'px'
-            container.style.left = new_x_offs + 'px'
-        }
-
-        /// Stop dragging when the element is released.
-        function stop_dragging() {
-            document.removeEventListener('mouseup', stop_dragging)
-            document.removeEventListener('mousemove', do_drag)
-        }
     }
 }
 

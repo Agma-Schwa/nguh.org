@@ -7,7 +7,7 @@
 
     let { slides }: Props = $props();
 
-    let slideshow: HTMLDivElement = $state()
+    let slideshow: HTMLDivElement
     let active: number
     let timestamp_last_switched: number
     let update_interval_handle = undefined
