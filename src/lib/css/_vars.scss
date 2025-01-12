@@ -212,13 +212,21 @@ $video-width-16-to-9: 56.25%;
 }
 
 @mixin button {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+
     background: $accentlight;
     color: $accentdarker;
     transition: background .5s, color .5s;
 
-    &:hover {
+    &:not([disabled]):hover {
         background: $accentcolour;
         color: white;
         cursor: pointer;
+    }
+
+    &[disabled] {
+        background: $accentlighter;
     }
 }

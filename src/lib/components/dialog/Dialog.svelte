@@ -30,21 +30,10 @@
         SVG_BTN_TFILL_HOV = '--svg-button-hover-transparent-fill',
     }
 
-    type DialogCallbacks = {
-        'Yes'?: () => void
-        'No'?: () => void
-        'Cancel'?: () => void
-        'Apply'?: () => void
-        'OK'?: () => void
-        'Add'?: () => void
-        'Browse Files'?: () => void
-    }
-
     class DialogPromise<T> {
         readonly __handle: Promise<T>
-        resolve: () => void = () => {}
+        resolve: (value?: any) => void = () => {}
         reject: (reason?: any) => void = () => {}
-        return_value: any = undefined
 
         /** Same as Promise<T>.then(callback, () => {}). */
         and(callback?: (t: T) => void): void { this.__handle.then(callback).catch(_ => {}) }
@@ -61,12 +50,14 @@
         constructor() {
             let that = this
             this.__handle = new Promise<T>((resolve, reject) => {
-                that.resolve = () => {
+                that.resolve = (value?: any) => {
+                    the_promise = undefined
                     the_dialog.close()
-                    resolve(this.return_value)
+                    resolve(value)
                 }
 
                 that.reject = (reason?: any) => {
+                    the_promise = undefined
                     the_dialog.close()
                     reject(reason)
                 }
@@ -85,12 +76,6 @@
             s.setProperty(CSSKey.SVG_BTN_COL_HOV, title_colours.hover);
         }
     })
-
-    export function close(value: any = undefined) {
-        if (the_promise === undefined) return // Dialog is already closed.
-        the_promise.return_value = value
-        the_dialog.close()
-    }
 
     export function open(): Promise<any> {
         if (the_promise !== undefined) throw Error("Cannot open dialog because it is already open!")
@@ -113,13 +98,16 @@
         return the_promise.__handle
     }
 
-    export function set_return_value(value: any) {
-        if (the_promise !== undefined) the_promise.return_value = value
+    export function reject(reason?: any) {
+        the_promise?.reject(reason)
+    }
+
+    export function resolve(value?: any) {
+        the_promise?.resolve(value)
     }
 
     function OnClose() {
         the_promise?.reject("Closed by user")
-        the_promise = undefined;
     }
 
     function StartDrag(e: MouseEvent) {
@@ -167,34 +155,43 @@
     //  API                                                                   //
     // ====================================================================== //
     interface Props {
+        /** Dialog title. */
         title: string,
-        controls?: (keyof DialogCallbacks)[]
+
+        /** HTML id of the dialog. */
         id?: string
-        callbacks? : DialogCallbacks
+
+        /** Whether exceptions in the dialog promise should be swallowed. */
         ignore_exceptions?: boolean
-        children?: import('svelte').Snippet
+
+        /** Colours to use for the dialog title bar. */
         title_colours?: {
             normal: string
             hover: string
             text: string
         }
+
+        /** Dialog buttons. */
+        controls: import('svelte').Snippet
+
+        /** Extra data to be added to the dialog body. */
+        content?: import('svelte').Snippet
     }
 
     let {
         title,
-        controls = ['OK'],
         id,
-        callbacks,
         ignore_exceptions = true,
         title_colours,
-        children
+        content,
+        controls
     }: Props = $props()
 </script>
 
 <dialog {id} bind:this={the_dialog} class="modal" onclose={OnClose}>
     <div class="dialog-title" onmousedown={StartDrag}>
         <div class="dialog-title-content">{title}</div>
-        <div class="dialog-close-button" title="Close" onclick={close}>
+        <div class="dialog-close-button" title="Close" onclick={() => the_promise?.reject("Closed by user")}>
             <svg class="close-button-icon" width="1cm" height="1cm" viewBox="0 0 100 100"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M 40 38 L 62 60 L 60 62 L 38 40"></path>
@@ -203,18 +200,10 @@
         </div>
     </div>
     <div class="dialog-content">
-        {@render children?.()}
+        {@render content?.()}
     </div>
     <div class="dialog-controls">
-        {#if controls.includes('Browse Files')}
-            <button onclick={callbacks?.['Browse Files'] ?? (() => {})}>Browse Files</button>
-        {/if}
-        {#if controls.includes('OK')}
-            <button onclick={callbacks?.OK ?? (() => the_promise?.resolve())}>OK</button>
-        {/if}
-        {#if controls.includes('Cancel')}
-            <button onclick={callbacks?.Cancel ?? (() => the_promise?.reject('Closed by user'))}>Cancel</button>
-        {/if}
+        {@render controls()}
     </div>
 </dialog>
 
@@ -283,7 +272,8 @@
             }
         }
 
-        input {
+        :global(input) {
+            color: black;
             &[disabled] { background: lightgrey; }
             &[type=number] {
                 width: 5rem;
@@ -369,7 +359,6 @@
             }
         }
     }
-
 
     .form-wrapper {
         display: flex;

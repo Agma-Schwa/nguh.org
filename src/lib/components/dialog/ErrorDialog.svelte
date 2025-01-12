@@ -17,11 +17,9 @@
     }
 </script>
 
-<Dialog {title} bind:this={the_dialog} title_colours={{
-    normal: 'var(--accentred)',
-    hover: 'var(--accentred-dark)',
-    text: 'white',
-}}> {#if
+<!-- Dialog message. -->
+{#snippet content()}
+    {#if
         typeof error === 'string' ||
         error instanceof UserError ||
         !include_stack_trace
@@ -34,7 +32,23 @@
         <!-- FIXME: Also convert FormatError() into a proper component. -->
         {@html FormatError(error)}
     {/if}
-</Dialog>
+{/snippet}
+
+<!-- Dialog buttons. -->
+{#snippet controls()}
+    <button onclick={() => the_dialog.resolve(null)}>OK</button>
+{/snippet}
+
+<Dialog
+    bind:this={the_dialog}
+    {title}
+    {controls}
+    {content}
+    title_colours={{
+    normal: 'var(--accentred)',
+    hover: 'var(--accentred-dark)',
+    text: 'white',
+}} />
 
 <style lang="scss">
     .error-dialog-content {
