@@ -23,11 +23,17 @@
         typeof error === 'string' ||
         error instanceof UserError ||
         !include_stack_trace
-    } <p>{
-        typeof error === 'object' && 'message' in error
-        ? error.message
-        : error
-    }</p>
+    }
+        {@const message = (
+            typeof error === 'object' && 'message' in error
+            ? error.message
+            : error
+        )}
+        <p>
+        {#each message.split('\n') as line}
+            {line}<br>
+        {/each}
+        </p>
     {:else}
         <!-- FIXME: Also convert FormatError() into a proper component. -->
         {@html FormatError(error)}

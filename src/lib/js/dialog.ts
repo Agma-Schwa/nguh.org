@@ -17,7 +17,7 @@ export class FileDialogResult {
             if (type === 'text') return new FileDialogResult(text, type)
             if (type === 'json')
                 try { return new FileDialogResult(JSON.parse(text), type) } catch (e: any) {
-                    throw (`File '${file.name}' does not appear to be a valid JSON File: ${e?.message ?? e}`)
+                    throw (`File '${file.name}' does not appear to be a valid JSON File!\n${e?.message ?? e}`)
                 }
             throw new Error('Unreachable: Invalid FileType')
         }
