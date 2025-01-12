@@ -1,4 +1,3 @@
-<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
 <script lang="ts">
     import Header from '$lib/components/Header.svelte';
     import Banner from "$lib/components/Banner.svelte";
@@ -10,8 +9,8 @@
     import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
 
-    let image_preview: ImagePreview = $state()
-    let image_preview_container: HTMLElement = $state()
+    let image_preview: ImagePreview
+    let image_preview_container: HTMLElement
 
     interface ImagePreview extends HTMLElement {
         cloned_preview?: Node

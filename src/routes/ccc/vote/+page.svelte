@@ -4,28 +4,32 @@
     import Stripe from "$lib/components/Stripe.svelte";
     import {enhance} from '$app/forms';
     import type {ActionResult} from "@sveltejs/kit";
-    import {onMount} from "svelte";
-    import type {Dialog} from "$lib/js/dialog";
     import {goto} from "$app/navigation";
+    import Dialog from "$lib/components/dialog/Dialog.svelte";
+    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
 
-    // Hack so this only runs on the client.
-    let __dialog: typeof Dialog;
-    onMount(async () => { __dialog = (await import("$lib/js/dialog")).Dialog })
+    let success_dialog: Dialog
+    let error_dialog: ErrorDialog
+    let error: string = $state('');
 
     // Show a success dialog after submitting.
     function ShowDialog(e: {result: ActionResult, update: () => void}) {
         if (e.result.status == 204) {
-            __dialog.info(
-                "Success",
-                "Your votes have been submitted successfully."
-            )
+            success_dialog.open()
         } else if (e.result.status === 303) {
             goto('/ccc/login')
         } else if (e.result.type === 'error') {
-            __dialog.error_raw(e.result.error)
+            error = e.result.error
+            error_dialog.open()
         }
     }
 </script>
+
+<Dialog title="Success" bind:this={success_dialog}>
+    <p>Your votes have been submitted successfully.</p>
+</Dialog>
+
+<ErrorDialog {error} bind:this={error_dialog} />
 
 <style lang="scss">
     #submit-form {
