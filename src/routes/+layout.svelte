@@ -8,6 +8,7 @@
     import { page_title } from "$lib/page_title";
     import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
+    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog";
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement
@@ -69,16 +70,66 @@
         return isFinite(len) ? len : 2
     } ())
 
+    let inner_width: number
+    let inner_height: number
+    let scroll_x: number
+    let scroll_y: number
+    let old_inner_width: number
+    let old_inner_height: number
+    let old_scroll_x: number
+    let old_scroll_y: number
+
     onMount(() => {
         // @ts-ignore
         window.SetOpenImagePreview = SetOpenImagePreview
+        old_inner_width = inner_width
+        old_inner_height = inner_height
+        old_scroll_x = scroll_x
+        old_scroll_y = scroll_y
     })
 
     $effect(() => {
         image_preview.onclick = CloseImagePreview
         SetOpenImagePreview()
     })
+
+    function ClampX(d: HTMLDialogElement) {
+        d.style.left = ClampXOffs(d.offsetLeft, d, inner_width) + 'px'
+    }
+
+    function ClampY(d: HTMLDialogElement) {
+        d.style.top = ClampYOffs(d.offsetTop, d, inner_height) + 'px'
+    }
+
+    function OnResize() {
+        for (const d of document.querySelectorAll('dialog')) {
+            if (inner_width < old_inner_width) ClampX(d)
+            if (inner_height < old_inner_height) ClampY(d)
+        }
+
+        old_inner_width = inner_width
+        old_inner_height = inner_height
+    }
+
+    function OnScroll() {
+        for (const d of document.querySelectorAll('dialog')) {
+            if (scroll_x != old_scroll_x) ClampX(d)
+            if (scroll_y != old_scroll_y) ClampY(d)
+        }
+
+        old_scroll_x = scroll_x
+        old_scroll_y = scroll_y
+    }
 </script>
+
+<svelte:window
+    bind:innerWidth={inner_width}
+    bind:innerHeight={inner_height}
+    bind:scrollX={scroll_x}
+    bind:scrollY={scroll_y}
+    onresize={OnResize}
+    onscroll={OnScroll}
+/>
 
 <svelte:head>
     <title>{$page_title === 'Agma Schwa' ? $page_title : $page_title + ' | Agma Schwa'}</title>

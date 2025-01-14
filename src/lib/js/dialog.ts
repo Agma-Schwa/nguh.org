@@ -1,3 +1,25 @@
+// ====================================================================== //
+//  Utils                                                                 //
+// ====================================================================== //
+function clamp(val: number, lo: number, hi: number) {
+    if (lo > hi) return lo
+    return val < lo ? lo : val > hi ? hi : val
+}
+
+// Clamp an x or y offset (CSS left/top) within the window.
+export function ClampXOffs(xoffs: number, el: HTMLElement, window_x: number = innerWidth) {
+    const border_width = el.offsetWidth - el.clientWidth
+    return clamp(xoffs, window.scrollX, window_x - el.scrollWidth - border_width + window.scrollX)
+}
+
+export function ClampYOffs(yoffs: number, el: HTMLElement, window_y: number = innerHeight) {
+    const border_height = el.offsetHeight - el.clientHeight
+    return clamp(yoffs, window.scrollY, window_y - el.scrollHeight - border_height + window.scrollY)
+}
+
+// ====================================================================== //
+//  File Dialog                                                           //
+// ====================================================================== //
 export type FileType = 'text' | 'json' | 'raw'
 
 export class FileDialogResult {
@@ -75,69 +97,3 @@ export async function GetFileData(
         case 'json': return new FileDialogResult(await res.json(), type)
     }
 }
-
-/*
-Rest of old implementation; to be removed once we’ve migrated all the HGS dialogs.
-
-export class Dialog<T = any> {
-    /// This is so we can make sure that the dialogs don't end up
-    /// out of bounds when we resize the window
-    static readonly open_dialogs: Dialog[] = []
-
-    /// The actual dialog.
-    readonly handle: HTMLDialogElement
-    get content() { return this.handle.children[1]; }
-
-
-    /!** Open a new confirm dialog. *!/
-    static confirm(text): DialogPromise<boolean> {
-        /// Create a new dialog.
-        const dialog = Dialog.make<boolean>('Warning', text, ['Yes', 'Cancel'])
-
-        /// We'll override the 'yes' and 'cancel' buttons.
-        dialog.on('Yes', d => dialog.resolve(true))
-        dialog.on('Cancel', d => dialog.reject())
-
-        /// Open it.
-        document.body.appendChild(dialog.handle)
-        return dialog.open()
-    }
-
-    /!** Close the topmost dialog. *!/
-    static DismissTopmost() {
-        if (!Dialog.open_dialogs.length) return
-        Dialog.open_dialogs.pop()?.reject('User pressed ESCAPE')
-    }
-
-    static ClampOpenDialogsX(window_x) {
-        for (let dialog of Dialog.open_dialogs)
-            dialog.handle.style.left = ClampXOffs(dialog.handle.offsetLeft, dialog.handle, window_x) + 'px'
-    }
-
-    static ClampOpenDialogsY(window_y) {
-        for (let dialog of Dialog.open_dialogs)
-            dialog.handle.style.top = ClampYOffs(dialog.handle.offsetTop, dialog.handle, window_y) + 'px'
-    }
-}
-
-/// Make sure we don't lose the dialogs when the window is resized.
-if (browser) {
-    let oldsize = [window.innerWidth, window.innerHeight]
-    window.addEventListener('resize', () => {
-        if (window.innerWidth < oldsize[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
-        if (window.innerHeight < oldsize[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
-        oldsize = [window.innerWidth, window.innerHeight]
-    })
-
-    /// Make sure the dialogs stay on the page when we scroll.
-    let oldscroll = [window.scrollX, window.scrollY]
-    window.addEventListener('scroll', e => {
-        if (window.scrollX != oldscroll[0]) Dialog.ClampOpenDialogsX(window.innerWidth)
-        if (window.scrollY != oldscroll[1]) Dialog.ClampOpenDialogsY(window.innerHeight)
-        oldscroll = [window.scrollX, window.scrollY]
-    })
-
-    /// Intercept ESCAPE to prevent it from closing the dialog in an invalid way.
-    window.addEventListener('keydown', e => { if (e.code === 'Escape') e.preventDefault() })
-    window.addEventListener('keyup', e => { if (e.code === 'Escape') Dialog.DismissTopmost() })
-}*/
