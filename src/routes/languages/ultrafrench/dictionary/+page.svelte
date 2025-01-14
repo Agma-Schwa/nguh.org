@@ -84,6 +84,8 @@ TODO:
     - 'archaic' -> '(archaic)' everywhere in the definition field only. ‘archaic’ is not a part of speech
       so it should never be in the POS field.
 
+    - Ignore '’' entirely in search.
+
     - Actually address all the warnings and depenency bot issues.
 -->
 
