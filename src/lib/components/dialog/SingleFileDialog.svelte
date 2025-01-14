@@ -53,7 +53,11 @@
 <ErrorDialog {error} bind:this={error_dialog} />
 
 {#snippet content()}
-    <p>{description}</p>
+    <p>
+        {#each description.split('\n') as line}
+            {line}<br>
+        {/each}
+    </p>
     <div class="flex file-input-control">
         <input type="file" bind:this={input} onchange={UpdateInput}>
         <input

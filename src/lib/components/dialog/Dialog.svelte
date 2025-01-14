@@ -14,7 +14,7 @@
     }
 
     class DialogPromise<T> {
-        readonly __handle: Promise<T>
+        readonly __handle: Promise<void | T>
         resolve: (value?: any) => void = () => {}
         reject: (reason?: any) => void = () => {}
 
@@ -44,7 +44,7 @@
                     the_dialog.close()
                     reject(reason)
                 }
-            })
+            }).catch(_ => {})
         }
     }
 
@@ -63,8 +63,6 @@
     export function open(): Promise<any> {
         if (the_promise !== undefined) throw Error("Cannot open dialog because it is already open!")
         the_promise = new DialogPromise<any>()
-        if (ignore_exceptions) the_promise.catch()
-        the_dialog.showModal()
 
         // Set the dialog's position to the top left corner of the visible screen so that the page
         // doesn't scroll and so that the dialog has is maximum size when it is first made visible.
@@ -144,9 +142,6 @@
         /** HTML id of the dialog. */
         id?: string
 
-        /** Whether exceptions in the dialog promise should be swallowed. */
-        ignore_exceptions?: boolean
-
         /** Colours to use for the dialog title bar. */
         title_colours?: {
             normal: string
@@ -164,7 +159,6 @@
     let {
         title,
         id,
-        ignore_exceptions = true,
         title_colours,
         content,
         controls
