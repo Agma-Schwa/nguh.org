@@ -3,7 +3,7 @@ import '$lib/css/hunger_games_simulator.scss'
 import Page from "$lib/components/Page.svelte";
 import Stripe from "$lib/components/Stripe.svelte";
 import Ribbon from "$lib/components/Ribbon.svelte";
-import {Dialog, FileType} from "$lib/js/dialog";
+import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
 
 // ====================================================================== //
 //  Tags                                                                  //
@@ -146,12 +146,11 @@ function CreateGame() {
 
 /** Prompt the user for an image src to use for an <img>. */
 function GetImage(tribute: TributeCharacterSelectOptions) {
-    Dialog.file('Select an image', {
-        preserve_extern_urls: true,
-        description: '<p>You can input a local file or a public url.</p><p>The image can be in any format your browser supports.</p>',
-        type: FileType.RAW
-    }).and(res => { tribute.image_url = res.url })
+    get_image_dialog.open().then(res => { tribute.image_url = res.url })
 }
+
+// Dialogs.
+let get_image_dialog: SingleFileDialog
 
 // The current game state.
 let game: Game | null = $state(null)
@@ -185,6 +184,15 @@ let tributes: TributeCharacterSelectOptions[] = $state([
     <!-- FIXME: Extract metadata to separate component  -->
     <meta name="keywords" content="hunger games simulator hungergame hungergames hungergamessimulator humger-games simulator hunger-games-simulator">
 </svelte:head>
+
+<!-- Dialogs -->
+<SingleFileDialog
+    bind:this={get_image_dialog}
+    title='Select an image'
+    preserve_extern_urls={true}
+    description={'You can input a local file or a public url.\nThe image can be in any format your browser supports.'}
+    type='raw'
+/>
 
 <Stripe>Info</Stripe>
 <section>
