@@ -1,22 +1,5 @@
 <script lang="ts">
-    // ====================================================================== //
-    //  Utils                                                                 //
-    // ====================================================================== //
-    function clamp(val: number, lo: number, hi: number) {
-        if (lo > hi) return lo
-        return val < lo ? lo : val > hi ? hi : val
-    }
-
-    // Clamp an x or y offset (CSS left/top) within the window.
-    function ClampXOffs(xoffs: number, el: HTMLElement, window_x: number = innerWidth) {
-        const border_width = el.offsetWidth - el.clientWidth
-        return clamp(xoffs, window.scrollX, window_x - el.scrollWidth - border_width + window.scrollX)
-    }
-
-    function ClampYOffs(yoffs: number, el: HTMLElement, window_y: number = innerHeight) {
-        const border_height = el.offsetHeight - el.clientHeight
-        return clamp(yoffs, window.scrollY, window_y - el.scrollHeight - border_height + window.scrollY)
-    }
+    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog";
 
     // ====================================================================== //
     //  Types & Interfaces                                                    //
