@@ -4,39 +4,43 @@
 
     interface Props {
         title?: string
-        error: string | Error
         include_stack_trace?: boolean
     }
 
-    let { title = "Error", error, include_stack_trace = false}: Props = $props()
+    let { title = "Error", include_stack_trace = false}: Props = $props()
     let the_dialog: Dialog
-    if (error !== '') console.error(error)
-    export function open() {
+    let error: string | Error = $state('')
+
+    export function open(err: string | Error) {
         if (error instanceof HandledError) return;
+        console.error(err)
+        error = err
         the_dialog.open()
     }
 </script>
 
 <!-- Dialog message. -->
 {#snippet content()}
-    {#if
-        typeof error === 'string' ||
-        error instanceof UserError ||
-        !include_stack_trace
-    }
-        {@const message = (
-            typeof error === 'object' && 'message' in error
-            ? error.message
-            : error
-        )}
-        <p>
-        {#each message.split('\n') as line}
-            {line}<br>
-        {/each}
-        </p>
-    {:else}
-        <!-- FIXME: Also convert FormatError() into a proper component. -->
-        {@html FormatError(error)}
+    {#if error !== ''}
+        {#if
+            typeof error === 'string' ||
+            error instanceof UserError ||
+            !include_stack_trace
+        }
+            {@const message = (
+                typeof error === 'object' && 'message' in error
+                ? error.message
+                : error
+            )}
+            <p>
+            {#each message.split('\n') as line}
+                {line}<br>
+            {/each}
+            </p>
+        {:else}
+            <!-- FIXME: Also convert FormatError() into a proper component. -->
+            {@html FormatError(error)}
+        {/if}
     {/if}
 {/snippet}
 

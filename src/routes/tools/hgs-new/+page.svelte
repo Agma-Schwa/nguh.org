@@ -5,6 +5,7 @@
     import Ribbon from "$lib/components/Ribbon.svelte";
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import CharacterSelectScreen from "$lib/components/hgs/CharacterSelectScreen.svelte";
+    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import {
         Game,
         PronounSetting,
@@ -18,8 +19,18 @@
 
     /** Create a new game. */
     function StartGame() {
-        game = new Game()
+        const in_game_tributes = Game.CreateTributesFromCharacterSelectOptions(tributes)
+        if (in_game_tributes instanceof Error) {
+            error_dialog.open(in_game_tributes)
+            return
+        }
+
+        game = new Game(in_game_tributes)
+        game.AdvanceGame()
     }
+
+    // Dialogs.
+    let error_dialog: ErrorDialog
 
     // The current game state.
     let game: Game | null = $state(null)
@@ -54,6 +65,10 @@
     <meta name="keywords" content="hunger games simulator hungergame hungergames hungergamessimulator humger-games simulator hunger-games-simulator">
 </svelte:head>
 
+<ErrorDialog bind:this={error_dialog} />
+
 {#if game === null}
-    <CharacterSelectScreen {tributes} start_game={StartGame} />
+    <CharacterSelectScreen bind:tributes={tributes} start_game={StartGame} />
+{:else}
+    <p>GAME STATE: {game.state}</p>
 {/if}
