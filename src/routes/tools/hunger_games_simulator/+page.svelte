@@ -4,11 +4,11 @@
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import Ribbon from "$lib/components/Ribbon.svelte";
-
+/*
     let __impl
     onMount(() => {
         __impl = import('$lib/js/hunger_games_simulator')
-    })
+    })*/
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
