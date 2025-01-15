@@ -147,7 +147,6 @@ h6 {
     color: $accentlight;
 }
 
-.tribute-name { color: $accentlight; }
 .tribute-stats p { margin: .25rem; }
 .tribute-stats-header { margin: 6rem auto 2rem auto; }
 
@@ -192,14 +191,6 @@ h6 {
     justify-content: center;
 }
 
-#advance-game, #abort-game {
-    display: block;
-    margin: 0 auto;
-
-    width: 10rem;
-    height: 3.5rem;
-    font-size: 1.75rem;
-}
 
 #game-before-content { text-align: center !important; }
 
@@ -211,17 +202,6 @@ h6 {
         display: block;
         font-size: 1.75rem;
     }
-}
-
-#advance-game {
-    right: 50%;
-    transform: translateX(50%);
-    position: absolute;
-}
-
-#abort-game {
-    width: 12rem;
-    margin: 0;
 }
 
 #edit-events-table-wrapper {
