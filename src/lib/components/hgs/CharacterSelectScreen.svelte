@@ -8,7 +8,7 @@
         start_game: () => void
     }
 
-    let {tributes, start_game}: Props = $props();
+    let {tributes = $bindable(), start_game}: Props = $props();
 
     let get_image_dialog: SingleFileDialog
 
