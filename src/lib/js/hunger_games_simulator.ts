@@ -413,21 +413,6 @@ namespace UI {
         })
     }
 
-
-    /** Load characters from a file. */
-    export async function LoadCharacters() {
-        Dialog.file('Load Game Setup', {
-            description: '<p>Click below to upload a save.</p><p>This will override the current setup. Unsaved changes will be lost!</p>',
-            type: FileType.JSON,
-        }).and(async res => {
-            try {
-                await Configuration.LoadCharacters(res.data as object);
-            } catch (e) {
-                /// @ts-ignore
-                Dialog.error(e)
-            }
-        })
-    }
 } /// namespace UI
 
 /** Shadow root of the events dialog. */
