@@ -839,7 +839,7 @@ export const enum RenderState {
     GAME_OVER,
     ROUND_EVENTS,
     ROUND_DEATHS,
-    WINNER,
+    WINNERS,
     GAME_DEATHS,
     STATS,
 }
@@ -891,25 +891,37 @@ interface GameRound {
 }
 
 export class GameRenderState {
+    /** The render state of the game. */
     readonly state: RenderState
+
+    /** Title to display at the top of the screen. */
     readonly game_title: string
+
+    /** Information about the last round. */
     readonly round: GameRound
-    readonly tributes_died: Tribute[]
+
+    /**
+     * The tributes that should be rendered.
+     *
+     * This is either the tributes that died during the last day, or the
+     * tributes that won the game.
+     */
+    readonly tributes: Tribute[]
 
     constructor(
         state: RenderState,
         game_title: string,
         round: GameRound,
-        tributes_died: Tribute[]
+        tributes: Tribute[]
     ) {
         this.state = state
         this.game_title = game_title
         this.round = round
-        this.tributes_died = tributes_died
+        this.tributes = tributes
     }
 
-    get deaths() { return this.tributes_died.length }
-    get has_deaths() { return this.deaths > 0 }
+    get tribute_size() { return this.tributes.length }
+    get has_tributes() { return this.tribute_size > 0 }
     is(...state: RenderState[]) { return state.includes(this.state) }
 }
 
@@ -1030,17 +1042,17 @@ export class Game {
                 break
 
             case GameState.THE_FALLEN:
-                this.#game_title = 'The Fallen' // DisplayRoundFatalities()
+                this.#game_title = 'The Fallen'
                 this.#state = GameState.NEW_ROUND
                 break
 
             case GameState.END_RESULTS:
-                this.#game_title = 'The Fallen' // DisplayRoundFatalities()
+                this.#game_title = 'The Fallen'
                 this.#state = GameState.END_WINNER
                 break
 
             case GameState.END_WINNER:
-                this.#game_title = 'The Games have ended' // this.Display(NO)Winners()
+                this.#game_title = 'The Games have ended'
                 this.#state = GameState.END_SUMMARY_FATALITIES
                 break
 
@@ -1067,7 +1079,7 @@ export class Game {
             state,
             this.#game_title,
             this.last_round,
-            this.#tributes_died
+            state === RenderState.WINNERS ? this.tributes_alive : this.#tributes_died
         );
     }
 
@@ -1286,7 +1298,7 @@ export class Game {
                 return RenderState.ROUND_DEATHS
 
             case GameState.END_WINNER:
-                return RenderState.WINNER
+                return RenderState.WINNERS
 
             case GameState.END_SUMMARY_FATALITIES:
                 return RenderState.GAME_DEATHS

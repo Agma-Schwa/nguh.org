@@ -7,7 +7,7 @@
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import {
         Configuration,
-        type EventList,
+        type EventList, type FormattedMessage,
         Game,
         type GameRenderState,
         PronounSetting,
@@ -59,6 +59,22 @@
     function EndGame() {
         game = null
         render_state = null
+    }
+
+    /** Format the message for the winners of the game. */
+    function FormatWinners(): FormattedMessage {
+        const msg: FormattedMessage = []
+        const winners = render_state?.tributes!!
+        const n = winners.length
+        if (n === 1) msg.push('The winner is ', winners[0].name, '!')
+        else if (n === 2) msg.push('The winners are ', winners[0].name, ' and ', winners[1].name, '!')
+        else {
+            msg.push('The winners are ')
+            let i = 0
+            for (; i < n - 1; i++) msg.push(winners[i].name, ', ')
+            msg.push('and ', winners[i].name, '!')
+        }
+        return msg
     }
 
     /** Advance the current game. */
@@ -133,8 +149,8 @@
         <!-- Some rounds require us to display an additional message. -->
         {#if render_state.is(RenderState.ROUND_DEATHS)}
             <p class="text-center mb-12">
-                {#if render_state.has_deaths}
-                    {render_state.deaths} cannon shot{render_state.deaths === 1 ? '' : 's'}
+                {#if render_state.has_tributes}
+                    {render_state.tribute_size} cannon shot{render_state.tribute_size === 1 ? '' : 's'}
                     can be heard in the distance.
                 {:else}
                     No cannon shots can be heard in the distance.
@@ -159,7 +175,7 @@
                     </div>
                 {/each}
             {:else if render_state.is(RenderState.ROUND_DEATHS)}
-                {#each render_state.tributes_died as tribute}
+                {#each render_state.tributes as tribute}
                     <div class="death-message-wrapper flex-column flex-centre">
                         <div class="death-message-image image-wrapper">
                             <img alt="{tribute.raw_name}" src="{tribute.image_src}">
@@ -167,6 +183,23 @@
                         <Message parts={[tribute.name, ' has died this round']} message_class="death-message" />
                     </div>
                 {/each}
+            {:else if render_state.is(RenderState.WINNERS)}
+                {#if render_state.has_tributes}
+                    <div class="event-message-wrapper flex flex-col justify-center">
+                        <div class="event-message-images flex">
+                            {#each render_state.tributes as tribute}
+                                <div class="image-wrapper">
+                                    <img alt="{tribute.raw_name}" src="{tribute.image_src}">
+                                </div>
+                            {/each}
+                        </div>
+                        <Message parts={FormatWinners()} />
+                    </div>
+                {:else}
+                    <div class="event-message-wrapper flex flex-col justify-center">
+                        <Message parts={['There are no survivors.']} />
+                    </div>
+                {/if}
             {/if}
         </div>
 
