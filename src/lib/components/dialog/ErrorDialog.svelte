@@ -15,7 +15,7 @@
         if (error instanceof HandledError) return;
         console.error(err)
         error = err
-        the_dialog.open()
+        the_dialog.open().ignore_cancellation()
     }
 </script>
 

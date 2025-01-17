@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog";
+    import {type DialogPromise, FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import Dialog from "$lib/components/dialog/Dialog.svelte";
 
@@ -7,7 +7,6 @@
     let input: HTMLInputElement
     let file_or_url = $state('')
     let uploaded_file_data: File | undefined = $state(undefined)
-    let error: Error | string = $state('')
     let error_dialog: ErrorDialog
 
     interface Props {
@@ -24,7 +23,7 @@
         preserve_extern_urls = false,
     }: Props = $props()
 
-    export function open(): Promise<FileDialogResult> {
+    export function open(): DialogPromise<FileDialogResult> {
         file_or_url = ''
         uploaded_file_data = undefined
         return the_dialog.open()
@@ -35,8 +34,7 @@
             const data = await GetFileData(type, uploaded_file_data, file_or_url, preserve_extern_urls)
             if (data) the_dialog.resolve(data)
         } catch (e: any) {
-            error = e
-            error_dialog.open()
+            error_dialog.open(e)
         }
     }
 
@@ -50,7 +48,7 @@
     }
 </script>
 
-<ErrorDialog {error} bind:this={error_dialog} />
+<ErrorDialog bind:this={error_dialog} />
 
 {#snippet content()}
     <p>

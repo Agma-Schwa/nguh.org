@@ -14,7 +14,7 @@
 
     /** Prompt the user for an image src to use for an <img>. */
     function GetImage(tribute: TributeCharacterSelectOptions) {
-        get_image_dialog.open().then(res => { tribute.image_url = res.url })
+        get_image_dialog.open().and(res => { tribute.image_url = res.url })
     }
 </script>
 

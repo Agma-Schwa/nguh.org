@@ -17,6 +17,29 @@ export function ClampYOffs(yoffs: number, el: HTMLElement, window_y: number = in
     return clamp(yoffs, window.scrollY, window_y - el.scrollHeight - border_height + window.scrollY)
 }
 
+export interface DialogPromise<T = void> {
+    /**
+     * Execute code if the dialog closes successfully, and ignore any
+     * promise rejections.
+     *
+     * Use this instead of 'on_success()' if you don’t care about doing anything
+     * if the uses presses the close button or 'Cancel'.
+     */
+    and(callback?: (t: T) => void): void
+
+    /** Ignore promise rejections when the dialog is closed. */
+    ignore_cancellation(): void
+
+    /** Run code when the dialog closes unsuccessfully. */
+    on_cancel(callback?: (reason: any) => void): DialogPromise<T>
+
+    /** Execute code if the dialog closes successfully. */
+    on_success(callback?: (t: T) => void): DialogPromise<T>
+
+    /** Get the underlying promise so it can be awaited. */
+    get promise(): Promise<T>
+}
+
 // ====================================================================== //
 //  File Dialog                                                           //
 // ====================================================================== //
