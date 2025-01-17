@@ -125,82 +125,79 @@
     <button onclick={LoadCharacters}>Load Characters</button>
     <button>Upload Images</button>
 
-    <div class="mt-8 flex flex-wrap gap-y-8" id="character-selects">
+    <div class="mt-8 flex flex-wrap justify-between gap-y-8">
         {#each tributes as tribute, i}
-        <form class="game-character">
-            <div class="name-and-pronouns flex-column">
-                <div class="flex-row">
-                    <button
-                        type="button"
-                        class="character-delete danger-button"
-                        onclick={() => tributes.splice(i, 1)}
-                    >Delete Character</button>
-                </div>
+            <form class="game-character flex flex-row items-end m-0">
+                <div class="flex flex-col gap-3">
+                    <div class="flex-row">
+                        <button
+                            type="button"
+                            class="ml-auto danger-button"
+                            onclick={() => tributes.splice(i, 1)}
+                        >Delete Character</button>
+                    </div>
 
-                <div class="flex-row">
-                    <button
-                        type="button"
-                        class="image-remove"
-                        onclick={() => tribute.image_url = undefined}
-                    >Remove Image</button>
-                </div>
+                    <div class="flex-row">
+                        <button
+                            class="ml-auto"
+                            type="button"
+                            onclick={() => tribute.image_url = undefined}
+                        >Remove Image</button>
+                    </div>
 
-                <div class="flex-row">
-                    <label>Name:</label>
-                    <input
-                        class="character-name"
-                        name="character"
-                        type="text"
-                        bind:value={tribute.name}
+                    <div class="flex-row">
+                        <label>Name:</label>
+                        <input
+                            name="character"
+                            type="text"
+                            bind:value={tribute.name}
+                        >
+                    </div>
+
+                    <div
+                        class="flex-row custom-gender-input-wrapper"
+                        style="display: {
+                            tribute.pronoun_option === PronounSetting.Custom
+                            ? 'inherit'
+                            : 'none'
+                        };"
+                    >   <label>Pronouns:</label>
+                        <input
+                            name="gender_input"
+                            placeholder="they/them/their/themself"
+                            type="text"
+                            bind:value={tribute.custom_pronouns}
+                        >
+                    </div>
+
+                    <div class="flex-row"><label>Pronouns:</label>
+                        <select
+                            name="gender_select"
+                            bind:value={tribute.pronoun_option}
+                        >   <!--
+                                The values used here are already in a lot of save files,
+                                so do NOT change these lightly!
+                            -->
+                            <option value="m">he/him/his/himself</option>
+                            <option value="f">she/her/her/herself</option>
+                            <option value="c">they/them/their/themself</option>
+                            <option value="n">No Pronouns</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="image-wrapper" class="image-wrapper">
+                    <img
+                        alt="Click to add an image"
+                        class="non-previewable-icon tribute-image"
+                        src={tribute.image_url ?? ''}
+                        onclick={() => GetImage(tribute)}
                     >
                 </div>
-
-                <div
-                    class="flex-row custom-gender-input-wrapper"
-                    style="display: {
-                        tribute.pronoun_option === PronounSetting.Custom
-                        ? 'inherit'
-                        : 'none'
-                    };"
-                >   <label>Pronouns:</label>
-                    <input
-                        class="custom-gender-input"
-                        name="gender_input"
-                        placeholder="they/them/their/themself"
-                        type="text"
-                        bind:value={tribute.custom_pronouns}
-                    >
-                </div>
-
-                <div class="flex-row"><label>Pronouns:</label>
-                    <select
-                        class="gender-select"
-                        name="gender_select"
-                        bind:value={tribute.pronoun_option}
-                    >   <!--
-                            The values used here are already in a lot of save files,
-                            so do NOT change these lightly!
-                        -->
-                        <option value="m">he/him/his/himself</option>
-                        <option value="f">she/her/her/herself</option>
-                        <option value="c">they/them/their/themself</option>
-                        <option value="n">No Pronouns</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div id="image-wrapper" class="image-wrapper">
-                <img
-                    alt="Click to add an image"
-                    class="non-previewable-icon tribute-image"
-                    src={tribute.image_url ?? ''}
-                    onclick={() => GetImage(tribute)}
-                >
-            </div>
-        </form>
+            </form>
         {/each}
 
-        <div id="add-character-button-wrapper">
+        <div class="relative w-96 h-40 mr-auto mt-auto mb-auto">
             <button
                 id="add-character"
                 type="button"
@@ -217,7 +214,33 @@
 </section>
 
 <style lang="scss">
+    #add-character {
+        position: absolute;
+        inset: 2rem;
+
+        border: none;
+        padding: 0;
+        width: 0;
+
+        box-shadow: none;
+
+        &:hover::before { color: white; }
+
+        &::before {
+            position: absolute;
+            top: -4rem;
+            left: 10rem;
+
+            content: '+';
+
+            font-size: 10rem;
+            color: var(--accentlight);
+            transition: color .5s;
+        }
+    }
     .game-character {
+        input { padding-block: .225rem !important; }
+
         select, option, input {
             color: black;
             width: 15rem;
