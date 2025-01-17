@@ -16,6 +16,8 @@
     } from "$lib/js/hgs";
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
+    import TributeStats from "$lib/components/hgs/TributeStats.svelte";
+    import {onMount} from "svelte";
 
     // TODO: Use web storage API to store uploaded files for tribute images.
 
@@ -64,7 +66,7 @@
     /** Format the message for the winners of the game. */
     function FormatWinners(): FormattedMessage {
         const msg: FormattedMessage = []
-        const winners = render_state?.tributes!!
+        const winners = render_state?.tributes_alive!!
         const n = winners.length
         if (n === 1) msg.push('The winner is ', winners[0].name, '!')
         else if (n === 2) msg.push('The winners are ', winners[0].name, ' and ', winners[1].name, '!')
@@ -122,9 +124,12 @@
     }
 
     // For testing.
-/*    $effect(() => {
-        if (game == null) StartGame()
-    })*/
+    function SkipToEnd() {
+        EndGame()
+        StartGame()
+        while (render_state?.state !== RenderState.STATS)
+            StepGame()
+    }
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
@@ -141,16 +146,18 @@
     description="Your progress will be lost. Are you sure you want to abort the game?"
 />
 
+<button onclick={SkipToEnd}>Skip To End</button>
 {#if game === null}
     <CharacterSelectScreen bind:tributes={tributes} start_game={StartGame} />
 {:else if render_state}
-    <Stripe>{render_state.game_title} (state: {render_state.state})</Stripe>
+    <Stripe>Hunger Games Simulator</Stripe>
+    <h3 class="game-title">{render_state.game_title}</h3>
     <section class="mt-8">
         <!-- Some rounds require us to display an additional message. -->
         {#if render_state.is(RenderState.ROUND_DEATHS)}
             <p class="text-center mb-12">
-                {#if render_state.has_tributes}
-                    {render_state.tribute_size} cannon shot{render_state.tribute_size === 1 ? '' : 's'}
+                {#if render_state.has_deaths}
+                    {render_state.deaths} cannon shot{render_state.deaths === 1 ? '' : 's'}
                     can be heard in the distance.
                 {:else}
                     No cannon shots can be heard in the distance.
@@ -174,19 +181,19 @@
                     </div>
                 {/each}
             {:else if render_state.is(RenderState.ROUND_DEATHS)}
-                {#each render_state.tributes as tribute}
+                {#each render_state.tributes_died as tribute}
                     <div class="death-message-wrapper flex-column flex-centre">
-                        <div class="death-message-image image-wrapper">
+                        <div class="death-message-image grayscale image-wrapper">
                             <img alt="{tribute.raw_name}" src="{tribute.image_src}">
                         </div>
                         <Message parts={[tribute.name, ' has died this round']} message_class="death-message" />
                     </div>
                 {/each}
             {:else if render_state.is(RenderState.WINNERS)}
-                {#if render_state.has_tributes}
+                {#if render_state.has_alive}
                     <div class="event-message-wrapper flex flex-col justify-center">
                         <div class="event-message-images flex">
-                            {#each render_state.tributes as tribute}
+                            {#each render_state.tributes_alive as tribute}
                                 <div class="image-wrapper">
                                     <img alt="{tribute.raw_name}" src="{tribute.image_src}">
                                 </div>
@@ -217,15 +224,29 @@
                     </div>
                 {/each}
             {:else if render_state.is(RenderState.STATS)}
-                <div class="flex flex-wrap">
+                <div class="flex flex-wrap justify-center">
                     <div class="tribute-stats-wrapper">
-                        <div class="alive-stats-wrapper">
-                            <div class="alive-stats"></div>
-                        </div>
-                        <div class="dead-stats-wrapper">
-                            <h3 class="tribute-stats-header">The Rest</h3>
-                            <div class="dead-stats"></div>
-                        </div>
+                        {#if render_state.has_alive}
+                            <div class="alive-stats-wrapper">
+                                <div class="alive-stats">
+                                    {#each render_state.tributes_alive as tribute}
+                                        <TributeStats {tribute} />
+                                    {/each}
+                                </div>
+                            </div>
+                        {/if}
+                        {#if render_state.has_deaths}
+                            <div class="dead-stats-wrapper">
+                                {#if render_state.has_alive}
+                                    <h3 class="tribute-stats-header">The Rest</h3>
+                                {/if}
+                                <div class="dead-stats">
+                                    {#each render_state.tributes_died.toReversed() as tribute}
+                                        <TributeStats {tribute} />
+                                    {/each}
+                                </div>
+                            </div>
+                        {/if}
                     </div>
                 </div>
             {:else}
