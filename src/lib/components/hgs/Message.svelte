@@ -3,13 +3,12 @@
 
     interface Props {
         parts: FormattedMessage
-        message_class?: string
     }
 
-    let {parts, message_class = "event-message"}: Props = $props();
+    let {parts}: Props = $props();
 </script>
 
-<p class="{message_class}">
+<p class="mr-auto ml-auto max-w-3xl text-center">
     {#each parts as part}
         {#if typeof part === 'string'}
             {part}
@@ -20,5 +19,6 @@
 </p>
 
 <style lang="scss">
+    p { max-width: 50rem }
     .tribute-name { color: var(--accentlight); }
 </style>
