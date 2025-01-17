@@ -1,6 +1,6 @@
 @use "vars" as *;
 
-#content {
+:where(#content) {
     position: relative;
     display: flex;
 
@@ -13,7 +13,7 @@
     flex-direction: column;
     box-shadow: 0 0 2em var(--content-box-shadow-colour);
 
-    &-wrapper {
+    :where(#content-wrapper) {
         display: flex;
         gap: 1rem;
         padding-top: $content-wrapper-padding-top;

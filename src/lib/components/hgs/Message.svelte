@@ -3,12 +3,13 @@
 
     interface Props {
         parts: FormattedMessage
+        message_class?: string
     }
 
-    let {parts}: Props = $props();
+    let {parts, message_class = "event-message"}: Props = $props();
 </script>
 
-<p class="event-message">
+<p class="{message_class}">
     {#each parts as part}
         {#if typeof part === 'string'}
             {part}
