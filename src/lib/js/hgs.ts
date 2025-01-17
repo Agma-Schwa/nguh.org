@@ -897,8 +897,8 @@ export class GameRenderState {
     /** Title to display at the top of the screen. */
     readonly game_title: string
 
-    /** Information about the last round. */
-    readonly round: GameRound
+    /** The game rounds. */
+    readonly rounds: GameRound[]
 
     /**
      * The tributes that should be rendered.
@@ -911,17 +911,18 @@ export class GameRenderState {
     constructor(
         state: RenderState,
         game_title: string,
-        round: GameRound,
+        rounds: GameRound[],
         tributes: Tribute[]
     ) {
         this.state = state
         this.game_title = game_title
-        this.round = round
+        this.rounds = rounds
         this.tributes = tributes
     }
 
-    get tribute_size() { return this.tributes.length }
     get has_tributes() { return this.tribute_size > 0 }
+    get tribute_size() { return this.tributes.length }
+    get round() { return this.rounds[this.rounds.length - 1] }
     is(...state: RenderState[]) { return state.includes(this.state) }
 }
 
@@ -1057,7 +1058,7 @@ export class Game {
                 break
 
             case GameState.END_SUMMARY_FATALITIES:
-                this.#game_title = 'Deaths' // this.DisplayFinalFatalities()
+                this.#game_title = 'Deaths'
                 this.#state = GameState.END_SUMMARY_STATS
                 break
 
@@ -1067,7 +1068,6 @@ export class Game {
                 break
 
             case GameState.END:
-                // this.ReturnToMainMenu()
                 break
 
             default:
@@ -1078,7 +1078,7 @@ export class Game {
         return new GameRenderState(
             state,
             this.#game_title,
-            this.last_round,
+            this.rounds,
             state === RenderState.WINNERS ? this.tributes_alive : this.#tributes_died
         );
     }
@@ -1132,7 +1132,6 @@ export class Game {
 
         return false
     }
-
 
     /** Perform the next round and advance the game state. */
     #DoRound() {
