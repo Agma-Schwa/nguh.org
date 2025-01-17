@@ -16,8 +16,8 @@
     } from "$lib/js/hgs";
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
-    import TributeStats from "$lib/components/hgs/TributeStats.svelte";
-    import {onMount} from "svelte";
+    import Card from "$lib/components/hgs/Card.svelte";
+    import TributeStatList from "$lib/components/hgs/TributeStatList.svelte";
 
     // TODO: Use web storage API to store uploaded files for tribute images.
 
@@ -127,7 +127,7 @@
     function SkipToEnd() {
         EndGame()
         StartGame()
-        while (render_state?.state !== RenderState.STATS)
+        while (render_state?.state !== RenderState.GAME_DEATHS)
             StepGame()
     }
 </script>
@@ -146,116 +146,72 @@
     description="Your progress will be lost. Are you sure you want to abort the game?"
 />
 
-<button onclick={SkipToEnd}>Skip To End</button>
 {#if game === null}
     <CharacterSelectScreen bind:tributes={tributes} start_game={StartGame} />
 {:else if render_state}
     <Stripe>Hunger Games Simulator</Stripe>
-    <h3 class="game-title">{render_state.game_title}</h3>
+    <h3>{render_state.game_title}</h3>
     <section class="mt-8">
-        <!-- Some rounds require us to display an additional message. -->
-        {#if render_state.is(RenderState.ROUND_DEATHS)}
-            <p class="text-center mb-12">
-                {#if render_state.has_deaths}
-                    {render_state.deaths} cannon shot{render_state.deaths === 1 ? '' : 's'}
-                    can be heard in the distance.
-                {:else}
-                    No cannon shots can be heard in the distance.
-                {/if}
-            </p>
-        {/if}
-
-        <!-- Main content in the centre of the page. -->
-        <div id="game-content">
+        <div>
             {#if render_state.is(RenderState.ROUND_EVENTS)}
                 {#each render_state.round.game_events as event}
-                    <div class="event-message-wrapper flex flex-col justify-center">
-                        <div class="event-message-images flex">
-                            {#each event.players_involved as tribute}
-                                <div class="image-wrapper">
-                                    <img alt="{tribute.raw_name}" src="{tribute.image_src}">
-                                </div>
-                            {/each}
-                        </div>
-                        <Message parts={event.message} />
-                    </div>
+                    <Card tributes={event.players_involved} message={event.message} />
                 {/each}
             {:else if render_state.is(RenderState.ROUND_DEATHS)}
+                <p class="text-center mb-12">
+                    {#if render_state.has_deaths}
+                        {render_state.deaths} cannon shot{render_state.deaths === 1 ? '' : 's'}
+                        can be heard in the distance.
+                    {:else}
+                        No cannon shots can be heard in the distance.
+                    {/if}
+                </p>
                 {#each render_state.tributes_died as tribute}
-                    <div class="death-message-wrapper flex-column flex-centre">
-                        <div class="death-message-image grayscale image-wrapper">
-                            <img alt="{tribute.raw_name}" src="{tribute.image_src}">
-                        </div>
-                        <Message parts={[tribute.name, ' has died this round']} />
-                    </div>
+                    <Card tributes={[tribute]} message={[tribute.name, ' has died this round.']} dead={true} />
                 {/each}
             {:else if render_state.is(RenderState.WINNERS)}
                 {#if render_state.has_alive}
-                    <div class="event-message-wrapper flex flex-col justify-center">
-                        <div class="event-message-images flex">
-                            {#each render_state.tributes_alive as tribute}
-                                <div class="image-wrapper">
-                                    <img alt="{tribute.raw_name}" src="{tribute.image_src}">
-                                </div>
-                            {/each}
-                        </div>
-                        <Message parts={FormatWinners()} />
-                    </div>
+                    <Card tributes={render_state.tributes_alive} message={FormatWinners()} />
                 {:else}
-                    <div class="event-message-wrapper flex flex-col justify-center">
+                    <div class="mb-12 flex flex-col justify-center">
                         <Message parts={['There are no survivors.']} />
                     </div>
                 {/if}
             {:else if render_state.is(RenderState.GAME_DEATHS)}
-                {#each render_state.rounds as round, i}
-                    <div class="round-fatalities-wrapper flex-column flex-centre">
-                        <h6 class="round-title">
-                            <strong>
+                <div class="flex flex-col gap-12">
+                    {#each render_state.rounds as round, i}
+                        <div class="flex flex-col">
+                            <h6 class="text-center font-bold mb-0">
                                 Round {i + 1}: {round.stage.slice(0, 1).toUpperCase() + round.stage.slice(1)}
-                            </strong>
-                        </h6>
-                        <article class="round-fatalities">
-                            {#each round.game_events.filter(e => e.event.fatalities.length !== 0) as event}
-                                <Message parts={event.message} />
-                            {:else}
-                                <Message parts={['No-one died.']} />
-                            {/each}
-                        </article>
-                    </div>
-                {/each}
-            {:else if render_state.is(RenderState.STATS)}
-                <div class="flex flex-wrap justify-center">
-                    <div class="tribute-stats-wrapper">
-                        {#if render_state.has_alive}
-                            <div class="alive-stats-wrapper">
-                                <div class="alive-stats">
-                                    {#each render_state.tributes_alive as tribute}
-                                        <TributeStats {tribute} />
-                                    {/each}
-                                </div>
-                            </div>
-                        {/if}
-                        {#if render_state.has_deaths}
-                            <div class="dead-stats-wrapper">
-                                {#if render_state.has_alive}
-                                    <h3 class="mt-24 mb-8 ml-auto mr-auto">The Rest</h3>
-                                {/if}
-                                <div class="dead-stats">
-                                    {#each render_state.tributes_died.toReversed() as tribute}
-                                        <TributeStats {tribute} />
-                                    {/each}
-                                </div>
-                            </div>
-                        {/if}
-                    </div>
+                            </h6>
+                            <article class="flex flex-col gap-0 items-center mr-auto ml-auto max-w-2xl text-center">
+                                {#each round.game_events.filter(e => e.event.fatalities.length !== 0) as event}
+                                    <!-- The extra div avoids the 'p + p' margin -->
+                                    <div><Message parts={event.message} /></div>
+                                {:else}
+                                    <Message parts={['No-one died.']} />
+                                {/each}
+                            </article>
+                        </div>
+                    {/each}
                 </div>
+            {:else if render_state.is(RenderState.STATS)}
+                {#if render_state.has_alive}
+                    <TributeStatList tributes={render_state.tributes_alive} />
+                {/if}
+                {#if render_state.has_deaths}
+                    {#if render_state.has_alive}
+                        <h3 class="mt-24 mb-8 ml-auto mr-auto">The Rest</h3>
+                    {/if}
+                    <TributeStatList tributes={render_state.tributes_died.toReversed()} />
+                {/if}
             {:else}
                 <p>Internal Error: Invalid render state</p>
             {/if}
         </div>
 
         <!-- Buttons. -->
-        <div class="flex justify-end mt-8" id="buttons-wrapper">
+        <div class="flex justify-end mt-8">
             <button id="advance-game" class="right-1/2 translate-x-1/2 absolute" onclick={Proceed}>Proceed</button>
             <button id="abort-game" class="danger-button" onclick={AbortGame}>Abort Game</button>
         </div>
@@ -263,8 +219,14 @@
 {:else}
     <p>Something went horribly wrong. This is a bug. </p>
 {/if}
+<button onclick={SkipToEnd}>Skip To End</button>
 
 <style lang="scss">
+    h6 {
+        font-size: calc(var(--text-size) * 1.1);
+        color: var(--accentlight);
+    }
+
     #advance-game, #abort-game {
         display: block;
         margin: 0 auto;

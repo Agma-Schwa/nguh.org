@@ -1054,7 +1054,7 @@ export class Game {
                 break
 
             case GameState.END_WINNER:
-                this.#game_title = 'The Games have ended'
+                this.#game_title = 'The Games Have Ended'
                 this.#state = GameState.END_SUMMARY_FATALITIES
                 break
 
