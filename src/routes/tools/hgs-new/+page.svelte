@@ -3,19 +3,16 @@
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import Ribbon from "$lib/components/Ribbon.svelte";
-    import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import CharacterSelectScreen from "$lib/components/hgs/CharacterSelectScreen.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import {
         Configuration,
         type EventList,
+        Game,
         type GameRenderState,
-        Game, GameState,
         PronounSetting,
-        Tag,
-        type TributeCharacterSelectOptions,
-        type TributeOptions,
-        type TributePronouns
+        RenderState,
+        type TributeCharacterSelectOptions
     } from "$lib/js/hgs";
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
@@ -55,10 +52,13 @@
 
     /** Abort the current game. */
     function AbortGame() {
-        abort_confirm.open().and(() => {
-            game = null
-            render_state = null
-        })
+        abort_confirm.open().and(EndGame)
+    }
+
+    /** End the current game. */
+    function EndGame() {
+        game = null
+        render_state = null
     }
 
     /** Advance the current game. */
@@ -88,6 +88,12 @@
         const state = game.AdvanceGame()
         if (state instanceof Error) {
             error_dialog.open(state)
+            return
+        }
+
+        // If the game is over, end it now.
+        if (state.state === RenderState.GAME_OVER) {
+            EndGame()
             return
         }
 
@@ -125,17 +131,21 @@
     <Stripe>{render_state.game_title} (state: {render_state.state})</Stripe>
     <section class="mt-8">
         <!-- Some rounds require us to display an additional message. -->
-        {#if render_state.state === GameState.ROUND_RESULTS}
-            <p id="game-before-content">
-                {game.tributes_died.length} cannon shot{game.tributes_died.length === 1 ? '' : 's'}
-                can be heard in the distance.
+        {#if render_state.is(RenderState.ROUND_DEATHS)}
+            <p class="text-center mb-12">
+                {#if render_state.has_deaths}
+                    {render_state.deaths} cannon shot{render_state.deaths === 1 ? '' : 's'}
+                    can be heard in the distance.
+                {:else}
+                    No cannon shots can be heard in the distance.
+                {/if}
             </p>
         {/if}
 
         <!-- Main content in the centre of the page. -->
         <div id="game-content">
             <!-- Display the events of the last round. -->
-            {#if render_state.state === GameState.ROUND_PART_1 || GameState.ROUND_PART_2}
+            {#if render_state.is(RenderState.ROUND_EVENTS)}
                 {#each render_state.round.game_events as event}
                     <div class="event-message-wrapper flex flex-col justify-center">
                         <div class="event-message-images flex">
@@ -146,6 +156,15 @@
                             {/each}
                         </div>
                         <Message parts={event.message} />
+                    </div>
+                {/each}
+            {:else if render_state.is(RenderState.ROUND_DEATHS)}
+                {#each render_state.tributes_died as tribute}
+                    <div class="death-message-wrapper flex-column flex-centre">
+                        <div class="death-message-image image-wrapper">
+                            <img alt="{tribute.raw_name}" src="{tribute.image_src}">
+                        </div>
+                        <Message parts={[tribute.name, ' has died this round']} message_class="death-message" />
                     </div>
                 {/each}
             {/if}

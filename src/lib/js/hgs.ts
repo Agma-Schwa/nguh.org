@@ -154,17 +154,19 @@ interface ParsedPronouns {
 
 /** A tribute in game or on the character selection screen. */
 class Tribute {
-    raw_name: string
-    pronouns?: TributePronouns
-    uses_pronouns: boolean
-    image_src: string
-    plural: boolean
+    readonly raw_name: string
+    readonly name: NameSpan
+    readonly pronouns?: TributePronouns
+    readonly uses_pronouns: boolean
+    readonly image_src: string
+    readonly plural: boolean
     kills: number
     died_in_round: GameRound | undefined
     __tags: Tag[]
 
     constructor(name: string, options: TributeOptions) {
         this.raw_name = name
+        this.name = new NameSpan(name)
         this.uses_pronouns = options.uses_pronouns ?? true
         if (this.uses_pronouns) this.pronouns = {...options.pronouns!!}
         this.image_src = options.image ?? ''
@@ -637,7 +639,7 @@ export namespace Configuration {
 // ====================================================================== //
 //  Event                                                                 //
 // ====================================================================== //
-class NameSpan {
+export class NameSpan {
     readonly value: string
     constructor(value: string) { this.value = value }
 }
@@ -694,8 +696,8 @@ function ComposeEventMessage(event: GameEvent): FormattedMessage {
                 case '8':
                 case '9': {
                     check_bounds(event, m[i].charCodeAt(0) - char_zero)
-                    let name = event.players_involved[m[i].charCodeAt(0) - char_zero].raw_name
-                    composed.push(new NameSpan(name))
+                    let name = event.players_involved[m[i].charCodeAt(0) - char_zero].name
+                    composed.push(name)
 
                     i++
                     if (i >= m.length) break outer; /// yeet %
@@ -818,18 +820,28 @@ export const enum RequiredFatalities {
     Absolute = 'Absolute',
 }
 
-/** The state of the game. This corresponds loosely to the screen being displayed. */
+/** The state of the game. */
 export const enum GameState {
     DEAD,
-    ROUND_PART_1,
-    ROUND_PART_2,
-    ROUND_RESULTS,
+    NEW_ROUND,
+    IN_ROUND,
+    THE_FALLEN,
     END_RESULTS,
     END_WINNER,
     END_SUMMARY_FATALITIES,
     END_SUMMARY_STATS,
     END,
-    INITIAL = ROUND_PART_1,
+    INITIAL = NEW_ROUND,
+}
+
+/** The render state of the game. */
+export const enum RenderState {
+    GAME_OVER,
+    ROUND_EVENTS,
+    ROUND_DEATHS,
+    WINNER,
+    GAME_DEATHS,
+    STATS,
 }
 
 /** These correspond to the event lists. */
@@ -878,10 +890,27 @@ interface GameRound {
     stage: GameStage
 }
 
-export interface GameRenderState {
-    state: GameState
-    game_title: string
-    round: GameRound
+export class GameRenderState {
+    readonly state: RenderState
+    readonly game_title: string
+    readonly round: GameRound
+    readonly tributes_died: Tribute[]
+
+    constructor(
+        state: RenderState,
+        game_title: string,
+        round: GameRound,
+        tributes_died: Tribute[]
+    ) {
+        this.state = state
+        this.game_title = game_title
+        this.round = round
+        this.tributes_died = tributes_died
+    }
+
+    get deaths() { return this.tributes_died.length }
+    get has_deaths() { return this.deaths > 0 }
+    is(...state: RenderState[]) { return state.includes(this.state) }
 }
 
 export class Game {
@@ -897,10 +926,13 @@ export class Game {
      * For instance, if there was a bloodbath, day, and night, this will
      * include the deaths for all three of those rounds.
      */
-    tributes_died: Tribute[] = []
+    #tributes_died: Tribute[] = []
 
     /** The current state of the game (i.e. of the last round). */
     #state: GameState = GameState.INITIAL
+
+    /** The title of the current round. */
+    #game_title: string = ''
 
     /** The last time a feast happened. */
     last_feast: number = 0
@@ -983,56 +1015,42 @@ export class Game {
 
     /** The main state machine controlling the game. */
     #AdvanceGame(): GameRenderState {
-        const render_state = {
-            state: this.#state,
-            game_title: '',
-
-            // Svelte is too stupid to support TS in #each blocks, so do this the dumb way.
-            // @ts-ignore
-            round: this.rounds.length === 0 ? null as GameRound : this.last_round
-        } satisfies GameRenderState
+        const state = this.#TickRenderState()
 
         // Advance the state and perform and action accordingly.
         switch (this.#state) {
-            case GameState.ROUND_PART_1:
-                this.#NextRound(render_state)
-
-                // Bloodbath and Feast *precede* Day, so stay in this state and only go
-                // to Night if this was an actual Day.
-                if (
-                    !this.#CheckGameShouldEnd() &&
-                    this.stage !== GameStage.BLOODBATH &&
-                    this.stage !== GameStage.FEAST
-                ) this.#state = GameState.ROUND_PART_2
+            case GameState.NEW_ROUND:
+                this.#state = GameState.IN_ROUND
+                this.#StartNewRound()
+                this.#DoRound()
                 break
 
-            case GameState.ROUND_PART_2:
-                this.#NextRound(render_state)
-                if (!this.#CheckGameShouldEnd()) this.#state = GameState.ROUND_RESULTS
+            case GameState.IN_ROUND:
+                this.#DoRound()
                 break
 
-            case GameState.ROUND_RESULTS:
-                render_state.game_title = 'The Fallen' // DisplayRoundFatalities()
-                this.#state = GameState.ROUND_PART_1
+            case GameState.THE_FALLEN:
+                this.#game_title = 'The Fallen' // DisplayRoundFatalities()
+                this.#state = GameState.NEW_ROUND
                 break
 
             case GameState.END_RESULTS:
-                render_state.game_title = 'The Fallen' // DisplayRoundFatalities()
+                this.#game_title = 'The Fallen' // DisplayRoundFatalities()
                 this.#state = GameState.END_WINNER
                 break
 
             case GameState.END_WINNER:
-                render_state.game_title = 'The Games have ended' // this.Display(NO)Winners()
+                this.#game_title = 'The Games have ended' // this.Display(NO)Winners()
                 this.#state = GameState.END_SUMMARY_FATALITIES
                 break
 
             case GameState.END_SUMMARY_FATALITIES:
-                render_state.game_title = 'Deaths' // this.DisplayFinalFatalities()
+                this.#game_title = 'Deaths' // this.DisplayFinalFatalities()
                 this.#state = GameState.END_SUMMARY_STATS
                 break
 
             case GameState.END_SUMMARY_STATS:
-                render_state.game_title = this.tributes_alive.length ? 'Winners' : 'The Fallen' // this.DisplayFinalStats()
+                this.#game_title = this.tributes_alive.length ? 'Winners' : 'The Fallen' // this.DisplayFinalStats()
                 this.#state = GameState.END
                 break
 
@@ -1045,22 +1063,16 @@ export class Game {
                 throw new Error('An internal error has occurred; Game.state was ' + this.#state)
         }
 
-        return render_state;
+        return new GameRenderState(
+            state,
+            this.#game_title,
+            this.last_round,
+            this.#tributes_died
+        );
     }
 
-    /** Determine whether the game should end based on how may tributes are alive or whether all should win. */
-    #CheckGameShouldEnd() {
-        if (this.tributes_alive.length < 2 || this.all_won) {
-            this.#state = GameState.END_RESULTS
-            return true
-        }
-
-        return false
-    }
-
-
-    /** Determine what the next game stage should be and set it. */
-    #NextGameStage(): GameStage {
+    /** Determine what the next game stage should be. */
+    #AdvanceGameStage(): GameStage {
         // Start of game is always Bloodbath.
         if (this.rounds.length === 0) return GameStage.BLOODBATH
 
@@ -1099,25 +1111,44 @@ export class Game {
         return GameStage.NIGHT
     }
 
+    /** Determine whether the game should end based on how may tributes are alive or whether all should win. */
+    #CheckGameShouldEnd() {
+        if (this.tributes_alive.length < 2 || this.all_won) {
+            this.#state = GameState.END_RESULTS
+            return true
+        }
+
+        return false
+    }
+
+
+    /** Perform the next round and advance the game state. */
+    #DoRound() {
+        this.stage = this.#AdvanceGameStage()
+        this.#DoRoundImpl()
+
+        // Check if the game should end; if not, move to display the results
+        // of this round if it was night.
+        if (!this.#CheckGameShouldEnd() && this.stage == GameStage.NIGHT)
+            this.#state = GameState.THE_FALLEN
+    }
+
     /**
      * Perform the next round.
      *
      * This keeps choosing events randomly until all characters
      * have acted in an event.
      */
-    #NextRound(state: GameRenderState) {
+    #DoRoundImpl() {
         // Get the number of tributes.
         let tributes_left = this.tributes_alive.length
         let tributes_alive = tributes_left
         let current_tribute = 0
 
-        // Get the appropriate game stage.
-        this.stage = this.#NextGameStage()
-
         // Determine the current round title.
-        if (this.stage === GameStage.DAY) state.game_title = `Day ${this.days_passed}`
-        else if (this.stage === GameStage.NIGHT) state.game_title = `Night ${this.nights_passed}`
-        else state.game_title = this.stage.slice(0, 1).toUpperCase() + this.stage.slice(1)
+        if (this.stage === GameStage.DAY) this.#game_title = `Day ${this.days_passed}`
+        else if (this.stage === GameStage.NIGHT) this.#game_title = `Night ${this.nights_passed}`
+        else this.#game_title = this.stage.slice(0, 1).toUpperCase() + this.stage.slice(1)
 
         // Create the round.
         let round: GameRound = {
@@ -1198,10 +1229,7 @@ export class Game {
 
         // And add them to the list of all tributes that have died since we last
         // displayed deaths.
-        this.tributes_died.push(...round.died_this_round)
-
-        // Finally, update the render state.
-        state.round = round
+        this.#tributes_died.push(...round.died_this_round)
     }
 
     /**
@@ -1239,6 +1267,37 @@ export class Game {
 
         // Otherwise this event is fine.
         return true;
+    }
+
+    /** Start a new round. */
+    #StartNewRound() {
+        this.#tributes_died = []
+    }
+
+    /** Set and determine the current render state. */
+    #TickRenderState(): RenderState {
+        switch (this.#state) {
+            case GameState.NEW_ROUND:
+            case GameState.IN_ROUND:
+                return RenderState.ROUND_EVENTS
+
+            case GameState.THE_FALLEN:
+            case GameState.END_RESULTS:
+                return RenderState.ROUND_DEATHS
+
+            case GameState.END_WINNER:
+                return RenderState.WINNER
+
+            case GameState.END_SUMMARY_FATALITIES:
+                return RenderState.GAME_DEATHS
+
+            case GameState.END_SUMMARY_STATS:
+                return RenderState.STATS
+
+            case GameState.DEAD:
+            case GameState.END:
+                return RenderState.GAME_OVER
+        }
     }
 
     /** Step the game by a round. */
