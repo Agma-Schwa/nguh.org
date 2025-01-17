@@ -1,10 +1,8 @@
-@use 'vars' as *;
-
 section { position: relative; }
 
 h2:first-of-type { margin-bottom: 1rem; }
 
-h3, h4, h5 { color: $accentlight; }
+h3, h4, h5 { color: var(--accentlight); }
 
 #add-events-dialog {
     p { margin: 0; padding-top: 0; }
@@ -34,11 +32,6 @@ h3, h4, h5 { color: $accentlight; }
 
 #changelog-dialog { max-width: min(90rem, 100vw); }
 
-.name-and-pronouns {
-    gap: .75rem;
-    flex-direction: column !important;
-}
-
 .image-wrapper {
     position: relative;
     aspect-ratio: 1 / 1;
@@ -50,7 +43,7 @@ h3, h4, h5 { color: $accentlight; }
 
     margin-left: 1rem;
     margin-right: 1rem;
-    border: 3px ridge $accentcolour;
+    border: 3px ridge var(--accentcolour);
     width: 13.5rem;
     height: 13.5rem;
 
@@ -66,58 +59,6 @@ h3, h4, h5 { color: $accentlight; }
     object-fit: cover;
 }
 
-.game-character {
-    flex-direction: row;
-    align-items: end;
-    margin: 0;
-    input { padding-block: .225rem !important; }
-}
-
-input, select, button { padding-block: .225rem; }
-
-#add-character-button-wrapper {
-    position: relative;
-    width: 25rem;
-    height: 10.5rem;
-
-    #add-character {
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-        bottom: 2rem;
-        left: 2rem;
-
-        border: none;
-        padding: 0;
-        width: 0;
-
-        box-shadow: none;
-        background: red;
-
-        &:hover::before { color: white; }
-
-        &::before {
-            position: absolute;
-            top: -4rem;
-            left: 10rem;
-
-            content: '+';
-
-            font-size: 10rem;
-            color: $accentlight;
-            transition: color .5s;
-        }
-    }
-}
-
-.character-delete, .image-remove {
-    margin-left: auto;
-    width: 15rem;
-
-    border: none;
-    font-size: var(--text-size);
-}
-
 #edit-events-table-wrapper {
     overflow-y: scroll;
     max-height: 60vh;
@@ -125,7 +66,7 @@ input, select, button { padding-block: .225rem; }
     .event-list-stage-header {
         td {
             padding: 1.5rem 0 .125rem 0;
-            color: $accentlight;
+            color: var(--accentlight);
             font-weight: bold;
         }
 
@@ -138,14 +79,14 @@ input, select, button { padding-block: .225rem; }
         aspect-ratio: 1 / 1;
 
         margin: 0;
-        border: 1px groove $accentcolour;
+        border: 1px groove var(--accentcolour);
         width: 14px;
         height: 14px;
 
         background: white;
 
         &:checked {
-            background: $accentlight;
+            background: var(--accentlight);
 
             &::after {
                 position: absolute;
@@ -177,15 +118,15 @@ input, select, button { padding-block: .225rem; }
 
     td:last-child { padding-right: 0; }
 
-    tbody tr:hover { outline: 1px solid $accentlight; }
+    tbody tr:hover { outline: 1px solid var(--accentlight); }
 
     thead th {
         position: sticky;
         top: 0;
         z-index: 1;
 
-        background: $accentblack;
-        color: $accentlight;
+        background: var(--accentblack);
+        color: var(--accentlight);
     }
 }
 
