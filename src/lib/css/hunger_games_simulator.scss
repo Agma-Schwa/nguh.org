@@ -6,13 +6,6 @@ h2:first-of-type { margin-bottom: 1rem; }
 
 h3, h4, h5 { color: $accentlight; }
 
-#game-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-
 #add-events-dialog {
     p { margin: 0; padding-top: 0; }
     p + p { margin-block-start: 0; }
@@ -40,9 +33,6 @@ h3, h4, h5 { color: $accentlight; }
 }
 
 #changelog-dialog { max-width: min(90rem, 100vw); }
-
-#game { display: none; }
-
 
 .name-and-pronouns {
     gap: .75rem;
@@ -126,73 +116,6 @@ input, select, button { padding-block: .225rem; }
 
     border: none;
     font-size: var(--text-size);
-}
-
-#start-game-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 2rem;
-
-    button {
-        padding: .4rem;
-        font-size: 1.5rem;
-        width: 12rem;
-    }
-}
-
-h6 {
-    margin-bottom: 0;
-    font-size: calc(var(--text-size) * 1.1);
-    color: $accentlight;
-}
-
-.event-message-wrapper, .death-message-wrapper, .tribute-stats-wrapper { margin-bottom: 3rem; }
-.event-message-images, .death-message-image { margin-bottom: 1rem; }
-
-.event-message-images {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-
-    .image-wrapper {
-        margin-left: 0;
-        margin-right: 0;
-    }
-}
-
-.round-fatalities {
-    margin-right: auto;
-    margin-left: auto;
-    max-width: 50rem;
-    text-align: center !important;
-}
-
-.round-fatalities { text-align: center; }
-.round-fatalities-wrapper { margin-bottom: 3rem; }
-
-.alive-stats, .dead-stats {
-    display: flex;
-    gap: 2rem;
-
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-
-#game-before-content { text-align: center !important; }
-
-#game-buttons-wrapper {
-    position: relative;
-    justify-content: end;
-
-    button {
-        display: block;
-        font-size: 1.75rem;
-    }
 }
 
 #edit-events-table-wrapper {
