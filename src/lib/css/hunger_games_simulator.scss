@@ -147,15 +147,6 @@ h6 {
     color: $accentlight;
 }
 
-.tribute-stats p { margin: .25rem; }
-.tribute-stats-header { margin: 6rem auto 2rem auto; }
-
-.tribute-winner {
-    color: $accentlight;
-    font-variant: small-caps;
-    font-weight: bold;
-}
-
 .event-message-wrapper, .death-message-wrapper, .tribute-stats-wrapper { margin-bottom: 3rem; }
 .event-message-images, .death-message-image { margin-bottom: 1rem; }
 
@@ -172,7 +163,7 @@ h6 {
     }
 }
 
-.event-message, .death-message, .round-fatalities {
+.round-fatalities {
     margin-right: auto;
     margin-left: auto;
     max-width: 50rem;

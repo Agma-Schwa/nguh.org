@@ -186,7 +186,7 @@
                         <div class="death-message-image grayscale image-wrapper">
                             <img alt="{tribute.raw_name}" src="{tribute.image_src}">
                         </div>
-                        <Message parts={[tribute.name, ' has died this round']} message_class="death-message" />
+                        <Message parts={[tribute.name, ' has died this round']} />
                     </div>
                 {/each}
             {:else if render_state.is(RenderState.WINNERS)}
@@ -238,7 +238,7 @@
                         {#if render_state.has_deaths}
                             <div class="dead-stats-wrapper">
                                 {#if render_state.has_alive}
-                                    <h3 class="tribute-stats-header">The Rest</h3>
+                                    <h3 class="mt-24 mb-8 ml-auto mr-auto">The Rest</h3>
                                 {/if}
                                 <div class="dead-stats">
                                     {#each render_state.tributes_died.toReversed() as tribute}
