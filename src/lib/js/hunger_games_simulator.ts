@@ -672,18 +672,6 @@ class Game {
         }
     }
 
-    /** Display a summary of who died in what round. */
-    DisplayFinalFatalities() {
-        game_title.innerHTML = 'Deaths'
-
-        DisplayMessages(this.rounds, game_fatalities_template, (round, message) => {
-            message.getElementsByClassName('round-title')[0].innerHTML = `Round ${round.number}: ${round.stage.slice(0, 1).toUpperCase() + round.stage.slice(1)}`
-            let fatalities = ''
-            for (const event of round.game_events) if (event.event.fatalities.length) fatalities += event.message + '<br>'
-            message.getElementsByClassName('round-fatalities')[0].innerHTML = fatalities === '' ? 'No-one died' : fatalities
-        })
-    }
-
     /** Display the stat screen at the end of the game. */
     DisplayFinalStats() {
         ClearMessages()

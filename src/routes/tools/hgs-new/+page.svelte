@@ -160,7 +160,6 @@
 
         <!-- Main content in the centre of the page. -->
         <div id="game-content">
-            <!-- Display the events of the last round. -->
             {#if render_state.is(RenderState.ROUND_EVENTS)}
                 {#each render_state.round.game_events as event}
                     <div class="event-message-wrapper flex flex-col justify-center">
@@ -200,6 +199,37 @@
                         <Message parts={['There are no survivors.']} />
                     </div>
                 {/if}
+            {:else if render_state.is(RenderState.GAME_DEATHS)}
+                {#each render_state.rounds as round, i}
+                    <div class="round-fatalities-wrapper flex-column flex-centre">
+                        <h6 class="round-title">
+                            <strong>
+                                Round {i + 1}: {round.stage.slice(0, 1).toUpperCase() + round.stage.slice(1)}
+                            </strong>
+                        </h6>
+                        <article class="round-fatalities">
+                            {#each round.game_events.filter(e => e.event.fatalities.length !== 0) as event}
+                                <Message parts={event.message} />
+                            {:else}
+                                <Message parts={['No-one died.']} />
+                            {/each}
+                        </article>
+                    </div>
+                {/each}
+            {:else if render_state.is(RenderState.STATS)}
+                <div class="flex flex-wrap">
+                    <div class="tribute-stats-wrapper">
+                        <div class="alive-stats-wrapper">
+                            <div class="alive-stats"></div>
+                        </div>
+                        <div class="dead-stats-wrapper">
+                            <h3 class="tribute-stats-header">The Rest</h3>
+                            <div class="dead-stats"></div>
+                        </div>
+                    </div>
+                </div>
+            {:else}
+                <p>Internal Error: Invalid render state</p>
             {/if}
         </div>
 
