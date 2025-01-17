@@ -1,7 +1,8 @@
 <script lang="ts">
     import Stripe from "$lib/components/Stripe.svelte";
-    import {PronounSetting, type TributeCharacterSelectOptions} from "$lib/js/hgs";
+    import {Configuration, DownloadURL, PronounSetting, type TributeCharacterSelectOptions} from "$lib/js/hgs";
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
+    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
@@ -9,12 +10,29 @@
     }
 
     let {tributes = $bindable(), start_game}: Props = $props();
-
     let get_image_dialog: SingleFileDialog
+    let error_dialog: ErrorDialog
+    let load_characters_dialog: SingleFileDialog
 
     /** Prompt the user for an image src to use for an <img>. */
     function GetImage(tribute: TributeCharacterSelectOptions) {
         get_image_dialog.open().and(res => { tribute.image_url = res.url })
+    }
+
+    /** Load characters from JSON. */
+    async function LoadCharacters() {
+        load_characters_dialog.open().and(async res => {
+            const chars = await Configuration.LoadCharacters(res.data as object);
+            if (chars instanceof Error) return error_dialog.open(chars)
+            tributes = chars
+        })
+    }
+
+    /** Save characters to JSON. */
+    async function SaveCharacters() {
+        const chars = await Configuration.SaveCharacters(tributes);
+        if (chars instanceof Error) return error_dialog.open(chars)
+        DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
     }
 </script>
 
@@ -25,6 +43,15 @@
     description={'You can input a local file or a public url.\nThe image can be in any format your browser supports.'}
     type='raw'
 />
+
+<SingleFileDialog
+    bind:this={load_characters_dialog}
+    title='Load Game Setup'
+    description={'Click below to upload a save.\nThis will override the current setup. Unsaved changes will be lost!'}
+    type='json'
+/>
+
+<ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>
 <section>
@@ -94,8 +121,8 @@
     <div class="mb-4"><p>Current Players: {tributes.length}</p></div>
 
     <button>Settings</button>
-    <button>Save Characters</button>
-    <button>Load Characters</button>
+    <button onclick={SaveCharacters}>Save Characters</button>
+    <button onclick={LoadCharacters}>Load Characters</button>
     <button>Upload Images</button>
 
     <div class="mt-8 flex flex-wrap gap-y-8" id="character-selects">

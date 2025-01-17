@@ -19,6 +19,21 @@ function ArraysEqual<T, U>(ts: T[], us: U[], predicate: (t: T, u: U) => boolean)
     return true
 }
 
+/** Prompt the user to download a file.
+ *
+ * @param filename The name that the file should have.
+ * @param url The URL of the file.
+ * */
+export function DownloadURL(filename: string, url: string) {
+    let a = document.createElement('a')
+    a.setAttribute('href', url)
+    a.setAttribute('download', filename)
+    a.style.display = 'none'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+}
+
 /** Clamp a number **/
 function clamp(x: number, lo: number, hi: number): number {
     return Math.min(Math.max(x, lo), hi)
