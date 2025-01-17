@@ -3,6 +3,7 @@
     import {Configuration, DownloadURL, PronounSetting, type TributeCharacterSelectOptions} from "$lib/js/hgs";
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
+    import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
@@ -13,6 +14,7 @@
     let get_image_dialog: SingleFileDialog
     let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
+    let upload_images_dialog: MultiFileDialog
 
     /** Prompt the user for an image src to use for an <img>. */
     function GetImage(tribute: TributeCharacterSelectOptions) {
@@ -34,6 +36,21 @@
         if (chars instanceof Error) return error_dialog.open(chars)
         DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
     }
+
+    /** Load several images from disk. */
+    async function UploadImages() {
+        upload_images_dialog.open().and(res => {
+            for (const f of res) {
+                const file = f.data as File
+                if (!file.type.startsWith('image')) continue
+                tributes.push({
+                    name: file.name.slice(0, file.name.lastIndexOf(".")),
+                    image_url: URL.createObjectURL(file),
+                    pronoun_option: PronounSetting.Common
+                })
+            }
+        })
+    }
 </script>
 
 <SingleFileDialog
@@ -49,6 +66,14 @@
     title='Load Game Setup'
     description={'Click below to upload a save.\nThis will override the current setup. Unsaved changes will be lost!'}
     type='json'
+/>
+
+<MultiFileDialog
+    bind:this={upload_images_dialog}
+    title='Upload Images'
+    preserve_extern_urls={true}
+    description='Click below to select multiple files to add them as tributes.'
+    type='raw'
 />
 
 <ErrorDialog bind:this={error_dialog} />
@@ -123,7 +148,7 @@
     <button>Settings</button>
     <button onclick={SaveCharacters}>Save Characters</button>
     <button onclick={LoadCharacters}>Load Characters</button>
-    <button>Upload Images</button>
+    <button onclick={UploadImages}>Upload Images</button>
 
     <div class="mt-8 flex flex-wrap justify-between gap-y-8">
         {#each tributes as tribute, i}
