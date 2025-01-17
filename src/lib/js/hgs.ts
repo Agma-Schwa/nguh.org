@@ -153,7 +153,7 @@ interface ParsedPronouns {
 }
 
 /** A tribute in game or on the character selection screen. */
-class Tribute {
+export class Tribute {
     readonly raw_name: string
     readonly name: NameSpan
     readonly pronouns?: TributePronouns
@@ -900,28 +900,29 @@ export class GameRenderState {
     /** The game rounds. */
     readonly rounds: GameRound[]
 
-    /**
-     * The tributes that should be rendered.
-     *
-     * This is either the tributes that died during the last day, or the
-     * tributes that won the game.
-     */
-    readonly tributes: Tribute[]
+    /** The tributes that died this day. */
+    readonly tributes_died: Tribute[]
+
+    /** The tributes that are still alive. */
+    readonly tributes_alive: Tribute[]
 
     constructor(
         state: RenderState,
         game_title: string,
         rounds: GameRound[],
-        tributes: Tribute[]
+        tributes_died: Tribute[],
+        tributes_alive: Tribute[]
     ) {
         this.state = state
         this.game_title = game_title
         this.rounds = rounds
-        this.tributes = tributes
+        this.tributes_died = tributes_died
+        this.tributes_alive = tributes_alive
     }
 
-    get has_tributes() { return this.tribute_size > 0 }
-    get tribute_size() { return this.tributes.length }
+    get deaths() { return this.tributes_died.length }
+    get has_alive() { return this.tributes_alive.length > 0 }
+    get has_deaths() { return this.deaths > 0 }
     get round() { return this.rounds[this.rounds.length - 1] }
     is(...state: RenderState[]) { return state.includes(this.state) }
 }
@@ -1079,7 +1080,10 @@ export class Game {
             state,
             this.#game_title,
             this.rounds,
-            state === RenderState.WINNERS ? this.tributes_alive : this.#tributes_died
+            this.#state === GameState.END
+                ? this.tributes.filter(t => t.died_in_round !== undefined)
+                : this.#tributes_died,
+            this.tributes_alive
         );
     }
 
