@@ -1,5 +1,6 @@
 <script lang="ts">
     import Dialog from "$lib/components/dialog/Dialog.svelte";
+    import type {DialogPromise} from "$lib/js/dialog";
 
     interface Props {
         title: string
@@ -8,10 +9,7 @@
 
     let {title, children}: Props = $props()
     let the_dialog: Dialog
-
-    export function open(): Promise<void> {
-        return the_dialog.open()
-    }
+    export function open(): DialogPromise { return the_dialog.open().ignore_cancellation() }
 </script>
 
 {#snippet controls()}
@@ -23,5 +21,4 @@
     {title}
     {controls}
     content={children}
-    ignore_exceptions={true}
 />

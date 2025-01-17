@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog";
+    import {ClampXOffs, ClampYOffs, type DialogPromise} from "$lib/js/dialog";
 
     // ====================================================================== //
     //  Types & Interfaces                                                    //
@@ -13,43 +13,48 @@
         SVG_BTN_TFILL_HOV = '--svg-button-hover-transparent-fill',
     }
 
-    class DialogPromise<T> {
-        readonly __handle: Promise<void | T>
+    // This is implemented here rather than in dialog.ts so we can directly
+    // reference the reactive properties of this dialog (e.g. in the ctor).
+    class DialogPromiseImpl<T> implements DialogPromise<T> {
+        readonly __handle: Promise<T>
         resolve: (value?: any) => void = () => {}
         reject: (reason?: any) => void = () => {}
 
-        /** Same as Promise<T>.then(callback, () => {}). */
         and(callback?: (t: T) => void): void { this.__handle.then(callback).catch(_ => {}) }
+        ignore_cancellation() { this.on_cancel(() => {}) }
 
-        /** Ignore promise rejections */
-        catch(): DialogPromise<T> {
-            this.__handle.catch(_ => {})
+        on_cancel(callback?: (reason: any) => void): DialogPromise<T> {
+            this.__handle.catch(callback)
             return this
         }
 
-        /** Same as Promise<T>.then(callback). */
-        then(callback?: (t: T) => void) { return this.__handle.then(callback) }
+        on_success(callback?: (t: T) => void): DialogPromise<T> {
+            this.__handle.then(callback)
+            return this
+        }
+
+        get promise(): Promise<T> { return this.__handle }
 
         constructor() {
             let that = this
             this.__handle = new Promise<T>((resolve, reject) => {
                 that.resolve = (value?: any) => {
                     the_promise = undefined
-                    the_dialog.close()
                     resolve(value)
+                    the_dialog.close()
                 }
 
                 that.reject = (reason?: any) => {
                     the_promise = undefined
-                    the_dialog.close()
                     reject(reason)
+                    the_dialog.close()
                 }
-            }).catch(_ => {})
+            })
         }
     }
 
     let the_dialog: HTMLDialogElement
-    let the_promise: DialogPromise<any> | undefined
+    let the_promise: DialogPromiseImpl<any> | undefined
     $effect(() => {
         if (title_colours) {
             let s = the_dialog.style
@@ -60,9 +65,9 @@
         }
     })
 
-    export function open(): Promise<any> {
+    export function open(): DialogPromise<any> {
         if (the_promise !== undefined) throw Error("Cannot open dialog because it is already open!")
-        the_promise = new DialogPromise<any>()
+        the_promise = new DialogPromiseImpl<any>()
 
         // Set the dialog's position to the top left corner of the visible screen so that the page
         // doesn't scroll and so that the dialog has is maximum size when it is first made visible.
@@ -76,7 +81,7 @@
         // Correct the position now that we know the dialog's width and height.
         the_dialog.style.left = ClampXOffs(innerWidth / 2 - the_dialog.scrollWidth / 2 + window.scrollX, the_dialog) + 'px'
         the_dialog.style.top = ClampYOffs(innerHeight / 2 - the_dialog.scrollHeight / 2 + window.scrollY, the_dialog) + 'px'
-        return the_promise.__handle
+        return the_promise
     }
 
     export function reject(reason?: any) {

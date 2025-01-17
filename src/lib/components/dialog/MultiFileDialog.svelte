@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog";
+    import {type DialogPromise, FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import Dialog from "$lib/components/dialog/Dialog.svelte";
 
@@ -23,7 +23,7 @@
         preserve_extern_urls = false,
     }: Props = $props()
 
-    export function open(): Promise<FileDialogResult[]> {
+    export function open(): DialogPromise<FileDialogResult[]> {
         uploaded_files = []
         return the_dialog.open()
     }
@@ -33,8 +33,7 @@
             const data = await Promise.all(uploaded_files.map(f => GetFileData(type, f, undefined, preserve_extern_urls)))
             if (data.length !== 0) the_dialog.resolve(data)
         } catch (e: any) {
-            error = e
-            error_dialog.open()
+            error_dialog.open(e)
         }
     }
 
@@ -45,7 +44,7 @@
     }
 </script>
 
-<ErrorDialog {error} bind:this={error_dialog} />
+<ErrorDialog bind:this={error_dialog} />
 
 {#snippet content()}
     <p>{description}</p>

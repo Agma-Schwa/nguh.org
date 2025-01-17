@@ -70,10 +70,10 @@
         return isFinite(len) ? len : 2
     } ())
 
-    let inner_width: number
-    let inner_height: number
-    let scroll_x: number
-    let scroll_y: number
+    let inner_width: number = $state(0)
+    let inner_height: number = $state(0)
+    let scroll_x: number = $state(0)
+    let scroll_y: number = $state(0)
     let old_inner_width: number
     let old_inner_height: number
     let old_scroll_x: number

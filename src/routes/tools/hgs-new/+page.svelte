@@ -9,6 +9,7 @@
     import {
         Configuration,
         type EventList,
+        type GameRenderState,
         Game, GameState,
         PronounSetting,
         Tag,
@@ -17,11 +18,13 @@
         type TributePronouns
     } from "$lib/js/hgs";
     import Message from "$lib/components/hgs/Message.svelte";
+    import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
 
     // TODO: Use web storage API to store uploaded files for tribute images.
 
     // Dialogs.
     let error_dialog: ErrorDialog
+    let abort_confirm: ConfirmDialog
 
     // The current game state.
     let game: Game | null = $state(null)
@@ -29,10 +32,9 @@
     // Event list.
     let event_list: EventList = $state(Configuration.LoadDefaultConfig())
 
-    // Remaining state for an ongoing game; this is all grouped together
-    // to ensure that games don’t influence each other. The only reason the
-    // game state is separate is because there is also a ‘game state’ for
-    // rendering the character selection UI.
+    // Render state for the current game. This is updated every game step
+    // to trigger Svelte to update the UI.
+    let render_state: GameRenderState | null = $state(null)
 
     // Tributes that are currently in the character selector.
     let tributes: TributeCharacterSelectOptions[] = $state([
@@ -52,16 +54,16 @@
     ]);
 
     /** Abort the current game. */
-    function AbortGame() { game = null }
+    function AbortGame() {
+        abort_confirm.open().and(() => {
+            game = null
+            render_state = null
+        })
+    }
 
     /** Advance the current game. */
     function Proceed() {
-        if (game === null) {
-            error_dialog.open(new Error("No game is currently running."))
-            return
-        }
-
-        game.AdvanceGame()
+        StepGame()
     }
 
     /** Create a new game. */
@@ -73,13 +75,34 @@
         }
 
         game = new Game(in_game_tributes, event_list)
-        game.AdvanceGame()
+        StepGame()
+    }
+
+    /** Advance the game. */
+    function StepGame() {
+        if (game === null) {
+            error_dialog.open(new Error("No game is currently running."))
+            return
+        }
+
+        const state = game.AdvanceGame()
+        if (state instanceof Error) {
+            error_dialog.open(state)
+            return
+        }
+
+        window.scrollTo(0, 0)
+        render_state = state
+
+        // FIXME: We probably want a custom <Image> component instead.
+        // @ts-ignore
+        window.SetOpenImagePreview()
     }
 
     // For testing.
-    $effect(() => {
-        StartGame()
-    })
+/*    $effect(() => {
+        if (game == null) StartGame()
+    })*/
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
@@ -91,14 +114,18 @@
 </svelte:head>
 
 <ErrorDialog bind:this={error_dialog} />
+<ConfirmDialog
+    bind:this={abort_confirm}
+    description="Your progress will be lost. Are you sure you want to abort the game?"
+/>
 
 {#if game === null}
     <CharacterSelectScreen bind:tributes={tributes} start_game={StartGame} />
-{:else}
-    <Stripe>{game.game_title} (state: {game.state})</Stripe>
+{:else if render_state}
+    <Stripe>{render_state.game_title} (state: {render_state.state})</Stripe>
     <section class="mt-8">
         <!-- Some rounds require us to display an additional message. -->
-        {#if game.state === GameState.ROUND_RESULTS}
+        {#if render_state.state === GameState.ROUND_RESULTS}
             <p id="game-before-content">
                 {game.tributes_died.length} cannon shot{game.tributes_died.length === 1 ? '' : 's'}
                 can be heard in the distance.
@@ -108,8 +135,8 @@
         <!-- Main content in the centre of the page. -->
         <div id="game-content">
             <!-- Display the events of the last round. -->
-            {#if game.state === GameState.ROUND_PART_1 || GameState.ROUND_PART_2}
-                {#each game.last_round.game_events as event}
+            {#if render_state.state === GameState.ROUND_PART_1 || GameState.ROUND_PART_2}
+                {#each render_state.round.game_events as event}
                     <div class="event-message-wrapper flex flex-col justify-center">
                         <div class="event-message-images flex">
                             {#each event.players_involved as tribute}
@@ -130,6 +157,8 @@
             <button id="abort-game" class="danger-button" onclick={AbortGame}>Abort Game</button>
         </div>
     </section>
+{:else}
+    <p>Something went horribly wrong. This is a bug. </p>
 {/if}
 
 <style lang="scss">
