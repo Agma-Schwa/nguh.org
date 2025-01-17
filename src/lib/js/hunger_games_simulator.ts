@@ -76,21 +76,6 @@ function StringToObjectURL(str: string): string {
     return URL.createObjectURL(StringToBlob(str))
 }
 
-/** Prompt the user to download a file.
- *
- * @param filename The name that the file should have.
- * @param url The URL of the file.
- * */
-function DownloadURL(filename: string, url: string) {
-    let a = document.createElement('a')
-    a.setAttribute('href', url)
-    a.setAttribute('download', filename)
-    a.style.display = 'none'
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-}
-
 /// ====================================================================== ///
 ///  Page                                                                  ///
 /// ====================================================================== ///
@@ -428,11 +413,6 @@ namespace UI {
         })
     }
 
-    /** Download the current characters as a JSON file. */
-    export async function SaveCharacters() {
-        const chars = await Configuration.SaveCharacters();
-        DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
-    }
 
     /** Load characters from a file. */
     export async function LoadCharacters() {

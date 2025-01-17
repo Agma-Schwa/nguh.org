@@ -26,6 +26,7 @@
     export function open(): DialogPromise<FileDialogResult> {
         file_or_url = ''
         uploaded_file_data = undefined
+        input.value = ''
         return the_dialog.open()
     }
 
@@ -35,6 +36,7 @@
             if (data) the_dialog.resolve(data)
         } catch (e: any) {
             error_dialog.open(e)
+            the_dialog.reject()
         }
     }
 
