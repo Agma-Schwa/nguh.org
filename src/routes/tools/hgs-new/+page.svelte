@@ -133,7 +133,7 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
-<Ribbon><em>Last Updated: 28 October 2024</em></Ribbon>
+<Ribbon><em>Last Updated: ?? January 2025</em></Ribbon>
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->
@@ -219,7 +219,6 @@
 {:else}
     <p>Something went horribly wrong. This is a bug. </p>
 {/if}
-<button onclick={SkipToEnd}>Skip To End</button>
 
 <style lang="scss">
     h6 {

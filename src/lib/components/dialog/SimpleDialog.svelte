@@ -4,12 +4,12 @@
 
     interface Props {
         title: string
-        children: import('svelte').Snippet
+        children?: import('svelte').Snippet
     }
 
     let {title, children}: Props = $props()
     let the_dialog: Dialog
-    export function open(): DialogPromise { return the_dialog.open().ignore_cancellation() }
+    export function open() { return the_dialog.open().ignore_cancellation() }
 </script>
 
 {#snippet controls()}

@@ -136,84 +136,6 @@ void function InitSettingsDialog() {
 }()
 
 /// ====================================================================== ///
-///  Adding Characters                                                     ///
-/// ====================================================================== ///
-
-/** Add an empty character to the character selection screen. */
-function AddCharacter() {
-    PrepareAddingCharacter()
-
-    /// Add the new character.
-    character_selects.appendChild(game_character_template.cloneNode(true))
-
-    FinishAddingCharacter()
-}
-
-/// We need to call this function from outside this script.
-/// @ts-ignore
-window.AddCharacter = AddCharacter
-
-/**
- * Add a character to the character selection screen.
- *
- * @param imgsrc The URL of the image to be used for this character.
- * @param name The name of this character.
- */
-function AddCharacterFromImage(imgsrc: string, name: string) {
-    PrepareAddingCharacter()
-
-    /// Append the new character and set the image and name.
-    character_selects.appendChild(game_character_template.cloneNode(true))
-
-    /// @ts-ignore
-    character_selects.lastElementChild.getElementsByClassName("character-name")[0].value = name
-
-    /// @ts-ignore
-    character_selects.lastElementChild.getElementsByClassName("tribute-image")[0].src = imgsrc
-
-    /// Add the button again.
-    FinishAddingCharacter()
-}
-
-/** Display/Hide the custom gender input when appropriate. */
-function ChangeSelect(select: any) {
-    let input = select.parentElement.parentElement.getElementsByClassName('custom-gender-input-wrapper')[0]
-    input.style.display = (select.value === 'other' ? 'flex' : 'none')
-}
-
-/** Append the add character button and add the event listeners. */
-function FinishAddingCharacter() {
-    character_selects.appendChild(add_character_button)
-    RegisterEventListeners()
-}
-
-/** Remove the add character button and update the player count. */
-function PrepareAddingCharacter() {
-    /// Remove the button and update the player count.
-    add_character_button.remove()
-    current_players.innerHTML = 'Current Players: ' + ++player_count
-}
-
-/** Reinstall all event listeners for the character selection EventsDialog. */
-function RegisterEventListeners() {
-    for (let img of document.getElementsByClassName('tribute-image') as HTMLCollectionOf<HTMLElement>)
-        img.onclick = () => GetImage(img as HTMLImageElement)
-    for (let select of document.getElementsByClassName('gender-select') as HTMLCollectionOf<HTMLElement>)
-        select.onchange = () => ChangeSelect(select)
-    for (let button of document.getElementsByClassName('character-delete') as HTMLCollectionOf<HTMLElement>)
-        button.onclick = () => {
-            /// @ts-ignore
-            button.parentElement.parentElement.parentElement.remove()
-            current_players.innerHTML = 'Current Players: ' + --player_count
-        }
-    for (let button of document.getElementsByClassName('image-remove'))
-        /// @ts-ignore
-        button.onclick = () => button.parentElement.parentElement.parentElement.children[1].children[0].src = ''
-
-    add_character_button.onclick = () => AddCharacter()
-}
-
-/// ====================================================================== ///
 ///  Events and UI                                                         ///
 /// ====================================================================== ///
 namespace UI {
@@ -399,20 +321,6 @@ namespace UI {
             RefreshEvents()
         })
     }
-
-    /** Upload multiple images and add them as tributes. */
-    export function AddMultiFiles() {
-        Dialog.files('Upload Images', {
-            description: '<p>Click below to select multiple files to add them as tributes.</p>',
-            preserve_extern_urls: true,
-            type: FileType.RAW,
-        }).and(res => {
-            for (const file of res.files as File[])
-                if (file.type.startsWith('image'))
-                    AddCharacterFromImage(URL.createObjectURL(file), file.name.slice(0, file.name.lastIndexOf(".")))
-        })
-    }
-
 } /// namespace UI
 
 /** Shadow root of the events dialog. */

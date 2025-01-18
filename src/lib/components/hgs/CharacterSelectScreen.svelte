@@ -4,6 +4,7 @@
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
+    import Changelog from "$lib/components/hgs/Changelog.svelte";
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
@@ -138,7 +139,7 @@
         Last Update: 28 October 2024.
     </p>
 
-    <button class="mt-4">Changelog</button>
+    <Changelog />
 </section>
 
 <Stripe>Choose your characters</Stripe>
