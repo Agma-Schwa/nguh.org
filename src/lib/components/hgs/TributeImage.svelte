@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Tribute} from "$lib/js/hgs";
+    import type {Tribute} from "$lib/js/hgs.svelte";
 
     interface Props {
         tribute: Tribute,
