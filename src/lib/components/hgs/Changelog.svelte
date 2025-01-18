@@ -12,6 +12,7 @@
                 <li>Refactored the Hunger Games Simulator to actually leverage Svelte.</li>
                 <li>The ‘OK’ button of file dialogs is now disabled when no file is selected.</li>
                 <li>Improved centering and alignment of the add character button.</li>
+                <li>Moved event message syntax into a separate dialog.</li>
             </ul>
         </div>
         <div class="changelog-day">
