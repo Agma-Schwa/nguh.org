@@ -1,9 +1,10 @@
 <script lang='ts'>
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
-    import {Configuration, DownloadURL, type EventList, StringToObjectURL} from '$lib/js/hgs.svelte';
+    import {Configuration, DownloadURL, type EventList, Event, StringToObjectURL, TitleCase} from '$lib/js/hgs.svelte';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import SingleFileDialog from '$lib/components/dialog/SingleFileDialog.svelte';
+    import AddEventDialog from '$lib/components/hgs/AddEventDialog.svelte';
 
     interface Props {
         event_list: EventList
@@ -14,11 +15,6 @@
     let error_dialog: ErrorDialog
     let confirm: ConfirmDialog
     let json_file_dialog: SingleFileDialog
-
-    // We don’t use 'Object.keys' because we want a custom sort order for
-    // these (the three main stages of the game first, then special events
-    // like feast, and the 'all' list at the very end).
-    let keys = ['bloodbath', 'day', 'night', 'feast','all'] satisfies (keyof EventList)[]
 
     function Clear() {
         confirm.open('This will completely delete ALL events. Continue?').and(() => {
@@ -81,7 +77,7 @@
 <SimpleDialog bind:this={dialog} title='Event Settings'>
     <div id="event-dialog-content">
         <div class="flex gap-4 mb-4">
-            <button>Add</button>
+            <AddEventDialog bind:event_list={event_list} />
             <button onclick={() => Upload(false)}>Add from File</button>
             <button onclick={Clear} disabled={IsEmpty()}>Clear</button>
             <button onclick={Download} disabled={IsEmpty()}>Download</button>
@@ -110,10 +106,10 @@
                 </tr>
             </thead>
             <tbody>
-            {#each keys as key}
+            {#each Event.list_keys_logical_order as key}
                 <tr class="list-name">
                     <td></td>
-                    <td colspan="0">{key.slice(0, 1).toUpperCase() + key.slice(1)}</td>
+                    <td colspan="0">{TitleCase(key)}</td>
                 </tr>
                 {#each event_list[key] ?? [] as event}
                     <tr class="event-entry" onclick={() => event.enabled = !event.enabled}>

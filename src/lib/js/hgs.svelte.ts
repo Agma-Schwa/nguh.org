@@ -34,9 +34,19 @@ export function DownloadURL(filename: string, url: string) {
     a.remove()
 }
 
+/** Create a data URL for an object's JSON representation. */
+function ObjectToDataURL(obj: any) {
+    return 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj, null, 4))
+}
+
 /** Create a Blob from a string */
 function StringToBlob(str: string, mime_type: string = "application/json"): Blob {
     return new Blob([str], {type: mime_type})
+}
+
+/** Convert a string to Title Case. */
+export function TitleCase(str: string): string {
+    return str.toLowerCase().replace(/\b\w/g, l => l.toUpperCase())
 }
 
 /** Create a Blob from a string */
@@ -377,7 +387,8 @@ export namespace Configuration {
         }
 
         export const enum StoredEventTag {
-            BigLang = 'BIG LANG'
+            BigLang = 'BIG LANG',
+            Custom = 'CUSTOM',
         }
 
         /** Check whether a configuration is a legacy configuration. */
@@ -773,7 +784,7 @@ function ComposeEventMessage(event: GameEvent): FormattedMessage {
 }
 
 /** Calculate the number of tributes required based on the message template. */
-function CalculateTributesInvolved(raw_message: string): number {
+export function CalculateTributesInvolved(raw_message: string): number {
     const v_raw = raw_message.match(/%[NAGRsyih!]?(\d)/g)
         ?.map(x => +x.slice(-1))
         ?.reduce((prev, curr) => Math.max(prev, curr), 0)
@@ -787,10 +798,13 @@ interface TagRequirement {
     player_index: number
 }
 
+export type EventListKey = keyof EventList
+
 /** An event in the event list (NOT in game; for that, see `GameEvent`). */
-class Event {
+export class Event {
     static __last_id = -1
-    static readonly list_keys = ['day', 'all', 'feast', 'night', 'bloodbath'] as const
+    static readonly list_keys = ['day', 'all', 'feast', 'night', 'bloodbath'] as const satisfies EventListKey[]
+    static readonly list_keys_logical_order = ['bloodbath', 'day', 'night', 'feast', 'all'] as const satisfies EventListKey[]
 
     message: string
     players_involved: number
@@ -802,14 +816,20 @@ class Event {
     requirements: TagRequirement[]
 
     constructor(message: string, fatalities: number[] = [], killers: number[] = [], type = 'BUILTIN') {
-        this.message = message
+        this.message = message.trim()
+        if (this.message.length === 0)
+            throw Error(`Event message cannot be empty!`)
+
         this.players_involved = Math.max(CalculateTributesInvolved(message))
         if (this.players_involved < 1 || this.players_involved > 9 || !Number.isFinite(this.players_involved))
-            throw Error(`Event '${message}' is ill-formed since it would involve ${this.players_involved} players`)
-        if (Math.max(...fatalities) > this.players_involved)
-            throw Error(`Invalid fatalities '${fatalities.toString()}' for event since it only involves ${this.players_involved} players`)
-        if (Math.max(...killers) > this.players_involved)
-            throw Error(`Invalid killers '${killers.toString()}' for event since it only involves ${this.players_involved} players`)
+            throw Error(`Event '${message}' is ill-formed since it would involve '${this.players_involved}' players\n(must be between 1 and 9)!`)
+
+        if (Math.max(...fatalities) >= this.players_involved)
+            throw Error(`Deaths '${fatalities.toString()}' are invalid: the event only involves ${this.players_involved} players!`)
+
+        if (Math.max(...killers) >= this.players_involved)
+            throw Error(`Killers '${killers.toString()}' are invalid: the event only involves ${this.players_involved} players!`)
+
         this.fatalities = fatalities
         this.killers = killers
         this.id = ++Event.__last_id
@@ -870,7 +890,7 @@ export const enum RenderState {
 }
 
 /** These correspond to the event lists. */
-const enum GameStage {
+export const enum GameStage {
     BLOODBATH = 'bloodbath',
     DAY = 'day',
     NIGHT = 'night',
@@ -1189,7 +1209,7 @@ export class Game {
         // Determine the current round title.
         if (this.stage === GameStage.DAY) this.#game_title = `Day ${this.days_passed}`
         else if (this.stage === GameStage.NIGHT) this.#game_title = `Night ${this.nights_passed}`
-        else this.#game_title = this.stage.slice(0, 1).toUpperCase() + this.stage.slice(1)
+        else this.#game_title = TitleCase(this.stage)
 
         // Create the round.
         let round: GameRound = {
