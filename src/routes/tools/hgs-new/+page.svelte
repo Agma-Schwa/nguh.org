@@ -11,7 +11,7 @@
         Game,
         type GameRenderState,
         PronounSetting,
-        RenderState, type RequiredFatalities,
+        RenderState, type RequiredFatalities, TitleCase,
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
     import Message from "$lib/components/hgs/Message.svelte";
@@ -178,7 +178,7 @@
                     {#each render_state.rounds as round, i}
                         <div class="flex flex-col">
                             <h6 class="text-center font-bold mb-0">
-                                Round {i + 1}: {round.stage.slice(0, 1).toUpperCase() + round.stage.slice(1)}
+                                Round {i + 1}: {TitleCase(round.stage)}
                             </h6>
                             <article class="flex flex-col gap-0 items-center mr-auto ml-auto max-w-2xl text-center">
                                 {#each round.game_events.filter(e => e.event.fatalities.length !== 0) as event}
