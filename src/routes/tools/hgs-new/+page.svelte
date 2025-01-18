@@ -11,9 +11,9 @@
         Game,
         type GameRenderState,
         PronounSetting,
-        RenderState,
+        RenderState, type RequiredFatalities,
         type TributeCharacterSelectOptions
-    } from "$lib/js/hgs";
+    } from '$lib/js/hgs';
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
     import Card from "$lib/components/hgs/Card.svelte";
@@ -85,14 +85,14 @@
     }
 
     /** Create a new game. */
-    function StartGame() {
+    function StartGame(fatalities: RequiredFatalities) {
         const in_game_tributes = Game.CreateTributesFromCharacterSelectOptions(tributes)
         if (in_game_tributes instanceof Error) {
             error_dialog.open(in_game_tributes)
             return
         }
 
-        game = new Game(in_game_tributes, event_list)
+        game = new Game(in_game_tributes, event_list, fatalities)
         StepGame()
     }
 
@@ -121,14 +121,6 @@
         // FIXME: We probably want a custom <Image> component instead.
         // @ts-ignore
         window.SetOpenImagePreview()
-    }
-
-    // For testing.
-    function SkipToEnd() {
-        EndGame()
-        StartGame()
-        while (render_state?.state !== RenderState.GAME_DEATHS)
-            StepGame()
     }
 </script>
 
