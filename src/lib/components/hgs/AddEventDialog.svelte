@@ -87,9 +87,8 @@
     <div class="flex flex-col gap-4 w-full">
         <p>
             Specify the data for an event below and then press 'Add' to add it;<br>to view the
-            message syntax, click on 'Message Syntax' below.
+            message syntax, click on 'View Message Syntax' below.
         </p>
-        <div class="mb-2"><button class="m-auto block" onclick={() => message_syntax_dialog.open()}>View Message Syntax</button></div>
         <div class="
                 grid grid-cols-2 gap-4
                 [&>label]:text-right
@@ -115,6 +114,7 @@
 
 {#snippet controls()}
     <button onclick={Add}>Add</button>
+    <button onclick={() => message_syntax_dialog.open()}>View Message Syntax</button>
     <button onclick={() => dialog.reject()}>Cancel</button>
 {/snippet}
 

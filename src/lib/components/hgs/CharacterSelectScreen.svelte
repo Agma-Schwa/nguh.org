@@ -150,9 +150,6 @@
     <p>
         Thanks also to GitHub user @spaulmark for implementing the bulk-upload feature.
     </p>
-    <p>
-        Last Update: 28 October 2024.
-    </p>
 
     <Changelog />
 </section>
