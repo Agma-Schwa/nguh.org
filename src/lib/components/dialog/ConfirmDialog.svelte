@@ -4,13 +4,16 @@
 
     interface Props {
         title?: string
-        description: string
+        description?: string
     }
 
-    let {title = 'Warning', description}: Props = $props()
+    let {title = 'Warning', description = '<No description provided>'}: Props = $props()
     let the_dialog: Dialog
 
-    export function open(): DialogPromise { return the_dialog.open() }
+    export function open(override_description?: string): DialogPromise {
+        if (override_description) description = override_description
+        return the_dialog.open()
+    }
 </script>
 
 {#snippet controls()}

@@ -34,6 +34,16 @@ export function DownloadURL(filename: string, url: string) {
     a.remove()
 }
 
+/** Create a Blob from a string */
+function StringToBlob(str: string, mime_type: string = "application/json"): Blob {
+    return new Blob([str], {type: mime_type})
+}
+
+/** Create a Blob from a string */
+export function StringToObjectURL(str: string, mime_type: string = "application/json"): string {
+    return URL.createObjectURL(StringToBlob(str, mime_type))
+}
+
 /** Clamp a number **/
 function clamp(x: number, lo: number, hi: number): number {
     return Math.min(Math.max(x, lo), hi)
@@ -471,10 +481,9 @@ export namespace Configuration {
         loader: EventLoader<T>
     ) {
         for (const key of Event.list_keys) {
-            const into_list = into[key] ??= []
-            const from_list = lists[key]
-            from_list?.filter(e => !EventExists(into_list, e, equal))
-                     ?.forEach(e => loader(e, into_list))
+            into[key] ??= []
+            lists[key]?.filter(e => !EventExists(into[key]!!, e, equal))
+                     ?.forEach(e => loader(e, into[key]!!))
         }
     }
 
@@ -526,21 +535,18 @@ export namespace Configuration {
     }
 
     /** Create an object containing the events data to store. */
-    function SaveEvents(): EventList<V1.StoredEvent> {
-        let lists: EventList<V1.StoredEvent> = {
-            all: [],
-            bloodbath: [],
-            day: [],
-            feast: [],
-            night: [],
-        }
+    function SaveEvents(event_list: EventList): EventList<V1.StoredEvent> {
+        let lists = {
+            all: [] as V1.StoredEvent[],
+            bloodbath: [] as V1.StoredEvent[],
+            day: [] as V1.StoredEvent[],
+            feast: [] as V1.StoredEvent[],
+            night: [] as V1.StoredEvent[],
+        } satisfies EventList<V1.StoredEvent>
 
         for (const key of Event.list_keys) {
-            // @ts-ignore
-            const list = Game.event_lists[key] as Event[]
-            // @ts-ignore
-            const stored_list = lists[key] as V1.StoredEvent[]
-
+            const list = event_list[key] as Event[]
+            const stored_list = lists[key]
             for (const e of list) {
                 // Copy the event data.
                 let stored_event: V1.StoredEvent = {
@@ -572,10 +578,10 @@ export namespace Configuration {
     }
 
     /** Save the configuration. */
-    export function Save(): V1.Config {
+    export function Save(event_list: EventList): V1.Config {
         return {
             version: current_config_version,
-            events: SaveEvents(),
+            events: SaveEvents(event_list),
             tags: SaveTags()
         }
     }

@@ -26,7 +26,7 @@
         <p style='max-width: 50ch;'>
             Hover over the names of settings (e.g. ‘Deaths per Round’) for a more detailed description.
         </p>
-        <div><EditEventsDialog {event_list} /></div>
+        <div><EditEventsDialog bind:event_list={event_list} /></div>
         <fieldset>
             <!-- Do NOT indent the second line here as that will indent the text in the tooltip. -->
             <legend>

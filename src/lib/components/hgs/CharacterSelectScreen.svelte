@@ -91,7 +91,7 @@
     type='raw'
 />
 
-<SettingsDialog bind:this={settings_dialog} {event_list} />
+<SettingsDialog bind:this={settings_dialog} bind:event_list={event_list} />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>

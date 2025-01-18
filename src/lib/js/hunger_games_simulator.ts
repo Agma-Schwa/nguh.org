@@ -66,16 +66,6 @@ function RemoveAllChildNodes(parent: HTMLElement) {
     while (parent.firstChild) parent.removeChild(parent.firstChild)
 }
 
-/** Create a Blob from a string */
-function StringToBlob(str: string, mime_type: string = "application/json"): Blob {
-    return new Blob([str], {type: mime_type})
-}
-
-/** Create a Blob from a string */
-function StringToObjectURL(str: string): string {
-    return URL.createObjectURL(StringToBlob(str))
-}
-
 /// ====================================================================== ///
 ///  Page                                                                  ///
 /// ====================================================================== ///
@@ -140,86 +130,6 @@ void function InitSettingsDialog() {
 /// ====================================================================== ///
 namespace UI {
     export let events_dialog: Dialog<void> | null = null;
-
-    /** Create and display the events dialog. */
-    export function OpenEventsDialog() {
-        if (events_dialog) {
-            events_dialog.__data.events_changed_map.clear()
-            events_dialog.open().and(ApplyEventChanges)
-            return
-        }
-
-        /// Create the dialog if it doesn't exist yet
-        let div = document.createElement('div')
-        div.style.display = 'block'
-
-        /// The dialog contents are in a shadow root to get rid
-        /// of all the CSS that that page would otherwise provide.
-        div.attachShadow({mode: 'open'})
-        let shadow = div.shadowRoot as EventsShadowRoot
-        shadow.appendChild(edit_events_table_template.cloneNode(true))
-        shadow.events_changed_map = new Map()
-
-        /// Set up the dialog.
-        events_dialog = Dialog.make<void>('Settings', div, ['OK', 'Apply', 'Cancel'], 'events-dialog', false)
-        events_dialog.content.insertAdjacentHTML('afterbegin', 'You can add, enable, disable, download, and upload events below')
-        events_dialog.on('Apply', ApplyEventChanges)
-        events_dialog.on('Cancel', d => d.reject())
-        events_dialog.on('OK', d => {
-            ApplyEventChanges()
-            d.resolve()
-        })
-        events_dialog.__data = {}
-        events_dialog.__data.events_table = shadow.getElementById('edit-events-table') as HTMLTableElement
-        events_dialog.__data.events_changed_map = shadow.events_changed_map
-        RefreshEvents()
-
-        /// Actually show the dialog.
-        OpenEventsDialog()
-    }
-
-    /** Reload the events table from the event list. */
-    export function RefreshEvents() {
-        if (!UI.events_dialog) return
-
-        let tbodies: HTMLElement[] = []
-        for (let el of (UI.events_dialog).__data.events_table.children)
-            if (el.tagName === 'TBODY')
-                tbodies.push(el as HTMLElement)
-        for (let el of tbodies) el.remove()
-
-        let events = new Map()
-        for (let event_list of Object.keys(Game.event_lists)) {
-            if (!events.has(event_list)) events.set(event_list,
-                `<tbody class="edit-events-tbody"><tr class="event-list-stage-header"><td></td><td>` +
-                `${event_list.charAt(0).toUpperCase() + event_list.slice(1)}</td><td></td><td></td><td></td><td></td></tr>`)
-
-            let lst = events.get(event_list)
-            /// @ts-ignore
-            for (let event of Game.event_lists[event_list] as Event[])
-                lst += `<tr onclick="HandleCheckbox(this.firstChild.firstChild)"><td><input data-id='${event.id}' `
-                    + `onclick = "HandleCheckbox(this)" type="checkbox" ${event.enabled ? 'checked' : ''}></td>`
-                    + `<td>${event.message}</td><td>${event.players_involved}</td><td>${event.type}</td>`
-                    + `<td>${event.fatalities}</td><td>${event.killers}</td></tr>`
-
-            events.set(event_list, lst)
-        }
-
-        for (let lst of Object.keys(Game.event_lists))
-            (UI.events_dialog).__data.events_table
-                .insertAdjacentHTML('beforeend', events.get(lst) + '</tbody>')
-    }
-
-    /** Enable/disable events based on whether they're checked/unchecked in the events table. */
-    export function ApplyEventChanges() {
-        if (UI.events_dialog) {
-            for (let event_list of Object.keys(Game.event_lists))
-                /// @ts-ignore
-                for (let event of Game.event_lists[event_list])
-                    if (UI.events_dialog.__data.events_changed_map.has(event.id))
-                        event.enabled = UI.events_dialog.__data.events_changed_map.get(event.id)
-        }
-    }
 
     /** Download the current events as a JSON file. */
     export function SaveConfiguration() { DownloadURL('hgs-config.json', StringToObjectURL(JSON.stringify(Configuration.Save(), null, 4))) }
