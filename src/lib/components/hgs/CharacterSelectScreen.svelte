@@ -1,14 +1,21 @@
 <script lang="ts">
     import Stripe from "$lib/components/Stripe.svelte";
-    import {Configuration, DownloadURL, PronounSetting, type TributeCharacterSelectOptions} from "$lib/js/hgs";
+    import {
+        Configuration,
+        DownloadURL,
+        PronounSetting,
+        type RequiredFatalities,
+        type TributeCharacterSelectOptions
+    } from '$lib/js/hgs';
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
     import Changelog from "$lib/components/hgs/Changelog.svelte";
+    import SettingsDialog from '$lib/components/hgs/SettingsDialog.svelte';
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
-        start_game: () => void
+        start_game: (fatalities: RequiredFatalities) => void
     }
 
     let {tributes = $bindable(), start_game}: Props = $props();
@@ -16,6 +23,7 @@
     let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
     let upload_images_dialog: MultiFileDialog
+    let settings_dialog: SettingsDialog
 
     /** Prompt the user for an image src to use for an <img>. */
     function GetImage(tribute: TributeCharacterSelectOptions) {
@@ -36,6 +44,11 @@
         const chars = await Configuration.SaveCharacters(tributes);
         if (chars instanceof Error) return error_dialog.open(chars)
         DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
+    }
+
+    /** Start the game. */
+    function StartGame() {
+        start_game(settings_dialog.deaths_per_round())
     }
 
     /** Load several images from disk. */
@@ -77,6 +90,7 @@
     type='raw'
 />
 
+<SettingsDialog bind:this={settings_dialog} />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>
@@ -146,7 +160,7 @@
 <section>
     <div class="mb-4"><p>Current Players: {tributes.length}</p></div>
 
-    <button>Settings</button>
+    <button onclick={() => settings_dialog.open()}>Settings</button>
     <button onclick={SaveCharacters}>Save Characters</button>
     <button onclick={LoadCharacters}>Load Characters</button>
     <button onclick={UploadImages}>Upload Images</button>
@@ -235,7 +249,7 @@
         </div>
     </div>
     <div class="flex justify-center mt-8">
-        <button onclick={start_game}>Start Game</button>
+        <button onclick={StartGame}>Start Game</button>
     </div>
 </section>
 

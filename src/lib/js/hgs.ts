@@ -829,10 +829,15 @@ class Event {
 // ====================================================================== //
 //  Game                                                                  //
 // ====================================================================== //
-export const enum RequiredFatalities {
+export const enum RequiredFatalitiesMode {
     Disable = 'Disable',
     Percent = 'Percent',
     Absolute = 'Absolute',
+}
+
+export interface RequiredFatalities {
+    mode: RequiredFatalitiesMode,
+    value: number
 }
 
 /** The state of the game. */
@@ -994,8 +999,7 @@ export class Game {
     constructor(
         tributes: Tribute[],
         events: EventList,
-        required_fatalities_mode: RequiredFatalities = RequiredFatalities.Disable,
-        required_fatalities_per_cent: string = '0',
+        fatalities: RequiredFatalities,
         fatality_reroll_rate: number = .6
     ) {
         this.tributes = [...tributes] // We want our own copy of this.
@@ -1009,15 +1013,17 @@ export class Game {
         }
 
         /// Set required fatality rate.
-        if (required_fatalities_mode !== RequiredFatalities.Disable) {
-            const value = parseInt(required_fatalities_per_cent.replaceAll('%', '').trim(), 10)
-            if (isFinite(value)) {
+        if (fatalities.mode !== RequiredFatalitiesMode.Disable) {
+            if (isFinite(fatalities.value)) {
                 // Relative to the total number of tributes.
-                if (required_fatalities_mode === RequiredFatalities.Percent)
-                    this.required_fatalities = Math.ceil((clamp(value, 0, 100) / 100.0) * this.tributes.length)
+                if (fatalities.mode === RequiredFatalitiesMode.Percent) {
+                    this.required_fatalities = Math.ceil(
+                        (clamp(fatalities.value, 0, 100) / 100.0) * this.tributes.length
+                    )
+                }
 
                 // Absolute.
-                else this.required_fatalities = Math.max(0, value)
+                else this.required_fatalities = Math.max(0, fatalities.value)
 
                 // Shouldn’t ever happen, but still.
                 if (!isFinite(this.required_fatalities as number)) this.required_fatalities = undefined
