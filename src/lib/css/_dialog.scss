@@ -91,7 +91,6 @@ dialog {
             overflow-y: auto;
 
             p { margin-block: 0; }
-            p + p { margin-block-start: -.5rem; }
         }
 
         &-controls {

@@ -141,8 +141,8 @@
 {#if game === null}
     <CharacterSelectScreen
         bind:tributes={tributes}
+        bind:event_list={event_list}
         start_game={StartGame}
-        {event_list}
     />
 {:else if render_state}
     <Stripe>Hunger Games Simulator</Stripe>
