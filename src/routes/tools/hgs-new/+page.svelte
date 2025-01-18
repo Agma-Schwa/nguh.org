@@ -13,7 +13,7 @@
         PronounSetting,
         RenderState, type RequiredFatalities,
         type TributeCharacterSelectOptions
-    } from '$lib/js/hgs';
+    } from '$lib/js/hgs.svelte';
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
     import Card from "$lib/components/hgs/Card.svelte";
@@ -139,7 +139,11 @@
 />
 
 {#if game === null}
-    <CharacterSelectScreen bind:tributes={tributes} start_game={StartGame} />
+    <CharacterSelectScreen
+        bind:tributes={tributes}
+        start_game={StartGame}
+        {event_list}
+    />
 {:else if render_state}
     <Stripe>Hunger Games Simulator</Stripe>
     <h3>{render_state.game_title}</h3>

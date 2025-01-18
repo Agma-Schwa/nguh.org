@@ -790,7 +790,7 @@ class Event {
     players_involved: number
     fatalities: number[]
     killers: number[]
-    enabled: boolean
+    enabled: boolean = $state(true)
     id: number
     type: string
     requirements: TagRequirement[]
@@ -806,7 +806,6 @@ class Event {
             throw Error(`Invalid killers '${killers.toString()}' for event since it only involves ${this.players_involved} players`)
         this.fatalities = fatalities
         this.killers = killers
-        this.enabled = true
         this.id = ++Event.__last_id
         this.type = type
         this.requirements = []

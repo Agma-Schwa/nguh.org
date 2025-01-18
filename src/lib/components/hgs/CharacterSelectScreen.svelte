@@ -2,11 +2,11 @@
     import Stripe from "$lib/components/Stripe.svelte";
     import {
         Configuration,
-        DownloadURL,
+        DownloadURL, type EventList,
         PronounSetting,
         type RequiredFatalities,
         type TributeCharacterSelectOptions
-    } from '$lib/js/hgs';
+    } from '$lib/js/hgs.svelte';
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
@@ -16,9 +16,10 @@
     interface Props {
         tributes: TributeCharacterSelectOptions[]
         start_game: (fatalities: RequiredFatalities) => void
+        event_list: EventList
     }
 
-    let {tributes = $bindable(), start_game}: Props = $props();
+    let {tributes = $bindable(), event_list = $bindable(), start_game}: Props = $props();
     let get_image_dialog: SingleFileDialog
     let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
@@ -90,7 +91,7 @@
     type='raw'
 />
 
-<SettingsDialog bind:this={settings_dialog} />
+<SettingsDialog bind:this={settings_dialog} {event_list} />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>

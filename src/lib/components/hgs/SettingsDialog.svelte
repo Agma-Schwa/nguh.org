@@ -1,7 +1,13 @@
 <script lang='ts'>
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
-    import {type RequiredFatalities, RequiredFatalitiesMode} from '$lib/js/hgs';
+    import {type EventList, type RequiredFatalities, RequiredFatalitiesMode} from '$lib/js/hgs.svelte';
+    import EditEventsDialog from '$lib/components/hgs/EditEventsDialog.svelte';
 
+    interface Props {
+        event_list: EventList
+    }
+
+    let {event_list = $bindable()}: Props = $props()
     let dialog: SimpleDialog
     let deaths_per_round_mode: RequiredFatalitiesMode = $state(RequiredFatalitiesMode.Disable)
     let deaths_per_round_value: number | null | undefined = $state(null)
@@ -20,7 +26,7 @@
         <p style='max-width: 50ch;'>
             Hover over the names of settings (e.g. ‘Deaths per Round’) for a more detailed description.
         </p>
-        <div><button>Edit Events</button></div>
+        <div><EditEventsDialog {event_list} /></div>
         <fieldset>
             <!-- Do NOT indent the second line here as that will indent the text in the tooltip. -->
             <legend>
