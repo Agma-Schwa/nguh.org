@@ -11,7 +11,7 @@
 <Page name="Speedrun" />
 
 <Stripe>Conlang Speedrunning</Stripe>
-<section class="flex-row gap2 flex-same-size">
+<section class="flex gap-8 [&>*]:basis-full">
     <YouTubeVideo src="https://www.youtube.com/embed/M66m38w-s6c" />
     <article class="pars">
         <p>

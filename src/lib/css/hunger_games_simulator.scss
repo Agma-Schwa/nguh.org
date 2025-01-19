@@ -2,8 +2,6 @@ section { position: relative; }
 
 h2:first-of-type { margin-bottom: 1rem; }
 
-h3, h4, h5 { color: var(--accentlight); }
-
 #add-events-dialog {
     p { margin: 0; padding-top: 0; }
     p + p { margin-block-start: 0; }

@@ -187,7 +187,7 @@
 
 <header
     class='fixed top-0 w-full h-16 [z-index:100000] flex justify-between'
->   <div class="flex-row">
+>   <div class="flex">
         <a
             href="/"
             class="page_index_a flex items-center py-2 pr-2 min-w-max"

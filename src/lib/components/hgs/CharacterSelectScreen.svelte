@@ -96,7 +96,7 @@
 
 <Stripe>Info</Stripe>
 <section>
-    <div class="flex-row gap-8">
+    <div class="flex gap-8">
         <article>
             <p>
                 This Hunger Games Simulator exists because we were displeased with the
@@ -116,7 +116,7 @@
                 every single time you press a button.
             </p>
         </article>
-        <div class="center flex-column gap1">
+        <div class="center flex flex-col gap-8">
             <img src="$lib/images/agma_logo_white.png" alt="Agma Schwa Logo" class="small-image">
             <a class="bright-link" href="https://www.youtube.com/@AgmaSchwa">Subscribe to Agma Schwa</a>
         </div>
@@ -165,9 +165,9 @@
 
     <div class="mt-8 flex flex-wrap justify-between gap-y-8">
         {#each tributes as tribute, i}
-            <form class="game-character flex flex-row items-end m-0">
+            <form class="game-character flex items-end m-0">
                 <div class="flex flex-col gap-3">
-                    <div class="flex-row">
+                    <div class="flex">
                         <button
                             type="button"
                             class="ml-auto danger-button"
@@ -175,7 +175,7 @@
                         >Delete Character</button>
                     </div>
 
-                    <div class="flex-row">
+                    <div class="flex">
                         <button
                             class="ml-auto"
                             type="button"
@@ -183,7 +183,7 @@
                         >Remove Image</button>
                     </div>
 
-                    <div class="flex-row">
+                    <div class="flex">
                         <label>Name:</label>
                         <input
                             name="character"
@@ -193,7 +193,7 @@
                     </div>
 
                     <div
-                        class="flex-row custom-gender-input-wrapper"
+                        class="flex custom-gender-input-wrapper"
                         style="display: {
                             tribute.pronoun_option === PronounSetting.Custom
                             ? 'inherit'
@@ -208,7 +208,7 @@
                         >
                     </div>
 
-                    <div class="flex-row"><label>Pronouns:</label>
+                    <div class="flex"><label>Pronouns:</label>
                         <select
                             name="gender_select"
                             bind:value={tribute.pronoun_option}

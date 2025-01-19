@@ -41,22 +41,24 @@
         </div>
     </article>
     <article>
-        <h3 class="h3small">“A Grammar of the Arodjun Language” for sale now!</h3>
-
-        <img src="$lib/images/merch/cover.jpg" alt="Arodjun Book Cover" class="mgb1rem mgt1rem">
-        <h4>$25 on Amazon</h4>
-
+        <h3 class='mb-4 -mt-2'>“A Grammar of the Arodjun Language” for sale now!</h3>
+        <img src="$lib/images/merch/cover.jpg" alt="Arodjun Book Cover">
+        <h4 class='my-2'>$25 on Amazon</h4>
         <a href="https://www.amazon.com/dp/1737701502/" class="link-button">Buy Now</a>
     </article>
 </section>
 
 <Stripe>Socials</Stripe>
-<section class="flex-row gap1">
+<section class="flex gap-8">
     <div>
-        <h3 class="h3small">Follow the Agma Schwa Social Media Channels!</h3>
-        <article class="flex-row flex-same-size gap1">
+        <h3 class="mb-8">Follow the Agma Schwa Social Media Channels!</h3>
+        <article class="flex [&>*]:basis-full gap-8">
             <div>
-                <img src="$lib/images/index/Zlevau djoDaxwex.png" alt="Zlevau djoDaxwex" class="img-height-1 mgb2rem">
+                <img
+                    src="$lib/images/index/Zlevau djoDaxwex.png"
+                    alt="Zlevau djoDaxwex"
+                    class="img-height-1 mb-8 w-full"
+                >
 
                 <div class="spaced-button-group">
                     <a href="https://www.instagram.com/agmaschwa/">Follow Nguh on Instagram</a>
@@ -84,14 +86,14 @@
 
     <div>
         <article>
-            <h3 class="h3small">Join the Discord Server</h3>
+            <h3 class="mb-8">Join the Discord Server</h3>
             <div class="iframe-wrapper">
                 <iframe src="https://discord.com/widget?id=697450809390268467&theme=dark" width="350" height="500"
                     allowtransparency="true" title="Discord Widget" frameborder="0"
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
                 </iframe>
             </div>
-            <h4>Get in on the inside jokes, the Minecraft Server, and more!</h4>
+            <h4 class='mt-2'>Get in on the inside jokes, the Minecraft Server, and more!</h4>
             <a href="https://discord.gg/zCA2Urv7Tc" class="link-button">Join</a>
         </article>
 
@@ -99,10 +101,10 @@
 </section>
 
 <Stripe>Merch</Stripe>
-<section class="flex-row gap2">
-    <article><img src="$lib/images/merch/merch.jpg" alt="Merch" class="mgt2rem cover"></article>
-    <article class="flex-column flex-centre">
-        <h3 class="h3small">Agma Schwa Merch Available Now!</h3>
+<section class="flex gap-8">
+    <article><img src="$lib/images/merch/merch.jpg" alt="Merch" class="mt-8 object-cover"></article>
+    <article class="flex flex-col justify-center">
+        <h3 class="mb-8">Agma Schwa Merch Available Now!</h3>
         <div class="spaced-button-group">
             <a href="https://www.storefrontier.com/nguh-tonners">Browse Storefrontier</a>
             <a href="https://www.redbubble.com/people/AgmaSchwa/shop?asc=u">Browse Redbubble</a>
@@ -111,7 +113,7 @@
     </article>
 </section>
 
-<section class="flex-row gap2 mgt1rem">
+<section class="flex gap-8 mt-4">
     <article class="pars">
         <p>Disclaimer:</p>
         <p>All of the content of the Arodjun language, the pthm language, and any of the Sern-Cahilan languages,

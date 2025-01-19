@@ -13,7 +13,7 @@
 </script>
 
 <div class="flex flex-col justify-center mb-12">
-    <div class="flex flex-row flex-wrap justify-center gap-4 mb-4">
+    <div class="flex flex-wrap justify-center gap-4 mb-4">
         {#each tributes as tribute}
             <TributeImage {tribute} grey_if_dead={dead} />
         {/each}

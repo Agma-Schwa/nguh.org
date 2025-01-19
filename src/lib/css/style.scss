@@ -9,6 +9,15 @@
     accent-color: $accentlight;
 }
 
+h3, h4, h5 { color: var(--accentlight) !important; }
+h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+h4 {
+    font-weight: bold;
+}
+
 img { display: block; }
 
 html, body { overflow-x: hidden; }
@@ -105,7 +114,6 @@ main {
 @include meta.load-css('text');
 @include meta.load-css('content');
 @include meta.load-css('components');
-@include meta.load-css('utils');
 @include meta.load-css('dialog');
 
 input[type=submit] {
