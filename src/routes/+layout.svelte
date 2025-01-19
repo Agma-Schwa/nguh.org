@@ -145,22 +145,25 @@
 
 <Header langs={data.language_pages} />
 <Banner />
-<div class='absolute top-32 left-1/2 -translate-x-1/2'>
-    <h1
-        style='text-shadow: -3px 3px rgba(0, 0, 0, .8);'
-        class='
-            m-auto p-0 block
-            font-black text-center
-            text-white text-[4rem]
-            uppercase
-        '
-    >
-        {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
-    </h1>
-    <hr
-        style='border:.4rem solid var(--accentlight);'
-        class='m-auto -mt-3 w-3/4'
-    >
+<div class='absolute top-32 w-full'>
+    <div class='w-min mx-auto'>
+        <h1
+            style='text-shadow: -3px 3px rgba(0, 0, 0, .8);'
+            class='
+                p-0 block
+                font-black text-center
+                text-white text-[4rem]
+                text-nowrap
+                uppercase
+            '
+        >
+            {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
+        </h1>
+        <hr
+            style='border:.4rem solid var(--accentlight);'
+            class='m-auto -mt-3 w-3/4'
+        >
+    </div>
 </div>
 
 <div
