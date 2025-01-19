@@ -42,29 +42,6 @@ $languages-drop-down-link-min-width: #{$nav-link-min-width + 1.5rem};
     }
 }
 
-
-#icons {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    text-align: right;
-
-    padding-right: 1rem;
-    padding-bottom: 1rem;
-
-    a + a { margin-left: 1rem; }
-
-    img {
-        margin: 0;
-        height: 2rem;
-    }
-}
-
-
 #hamburger {
     rect { fill: var(--nav-a-colour); }
 
@@ -142,17 +119,14 @@ $languages-drop-down-link-min-width: #{$nav-link-min-width + 1.5rem};
 }
 
 @media (max-width: 900px) {
-    #icons img { height: 1.5rem; }
+    :root {
+        --banner-height: 14rem;
+    }
     #other-collapsable a { display: inline-block; }
 
     #page_index {
         width: auto;
         &-text { display: none; }
-    }
-
-    #banner {
-        height: #{$banner-height * .7};
-        svg { padding: 0 .5rem; }
     }
 
     #hamburger-container {
@@ -182,7 +156,6 @@ $languages-drop-down-link-min-width: #{$nav-link-min-width + 1.5rem};
     h1 {
         top: 4rem;
         font-size: 2.5rem;
-
     }
 
     #h1-underline {
@@ -203,12 +176,6 @@ $languages-drop-down-link-min-width: #{$nav-link-min-width + 1.5rem};
         display: flex;
         flex-direction: column;
         a { padding-left: 3rem; }
-    }
-
-    #icons {
-        right: revert;
-        justify-content: center;
-        width: 100%;
     }
 }
 

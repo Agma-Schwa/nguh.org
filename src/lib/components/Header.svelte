@@ -254,7 +254,6 @@
 
 <style lang="scss">
     header {
-        --header-height: 4rem;
         box-shadow: var(--nav-box-shadow, none);
         transition: background .5s, box-shadow .5s;
         background: var(--accentblack);
