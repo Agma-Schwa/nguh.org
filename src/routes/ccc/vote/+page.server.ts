@@ -2,6 +2,7 @@ import type {Actions} from "@sveltejs/kit";
 import type {PageServerLoad} from "./$types";
 import {error} from "@sveltejs/kit";
 import {CCC_FORM_ENABLED} from '$env/static/private';
+import {dev} from '$app/environment';
 
 export const prerender = false;
 
@@ -24,7 +25,10 @@ function ConvertNull(s: FormDataEntryValue | null) {
 
 function GetUserIP(req: Request): string {
     const hdr = req.headers.get('X-Real-IP')
-    if (!hdr) error(500, "Invalid request header");
+    if (!hdr) {
+        if (dev) return 'localhost'
+        error(500, 'Invalid request header');
+    }
     return hdr;
 }
 
@@ -72,11 +76,13 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async (event) => {
     // Get their previous vote.
+    const ip = GetUserIP(event.request)
     const vote: Vote = await new Promise(async (resolve) => {
         event.locals.db.get(
             'SELECT * FROM votes WHERE ip = ?;',
-            [GetUserIP(event.request)],
+            [ip],
             (err: Error, row: Vote) => {
+                console.log('[2] Here')
                 if (err) error(500, err);
                 resolve(row)
             }
@@ -84,6 +90,6 @@ export const load: PageServerLoad = async (event) => {
     })
 
     // Check if the voting form is enabled.
-    const enabled = CCC_FORM_ENABLED === "TRUE"
-    return { vote, enabled, langs: event.locals.ccc_submissions }
-}
+    const enabled = CCC_FORM_ENABLED === 'TRUE'
+    return {vote, enabled, langs: event.locals.ccc_submissions}
+};
