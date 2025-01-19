@@ -1,35 +1,30 @@
 <script lang="ts">
-    import {page} from "$app/stores";
+    import {page} from "$app/state";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import {enhance} from '$app/forms';
     import type {ActionResult} from "@sveltejs/kit";
     import {goto} from "$app/navigation";
-    import Dialog from "$lib/components/dialog/Dialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
+    import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
 
-    let success_dialog: Dialog
+    let success_dialog: SimpleDialog
     let error_dialog: ErrorDialog
-    let error: string = $state('');
 
     // Show a success dialog after submitting.
     function ShowDialog(e: {result: ActionResult, update: () => void}) {
         if (e.result.status == 204) {
             success_dialog.open()
-        } else if (e.result.status === 303) {
-            goto('/ccc/login')
         } else if (e.result.type === 'error') {
-            error = e.result.error
-            error_dialog.open()
+            error_dialog.open(e.result.error)
         }
     }
 </script>
 
-<Dialog title="Success" bind:this={success_dialog}>
+<ErrorDialog bind:this={error_dialog} />
+<SimpleDialog bind:this={success_dialog} title="Success">
     <p>Your votes have been submitted successfully.</p>
-</Dialog>
-
-<ErrorDialog {error} bind:this={error_dialog} />
+</SimpleDialog>
 
 <style lang="scss">
     #submit-form {
@@ -59,23 +54,23 @@
 <Page name="CCC Voting Form"/>
 <Stripe>Cursed Conlang Circus</Stripe>
 <section>
-    {#if $page.data.enabled}
+    {#if page.data.enabled}
     <p>
-    This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
-    below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
-    2 your second favourite and so on. If you don’t have 6 favourite languages, set any remaining slots to
-    <code>&lt;none&gt;</code>, which is the first option (e.g. if you only want to vote for 3 languages,
-    select <code>&lt;none&gt;</code> for top 4–6).
+        This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
+        below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
+        2 your second favourite and so on. If you don’t have 6 favourite languages, set any remaining slots to
+        <code>&lt;none&gt;</code>, which is the first option (e.g. if you only want to vote for 3 languages,
+        select <code>&lt;none&gt;</code> for top 4–6).
     </p>
 
     <p>
-    You cannot select the same language multiple times, and you can only vote once. However, you can
-    revisit this page at any time and submit another set of votes, which will override your previous
-    votes.
+        You cannot select the same language multiple times, and you can only vote once. However, you can
+        revisit this page at any time and submit another set of votes, which will override your previous
+        votes.
     </p>
 
     <p>
-    If you have questions, please contact Ætérnal on the Agma Schwa Discord server.
+        If you have questions, please contact Ætérnal on the Agma Schwa Discord server.
     </p>
 
     <form method="POST" id="submit-form" use:enhance={() => ShowDialog}>
@@ -84,8 +79,8 @@
                 Top {entry}:
                 <select name="top{entry}">
                     <option value="<none>">&lt;none&gt;</option>
-                    {#each $page.data.langs as lang}
-                        {#if $page.data.vote && $page.data.vote[`top${entry}`] === lang}
+                    {#each page.data.langs as lang}
+                        {#if page.data.vote && page.data.vote[`top${entry}`] === lang}
                             <option value="{lang}" selected>{lang}</option>
                         {:else}
                             <option value="{lang}">{lang}</option>
@@ -98,8 +93,8 @@
     </form>
     {:else}
     <p>
-    Sorry, the CCC voting form is currently not enabled. Please wait for the
-    announcement video that details the voting process.
+        Sorry, the CCC voting form is currently not enabled. Please wait for the
+        announcement video that details the voting process.
     </p>
     {/if}
 </section>
