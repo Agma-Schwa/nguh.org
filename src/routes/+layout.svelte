@@ -145,22 +145,24 @@
 
 <Header langs={data.language_pages} />
 <Banner />
-<div class='absolute top-32 w-full'>
-    <div class='w-min mx-auto'>
+<div id='h1-wrapper' class='absolute w-full flex flex-col items-center justify-center'>
+    <div class='mx-auto'>
         <h1
             style='text-shadow: -3px 3px rgba(0, 0, 0, .8);'
             class='
                 p-0 block
                 font-black text-center
-                text-white text-[4rem]
-                text-nowrap
+                text-white
+                sm:text-[3rem]
+                md:text-[4rem]
+                md:text-nowrap
                 uppercase
             '
         >
             {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
         </h1>
         <hr
-            style='border:.4rem solid var(--accentlight);'
+            style='border: var(--h1-underline-height) solid var(--accentlight);'
             class='m-auto -mt-3 w-3/4'
         >
     </div>
@@ -195,3 +197,24 @@
         </footer>
     </main>
 </div>
+
+<style>
+    #h1-wrapper {
+        top: var(--header-height);
+        height: calc(var(--banner-height) - var(--header-height)  - var(--header-offset));
+    }
+
+    @media (max-width: 900px) {
+        :root {
+            --h1-underline-height: .35rem;
+            --header-offset: 2.5rem;
+        }
+    }
+
+    @media (max-width: 650px) {
+        :root {
+            --h1-underline-height: .2rem;
+            --header-offset: 1.5rem;
+        }
+    }
+</style>

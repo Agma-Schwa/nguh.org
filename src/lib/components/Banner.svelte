@@ -46,16 +46,22 @@
     }
 </script>
 
-<style lang="scss">
-.banner-spring { background-image: url("$lib/images/banner_spring.png"); }
-.banner-summer { background-image: url("$lib/images/banner_summer.jpg"); }
-.banner-autumn { background-image: url("$lib/images/banner_autumn.jpg"); }
-.banner-winter { background-image: url("$lib/images/banner_winter.jpg"); }
-</style>
-
-<div id="banner" class="banner-{GetSeason()}">
-    <div id="icons">
-        <a href="https://www.youtube.com/@AgmaSchwa">
+<div
+    id="banner"
+    class='
+        relative
+        banner-{GetSeason()}
+    '
+>   <div
+        class='
+            absolute
+            bottom-0
+            min-[900px]:right-0
+            max-[900px]:justify-center max-[900px]:w-full
+            pb-4 pr-4
+            flex flex-wrap
+        '
+    >   <a href="https://www.youtube.com/@AgmaSchwa">
             <img src="{img_youtube}" alt="youtube" class="non-previewable-icon">
         </a>
         <a href="https://www.patreon.com/nguh">
@@ -84,3 +90,23 @@
         </a>
     </div>
 </div>
+
+<style lang='scss'>
+    #banner {
+        height: var(--banner-height);
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .25), 0 2px 1rem black;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    img {
+        height: 2rem;
+        margin-left: 1rem;
+        @media (max-width: 900px) { height: 1.5rem; }
+    }
+
+    .banner-spring { background-image: url("$lib/images/banner_spring.png"); }
+    .banner-summer { background-image: url("$lib/images/banner_summer.jpg"); }
+    .banner-autumn { background-image: url("$lib/images/banner_autumn.jpg"); }
+    .banner-winter { background-image: url("$lib/images/banner_winter.jpg"); }
+</style>
