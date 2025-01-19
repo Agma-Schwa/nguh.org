@@ -13,9 +13,13 @@ h3, h4, h5 { color: var(--accentlight) !important; }
 h3 {
     font-size: 1.5rem;
     font-weight: bold;
+    &:where(:not(:first-child)) { margin-top: 1rem; }
+    &:where(:not(:last-child)) { margin-bottom: .25rem; }
 }
+
 h4 {
     font-weight: bold;
+    &:where(:not(:first-child)) { margin-top: .75rem; }
 }
 
 img { display: block; }
@@ -30,6 +34,9 @@ html {
 p {
     text-align: justify;
 }
+
+p + p { margin-block-start: unset !important; }
+p { margin-bottom: .5rem; }
 
 ::-webkit-scrollbar {
     width: .675rem;
