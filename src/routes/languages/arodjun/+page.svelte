@@ -267,6 +267,7 @@
         There are many prefixes and suffixes that can alter a noun or adjective to make it have various different
         meanings. Here are a few of them in their regular forms.
     </p>
+    <div>
     <table>
         <thead>
             <tr>
@@ -451,6 +452,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </section>
 
 <Stripe>Grammar</Stripe>

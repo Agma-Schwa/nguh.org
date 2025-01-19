@@ -96,37 +96,34 @@
 
 <Stripe>Info</Stripe>
 <section>
-    <div class="flex gap-8">
-        <article>
-            <p>
-                This Hunger Games Simulator exists because we were displeased with the
-                other simulators out there; the one that we were using prior to the creation
-                of this one (the one at brantsteele.net) made it very difficult to upload images
-                and was utilising a needlessly convoluted server-driven system.
-            </p>
-            <p>
-                This simulator was created to address both of those shortcomings. With it, you can easily upload
-                whatever images you want. You can also just give it a URL that points to a publicly accessible image,
-                and it will work just fine—so long as your browser supports it, that is.
-            </p>
-            <p>
-                What's more, this simulator runs entirely in the browser, meaning that you could even download
-                the page and use it offline if you so desired. This also means that it should be faster than
-                the simulator we were using before, since it does not need to send data to a server and back
-                every single time you press a button.
-            </p>
-        </article>
-        <div class="center flex flex-col gap-8">
-            <img src="$lib/images/agma_logo_white.png" alt="Agma Schwa Logo" class="small-image">
-            <a class="bright-link" href="https://www.youtube.com/@AgmaSchwa">Subscribe to Agma Schwa</a>
-        </div>
+    <div class="center flex flex-col gap-8 float-right ml-4">
+        <img src="$lib/images/agma_logo_white.png" alt="Agma Schwa Logo" class="small-image">
+        <a class="bright-link" href="https://www.youtube.com/@AgmaSchwa">Subscribe to Agma Schwa</a>
     </div>
-    <p class="mt-4">
+    <p>
+        This Hunger Games Simulator exists because we were displeased with the
+        other simulators out there; the one that we were using prior to the creation
+        of this one (the one at brantsteele.net) made it very difficult to upload images
+        and was utilising a needlessly convoluted server-driven system.
+    </p>
+    <p>
+        This simulator was created to address both of those shortcomings. With it, you can easily upload
+        whatever images you want. You can also just give it a URL that points to a publicly accessible image,
+        and it will work just fine—so long as your browser supports it, that is.
+    </p>
+    <p>
+        What's more, this simulator runs entirely in the browser, meaning that you could even download
+        the page and use it offline if you so desired. This also means that it should be faster than
+        the simulator we were using before, since it does not need to send data to a server and back
+        every single time you press a button.
+    </p>
+    <p>
         The events are mainly taken from the brantsteele.net simulator, though some members of our community
         have contributed to the event list as well. You can disable existing events or add custom events by
         clicking the ‘Settings’ button below and then ‘Edit Events’. You can also add new events, download
         all events, and upload your own.
     </p>
+    <div class='clear-both'></div>
 </section>
 
 <Stripe>Source Code, Bug Reports, Contributing, etc.</Stripe>
@@ -165,7 +162,7 @@
 
     <div class="mt-8 flex flex-wrap justify-between gap-y-8">
         {#each tributes as tribute, i}
-            <form class="game-character flex items-end m-0">
+            <form class="game-character flex flex-row items-end m-0">
                 <div class="flex flex-col gap-3">
                     <div class="flex">
                         <button
