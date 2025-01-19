@@ -4,7 +4,7 @@
     import Backdrop from "$lib/components/Backdrop.svelte";
     import { style } from 'svelte-body';
 
-    export let data;
+    let { data } = $props();
 </script>
 
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />

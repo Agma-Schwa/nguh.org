@@ -1,8 +1,25 @@
-@import 'vars';
+@use "sass:meta";
+@use 'vars' as *;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
     margin-block-start: 0;
     accent-color: $accentlight;
+}
+
+h3, h4, h5 { color: var(--accentlight) !important; }
+h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    &:where(:not(:first-child)) { margin-top: 1rem; }
+    &:where(:not(:last-child)) { margin-bottom: .25rem; }
+}
+
+h4 {
+    font-weight: bold;
+    &:where(:not(:first-child)) { margin-top: .75rem; }
 }
 
 img { display: block; }
@@ -13,6 +30,13 @@ html {
     scrollbar-color: $accentlight $accentblack;
     scrollbar-width: auto;
 }
+
+p {
+    text-align: justify;
+}
+
+p + p { margin-block-start: unset !important; }
+p:where(:not(:last-child)) { margin-bottom: .5rem; }
 
 ::-webkit-scrollbar {
     width: .675rem;
@@ -94,10 +118,10 @@ main {
     }
 }
 
-@import 'text';
-@import 'content';
-@import 'components';
-@import 'utils';
+@include meta.load-css('text');
+@include meta.load-css('content');
+@include meta.load-css('components');
+@include meta.load-css('dialog');
 
 input[type=submit] {
     border: 1px solid $accentcolour;
@@ -117,37 +141,6 @@ button {
     border: none;
     padding-inline: 1rem;
     font-size: var(--text-size);
-}
-
-#banner {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    margin: 0;
-    width: 100%;
-    height: $banner-height;
-
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .25), 0 2px 1rem black;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-h1 {
-    position: absolute;
-    top: 8rem;
-
-    margin: 0;
-    padding: 0;
-    width: 100%;
-
-    color: white;
-    font-size: 4rem;
-    text-align: center;
-    text-shadow: -3px 3px rgba(0, 0, 0, .8);
-    text-transform: uppercase;
 }
 
 #h1-underline {

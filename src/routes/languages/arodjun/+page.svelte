@@ -267,6 +267,7 @@
         There are many prefixes and suffixes that can alter a noun or adjective to make it have various different
         meanings. Here are a few of them in their regular forms.
     </p>
+    <div>
     <table>
         <thead>
             <tr>
@@ -451,6 +452,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </section>
 
 <Stripe>Grammar</Stripe>
@@ -491,7 +493,7 @@
 
     <div class="tab-wrapper">
         <div class="tab">
-            <button class="tab-button" id="button_arodjun_docs" on:click={() => OpenTab('arodjun_docs')}>
+            <button class="tab-button" id="button_arodjun_docs" onclick={() => OpenTab('arodjun_docs')}>
                 Documentation
             </button>
         </div>

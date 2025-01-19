@@ -1,3 +1,5 @@
+@use "vars" as *;
+
 // ========== TEXT ==========
 $h2-decoration-height: 1.5rem;
 
@@ -46,26 +48,22 @@ li {
 button { @include button; }
 
 // ========== HEADERS ==========
-
 h1, h2, h3, h4, h5, h6, a {
     color: var(--h-colour);
     font-family: LatoFont, Arial, Noto Sans, sans-serif;
 }
 
-h1, h2 { font-weight: 1000; }
+h2 { font-weight: 1000; }
 
-h1, h2, h3 { text-align: center; }
+h2, h3 { text-align: center; }
 
 h2 {
     font-size: 3rem;
     &.stripe:first-of-type { margin-top: 0; }
 }
 
-h3 { font-size: 2rem; }
-
 h4 {
     text-align: center;
-    margin-bottom: .5rem;
     font-size: 1.2rem;
 }
 
@@ -133,8 +131,6 @@ h4 {
         font-weight: bold;
         &:not(stripe), span { font-size: max(1.5rem, 4vw); }
     }
-
-    h3 { font-size: 1.5rem; }
 
     .stripe { min-height: 7rem; }
     .stripe:first-of-type { margin-top: 0; }

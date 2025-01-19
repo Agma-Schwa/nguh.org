@@ -1,3 +1,11 @@
+<script lang="ts">
+    interface Props {
+        children?: import('svelte').Snippet;
+    }
+
+    let { children }: Props = $props();
+</script>
+
 <style lang="scss">
 .wrapper {
     z-index: 1;
@@ -49,7 +57,7 @@
 <div class="wrapper">
     <div class="content">
         <div>
-            <slot />
+            {@render children?.()}
         </div>
     </div>
 </div>

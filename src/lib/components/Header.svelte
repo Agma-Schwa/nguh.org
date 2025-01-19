@@ -5,7 +5,11 @@
     import {onMount} from "svelte";
     import {browser} from "$app/environment";
 
-    export let langs: LanguagePage[]
+    interface Props {
+        langs: LanguagePage[];
+    }
+
+    let { langs }: Props = $props();
 
     function InitHeader() {
         let nav = document.getElementsByTagName('header')[0]
@@ -51,7 +55,7 @@
     let collapse_into_other: HTMLElement[]
     let navright: HTMLElement
     let hamburger_container: HTMLElement
-    let other_toggled = false
+    let other_toggled = $state(false)
 
     function __ReloadOther() {
         /// Collect relevant elements.
@@ -178,24 +182,33 @@
     afterNavigate(UpdateActiveHeader)
 </script>
 
-<svelte:window on:click={HandleClickOnWindow} />
+<svelte:window onclick={HandleClickOnWindow} />
 
-<header>
-    <div class="flex-row">
-        <a href="/" class="page_index_a" id="page_index">
-            <img src="$lib/images/agma_logo.png" alt="agma_logo" class="non-previewable-icon">
-            <span id="page-index-text">AGMA SCHWA</span>
+
+<header
+    class='fixed top-0 w-full h-16 [z-index:100000] flex justify-between'
+>   <div class="flex">
+        <a
+            href="/"
+            class="page_index_a flex items-center py-2 pr-2 min-w-max"
+            id="page_index"
+        >   <img
+                src="$lib/images/agma_logo.png"
+                alt="agma_logo"
+                class="non-previewable-icon px-2 h-12"
+            >
+            <p>AGMA SCHWA</p>
         </a>
-        <div id="hamburger-container" on:click={ToggleHamburger}>
+        <div id="hamburger-container" onclick={ToggleHamburger}>
             <svg width="1.5em" height="1.2em" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                 id="hamburger">
+                 id="hamburger" class='pointer-events-none'>
                 <rect width="1.5em" height=".2em"/>
                 <rect width="1.5em" height=".2em" y=".5em"/>
                 <rect width="1.5em" height=".2em" y="1em"/>
             </svg>
         </div>
     </div>
-    <nav>
+    <nav class='w-4/5 flex justify-end'>
         <a href="/the-channel" id="page_the-channel">The Channel</a>
         <div id="languages-drop-down">
             <a href="/languages" id="page_languages">Languages</a>
@@ -209,8 +222,8 @@
         <a href="/merch" id="page_merch">Merch</a>
         <div id="other-collapsable">
             <div class="other-drop-down"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}>
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}>
                 <a href="/tools" id="page_tools">Tools</a>
                 <div class="other-drop-down-content drop-down-content-centre">
                     <a data-sveltekit-reload href="/tools/hunger_games_simulator" class="child-element"
@@ -221,35 +234,57 @@
             </div>
 
             <a href="/gambian_holiday" id="page_gambian_holiday"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}
             >Gambian Holiday Wiki</a>
 
             <a href="/support-us" id="page_support-us"
-                on:mouseenter={EnterOther}
-                on:mouseleave={LeaveOther}
+                onmouseenter={EnterOther}
+                onmouseleave={LeaveOther}
             >Support Us</a>
         </div>
         <div
             id="page_other"
-            on:mouseenter={EnterOther}
-            on:mouseleave={LeaveOther}
-            on:click={() => other_toggled = !other_toggled}
+            onmouseenter={EnterOther}
+            onmouseleave={LeaveOther}
+            onclick={() => other_toggled = !other_toggled}
         >Other</div>
     </nav>
 </header>
 
 <style lang="scss">
-    $navbar-height: 4rem;
+    header {
+        box-shadow: var(--nav-box-shadow, none);
+        transition: background .5s, box-shadow .5s;
+        background: var(--accentblack);
+        font-size: var(--text-size);
+        color: var(--nav-a-colour) !important;
+        height: var(--header-height);
 
-    #hamburger {
-        pointer-events: none;
+        a:hover, .a-active, #page_other:hover {
+            background: white;
+            &:visited { color: var(--accentcolour); }
+        }
+
+        a, #page_other {
+            transition: background .5s, color .5s;
+            &:visited { color: var(--nav-a-colour); }
+        }
+    }
+
+    nav {
+        a, #page_other {
+            padding-inline: .5rem;
+            min-width: 8rem;
+            line-height: var(--header-height);
+            text-align: center;
+        }
     }
 
     @media only screen and (max-width: 900px) {
         nav {
             overflow-y: scroll;
-            max-height: calc(100vh - #{$navbar-height});
+            max-height: calc(100vh - var(--header-height));
         }
     }
 </style>

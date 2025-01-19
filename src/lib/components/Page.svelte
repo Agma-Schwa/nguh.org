@@ -1,11 +1,15 @@
-<script>
+<script lang="ts">
     import {onMount} from "svelte";
 
-    export let name;
-    export let theme = 'light'
 
     import {page_title} from "$lib/page_title";
     import {page_theme} from "$lib/page_theme";
+    interface Props {
+        name: any;
+        theme?: string;
+    }
+
+    let { name, theme = 'light' }: Props = $props();
 
     $page_title = name;
     $page_theme = theme;

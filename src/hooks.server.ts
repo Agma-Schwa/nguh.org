@@ -44,7 +44,7 @@ if (new Set(ccc_submissions).size !== ccc_submissions.length)
 function check(e: Error | null) {
     if (!e) return
     console.error(e)
-    throw error(500)
+    error(500);
 }
 
 export const handle: Handle = async ({event, resolve}) => {

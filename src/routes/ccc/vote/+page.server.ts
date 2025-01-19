@@ -2,6 +2,7 @@ import type {Actions} from "@sveltejs/kit";
 import type {PageServerLoad} from "./$types";
 import {error} from "@sveltejs/kit";
 import {CCC_FORM_ENABLED} from '$env/static/private';
+import {dev} from '$app/environment';
 
 export const prerender = false;
 
@@ -17,21 +18,24 @@ interface Vote {
 }
 
 function ConvertNull(s: FormDataEntryValue | null) {
-    if (typeof s !== "string") throw error(400, "Invalid vote")
+    if (typeof s !== "string") error(400, "Invalid vote");
     if (s == "<none>") return null
     return s
 }
 
 function GetUserIP(req: Request): string {
     const hdr = req.headers.get('X-Real-IP')
-    if (!hdr) throw error(500, "Invalid request header")
+    if (!hdr) {
+        if (dev) return 'localhost'
+        error(500, 'Invalid request header');
+    }
     return hdr;
 }
 
 export const actions: Actions = {
     default: async(event) => {
         // Make sure the form is enabled.
-        if (CCC_FORM_ENABLED !== "TRUE") throw error(403, "The voting form is currently disabled")
+        if (CCC_FORM_ENABLED !== "TRUE") error(403, "The voting form is currently disabled");
         const ip = GetUserIP(event.request)
 
         // Extract the vote.
@@ -49,7 +53,7 @@ export const actions: Actions = {
         // they indicate no vote.
         for (const vote of votes)
             if (vote && votes.filter(v => v === vote).length > 1)
-                throw error(400, `You cannot vote for '${vote}' more than once!`)
+                error(400, `You cannot vote for '${vote}' more than once!`);
 
         // Save it to the db.
         event.locals.db.run(`
@@ -72,18 +76,20 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async (event) => {
     // Get their previous vote.
+    const ip = GetUserIP(event.request)
     const vote: Vote = await new Promise(async (resolve) => {
         event.locals.db.get(
             'SELECT * FROM votes WHERE ip = ?;',
-            [GetUserIP(event.request)],
+            [ip],
             (err: Error, row: Vote) => {
-                if (err) throw error(500, err)
+                console.log('[2] Here')
+                if (err) error(500, err);
                 resolve(row)
             }
         )
     })
 
     // Check if the voting form is enabled.
-    const enabled = CCC_FORM_ENABLED === "TRUE"
-    return { vote, enabled, langs: event.locals.ccc_submissions }
-}
+    const enabled = CCC_FORM_ENABLED === 'TRUE'
+    return {vote, enabled, langs: event.locals.ccc_submissions}
+};

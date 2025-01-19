@@ -6,7 +6,11 @@
         pages: number[]
     }
 
-    export let data: ServerData;
+    interface Props {
+        data: ServerData;
+    }
+
+    let { data }: Props = $props();
 
     function LastPageForChapter(data: ServerData, chapter: number): number {
         return data.pages[chapter - 1]; /// Chapters are 1-indexed.

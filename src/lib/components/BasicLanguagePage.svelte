@@ -4,18 +4,30 @@
     import Stripe from "$lib/components/Stripe.svelte";
     import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
 
-    export let name: string
-    export let stripe: string
-    export let video: string
-    export let docs: string | undefined
-    export let before_docs: string | undefined
+    interface Props {
+        name: string;
+        stripe: string;
+        video: string;
+        docs: string | undefined;
+        before_docs: string | undefined;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        name,
+        stripe,
+        video,
+        docs,
+        before_docs,
+        children
+    }: Props = $props();
 </script>
 
 <Page name="{name}" />
 
 <Stripe>{@html stripe}</Stripe>
 <section>
-    <slot />
+    {@render children?.()}
 </section>
 
 <section>

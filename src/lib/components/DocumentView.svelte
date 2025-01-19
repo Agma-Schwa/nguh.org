@@ -1,6 +1,10 @@
 <script lang="ts">
-    export let src: string
-    export let name: string
+    interface Props {
+        src: string;
+        name: string;
+    }
+
+    let { src, name }: Props = $props();
 </script>
 
 <div class="tab-wrapper">

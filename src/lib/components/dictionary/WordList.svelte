@@ -1,7 +1,11 @@
 <script lang="ts">
     import type {FullEntry} from "$lib/js/dictionary";
 
-    export let entries: FullEntry[]
+    interface Props {
+        entries: FullEntry[];
+    }
+
+    let { entries }: Props = $props();
 
     function Truncate(s: string): string {
         return s.length > 100 ? s.slice(0, 75) + "…" : s;
