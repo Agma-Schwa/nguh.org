@@ -10,7 +10,7 @@
     let {tributes}: Props = $props();
 </script>
 
-<div class="flex flex-row flex-wrap justify-center gap-8">
+<div class="flex flex-wrap justify-center gap-8">
     {#each tributes as tribute}
         <div class="flex flex-col items-center gap-2">
             <TributeImage {tribute} grey_if_dead={true} />

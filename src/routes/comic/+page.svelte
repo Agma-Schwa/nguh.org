@@ -34,7 +34,7 @@
         <img src="$lib/images/comic/image-3.png" alt="">
     </div>
 
-    <div class="flex-row comic-button">
+    <div class="flex comic-button">
         <a class="link-button" href="/comic/en/1/0">READ THE COMIC</a>
     </div>
 
@@ -52,7 +52,7 @@
         on mobile) that you can use to switch between the two at any time.
     </p>
 
-    <div class="flex-row buttons2">
+    <div class="flex buttons2">
         <a href="/comic/explore-the-world" class="link-button">Explore the World</a>
         <a href="/languages/arodjun" class="link-button">Learn About Arodjun</a>
         <a href="/comic/characters" class="link-button">Meet the Characters</a>

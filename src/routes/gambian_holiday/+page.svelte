@@ -5,9 +5,11 @@
 <Page name="Gambian Holiday Wiki" />
 
 <Stripe>A Wiki-formatted story</Stripe>
-<h3 style="margin-top: -1rem;">by Agma Schwa and Suzudo</h3>
-<section class="flex-row gap2 flex-same-size">
-    <article><img src="$lib/images/gambian_holiday/wiki.png" alt="Preview" class="cover"></article>
+<h3 class='mb-8 -mt-3'>by Agma Schwa and Suzudo</h3>
+<section class="flex gap-8 [&>*]:basis-full">
+    <article class='w-1/2'>
+        <img src="$lib/images/gambian_holiday/wiki.png" alt="Preview" class="object-cover">
+    </article>
     <article>
         <p>
             The Gambian Holiday Wiki is a rabbithole wiki-formatted story by
@@ -23,9 +25,10 @@
             joining as an editor and new entries continuing to be added to the wiki
             ever since.
         </p>
-        <a href="https://gambianholiday.nguh.org/w/index.php?title=Main_Page" class="link-button"
-           style="font-size: 1.5em; max-width: 30rem; height: 4rem; line-height: 4rem; padding: .4rem; margin: 3rem auto 1rem auto">
-            Enter the Gambian Holiday Wiki</a>
+        <a
+            href="https://gambianholiday.nguh.org/w/index.php?title=Main_Page"
+            class="link-button mt-8 block text-2xl !w-3/4 !h-10 !leading-10 mx-auto"
+        >Enter the Gambian Holiday Wiki</a>
     </article>
 </section>
 
