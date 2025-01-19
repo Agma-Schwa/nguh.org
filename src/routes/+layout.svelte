@@ -60,16 +60,6 @@
                 img.addEventListener('click', OpenImagePreview)
     }
 
-    let h1_underline_length = $derived(function () {
-        let len = Math.floor($page_title?.length * 1.5)
-        return isFinite(len) ? len : 2
-    } ())
-
-    let h1_underline_length_short = $derived(function() {
-        let len = Math.floor(($page_title?.length * 1.5) / 1.75)
-        return isFinite(len) ? len : 2
-    } ())
-
     let inner_width: number = $state(0)
     let inner_height: number = $state(0)
     let scroll_x: number = $state(0)
@@ -136,21 +126,67 @@
     <meta property="og:title" content="{$page_title}">
 </svelte:head>
 
-<div id="image-preview" bind:this={image_preview}>
-    <div id="image-preview-container" bind:this={image_preview_container}>
+<div
+    bind:this={image_preview}
+    class="
+        fixed inset-0 [z-index:9998]
+        w-full h-full
+        hidden items-center justify-center
+        backdrop-brightness-50
+">
+    <div
+        bind:this={image_preview_container}
+        class="
+            absolute inset-4 md:inset-20
+            flex items-center justify-center
+    ">
     </div>
 </div>
 
 <Header langs={data.language_pages} />
 <Banner />
-<h1>{$page_title === 'Agma Schwa' ? 'WELCOME!' : $page_title}</h1>
-<hr id="h1-underline" style="--h1-underline-length: {h1_underline_length}rem; --h1-underline-length-short: {h1_underline_length_short}rem;">
+<div class='absolute top-32 left-1/2 -translate-x-1/2'>
+    <h1
+        style='text-shadow: -3px 3px rgba(0, 0, 0, .8);'
+        class='
+            m-auto p-0 block
+            font-black text-center
+            text-white text-[4rem]
+            uppercase
+        '
+    >
+        {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
+    </h1>
+    <hr
+        style='border:.4rem solid var(--accentlight);'
+        class='m-auto -mt-3 w-3/4'
+    >
+</div>
 
-<div id="content-wrapper">
-    <main id="content">
+<div
+    class='flex gap-4'
+    style='
+        padding-top: var(--content-padding-top);
+        min-height: calc(100vh - var(--banner-height) - var(--content-padding-top))
+'>  <main
+        style='
+            box-shadow: 0 0 2em var(--content-box-shadow-colour);
+            max-width: min(90rem, 100vw);
+            width: 90rem;
+        '
+        class='
+            relative my-0 mx-auto pb-16
+            flex flex-col
+        '
+    >
         {@render children?.()}
-        <footer>
-            <hr id="footer-rule">
+        <footer
+            class='absolute inset-x-4 bottom-4 text-center'
+        >
+            <hr
+                style='border: 2px solid var(--accentcolour);'
+                class='w-4/5 m-auto mb-2'
+            >
             For more information, see the YouTube channel
             <a href="https://www.youtube.com/@AgmaSchwa"><strong>Agma&nbsp;Schwa</strong></a>
         </footer>

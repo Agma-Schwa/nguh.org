@@ -48,15 +48,14 @@ li {
 button { @include button; }
 
 // ========== HEADERS ==========
-
 h1, h2, h3, h4, h5, h6, a {
     color: var(--h-colour);
     font-family: LatoFont, Arial, Noto Sans, sans-serif;
 }
 
-h1, h2 { font-weight: 1000; }
+h2 { font-weight: 1000; }
 
-h1, h2, h3 { text-align: center; }
+h2, h3 { text-align: center; }
 
 h2 {
     font-size: 3rem;

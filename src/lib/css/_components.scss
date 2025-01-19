@@ -124,30 +124,6 @@ iframe {
 
 img:hover { cursor: pointer; }
 
-#image-preview {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-
-    width: 100%;
-    height: 100%;
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0, 0, 0, .5);
-}
-
-#image-preview-container {
-    position: absolute;
-    inset: 5rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .danger-button {
     background: $accentred;
     color: antiquewhite;
@@ -161,6 +137,6 @@ img:hover { cursor: pointer; }
         padding: .2rem;
     }
 
-    #image-preview-container, #dialog-inner { inset: 1rem; }
+    #dialog-inner { inset: 1rem; }
 }
 
