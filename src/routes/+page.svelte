@@ -21,7 +21,7 @@
 <img src="$lib/images/index/banner 3.jpg" alt="banner 3.jpg">
 
 <Stripe>Hey everybody, welcome to “Nguh”</Stripe>
-<section class="flex-row gap1">
+<section class="flex gap-8">
     <article class="">
         <YouTubeVideo src="https://www.youtube.com/embed/KEGsSCcSVRo"/>
         <div>

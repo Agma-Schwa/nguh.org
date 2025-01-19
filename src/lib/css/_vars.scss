@@ -37,6 +37,14 @@ $video-width-16-to-9: 56.25%;
     --abs-text-size: 1.2em;
     --h-colour: #{$accentcolour};
     --bg-colour: white;
+    --banner-height: 20rem;
+    --content-padding-top: 0;
+}
+
+@media (min-width: 900px) {
+    :root {
+        --content-padding-top: 1cm;
+    }
 }
 
 @font-face {

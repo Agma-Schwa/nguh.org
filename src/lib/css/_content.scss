@@ -1,86 +1,8 @@
 @use "vars" as *;
 
-:where(#content) {
-    position: relative;
-    display: flex;
-
-    margin: 0 auto;
-    padding-bottom: 4rem;
-    max-width: min(90rem, 100vw);
-    width: 90rem;
-
-    align-content: flex-start;
-    flex-direction: column;
-    box-shadow: 0 0 2em var(--content-box-shadow-colour);
-
-    :where(#content-wrapper) {
-        display: flex;
-        gap: 1rem;
-        padding-top: $content-wrapper-padding-top;
-        min-height: calc(100vh - #{$banner-height} - #{$content-wrapper-padding-top});
-    }
-
-    img { width: 100%; }
-    p { text-align: justify; }
-
-    h1 {
-        grid-column: 3;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .snd {
-        width: 100%;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        grid-column: 2;
-
-        img {
-            width: 50%;
-            margin: 1cm 0 1cm 0;
-        }
-    }
-
-    .content-inner {
-        margin-top: 2rem;
-        grid-column: 2;
-        text-align: left;
-
-        &:first-child { margin-top: 0; }
-    }
-}
-
 section {
     padding: 0 4rem;
     &:last-of-type { margin-bottom: 2rem; }
-}
-
-footer {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-
-    text-align: center;
-}
-
-#footer-rule {
-    border: 2px solid $accentcolour;
-    border-radius: 50%;
-    padding: 0 2rem;
-    width: 80%;
-
-    background: $accentcolour;
-}
-
-.top-image {
-    object-fit: cover;
-    width: 50% !important;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2rem;
 }
 
 @media (max-width: 900px) {

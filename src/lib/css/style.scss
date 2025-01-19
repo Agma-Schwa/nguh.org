@@ -18,6 +18,10 @@ html {
     scrollbar-width: auto;
 }
 
+p {
+    text-align: justify;
+}
+
 ::-webkit-scrollbar {
     width: .675rem;
     &-track { background: $accentblack; }
@@ -138,21 +142,6 @@ button {
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .25), 0 2px 1rem black;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-h1 {
-    position: absolute;
-    top: 8rem;
-
-    margin: 0;
-    padding: 0;
-    width: 100%;
-
-    color: white;
-    font-size: 4rem;
-    text-align: center;
-    text-shadow: -3px 3px rgba(0, 0, 0, .8);
-    text-transform: uppercase;
 }
 
 #h1-underline {
