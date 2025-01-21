@@ -23,7 +23,7 @@
     }: Props = $props();
 </script>
 
-<Page name="{name}" />
+<Page {name} />
 
 <Stripe>{@html stripe}</Stripe>
 <section>
@@ -31,7 +31,7 @@
 </section>
 
 <section>
-    <YouTubeVideo src="{video}" />
+    <YouTubeVideo src={video} />
 </section>
 
 {#if docs}
@@ -41,7 +41,7 @@
         {/if}
         <DocumentView
             name="Documentation"
-            src="{docs}"
+            src={docs}
         />
     </section>
 {/if}
