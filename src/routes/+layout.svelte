@@ -2,7 +2,6 @@
     import Header from '$lib/components/Header.svelte';
     import Banner from "$lib/components/Banner.svelte";
     import '$lib/css/style.scss';
-    import '$lib/css/banner.scss';
     import {onDestroy, onMount} from "svelte";
 
     import { page_title } from "$lib/page_title";
