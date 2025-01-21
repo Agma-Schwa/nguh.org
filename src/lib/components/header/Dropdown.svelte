@@ -18,7 +18,7 @@
 <div onmouseenter={() => hovered = true} onmouseleave={() => hovered = false}>
     <!-- If the name is a link render it; if not, only render it if we’re not in mobile mode. -->
     {#if href}
-        <PageLink {href}>{name}</PageLink>
+        <PageLink {href} category={true}>{name}</PageLink>
     {:else if !mobile.current}
         <div class='name header-bg-transition'>
             <span>{name}</span>
