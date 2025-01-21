@@ -1387,7 +1387,7 @@ export class Game {
                 pronouns: pronouns.pronouns,
                 uses_pronouns: pronouns.uses_pronouns,
                 plural: pronouns.plural,
-                image: character.image_url ?? default_image_src,
+                image: character.image_url ?? '',
                 tags: []
             })
         }))
