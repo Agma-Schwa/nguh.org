@@ -11,8 +11,10 @@
                 <li>All of nguh.org is now on Svelte 5.</li>
                 <li>Refactored the Hunger Games Simulator to actually leverage Svelte.</li>
                 <li>The ‘OK’ button of file dialogs is now disabled when no file is selected.</li>
+                <li>The ‘Clear’ and ‘Download’ buttons in the event list are now disabled when the list is empty.</li>
                 <li>Improved centering and alignment of the add character button.</li>
                 <li>Moved event message syntax into a separate dialog.</li>
+                <li>Added a setting to set the starting day/night of the game.</li>
             </ul>
         </div>
         <div class="changelog-day">
