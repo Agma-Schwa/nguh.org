@@ -47,7 +47,7 @@ dialog {
         font-size: var(--text-size);
         transition: background-color .5s, color .5s;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: var(--accentcolour);
             color: white;
         }

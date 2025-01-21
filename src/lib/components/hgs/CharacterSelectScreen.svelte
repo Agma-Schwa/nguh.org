@@ -4,7 +4,7 @@
         Configuration,
         DownloadURL, type EventList,
         PronounSetting,
-        type RequiredFatalities,
+        type GameOptions,
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
@@ -15,7 +15,7 @@
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
-        start_game: (fatalities: RequiredFatalities) => void
+        start_game: (opts: GameOptions) => void
         event_list: EventList
     }
 
@@ -49,7 +49,7 @@
 
     /** Start the game. */
     function StartGame() {
-        start_game(settings_dialog.deaths_per_round())
+        start_game(settings_dialog.get_options())
     }
 
     /** Load several images from disk. */
@@ -91,7 +91,7 @@
     type='raw'
 />
 
-<SettingsDialog bind:this={settings_dialog} bind:event_list={event_list} />
+<SettingsDialog bind:this={settings_dialog} bind:event_list />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>

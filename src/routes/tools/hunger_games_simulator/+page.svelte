@@ -11,7 +11,7 @@
         Game,
         type GameRenderState,
         PronounSetting,
-        RenderState, type RequiredFatalities, TitleCase,
+        RenderState, type GameOptions, TitleCase,
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
     import Message from "$lib/components/hgs/Message.svelte";
@@ -85,14 +85,14 @@
     }
 
     /** Create a new game. */
-    function StartGame(fatalities: RequiredFatalities) {
+    function StartGame(opts: GameOptions) {
         const in_game_tributes = Game.CreateTributesFromCharacterSelectOptions(tributes)
         if (in_game_tributes instanceof Error) {
             error_dialog.open(in_game_tributes)
             return
         }
 
-        game = new Game(in_game_tributes, event_list, fatalities)
+        game = new Game(in_game_tributes, event_list, opts)
         StepGame()
     }
 
@@ -140,8 +140,8 @@
 
 {#if game === null}
     <CharacterSelectScreen
-        bind:tributes={tributes}
-        bind:event_list={event_list}
+        bind:tributes
+        bind:event_list
         start_game={StartGame}
     />
 {:else if render_state}

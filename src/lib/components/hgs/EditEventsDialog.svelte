@@ -77,7 +77,7 @@
 <SimpleDialog bind:this={dialog} title='Event Settings'>
     <div id="event-dialog-content">
         <div class="flex gap-4 mb-4">
-            <AddEventDialog bind:event_list={event_list} />
+            <AddEventDialog bind:event_list />
             <button onclick={() => Upload(false)}>Add from File</button>
             <button onclick={Clear} disabled={IsEmpty()}>Clear</button>
             <button onclick={Download} disabled={IsEmpty()}>Download</button>

@@ -860,9 +860,10 @@ export const enum RequiredFatalitiesMode {
     Absolute = 'Absolute',
 }
 
-export interface RequiredFatalities {
-    mode: RequiredFatalitiesMode,
-    value: number
+export interface GameOptions {
+    required_fatalities_mode: RequiredFatalitiesMode,
+    required_fatalities: number
+    starting_day?: number
 }
 
 /** The state of the game. */
@@ -890,7 +891,7 @@ export const enum RenderState {
 }
 
 /** These correspond to the event lists. */
-export const enum GameStage {
+export enum GameStage {
     BLOODBATH = 'bloodbath',
     DAY = 'day',
     NIGHT = 'night',
@@ -1024,7 +1025,7 @@ export class Game {
     constructor(
         tributes: Tribute[],
         events: EventList,
-        fatalities: RequiredFatalities,
+        opts: GameOptions,
         fatality_reroll_rate: number = .6
     ) {
         this.tributes = [...tributes] // We want our own copy of this.
@@ -1037,23 +1038,29 @@ export class Game {
             feast: []
         }
 
-        /// Set required fatality rate.
-        if (fatalities.mode !== RequiredFatalitiesMode.Disable) {
-            if (isFinite(fatalities.value)) {
+        console.log(opts)
+
+        // Set required fatality rate.
+        if (opts.required_fatalities_mode !== RequiredFatalitiesMode.Disable) {
+            if (isFinite(opts.required_fatalities)) {
                 // Relative to the total number of tributes.
-                if (fatalities.mode === RequiredFatalitiesMode.Percent) {
+                if (opts.required_fatalities_mode === RequiredFatalitiesMode.Percent) {
                     this.required_fatalities = Math.ceil(
-                        (clamp(fatalities.value, 0, 100) / 100.0) * this.tributes.length
+                        (clamp(opts.required_fatalities, 0, 100) / 100.0) * this.tributes.length
                     )
                 }
 
                 // Absolute.
-                else this.required_fatalities = Math.max(0, fatalities.value)
+                else this.required_fatalities = Math.max(0, opts.required_fatalities)
 
                 // Shouldn’t ever happen, but still.
                 if (!isFinite(this.required_fatalities as number)) this.required_fatalities = undefined
             }
         }
+
+        // Set starting day.
+        if (opts.starting_day !== undefined)
+            this.nights_passed = this.days_passed = Math.max(0, Math.floor(opts.starting_day - 1))
 
         this.#AddEvents(events)
     }
