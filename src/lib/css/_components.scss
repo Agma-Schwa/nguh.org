@@ -3,7 +3,7 @@
 
 @use 'sass:math';
 
-table:not(.table-no-style):not(.stack-trace) {
+table:not(.table-no-style) {
     tr:nth-child(even) { background-color: $accentlighter; }
     th, td:first-child { background-color: $accentlight; }
 
@@ -30,17 +30,6 @@ table:not(.table-no-style):not(.stack-trace) {
 
     .lborder { border-left: 1px solid $accentcolour; }
     .align-right { text-align: right; }
-}
-
-.stack-trace {
-    margin-left: 2rem;
-    font-family: $code-font;
-
-    &-text, &-info { margin-block-end: 0; }
-    &-text { font-weight: bold }
-    &-func { color: #A9DC76; }
-    &-file { color: #FFD866; }
-    &-line { color: #AB9DF2; }
 }
 
 .single-row-table {

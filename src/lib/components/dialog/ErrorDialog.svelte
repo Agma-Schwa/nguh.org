@@ -1,6 +1,6 @@
 <script lang="ts">
     import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import {FormatError, HandledError, UserError} from "$lib/js/trace";
+    import {HandledError, UserError} from "$lib/js/dialog";
 
     interface Props {
         title?: string
@@ -38,8 +38,11 @@
             {/each}
             </p>
         {:else}
-            <!-- FIXME: Also convert FormatError() into a proper component. -->
-            {@html FormatError(error)}
+            <p>
+            {#each (error.stack ?? error.message).split('\n') as line}
+                {line}<br>
+            {/each}
+            </p>
         {/if}
     {/if}
 {/snippet}
@@ -59,9 +62,3 @@
     hover: 'var(--accentred-dark)',
     text: 'white',
 }} />
-
-<style lang="scss">
-    .error-dialog-content {
-        max-width: 50ch;
-    }
-</style>

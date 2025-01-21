@@ -1,6 +1,23 @@
 // ====================================================================== //
 //  Utils                                                                 //
 // ====================================================================== //
+export class HandledError extends Error {
+    constructor(cause?: Error) {
+        super('User should not see this.\n' +
+            'This should only appear in the browser console.\n' +
+            'If you can see this, please report it as a bug', {cause});
+    }
+}
+
+// UserErrors behave just like Errors, except that their stack traces are
+// not shown to the user when calling Dialog.error().
+export class UserError extends Error {
+    constructor(message: string) {
+        super(message);
+        Object.setPrototypeOf(this, UserError.prototype);
+    }
+}
+
 function clamp(val: number, lo: number, hi: number) {
     if (lo > hi) return lo
     return val < lo ? lo : val > hi ? hi : val
