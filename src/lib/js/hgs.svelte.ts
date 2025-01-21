@@ -1,4 +1,4 @@
-import {UserError} from "$lib/js/trace";
+import {UserError} from "$lib/js/dialog";
 import default_image_src from '$lib/images/hgs-default-character.png'
 
 // ====================================================================== //

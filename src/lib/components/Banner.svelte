@@ -9,9 +9,6 @@
     import img_twitch from '$lib/images/twitch-logo-with-background.svg'
     import img_github from '$lib/images/github-mark.svg'
 
-    import {MouseoverContext} from "../js/mouseover";
-    import {onMount} from 'svelte'
-
     // Compute the current season.
     function GetSeason() {
         let month = new Date().getMonth()
