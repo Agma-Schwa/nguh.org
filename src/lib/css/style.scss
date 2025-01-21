@@ -60,6 +60,7 @@ body {
     --body-background-colour: #fafafe;
     --text-colour: black;
     --content-box-shadow-colour: rgba(0, 0, 0, .2);
+    --main-shadow: 0 0 2em var(--content-box-shadow-colour);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -68,20 +69,20 @@ body {
 
     margin: 0;
     font-family: "Segoe UI Variable", "Segoe UI", system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+    &.main-transparent {
+        --body-background-colour: transparent;
+    }
 }
 
 body.dark {
     --body-background-colour: var(--accentblack);
     --text-colour: #fafafe;
     --content-box-shadow-colour: rgba(0, 0, 0, .3);
-
-    main {
-        background: var(--body-background-colour);
-    }
 }
 
 main {
-    background: white;
+    background: var(--body-background-colour);
 }
 
 .bright-link {

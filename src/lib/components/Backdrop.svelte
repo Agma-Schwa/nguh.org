@@ -9,32 +9,11 @@
     }
 
     let { image, transparent = false }: Props = $props();
-
-    function SetBackdrop() {
-        /// @ts-ignore
-        if (browser) {
-            document.querySelector('.backdrop').style.background = `url('${image}'`
-            if (transparent) {
-                const main = document.querySelector('main')
-                main.style.background = 'transparent'
-                main.style.boxShadow = 'none'
-            }
-        }
-    }
-
-    onMount(SetBackdrop)
-    afterNavigate(SetBackdrop)
-    onDestroy(() => {
-        /// @ts-ignore
-        if (browser) {
-            document.querySelector('.backdrop').style.removeProperty('background')
-            document.querySelector('main').style.removeProperty('background')
-            document.querySelector('main').style.removeProperty('box-shadow')
-        }
-    })
+    let div: HTMLDivElement
+    $effect(() => { div.style.background = `url('${image}'` })
 </script>
 
-<div class="backdrop"></div>
+<div bind:this={div} class="backdrop"></div>
 
 <style lang="scss">
     .backdrop {

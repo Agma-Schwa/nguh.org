@@ -68,9 +68,11 @@
         margin-bottom: 1rem;
 
         a {
+            display: block;
             width: 35rem;
-            font-size: 30pt;
-            padding-block: 1rem;
+            font-size: 3rem;
+            height: 4rem;
+            line-height: 4rem;
         }
     }
 

@@ -7,7 +7,7 @@
     let { data } = $props();
 </script>
 
-<svelte:body use:style={'background-color: var(--body-background-colour);'} />
+<svelte:body use:style={'--body-background-colour: transparent !important; --main-shadow: none !important;'} />
 
 <svelte:head>
     {#if data.page !== 0}

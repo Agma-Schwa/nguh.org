@@ -174,7 +174,7 @@
         min-height: calc(100vh - var(--banner-height) - var(--content-padding-top))
 '>  <main
         style='
-            box-shadow: 0 0 2em var(--content-box-shadow-colour);
+            box-shadow: var(--main-shadow);
             max-width: min(90rem, 100vw);
             width: 90rem;
         '
