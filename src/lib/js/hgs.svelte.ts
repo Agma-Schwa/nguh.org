@@ -615,56 +615,55 @@ export namespace Configuration {
         }
     }
 
-    /** Save characters to a file. **/
-    export async function SaveCharacters(tributes: TributeCharacterSelectOptions[]): Promise<V1.CharacterConfig | Error> {
-        // Serialise Tributes.
-        let config: V1.CharacterConfig = {
-            version: current_config_version,
-            characters: []
-        }
+    /**
+     * Save characters to a serialised list.
+     *
+     * @throws Error if we can’t serialise a character.
+     **/
+    export async function SerialiseCharacters(tributes: TributeCharacterSelectOptions[]): Promise<V1.StoredTributeOptions[]> {
+        return Promise.all(tributes.map(async ({name, custom_pronouns, pronoun_option, image_url}) => {
+            // Image.
+            let image: V1.StoredTributeImage | undefined = undefined
 
-        let lasterr: Error | undefined = undefined
-        for (const { name, custom_pronouns, pronoun_option, image_url } of tributes) {
-            try {
-                // Image.
-                let image: V1.StoredTributeImage | undefined = undefined
-
-                // Image is a blob. Base-64 encode it.
-                if (image_url?.startsWith('blob:')) {
-                    const blob = await fetch(image_url).then(r => r.blob())
-                    const reader = new FileReader()
-                    reader.readAsDataURL(blob)
-                    image = {data: await new Promise<string>(resolve => reader.onloadend = () => resolve(reader.result as string))}
-                }
-
-                // Image is a URL.
-                else if (image_url && image_url !== '') image = {url: image_url}
-
-                // Save the character.
-                config.characters.push({
-                    name,
-                    gender_select: pronoun_option,
-                    pronoun_str: custom_pronouns ?? '',
-                    image: image,
-                    tags: [],
-                })
-            } catch (e: any) {
-                lasterr = e
+            // Image is a blob. Base-64 encode it.
+            if (image_url?.startsWith('blob:')) {
+                const blob = await fetch(image_url).then(r => r.blob())
+                const reader = new FileReader()
+                reader.readAsDataURL(blob)
+                image = {data: await new Promise<string>(resolve => reader.onloadend = () => resolve(reader.result as string))}
             }
-        }
 
-        return lasterr ?? config
+            // Image is a URL.
+            else if (image_url && image_url !== '') image = {url: image_url}
+
+            // Save the character.
+            return {
+                name,
+                gender_select: pronoun_option,
+                pronoun_str: custom_pronouns ?? '',
+                image: image,
+                tags: [],
+            }
+        }))
+    }
+
+    /**
+     * Save characters to a file.
+     *
+     * @throws Error if we can’t serialise a character.
+     **/
+    export async function SaveCharacters(tributes: TributeCharacterSelectOptions[]): Promise<V1.CharacterConfig> {
+        return {
+            version: current_config_version,
+            characters: await SerialiseCharacters(tributes)
+        }
     }
 
     /** Load characters from a file. **/
-    export async function LoadCharacters(data: object): Promise<TributeCharacterSelectOptions[] | Error> {
-        try {
-            if (Legacy.IsCharacterConfig(data)) return await Legacy.LoadCharacters(data);
-            else if (V1.IsCharacterConfig(data)) return await V1.LoadCharacters(data);
-            else throw Error(`Invalid character configuration file`)
-        } catch (e) {
-            return Promise.reject(e)
-        }
+    export async function LoadCharacters(data: object): Promise<TributeCharacterSelectOptions[]> {
+        if (Legacy.IsCharacterConfig(data)) return await Legacy.LoadCharacters(data);
+        else if (V1.IsCharacterConfig(data)) return await V1.LoadCharacters(data);
+        else throw Error(`Invalid character configuration file`)
     }
 }
 
