@@ -6,14 +6,6 @@ section {
 }
 
 @media (max-width: 900px) {
-    #content {
-        &-wrapper {
-            padding-top: 0;
-            min-height: calc(100vh - #{$banner-height * .7});
-        }
-        .flex-row { flex-direction: column; }
-    }
-
     section { padding: 0 1.5rem; }
     .w50, .w70 { max-width: 100%; }
 }
