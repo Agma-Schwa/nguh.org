@@ -25,16 +25,6 @@
         font-size: var(--text-size);
         text-align: center;
         color: white;
-
-        .name {
-            color: var(--accentlighter);
-            font-weight: bold;
-        }
-
-        a {
-            font-style: normal;
-            color: var(--accentlighter);
-        }
     }
 }
 

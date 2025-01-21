@@ -77,12 +77,6 @@
 <style lang="scss">
     .file-input-control {
         gap: .55rem;
-        button { width: 11.5rem; }
         input[type=file] { display: none; }
-        input[type=text] {
-            font-size: var(--text-size);
-            width: 100%;
-            padding: 0;
-        }
     }
 </style>
