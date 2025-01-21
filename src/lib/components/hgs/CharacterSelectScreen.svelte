@@ -34,17 +34,22 @@
     /** Load characters from JSON. */
     async function LoadCharacters() {
         load_characters_dialog.open().and(async res => {
-            const chars = await Configuration.LoadCharacters(res.data as object);
-            if (chars instanceof Error) return error_dialog.open(chars)
-            tributes = chars
+            try {
+                tributes = await Configuration.LoadCharacters(res.data as object);
+            } catch (e: any) {
+                error_dialog.open(e)
+            }
         })
     }
 
     /** Save characters to JSON. */
     async function SaveCharacters() {
-        const chars = await Configuration.SaveCharacters(tributes);
-        if (chars instanceof Error) return error_dialog.open(chars)
-        DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
+        try {
+            const chars = await Configuration.SaveCharacters(tributes);
+            DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
+        } catch (e: any) {
+            error_dialog.open(e)
+        }
     }
 
     /** Start the game. */

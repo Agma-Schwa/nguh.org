@@ -12,12 +12,14 @@
         type GameRenderState,
         PronounSetting,
         RenderState, type GameOptions, TitleCase,
-        type TributeCharacterSelectOptions
+        type TributeCharacterSelectOptions, Tribute
     } from '$lib/js/hgs.svelte';
     import Message from "$lib/components/hgs/Message.svelte";
     import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
     import Card from "$lib/components/hgs/Card.svelte";
     import TributeStatList from "$lib/components/hgs/TributeStatList.svelte";
+    import {db} from './db';
+    import {liveQuery} from 'dexie';
 
     // TODO: Use web storage API to store uploaded files for tribute images.
 
@@ -36,21 +38,14 @@
     let render_state: GameRenderState | null = $state(null)
 
     // Tributes that are currently in the character selector.
-    let tributes: TributeCharacterSelectOptions[] = $state([
-        {
-            name: "Player 1",
-            pronoun_option: PronounSetting.Masculine,
-        },
-        {
-            name: "Player 2",
-            pronoun_option: PronounSetting.Feminine,
-        },
-        {
-            name: "Player 3",
-            pronoun_option: PronounSetting.Custom,
-            custom_pronouns: 'foo/bar/foobar/baz'
-        },
-    ]);
+    let tributes: TributeCharacterSelectOptions[] = $state([])
+
+    // This cursed nonsense has the effect of both loading the state
+    // from the DB on first load and saving it back to the DB every time
+    // we modify it after that.
+    let __initialised = $state(false)
+    $effect(() => void LoadTributesFromDB())
+    $effect(() => { if (__initialised) SyncTributesToDB(tributes) })
 
     /** Abort the current game. */
     function AbortGame() {
@@ -82,6 +77,39 @@
     /** Advance the current game. */
     function Proceed() {
         StepGame()
+    }
+
+    /** Load tributes from local DB. */
+    async function LoadTributesFromDB() {
+        try {
+            const data = await db.tributes.toArray()
+            const chars = await Configuration.LoadCharacters({version: Configuration.current_config_version, characters: data})
+
+            // Set this first so we save the example setup on write below.
+            __initialised = true
+
+            // If we have characters stored, use them.
+            if (chars.length !== 0) tributes = chars
+
+            // Otherwise, use a basic example setup.
+            else tributes = [
+                {
+                    name: "Player 1",
+                    pronoun_option: PronounSetting.Masculine,
+                },
+                {
+                    name: "Player 2",
+                    pronoun_option: PronounSetting.Feminine,
+                },
+                {
+                    name: "Player 3",
+                    pronoun_option: PronounSetting.Custom,
+                    custom_pronouns: 'foo/bar/foobar/baz'
+                },
+            ]
+        } catch (e: any) {
+            error_dialog.open(e)
+        }
     }
 
     /** Create a new game. */
@@ -122,6 +150,31 @@
         // @ts-ignore
         window.SetOpenImagePreview()
     }
+
+    /** Save the tributes back to the database. */
+    async function SyncTributesToDB(tribs: TributeCharacterSelectOptions[]) {
+        try {
+            const characters = await Configuration.SerialiseCharacters(tribs)
+            await db.tributes.clear()
+            await db.tributes.bulkAdd(characters)
+        } catch (e: any) {
+            error_dialog.open(e)
+        }
+    }
+
+/*    async function Add() {
+        try {
+            await db.tributes.add({
+                name: 'Player 1',
+                gender_select: 'm',
+                pronoun_str: '',
+                tags: [],
+            })
+            tributes = tributes
+        } catch (e: any) {
+            error_dialog.open(e)
+        }
+    }*/
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
@@ -215,7 +268,6 @@
 {:else}
     <p>Something went horribly wrong. This is a bug. </p>
 {/if}
-
 <style lang="scss">
     h6 {
         font-size: calc(var(--text-size) * 1.1);
