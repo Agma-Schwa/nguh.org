@@ -62,10 +62,15 @@
             for (const el of elements) Add(a, el)
 
             // Filter out duplicates.
+            //
+            // FIXME: This should instead check if 'f' is a subset of 'e' so
+            //        we can fold a[t|k]b|a[t|k|p]b -> a[t|k|p]b, but it isn’t
+            //        obvious to me how to do this in the general case without
+            //        generating all possible words.
             a = a.filter((e, i) => a.findIndex(f => f.deep_equals(e)) === i)
 
             // Sort the elements so that that we can compare alternates properly and
-            // fold cases such as ‘a[d|t]b|a[t|d]b’ -> ‘a[d|t]b|a[d|t]b’ -> a[d|t]b.
+            // fold cases such as a[d|t]b|a[t|d]b -> a[d|t]b|a[d|t]b -> a[d|t]b.
             a = a.sort(Alternates.#CompareElements)
 
             // Canonicalise structure.
