@@ -179,9 +179,11 @@
     function Generate() {
         try {
             const parse_tree = Parse()
-            const generate = () => output = parse_tree.generate().join('\n')
-            if (parse_tree.count() < 100_000) generate()
-            else confirm_dialog.open().and(generate)
+            if (parse_tree.count() < 100_000) DoIt()
+            else confirm_dialog.open().and(DoIt)
+
+            // Unique words here since our deduplication algorithms aren’t perfect.
+            function DoIt() { output = [...new Set(parse_tree.generate())].join('\n') }
         } catch (e: any) {
             error_dialog.open(e)
         }
@@ -395,8 +397,10 @@ s = sn, st, sp
         <h3>Generator</h3>
         <p>
             Press ‘Generate’ to generate all possible words, pressing ‘Download’ afterwards downloads the word, and pressing
-            ‘Clear’ clears the output (but not the classes or phonotactics). The number of possible words that will be generated
-            from your input is shown in the bottom left.
+            ‘Clear’ clears the output (but not the classes or phonotactics). The approximate number of words that will
+            be generated from your input is shown in the bottom left (this number is usually exact, but there are edge cases where
+            the computation fails). Note that irrespective of the count shown, this generator will always manage to compute all
+            possible words.
         </p>
     </div>
     <div class='grid grid-cols-2 gap-8 mt-4 min-h-[50vh]'>
@@ -418,7 +422,7 @@ s = sn, st, sp
     </div>
     <div class='flex justify-between items-center mt-8 gap-8'>
         <div>
-            <p>Possible Words: {word_count ?? '<ERROR>'}</p>
+            <p>Possible Words ≈ {word_count ?? '<ERROR>'}</p>
         </div>
         <div class='flex items-center gap-8 [&>button]:w-32'>
             <button onclick={Generate}>Generate</button>
