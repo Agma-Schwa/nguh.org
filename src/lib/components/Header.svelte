@@ -17,6 +17,7 @@
 
 {#snippet Tools()}
     <PageLink href='/tools/hunger_games_simulator'>Hunger Games Simulator</PageLink>
+    <PageLink href='/tools/word_generator'>Word Generator</PageLink>
     <PageLink href='/tools/speedrun'>Speedrun</PageLink>
     <PageLink href='/ccc/vote'>CCC Voting Form</PageLink>
 {/snippet}

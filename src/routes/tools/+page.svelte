@@ -31,6 +31,11 @@
         <li><a href="https://www.youtube.com/watch?v=AYktVyyha3Q">https://www.youtube.com/watch?v=AYktVyyha3Q</a></li>
     </ul>
 
+    <h4>Word Generator here on nguh.org</h4>
+    <ul>
+        <li><a href='/tools/word_generator'>https://www.nguh.org/tools/word_generator</a></li>
+    </ul>
+
     <h4>Microsoft Keyboard Layout Creator (MSKLC) Version 1.4 (Custom Keyboard Maker for Windows)</h4>
     <ul>
         <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=102134">https://www.microsoft.com/en-us/download/details.aspx?id=102134</a></li>
