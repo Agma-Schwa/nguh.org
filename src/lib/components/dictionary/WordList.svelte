@@ -39,7 +39,7 @@
                 {/if}
             {/if}
             {#if entry?.senses?.length}
-                <ol>
+                <ol class='list-decimal'>
                 {#each entry.senses as sense}
                     <li>
                         <p>{@html sense.def}</p>
@@ -78,7 +78,7 @@
     }
 
     ol {
-        padding-inline-start: 1.5rem;
+        padding-inline-start: 1.25rem;
         margin-bottom: 0;
     }
 
@@ -126,5 +126,9 @@
 
     .strong-small {
         font-weight: 600;
+    }
+
+    .uf-dict-examples {
+        padding-left: 2.5rem;
     }
 </style>

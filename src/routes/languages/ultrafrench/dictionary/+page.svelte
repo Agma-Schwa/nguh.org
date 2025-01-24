@@ -52,11 +52,12 @@
 
         search(input: string): FullEntry[] {
             if (input.length === 0) return data.dict.entries
-            const matches = []
+            const matches = new Set<FullEntry>()
             for (const entry of this.#entry_list)
                 if (entry[0].startsWith(input))
-                    matches.push(...entry[1])
-            return matches
+                    for (const e of entry[1])
+                        matches.add(e)
+            return [...matches]
         }
     }
 
