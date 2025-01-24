@@ -67,6 +67,20 @@
             //        we can fold a[t|k]b|a[t|k|p]b -> a[t|k|p]b, but it isn’t
             //        obvious to me how to do this in the general case without
             //        generating all possible words.
+            //
+            // TODO: Actually, that’s wrong: the subset check still wouldn’t handle
+            //       cases such as r[a|b|c]s|r[a|b|d]s, which involve overlapping
+            //       sets of which neither is a subset of the other. I think we
+            //       actually just need to compile this to a DFA and minimise this
+            //       to remove the overlap (I think just the conversion process
+            //       should take care of this on its own if we do it right).
+            //
+            // TODO: Instead of relying on this for counting, simply execute the
+            //       generation (but without actually outputting words), which
+            //       should be linear in the number of steps.
+            //
+            // TODO: Can we exploit that to minimise this properly? Or can we maybe
+            //       use a proper DFA minimalisation algorithm for this?
             a = a.filter((e, i) => a.findIndex(f => f.deep_equals(e)) === i)
 
             // Sort the elements so that that we can compare alternates properly and
@@ -159,7 +173,6 @@
     let word_count: string | null = $derived.by(() => {
         try {
             const res = Parse()
-            console.log(res)
             return '' + res.count()
         } catch (_) { return null }
     })
