@@ -82,7 +82,6 @@ export const load: PageServerLoad = async (event) => {
             'SELECT * FROM votes WHERE ip = ?;',
             [ip],
             (err: Error, row: Vote) => {
-                console.log('[2] Here')
                 if (err) error(500, err);
                 resolve(row)
             }

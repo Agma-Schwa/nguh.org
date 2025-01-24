@@ -45,12 +45,10 @@
     }
 
     function PreviousSlide() {
-        console.log('previous')
         AdvanceSlideshow(-1)
     }
 
     function NextSlide() {
-        console.log('next')
         AdvanceSlideshow(1)
     }
 

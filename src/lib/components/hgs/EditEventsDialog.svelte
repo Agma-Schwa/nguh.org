@@ -41,7 +41,7 @@
 
     function LoadEvents(config: object, replace: boolean) {
         try {
-            console.log("Loading events", config)
+            console.log("Loading events", config) // Log so users can include this in a potential bug report.
             Configuration.Load(event_list, config as object, replace, false)
             event_list = { ...event_list}
         } catch (e: any) {

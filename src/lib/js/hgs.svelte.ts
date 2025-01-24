@@ -1055,8 +1055,6 @@ export class Game {
             feast: []
         }
 
-        console.log(opts)
-
         // Set required fatality rate.
         if (opts.required_fatalities_mode !== RequiredFatalitiesMode.Disable) {
             if (isFinite(opts.required_fatalities)) {
