@@ -52,7 +52,7 @@
 >   <div
         class='
             absolute
-            [z-index:10000]
+            [z-index:9999]
             bottom-0
             min-[900px]:right-0
             max-[900px]:justify-center max-[900px]:w-full
