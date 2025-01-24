@@ -6,8 +6,9 @@ npm run dev -- --open
 
 ## Hunger Games Simulator
 If you came here looking for the Hunger Games Simulator, it’s here:
-- [/src/routes/tools/hunger_games_simulator/+page.svelte](/src/routes/tools/hunger_games_simulator/+page.svelte), and
-- [/src/lib/js/hunger_games_simulator.ts](src/lib/js/hunger_games_simulator.ts)
+- [/src/routes/tools/hunger_games_simulator/+page.svelte](src/routes/tools/hunger_games_simulator/+page.svelte),
+- [/src/lib/js/hgs.svelte.ts](src/lib/js/hgs.svelte.ts),
+- [/src/lib/components/hgs](src/lib/components/hgs).
 
 ## Creating a page
 To create the page `/foo/bar/baz`, create the directories
