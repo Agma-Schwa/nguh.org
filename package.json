@@ -36,7 +36,6 @@
 	"type": "module",
 	"dependencies": {
 		"dexie": "^4.0.10",
-		"fuse.js": "^7.0.0",
 		"sqlite3": "^5.1.7"
 	}
 }

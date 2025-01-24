@@ -1,11 +1,11 @@
 <script lang="ts">
-    import {page} from "$app/stores";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
-    import {onMount} from "svelte";
     import WordList from "$lib/components/dictionary/WordList.svelte";
-    import Fuse from "fuse.js";
     import type {FullEntry} from "$lib/js/dictionary";
+    import type {PageProps} from './$types';
+    import {browser} from '$app/environment';
+    import {Persist} from '$lib/js/utils';
 
     enum SearchMode {
         Headword = "Headword",
@@ -17,7 +17,7 @@
         let needle = value
             .toLowerCase()
             .normalize("NFKD")
-            .replaceAll(/[^a-zA-ZłŁ’\- ]/g, "")
+            .replaceAll(/[^a-zA-ZłŁ ]/g, "")
 
         // Additional transformations that only apply to the needle and
         // only if it is an UF word:
@@ -31,29 +31,50 @@
         return needle
     }
 
-    function MakeFuse(key: string): Fuse {
-        return new Fuse(
-            $page.data.dict.entries, {
-                keys: [key]
+    type SearchPair = [string, FullEntry[]]
+    class Search {
+        readonly #entry_list: SearchPair[] = []
+        constructor(entries: FullEntry[], key: 'def-search' | 'hw-search') {
+            const map = new Map<string, Set<FullEntry>>()
+            for (const entry of entries) {
+                for (const def of entry[key].split(' ')) {
+                    if (map.has(def)) map.get(def)!!.add(entry)
+                    else map.set(def, new Set<FullEntry>().add(entry))
+                }
             }
-        )
+
+            // Flatten to arrays and sort since the operation we need is finding
+            // words that start with the search term.
+            const flattened = Array.from(map.entries().map(([k, v]) => [k, Array.from(v)])) as SearchPair[]
+            flattened.sort((a, b) => a[0].localeCompare(b[0]))
+            this.#entry_list = flattened
+        }
+
+        search(input: string): FullEntry[] {
+            if (input.length === 0) return data.dict.entries
+            const matches = []
+            for (const entry of this.#entry_list)
+                if (entry[0].startsWith(input))
+                    matches.push(...entry[1])
+            return matches
+        }
     }
+
+    const SearchModeKey = 'uf-dict-search-mode'
 
     // Search input.
     let search_value: string = $state('')
-    let search_mode: string = $state(SearchMode.Headword)
+    let search_mode: SearchMode = $state(Persist(SearchModeKey, SearchMode.Definition))
+    let { data }: PageProps = $props()
+    let search = {
+        [SearchMode.Headword]: new Search(data.dict.entries, 'hw-search'),
+        [SearchMode.Definition]: new Search(data.dict.entries, 'def-search')
+    }
 
-    // Create the fuses.
-    let fuses = new Map<string, Fuse<FullEntry>>()
-    onMount(() => {
-        fuses.set(SearchMode.Headword, MakeFuse('hw-search'))
-        fuses.set(SearchMode.Definition, MakeFuse('def-search'))
-    })
+    $effect(() => localStorage.setItem(SearchModeKey, search_mode))
 
     // Headword search.
-    let entries = $derived(search_value.length === 0 ?
-        $page.data.dict.entries :
-        fuses.get(search_mode).search(NormaliseForSearch(search_value)).map(r => r.item))
+    let entries = $derived(search[search_mode].search(NormaliseForSearch(search_value)))
 </script>
 
 <Page name="ULTRAFRENCH Dictionary" />
