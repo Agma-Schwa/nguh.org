@@ -851,6 +851,15 @@ export class Event {
 }
 
 // ====================================================================== //
+//  Settings                                                              //
+// ====================================================================== //
+export interface GreyscaleSettings {
+    in_events: boolean,
+    end_of_day_summary: boolean,
+    end_of_game_summary: boolean,
+}
+
+// ====================================================================== //
 //  Game                                                                  //
 // ====================================================================== //
 export const enum RequiredFatalitiesMode {
@@ -863,6 +872,7 @@ export interface GameOptions {
     required_fatalities_mode: RequiredFatalitiesMode,
     required_fatalities: number
     starting_day?: number
+    greyscale_settings: GreyscaleSettings
 }
 
 /** The state of the game. */
@@ -951,18 +961,23 @@ export class GameRenderState {
     /** The tributes that are still alive. */
     readonly tributes_alive: Tribute[]
 
+    /** When to render portraits in greyscale. */
+    readonly greyscale_settings: GreyscaleSettings
+
     constructor(
         state: RenderState,
         game_title: string,
         rounds: GameRound[],
         tributes_died: Tribute[],
-        tributes_alive: Tribute[]
+        tributes_alive: Tribute[],
+        greyscale_settings: GreyscaleSettings
     ) {
         this.state = state
         this.game_title = game_title
         this.rounds = rounds
         this.tributes_died = tributes_died
         this.tributes_alive = tributes_alive
+        this.greyscale_settings = greyscale_settings
     }
 
     get deaths() { return this.tributes_died.length }
@@ -1020,6 +1035,9 @@ export class Game {
     /** Minimum number of fatalities per round. */
     readonly required_fatalities: number | undefined = undefined
 
+    /** Greyscale mode. */
+    readonly #greyscale_settings: GreyscaleSettings
+
     /** Create a new game. */
     constructor(
         tributes: Tribute[],
@@ -1060,6 +1078,9 @@ export class Game {
         // Set starting day.
         if (opts.starting_day !== undefined)
             this.nights_passed = this.days_passed = Math.max(0, Math.floor(opts.starting_day - 1))
+
+        // Set greyscale mode.
+        this.#greyscale_settings = opts.greyscale_settings
 
         this.#AddEvents(events)
     }
@@ -1135,7 +1156,8 @@ export class Game {
             this.#state === GameState.END
                 ? this.tributes.filter(t => t.died_in_round !== undefined)
                 : this.#tributes_died,
-            this.tributes_alive
+            this.tributes_alive,
+            this.#greyscale_settings
         );
     }
 

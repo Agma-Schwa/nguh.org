@@ -1,27 +1,31 @@
 <script lang="ts">
     import '$lib/css/hunger_games_simulator.scss'
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Ribbon from "$lib/components/Ribbon.svelte";
-    import CharacterSelectScreen from "$lib/components/hgs/CharacterSelectScreen.svelte";
-    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
+    import Page from '$lib/components/Page.svelte';
+    import Stripe from '$lib/components/Stripe.svelte';
+    import Ribbon from '$lib/components/Ribbon.svelte';
+    import CharacterSelectScreen from '$lib/components/hgs/CharacterSelectScreen.svelte';
+    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {
         Configuration,
-        type EventList, type FormattedMessage,
+        type EventList,
+        type FormattedMessage,
         Game,
+        type GameOptions,
         type GameRenderState,
         PronounSetting,
-        RenderState, type GameOptions, TitleCase,
-        type TributeCharacterSelectOptions, Tribute
+        RenderState,
+        RequiredFatalitiesMode,
+        TitleCase,
+        type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
-    import Message from "$lib/components/hgs/Message.svelte";
-    import ConfirmDialog from "$lib/components/dialog/ConfirmDialog.svelte";
-    import Card from "$lib/components/hgs/Card.svelte";
-    import TributeStatList from "$lib/components/hgs/TributeStatList.svelte";
+    import Message from '$lib/components/hgs/Message.svelte';
+    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
+    import Card from '$lib/components/hgs/Card.svelte';
+    import TributeStatList from '$lib/components/hgs/TributeStatList.svelte';
     import {db} from './db';
-    import {liveQuery} from 'dexie';
+    import {browser} from '$app/environment';
 
-    // TODO: Use web storage API to store uploaded files for tribute images.
+    const SettingsKey = 'hgs_settings'
 
     // Dialogs.
     let error_dialog: ErrorDialog
@@ -36,6 +40,16 @@
     // Render state for the current game. This is updated every game step
     // to trigger Svelte to update the UI.
     let render_state: GameRenderState | null = $state(null)
+    let settings: GameOptions = $state(LocalStorageOr(SettingsKey, {
+        required_fatalities: 0,
+        required_fatalities_mode: RequiredFatalitiesMode.Disable,
+        starting_day: undefined,
+        greyscale_settings: {
+            in_events: false,
+            end_of_game_summary: false,
+            end_of_day_summary: true
+        }
+    }))
 
     // Tributes that are currently in the character selector.
     let tributes: TributeCharacterSelectOptions[] = $state([])
@@ -44,8 +58,9 @@
     // from the DB on first load and saving it back to the DB every time
     // we modify it after that.
     let __initialised = $state(false)
-    $effect(() => void LoadTributesFromDB())
+    $effect(() => void LoadStateFromDB())
     $effect(() => { if (__initialised) SyncTributesToDB(tributes) })
+    $effect(() => { if (__initialised) SyncSettingsToLocalStorage(settings) })
 
     /** Abort the current game. */
     function AbortGame() {
@@ -79,9 +94,22 @@
         StepGame()
     }
 
-    /** Load tributes from local DB. */
-    async function LoadTributesFromDB() {
+    /** Initialise state from local storage. */
+    function LocalStorageOr<T>(key: string, default_value: T): T {
         try {
+            if (!browser) return default_value;
+            const val = localStorage.getItem(key);
+            if (val === null) return default_value;
+            return JSON.parse(val);
+        } catch (_) {
+            return default_value;
+        }
+    }
+
+    /** Load tributes from local DB. */
+    async function LoadStateFromDB() {
+        try {
+            // Tributes.
             const data = await db.tributes.toArray()
             const chars = await Configuration.LoadCharacters({version: Configuration.current_config_version, characters: data})
 
@@ -113,14 +141,14 @@
     }
 
     /** Create a new game. */
-    function StartGame(opts: GameOptions) {
+    function StartGame() {
         const in_game_tributes = Game.CreateTributesFromCharacterSelectOptions(tributes)
         if (in_game_tributes instanceof Error) {
             error_dialog.open(in_game_tributes)
             return
         }
 
-        game = new Game(in_game_tributes, event_list, opts)
+        game = new Game(in_game_tributes, event_list, settings)
         StepGame()
     }
 
@@ -149,6 +177,15 @@
         // FIXME: We probably want a custom <Image> component instead.
         // @ts-ignore
         window.SetOpenImagePreview()
+    }
+
+    /** Save game options back to local storage. */
+    function SyncSettingsToLocalStorage(settings: GameOptions) {
+        try {
+            localStorage.setItem(SettingsKey, JSON.stringify(settings))
+        } catch (e: any) {
+            error_dialog.open(e)
+        }
     }
 
     /** Save the tributes back to the database. */
@@ -195,6 +232,7 @@
     <CharacterSelectScreen
         bind:tributes
         bind:event_list
+        bind:settings
         start_game={StartGame}
     />
 {:else if render_state}
@@ -204,7 +242,11 @@
         <div>
             {#if render_state.is(RenderState.ROUND_EVENTS)}
                 {#each render_state.round.game_events as event}
-                    <Card tributes={event.players_involved} message={event.message} />
+                    <Card
+                        tributes={event.players_involved}
+                        message={event.message}
+                        grey_if_dead={render_state.greyscale_settings.in_events}
+                    />
                 {/each}
             {:else if render_state.is(RenderState.ROUND_DEATHS)}
                 <p class="text-center mb-12">
@@ -216,7 +258,11 @@
                     {/if}
                 </p>
                 {#each render_state.tributes_died as tribute}
-                    <Card tributes={[tribute]} message={[tribute.name, ' has died this round.']} dead={true} />
+                    <Card
+                        tributes={[tribute]}
+                        message={[tribute.name, ' has died this round.']}
+                        grey_if_dead={render_state.greyscale_settings.end_of_day_summary}
+                    />
                 {/each}
             {:else if render_state.is(RenderState.WINNERS)}
                 {#if render_state.has_alive}
@@ -252,7 +298,10 @@
                     {#if render_state.has_alive}
                         <h3 class="mt-24 mb-8 ml-auto mr-auto">The Rest</h3>
                     {/if}
-                    <TributeStatList tributes={render_state.tributes_died.toReversed()} />
+                    <TributeStatList
+                        tributes={render_state.tributes_died.toReversed()}
+                        grey_if_dead={render_state.greyscale_settings.end_of_game_summary}
+                    />
                 {/if}
             {:else}
                 <p>Internal Error: Invalid render state</p>

@@ -15,11 +15,12 @@
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
-        start_game: (opts: GameOptions) => void
-        event_list: EventList
+        start_game: () => void
+        event_list: EventList,
+        settings: GameOptions
     }
 
-    let {tributes = $bindable(), event_list = $bindable(), start_game}: Props = $props();
+    let {tributes = $bindable(), event_list = $bindable(), settings = $bindable(), start_game}: Props = $props();
     let get_image_dialog: SingleFileDialog
     let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
@@ -50,11 +51,6 @@
         } catch (e: any) {
             error_dialog.open(e)
         }
-    }
-
-    /** Start the game. */
-    function StartGame() {
-        start_game(settings_dialog.get_options())
     }
 
     /** Load several images from disk. */
@@ -96,7 +92,7 @@
     type='raw'
 />
 
-<SettingsDialog bind:this={settings_dialog} bind:event_list />
+<SettingsDialog bind:this={settings_dialog} bind:event_list bind:settings />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>
@@ -249,7 +245,7 @@
         </div>
     </div>
     <div class="flex justify-center mt-8">
-        <button onclick={StartGame}>Start Game</button>
+        <button onclick={start_game}>Start Game</button>
     </div>
 </section>
 

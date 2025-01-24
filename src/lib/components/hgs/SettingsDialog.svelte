@@ -2,33 +2,25 @@
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
     import {
         type EventList,
-        type EventListKey, GameStage,
         type GameOptions,
-        RequiredFatalitiesMode, TitleCase, Game
+        RequiredFatalitiesMode, type GreyscaleSettings
     } from '$lib/js/hgs.svelte';
     import EditEventsDialog from '$lib/components/hgs/EditEventsDialog.svelte';
+    import Checkbox from '$lib/components/Checkbox.svelte';
 
     interface Props {
-        event_list: EventList
+        event_list: EventList,
+        settings: GameOptions
     }
 
-    let {event_list = $bindable()}: Props = $props()
+    let {event_list = $bindable(), settings = $bindable()}: Props = $props()
     let dialog: SimpleDialog
-    let deaths_per_round_mode: RequiredFatalitiesMode = $state(RequiredFatalitiesMode.Disable)
-    let deaths_per_round_value: number | null | undefined = $state(null)
-/*    let stage_override: boolean = $state(false)
-    let stage: GameStage = $state(GameStage.BLOODBATH)*/
-    let day_override: boolean = $state(false)
-    let day: number = $state(1)
+    let day_override: boolean = $state(settings.starting_day !== undefined)
+    let day: number = $state(settings.starting_day ?? 1)
+    let actual_day = $derived(day_override ? day : undefined)
+    $effect(() => { settings.starting_day = actual_day })
 
     export function open() { dialog.open() }
-    export function get_options(): GameOptions {
-        return {
-            required_fatalities_mode: deaths_per_round_mode,
-            required_fatalities: deaths_per_round_value ?? NaN,
-            starting_day: day_override ? day : undefined
-        }
-    }
 </script>
 
 <SimpleDialog bind:this={dialog} title='Settings'>
@@ -46,16 +38,16 @@ If specified in percent, this is relative to the total number of tributes, alive
                     Deaths per Round
                 </abbr>
             </legend>
-            <select bind:value={deaths_per_round_mode}>
+            <select bind:value={settings.required_fatalities_mode}>
                 <option value='{RequiredFatalitiesMode.Disable}'>Disable</option>
                 <option value='{RequiredFatalitiesMode.Percent}'>Percent (max: 100)</option>
                 <option value='{RequiredFatalitiesMode.Absolute}'>Players</option>
             </select>
             <input
-                bind:value={deaths_per_round_value}
+                bind:value={settings.required_fatalities}
                 type='number'
                 max='100'
-                disabled={deaths_per_round_mode === RequiredFatalitiesMode.Disable}
+                disabled={settings.required_fatalities_mode === RequiredFatalitiesMode.Disable}
             >
         </fieldset>
 
@@ -66,19 +58,19 @@ If specified in percent, this is relative to the total number of tributes, alive
                 </abbr>
             </legend>
 
-            <div class='start-options'>
-                <input type='checkbox' bind:checked={day_override}>
-                <label for='day_override' class='select-none' onclick={() => day_override = !day_override}>Start on Day</label>
+            <div class='flex gap-1'>
+                <Checkbox bind:checked={day_override}>Start On Day</Checkbox>
                 <input type='number' id='day_override' min='1' placeholder='e.g. 1' disabled={!day_override} bind:value={day}>
-
-                <!--<input type='checkbox' bind:checked={stage_override}>
-                <label for='stage_override' class='select-none' onclick={() => stage_override = !stage_override}>Stage</label>
-                <select id='stage_override' disabled={!stage_override}>
-                    {#each Object.values(GameStage) as stage}
-                        <option value='{stage}'>{TitleCase(stage)}</option>
-                    {/each}
-                </select>-->
             </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>
+                <abbr title='When to use greyscale portraits for dead tributes.'>Greyscale Portraits</abbr>
+            </legend>
+            <Checkbox bind:checked={settings.greyscale_settings.in_events}>In Events</Checkbox>
+            <Checkbox bind:checked={settings.greyscale_settings.end_of_day_summary}>At End of Day</Checkbox>
+            <Checkbox bind:checked={settings.greyscale_settings.end_of_game_summary}>At End of Game</Checkbox>
         </fieldset>
     </div>
 </SimpleDialog>
@@ -90,11 +82,7 @@ If specified in percent, this is relative to the total number of tributes, alive
         width: 100%;
     }
 
-    .start-options {
-        display: grid;
-        grid-template-columns: auto auto 1fr;
-        gap: .25rem;
-        column-gap: .5rem;
-        select, input[type=number] { width: 7.5rem; }
+    input[type=text], input[type=number] {
+        padding-inline: 2px;
     }
 </style>

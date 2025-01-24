@@ -4,16 +4,17 @@
     import TributeImage from "$lib/components/hgs/TributeImage.svelte";
 
     interface Props {
-        tributes: Tribute[]
+        tributes: Tribute[],
+        grey_if_dead?: boolean
     }
 
-    let {tributes}: Props = $props();
+    let {tributes, grey_if_dead = false}: Props = $props();
 </script>
 
 <div class="flex flex-wrap justify-center gap-8">
     {#each tributes as tribute}
         <div class="flex flex-col items-center gap-2">
-            <TributeImage {tribute} grey_if_dead={true} />
+            <TributeImage {tribute} {grey_if_dead} />
             <Message parts={[tribute.name]}/>
             <p>Kills: {tribute.kills}</p>
             <p>

@@ -8,9 +8,9 @@
         <div class='changelog-day'>
             <h4>24 January 2025</h4>
             <ul>
-                <li>
-                    Fixed a CSS bug that caused tribute images to not be cropped properly sometimes.
-                </li>
+                <li>Fixed a CSS bug that caused tribute images to not be cropped properly sometimes.</li>
+                <li>Added settings to control when greyscale portraits are used.</li>
+                <li>Settings (but not events) now persist across page reloads.</li>
             </ul>
         </div>
         <div class="changelog-day">
