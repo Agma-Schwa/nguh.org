@@ -424,17 +424,17 @@ s = sn, st, sp
     <div class='grid grid-cols-2 gap-8 mt-4 min-h-[50vh]'>
         <div class='h-full flex flex-col'>
             <div class='textbox flex-grow'>
-                <label for='classes'>Classes</label>
+                <label>Classes</label>
                 <textarea bind:value={classes_str} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
 
             <div class='textbox mt-8'>
-                <label for='input'>Phonotactics</label>
+                <label>Phonotactics</label>
                 <input bind:value={phontactics} type='text' name='input' placeholder='(C)VCV(V)'>
             </div>
         </div>
         <div class='textbox'>
-            <label for='classes'>Words</label>
+            <label>Words</label>
             <textarea bind:value={output} class='h-full' name='classes' autocorrect='off' readonly></textarea>
         </div>
     </div>

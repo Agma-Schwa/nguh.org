@@ -61,9 +61,9 @@
 
 <section id="search-section">
     <div id="search">
-        <label for="search-input">Search: </label>
+        <label>Search: </label>
         <input id="search-input" type="text" placeholder="e.g. ad’hór" bind:value={search_value}>
-        <label for="search-mode">By: </label>
+        <label>By: </label>
         <select id="search-mode" bind:value={search_mode}>
             {#each Object.keys(SearchMode) as mode}
                 <option value="{mode}" selected>{mode}</option>

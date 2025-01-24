@@ -96,17 +96,17 @@
              "
              style="grid-template-columns: auto 1fr;"
         >
-            <label for="stage">Stage</label>
+            <label>Stage</label>
             <select id="stage" bind:value={stage}>
                 {#each HGSEvent.list_keys_logical_order as key}
                     <option value={key}>{TitleCase(key)}</option>
                 {/each}
             </select>
-            <label for="message">Message</label>
+            <label>Message</label>
             <input type="text" id="message" placeholder="%0 and %1 ambush %2 and %3, killing them both." bind:value={message}>
-            <label for="deaths">Deaths</label>
+            <label>Deaths</label>
             <input type="text" id="deaths" placeholder="2, 3" bind:value={deaths}>
-            <label for="killers">Killers</label>
+            <label>Killers</label>
             <input type="text" id="killers" placeholder="0, 1" bind:value={killers}>
         </div>
     </div>
