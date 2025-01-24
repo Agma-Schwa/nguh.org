@@ -5,6 +5,14 @@
 
 <SimpleDialog bind:this={dialog} title="Changelog">
     <div id="changelog" class="pl-8 pr-8">
+        <div class='changelog-day'>
+            <h4>24 January 2025</h4>
+            <ul>
+                <li>
+                    Fixed a CSS bug that caused tribute images to not be cropped properly sometimes.
+                </li>
+            </ul>
+        </div>
         <div class="changelog-day">
             <h4>21 January 2025</h4>
             <ul>

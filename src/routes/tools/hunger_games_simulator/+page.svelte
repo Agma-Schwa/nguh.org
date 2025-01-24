@@ -178,7 +178,7 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
-<Ribbon><em>Last Updated: 21 January 2025</em></Ribbon>
+<Ribbon><em>Last Updated: 24 January 2025</em></Ribbon>
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->
