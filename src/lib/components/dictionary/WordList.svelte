@@ -1,64 +1,70 @@
 <script lang="ts">
-    import type {FullEntry} from "$lib/js/dictionary";
+    import type {Entry} from '$lib/js/dictionary';
 
     interface Props {
-        entries: FullEntry[];
+        entries: Entry[];
+        search_value: string;
     }
 
-    let { entries }: Props = $props();
-
+    let { entries, search_value = $bindable() }: Props = $props();
     function Truncate(s: string): string {
         return s.length > 100 ? s.slice(0, 75) + "…" : s;
     }
 </script>
 
 {#each entries as entry}
-    <details>
-        <summary>
-            <span class="headword"><uf-w>{@html entry.word}</uf-w> <em>{@html entry.pos}</em></span>
-            <span class="short-def">{@html Truncate(entry?.def?.def ?? `1. ${entry?.senses?.[0].def}`)}</span>
-        </summary>
-        <div class="entry-content">
-            {#if entry.etym}
-                <p class="etym"><strong class="strong-small">Etymology: </strong> {@html entry.etym}</p>
-            {/if}
-            {#if entry.forms}
-                <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
-            {/if}
-            {#if entry.def}
-                <p>{@html entry.def.def}</p>
-                {#if entry.def.comment}
-                    <p><em class="comment">{@html entry.def.comment}</em></p>
+    {#if 'def' in entry}
+        <details>
+            <summary>
+                <span class="headword"><uf-w>{@html entry.word}</uf-w> <em>{@html entry.pos}</em></span>
+                <span class="short-def">{@html Truncate(entry?.def?.def ?? `1. ${entry?.senses?.[0].def}`)}</span>
+            </summary>
+            <div class="entry-content">
+                {#if entry.etym}
+                    <p class="etym"><strong class="strong-small">Etymology: </strong> {@html entry.etym}</p>
                 {/if}
-                {#if entry.def.examples}
-                    <ul class="uf-dict-examples">
-                        {#each entry.def.examples as example}
-                            <li>{@html example}</li>
-                        {/each}
-                    </ul>
+                {#if entry.forms}
+                    <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
                 {/if}
-            {/if}
-            {#if entry?.senses?.length}
-                <ol class='list-decimal'>
-                {#each entry.senses as sense}
-                    <li>
-                        <p>{@html sense.def}</p>
-                        {#if sense.comment}
-                            <p><em class="comment">{@html sense.comment}</em></p>
-                        {/if}
-                    </li>
-                    {#if sense.examples?.length}
+                {#if entry.def}
+                    <p>{@html entry.def.def}</p>
+                    {#if entry.def.comment}
+                        <p><em class="comment">{@html entry.def.comment}</em></p>
+                    {/if}
+                    {#if entry.def.examples}
                         <ul class="uf-dict-examples">
-                        {#each sense.examples as example}
-                            <li>{@html example}</li>
-                        {/each}
+                            {#each entry.def.examples as example}
+                                <li>{@html example}</li>
+                            {/each}
                         </ul>
                     {/if}
-                {/each}
-                </ol>
-            {/if}
+                {/if}
+                {#if entry?.senses?.length}
+                    <ol class='list-decimal'>
+                    {#each entry.senses as sense}
+                        <li>
+                            <p>{@html sense.def}</p>
+                            {#if sense.comment}
+                                <p><em class="comment">{@html sense.comment}</em></p>
+                            {/if}
+                        </li>
+                        {#if sense.examples?.length}
+                            <ul class="uf-dict-examples">
+                            {#each sense.examples as example}
+                                <li>{@html example}</li>
+                            {/each}
+                            </ul>
+                        {/if}
+                    {/each}
+                    </ol>
+                {/if}
+            </div>
+        </details>
+    {:else if 'from' in entry}
+        <div class='refentry cursor-pointer' onclick={() => search_value = entry.to}>
+            <span class="headword"><uf-w>{@html entry.from}</uf-w> → <uf-w>{@html entry.to}</uf-w></span>
         </div>
-    </details>
+    {/if}
 {/each}
 
 <style lang="scss">
@@ -90,19 +96,20 @@
         margin-top: 0;
     }
 
-    details {
+    details, .refentry {
         border: $border;
         border-bottom-style: none;
         @include sans-font;
         line-height: 1.75rem;
+    }
 
-        &[open] {
-            .short-def { display: none; }
-        }
+    .entry-content, .refentry {
+        padding: 3pt;
+    }
 
-        &:not([open]) {
-            cursor: pointer;
-        }
+    details {
+        &[open] { .short-def { display: none; } }
+        &:not([open]) { cursor: pointer; }
     }
 
     summary {
@@ -111,7 +118,6 @@
     }
 
     .entry-content {
-        padding: 3pt;
         border-top: $border;
     }
 

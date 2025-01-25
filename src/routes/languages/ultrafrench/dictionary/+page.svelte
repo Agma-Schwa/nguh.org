@@ -2,9 +2,8 @@
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
     import WordList from "$lib/components/dictionary/WordList.svelte";
-    import type {FullEntry} from "$lib/js/dictionary";
+    import type {Entry, FullEntry, RefEntry} from '$lib/js/dictionary';
     import type {PageProps} from './$types';
-    import {browser} from '$app/environment';
     import {Persist} from '$lib/js/utils';
 
     enum SearchMode {
@@ -31,16 +30,24 @@
         return needle
     }
 
-    type SearchPair = [string, FullEntry[]]
+    type SearchPair = [string, Entry[]]
     class Search {
         readonly #entry_list: SearchPair[] = []
-        constructor(entries: FullEntry[], key: 'def-search' | 'hw-search') {
-            const map = new Map<string, Set<FullEntry>>()
+        constructor(entries: FullEntry[], key: 'def-search' | 'hw-search', refs: RefEntry[] = []) {
+            const map = new Map<string, Set<Entry>>()
+
+            // Add entries.
             for (const entry of entries) {
                 for (const def of entry[key].split(' ')) {
                     if (map.has(def)) map.get(def)!!.add(entry)
-                    else map.set(def, new Set<FullEntry>().add(entry))
+                    else map.set(def, new Set<Entry>().add(entry))
                 }
+            }
+
+            // Add reference entries.
+            for (const ref of refs) {
+                if (map.has(ref['from-search'])) map.get(ref['from-search'])!!.add(ref)
+                else map.set(ref['from-search'], new Set<Entry>().add(ref))
             }
 
             // Flatten to arrays and sort since the operation we need is finding
@@ -50,9 +57,9 @@
             this.#entry_list = flattened
         }
 
-        search(input: string): FullEntry[] {
+        search(input: string): Entry[] {
             if (input.length === 0) return data.dict.entries
-            const matches = new Set<FullEntry>()
+            const matches = new Set<Entry>()
             for (const entry of this.#entry_list)
                 if (entry[0].startsWith(input))
                     for (const e of entry[1])
@@ -67,8 +74,8 @@
     let search_value: string = $state('')
     let search_mode: SearchMode = $state(Persist(SearchModeKey, SearchMode.Definition))
     let { data }: PageProps = $props()
-    let search = {
-        [SearchMode.Headword]: new Search(data.dict.entries, 'hw-search'),
+    const search = {
+        [SearchMode.Headword]: new Search(data.dict.entries, 'hw-search', data.dict.refs),
         [SearchMode.Definition]: new Search(data.dict.entries, 'def-search')
     }
 
@@ -92,8 +99,11 @@
             {/each}
         </select>
     </div>
-    <p>Click on the first line of an entry to expand or collapse it.</p>
-    <WordList entries={entries} />
+    <p>
+        Click on the first line of an entry to expand or collapse it, and click on a reference entry
+        to view the referenced word.
+    </p>
+    <WordList entries={entries} bind:search_value />
     <div id="last"></div>
 </section>
 

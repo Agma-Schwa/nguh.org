@@ -17,8 +17,11 @@ export interface FullEntry {
 
 export interface RefEntry {
     from: string,
+    "from-search": string,
     to: string,
 }
+
+export type Entry = FullEntry | RefEntry
 
 export interface Dictionary {
     entries: FullEntry[],
