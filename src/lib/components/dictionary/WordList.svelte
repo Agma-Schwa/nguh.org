@@ -13,7 +13,7 @@
 </script>
 
 {#each entries as entry}
-    {#if 'def' in entry}
+    {#if 'word' in entry}
         <details>
             <summary>
                 <span class="headword"><uf-w>{@html entry.word}</uf-w> <em>{@html entry.pos}</em></span>
