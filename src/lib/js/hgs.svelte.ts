@@ -1,5 +1,6 @@
 import {UserError} from "$lib/js/dialog";
 import default_image_src from '$lib/images/hgs-default-character.png'
+import {Persist} from '$lib/js/persist.svelte';
 
 // ====================================================================== //
 //  Utils                                                                 //
@@ -1042,7 +1043,6 @@ export class Game {
     constructor(
         tributes: Tribute[],
         events: EventList,
-        opts: GameOptions,
         fatality_reroll_rate: number = .6
     ) {
         this.tributes = [...tributes] // We want our own copy of this.
@@ -1056,6 +1056,7 @@ export class Game {
         }
 
         // Set required fatality rate.
+        const opts = GameSettings.value
         if (opts.required_fatalities_mode !== RequiredFatalitiesMode.Disable) {
             if (isFinite(opts.required_fatalities)) {
                 // Relative to the total number of tributes.
@@ -1728,3 +1729,14 @@ const BuiltinDefaultConfig: Configuration.V1.Config = Object.freeze({
     events: BuiltinEventList,
     tags: []
 })
+
+export const GameSettings = Persist('hgs_settings', {
+    required_fatalities: 0,
+    required_fatalities_mode: RequiredFatalitiesMode.Disable,
+    starting_day: undefined,
+    greyscale_settings: {
+        in_events: false,
+        end_of_game_summary: false,
+        end_of_day_summary: true
+    }
+} as GameOptions)

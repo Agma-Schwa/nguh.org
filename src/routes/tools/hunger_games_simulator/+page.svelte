@@ -10,8 +10,7 @@
         type EventList,
         type FormattedMessage,
         Game,
-        type GameOptions,
-        type GameRenderState,
+        type GameRenderState, GameSettings,
         PronounSetting,
         RenderState,
         RequiredFatalitiesMode,
@@ -24,8 +23,6 @@
     import TributeStatList from '$lib/components/hgs/TributeStatList.svelte';
     import {db} from './db';
     import {browser} from '$app/environment';
-
-    const SettingsKey = 'hgs_settings'
 
     // Dialogs.
     let error_dialog: ErrorDialog
@@ -40,16 +37,6 @@
     // Render state for the current game. This is updated every game step
     // to trigger Svelte to update the UI.
     let render_state: GameRenderState | null = $state(null)
-    let settings: GameOptions = $state(LocalStorageOr(SettingsKey, {
-        required_fatalities: 0,
-        required_fatalities_mode: RequiredFatalitiesMode.Disable,
-        starting_day: undefined,
-        greyscale_settings: {
-            in_events: false,
-            end_of_game_summary: false,
-            end_of_day_summary: true
-        }
-    }))
 
     // Tributes that are currently in the character selector.
     let tributes: TributeCharacterSelectOptions[] = $state([])
@@ -60,7 +47,6 @@
     let __initialised = $state(false)
     $effect(() => void LoadStateFromDB())
     $effect(() => { if (__initialised) SyncTributesToDB(tributes) })
-    $effect(() => { if (__initialised) SyncSettingsToLocalStorage(settings) })
 
     /** Abort the current game. */
     function AbortGame() {
@@ -92,18 +78,6 @@
     /** Advance the current game. */
     function Proceed() {
         StepGame()
-    }
-
-    /** Initialise state from local storage. */
-    function LocalStorageOr<T>(key: string, default_value: T): T {
-        try {
-            if (!browser) return default_value;
-            const val = localStorage.getItem(key);
-            if (val === null) return default_value;
-            return JSON.parse(val);
-        } catch (_) {
-            return default_value;
-        }
     }
 
     /** Load tributes from local DB. */
@@ -148,7 +122,7 @@
             return
         }
 
-        game = new Game(in_game_tributes, event_list, settings)
+        game = new Game(in_game_tributes, event_list)
         StepGame()
     }
 
@@ -177,15 +151,6 @@
         // FIXME: We probably want a custom <Image> component instead.
         // @ts-ignore
         window.SetOpenImagePreview()
-    }
-
-    /** Save game options back to local storage. */
-    function SyncSettingsToLocalStorage(settings: GameOptions) {
-        try {
-            localStorage.setItem(SettingsKey, JSON.stringify(settings))
-        } catch (e: any) {
-            error_dialog.open(e)
-        }
     }
 
     /** Save the tributes back to the database. */
@@ -232,7 +197,6 @@
     <CharacterSelectScreen
         bind:tributes
         bind:event_list
-        bind:settings
         start_game={StartGame}
     />
 {:else if render_state}

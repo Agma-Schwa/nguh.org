@@ -6,6 +6,7 @@
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import {browser} from '$app/environment';
+    import {Persist} from '$lib/js/persist.svelte';
 
     type Classes = Map<string, string[]>
     abstract class Node {
@@ -160,26 +161,16 @@
         }
     }
 
-    const enum LocalStorageKey {
-        CLASSES = 'wordgen.classes',
-        PHONOTACTICS = 'wordgen.phono',
-    }
-
     let error_dialog: ErrorDialog
     let confirm_dialog: ConfirmDialog
-    let classes_str: string = $state(InitFromLocalStorage(LocalStorageKey.CLASSES))
-    let phontactics: string = $state(InitFromLocalStorage(LocalStorageKey.PHONOTACTICS))
+    let classes_str = Persist('wordgen.classes', '', true)
+    let phontactics = Persist('wordgen.phono', '', true)
     let output: string = $state('')
     let word_count: string | null = $derived.by(() => {
         try {
             const res = Parse()
             return '' + res.count()
         } catch (_) { return null }
-    })
-
-    $effect(() => {
-        window.localStorage.setItem(LocalStorageKey.CLASSES, classes_str)
-        window.localStorage.setItem(LocalStorageKey.PHONOTACTICS, phontactics)
     })
 
     function ArraysEqual<T>(ta: T[], tb: T[], pred: (a: T, b: T) => boolean): boolean {
@@ -207,10 +198,6 @@
         }
     }
 
-    function InitFromLocalStorage(key: LocalStorageKey): string {
-        return browser ? (window.localStorage.getItem(key) ?? '') : ''
-    }
-
     // Parse the classes and phonotactics.
     //
     // This operation is very cheap, so we can afford to do this every
@@ -228,14 +215,14 @@
     // Because JS doesn’t support implicit member access, writing this
     // as a function rather than a class is literally more ergonomic...
     function Parse(): Node {
-        if (phontactics.length === 0) return Literal.Empty
+        if (phontactics.value.length === 0) return Literal.Empty
 
         // Parse classes.
         const classes = ParseClasses()
         const literal_delimiters = ['[', ']', '(', ')', '|', ...classes.keys()].join('')
 
         // Parse phonotactics.
-        const s = Stream(phontactics.trim().normalize("NFC"))
+        const s = Stream(phontactics.value.trim().normalize("NFC"))
         return ParsePattern()
 
         function IsAlnum(s: string) {
@@ -262,7 +249,7 @@
         // <class>   ::= LETTER "=" <chars> { "," <chars> }
         function ParseClasses(): Classes {
             const classes = new Map<string, string[]>()
-            for (const line of Stream(classes_str.normalize("NFC")).split('\n').map(l => l.trim()).filter(l => !l.empty())) {
+            for (const line of Stream(classes_str.value.normalize("NFC")).split('\n').map(l => l.trim()).filter(l => !l.empty())) {
                 // Parse name.
                 const name = line.take_until_any(" \t\n\v\f=")
                 if (name.length !== 1 || !IsAlnum(name))
@@ -425,12 +412,12 @@ s = sn, st, sp
         <div class='h-full flex flex-col'>
             <div class='textbox flex-grow'>
                 <label>Classes</label>
-                <textarea bind:value={classes_str} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
+                <textarea bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
 
             <div class='textbox mt-8'>
                 <label>Phonotactics</label>
-                <input bind:value={phontactics} type='text' name='input' placeholder='(C)VCV(V)'>
+                <input bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
             </div>
         </div>
         <div class='textbox'>

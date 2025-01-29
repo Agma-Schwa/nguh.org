@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import WordList from "$lib/components/dictionary/WordList.svelte";
+    import Page from '$lib/components/Page.svelte';
+    import Stripe from '$lib/components/Stripe.svelte';
+    import WordList from '$lib/components/dictionary/WordList.svelte';
     import type {Entry, FullEntry, RefEntry} from '$lib/js/dictionary';
     import type {PageProps} from './$types';
-    import {Persist} from '$lib/js/utils';
+    import {Persist} from '$lib/js/persist.svelte';
 
     enum SearchMode {
         Headword = "Headword",
@@ -22,7 +22,7 @@
         // only if it is an UF word:
         //
         // Convert from Early Modern UF spelling to modern spelling.
-        if (search_mode == SearchMode.Headword) {
+        if (search_mode.value == SearchMode.Headword) {
             needle = needle.replaceAll('ph', 'bh');
             needle = needle.replaceAll('p', 'b');
             needle = needle.replaceAll(/t(?!’)/g, 'd');
@@ -68,21 +68,17 @@
         }
     }
 
-    const SearchModeKey = 'uf-dict-search-mode'
-
     // Search input.
     let search_value: string = $state('')
-    let search_mode: SearchMode = $state(Persist(SearchModeKey, SearchMode.Definition))
+    let search_mode = Persist('uf-dict-search-mode', SearchMode.Definition, true)
     let { data }: PageProps = $props()
     const search = {
         [SearchMode.Headword]: new Search(data.dict.entries, 'hw-search', data.dict.refs),
         [SearchMode.Definition]: new Search(data.dict.entries, 'def-search')
     }
 
-    $effect(() => localStorage.setItem(SearchModeKey, search_mode))
-
     // Headword search.
-    let entries = $derived(search[search_mode].search(NormaliseForSearch(search_value)))
+    let entries = $derived(search[search_mode.value].search(NormaliseForSearch(search_value)))
 </script>
 
 <Page name="ULTRAFRENCH Dictionary" />
@@ -93,7 +89,7 @@
         <label>Search: </label>
         <input id="search-input" type="text" placeholder="e.g. ad’hór" bind:value={search_value}>
         <label>By: </label>
-        <select id="search-mode" bind:value={search_mode}>
+        <select id="search-mode" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}
                 <option value="{mode}" selected>{mode}</option>
             {/each}

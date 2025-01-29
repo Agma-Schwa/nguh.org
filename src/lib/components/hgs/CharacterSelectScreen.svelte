@@ -17,10 +17,9 @@
         tributes: TributeCharacterSelectOptions[]
         start_game: () => void
         event_list: EventList,
-        settings: GameOptions
     }
 
-    let {tributes = $bindable(), event_list = $bindable(), settings = $bindable(), start_game}: Props = $props();
+    let {tributes = $bindable(), event_list = $bindable(), start_game}: Props = $props();
     let get_image_dialog: SingleFileDialog
     let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
@@ -92,7 +91,7 @@
     type='raw'
 />
 
-<SettingsDialog bind:this={settings_dialog} bind:event_list bind:settings />
+<SettingsDialog bind:this={settings_dialog} bind:event_list />
 <ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>
