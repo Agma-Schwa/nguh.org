@@ -59,7 +59,7 @@ export const handle: Handle = async ({event, resolve}) => {
         // Set up tables.
         db.run(`
             CREATE TABLE IF NOT EXISTS votes (
-                ip TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 time_unix_ms INTEGER,
                 top1 TEXT,
                 top2 TEXT,
@@ -70,6 +70,9 @@ export const handle: Handle = async ({event, resolve}) => {
             ) STRICT;
         `, check)
     }
+
+    if (!event.locals.shared_db)
+        event.locals.shared_db = new sqlite3.Database('/srv/shared.db', check)
 
     // Pass the request further down the chain.
     return resolve(event)

@@ -8,6 +8,7 @@ declare global {
         // interface Error {}
         interface Locals {
             db: Database;
+            shared_db: Database,
             language_pages: LanguagePage[];
             ccc_submissions: string[];
         }
