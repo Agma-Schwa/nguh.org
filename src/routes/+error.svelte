@@ -1,16 +1,20 @@
 <script>
     import Page from "$lib/components/Page.svelte";
-    import {page} from "$app/stores";
+    import {page} from "$app/state";
 </script>
 
-<Page name={$page.status} />
+<Page name={page.status} />
 
-{#if $page.error.message.includes('\n')}
-    {@const first_newline = $page.error.message.indexOf('\n')}
-    <h2>{$page.error.message.substring(0, first_newline)}</h2>
-    <p>{$page.error.message.substring(first_newline)}</p>
+{#if page.error}
+    {#if page.error.message.includes('\n')}
+        {@const first_newline = page.error.message.indexOf('\n')}
+        <h2>{page.error.message.substring(0, first_newline)}</h2>
+        <p>{page.error.message.substring(first_newline)}</p>
+    {:else}
+        <h2>{page.error.message}</h2>
+    {/if}
 {:else}
-    <h2>{$page.error.message}</h2>
+    <h2>Unknown error</h2>
 {/if}
 
 <style>
