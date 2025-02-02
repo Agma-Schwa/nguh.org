@@ -29,7 +29,7 @@
                 {#if entry.def}
                     <p>{@html entry.def.def}</p>
                     {#if entry.def.comment}
-                        <p><em class="comment">{@html entry.def.comment}</em></p>
+                        <em class="comment">{@html entry.def.comment}</em>
                     {/if}
                     {#if entry.def.examples}
                         <ul class="uf-dict-examples">
@@ -45,7 +45,7 @@
                         <li>
                             <p>{@html sense.def}</p>
                             {#if sense.comment}
-                                <p><em class="comment">{@html sense.comment}</em></p>
+                                <em class="comment">{@html sense.comment}</em>
                             {/if}
                         </li>
                         {#if sense.examples?.length}
