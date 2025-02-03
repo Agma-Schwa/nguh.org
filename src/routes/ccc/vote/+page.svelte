@@ -4,7 +4,6 @@
     import Stripe from "$lib/components/Stripe.svelte";
     import {enhance} from '$app/forms';
     import type {ActionResult} from "@sveltejs/kit";
-    import {goto} from "$app/navigation";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
 
@@ -54,7 +53,6 @@
 <Page name="CCC Voting Form"/>
 <Stripe>Cursed Conlang Circus</Stripe>
 <section>
-    {#if page.data.enabled}
     <p>
         This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
         below, there is a form where you can select your top 6 languages. Top 1 is your favourite language, top
@@ -91,10 +89,4 @@
         {/each}
         <input value="Vote" type="submit">
     </form>
-    {:else}
-    <p>
-        Sorry, the CCC voting form is currently not enabled. Please wait for the
-        announcement video that details the voting process.
-    </p>
-    {/if}
 </section>

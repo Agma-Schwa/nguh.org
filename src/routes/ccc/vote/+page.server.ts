@@ -21,15 +21,17 @@ async function CheckIdAndToken(e: { url: URL, locals: App.Locals }): Promise<str
     function reject() {
         error(
             403,
-            "Invalid URL\nPlease run /cccvote on the Agma Schwa Discord server to obtain a valid URL."
+            "Forbidden\nPlease run /cccvote on the Agma Schwa Discord server to obtain a valid voting URL."
         )
     }
+
+    if (CCC_FORM_ENABLED !== "TRUE") error(403, "Forbidden\nThe voting form is currently disabled.")
 
     // Check that the URL contains the user ID and token.
     const params = e.url.searchParams
     const user = params.get('user')
     const token = params.get('token')
-    if (!user || !token) reject();
+    if (!user || !token) reject()
 
     // Check if the ID and token are valid.
     const [code, extra]: [number, Error | null] = await new Promise(resolve => {
@@ -58,9 +60,6 @@ function ConvertNull(s: FormDataEntryValue | null) {
 export const actions: Actions = {
     default: async (event) => {
         const user = await CheckIdAndToken(event)
-
-        // Make sure the form is enabled.
-        if (CCC_FORM_ENABLED !== "TRUE") error(403, "The voting form is currently disabled");
 
         // Extract the vote.
         const data = await event.request.formData()
@@ -116,6 +115,5 @@ export const load: PageServerLoad = async (event) => {
     if (!res[0]) error(500, (res[1] as Error).message)
 
     // Check if the voting form is enabled.
-    const enabled = CCC_FORM_ENABLED === 'TRUE'
-    return {vote: res[1] as Vote, enabled, langs: event.locals.ccc_submissions}
+    return {vote: res[1] as Vote, langs: event.locals.ccc_submissions}
 };
