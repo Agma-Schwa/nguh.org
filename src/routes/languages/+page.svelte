@@ -21,6 +21,7 @@
         <li><a href="/languages/hyperpirate"><strong>HyperPirate</strong></a>, the language of pirates</li>
         <li><a href="/languages/rabbid"><strong>Rabbid (Lapin Cretin)</strong></a>, the language of the Rabbids from Ubisoft's Rayman Raving Rabbids series</li>
         <li><a href="/languages/santaa"><strong>Santaa</strong></a>, the language of Santa and Christmas</li>
+        <li><a href="/languages/ultrafrench"><strong>ULTRAFRENCH</strong></a>, remember French, that old language from centuries ago? Well this is what came after.</li>
     </ul>
 
     <h3 class="text-left">Conlangs by other creators showcased on the Agma Schwa Channel</h3>
