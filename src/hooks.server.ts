@@ -5,6 +5,9 @@ import * as fs from "node:fs";
 import sqlite3 from "sqlite3";
 import {error} from "@sveltejs/kit";
 import {building} from "$app/environment";
+import {ENABLE_DATABASES} from '$env/static/private';
+
+const EnableDBs = ENABLE_DATABASES === 'TRUE'
 
 // Grab all language pages.
 function LoadLanguagePages() {
@@ -31,7 +34,8 @@ function LoadLanguagePages() {
 }
 
 // Grab all CCC submissions.
-const ccc_submissions: string[] = fs.readFileSync('../static/ccc-langs.txt')
+const CCCLangsPath = '../static/ccc-langs.txt'
+const ccc_submissions: string[] = (fs.existsSync(CCCLangsPath) ? fs.readFileSync(CCCLangsPath) : '')
     .toString()
     .split('\n')
     .map(e => e.length > 50 ? `${e.slice(0, 50)}...` : e)
@@ -48,31 +52,34 @@ function check(e: Error | null) {
 }
 
 export const handle: Handle = async ({event, resolve}) => {
-    // Initialise locals.
-    if (!event.locals.db) {
-        event.locals.language_pages = LoadLanguagePages()
-        event.locals.ccc_submissions = ccc_submissions
+    function SetUpDBs() {
+        // Initialise locals.
+        if (!event.locals.db) {
+            // Connect to DB.
+            const db = event.locals.db = new sqlite3.Database('www.db', check)
 
-        // Connect to DB.
-        const db = event.locals.db = new sqlite3.Database('www.db', check)
+            // Set up tables.
+            db.run(`
+                CREATE TABLE IF NOT EXISTS votes (
+                    id TEXT PRIMARY KEY,
+                    time_unix_ms INTEGER,
+                    top1 TEXT,
+                    top2 TEXT,
+                    top3 TEXT,
+                    top4 TEXT,
+                    top5 TEXT,
+                    top6 TEXT
+                ) STRICT;
+            `, check)
+        }
 
-        // Set up tables.
-        db.run(`
-            CREATE TABLE IF NOT EXISTS votes (
-                id TEXT PRIMARY KEY,
-                time_unix_ms INTEGER,
-                top1 TEXT,
-                top2 TEXT,
-                top3 TEXT,
-                top4 TEXT,
-                top5 TEXT,
-                top6 TEXT
-            ) STRICT;
-        `, check)
+        if (!event.locals.shared_db)
+            event.locals.shared_db = new sqlite3.Database('/srv/shared.db', check)
     }
 
-    if (!event.locals.shared_db)
-        event.locals.shared_db = new sqlite3.Database('/srv/shared.db', check)
+    if (EnableDBs) SetUpDBs()
+    if (!event.locals.language_pages) event.locals.language_pages = LoadLanguagePages()
+    if (!event.locals.ccc_submissions) event.locals.ccc_submissions = ccc_submissions
 
     // Pass the request further down the chain.
     return resolve(event)
