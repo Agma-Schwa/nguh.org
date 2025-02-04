@@ -45,7 +45,7 @@
     <h3 class="text-left">Sern-Cahilan Unified Dictionary with PSC ID#s </h3>
     <p>The spreadsheet below contains the unified Sern-Cahilan Dictionary that shows how the root words of every applicable word inherited from Proto-Sern-Cahilan (Hvasvan).
         Every PSC Root has an ID number attached to it that can be used to create loan words with trackable etymologies. 
-        Ignore most of the other sheets that currently exist in this document, as they're mostly vestiges of this gruelling process that I'm keeping in case of emergency.
+        Ignore most of the other sheets that currently exist in this document, as they’re mostly vestiges of this gruelling process that I’m keeping in case of emergency.
     </p>
     <p>There may be a few lingering errors in ID matches.</p>
     <p>See the <a href="/languages/hvasvan"><strong>Hvasvan</strong></a> page for more information about Proto Sern-Cahilan.</p>
