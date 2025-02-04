@@ -9,7 +9,7 @@
 <section>
     <h3 class="text-left">Conlangs from the world of Djogawa Djororx</h3>
     
-    <p>These are the languages spoken by the dog people ("pups") in the canon of the <i>In Pursuit of Bez</i> universe, 
+    <p>These are the languages spoken by the dog people (“pups”) in the canon of the <em>In Pursuit of Bez</em> universe, 
         including the ongoing comic <i><a href="/comic"><strong>Djogawa Djororx</strong></a></i>:
     </p>
     <ul>
