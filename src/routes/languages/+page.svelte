@@ -34,7 +34,7 @@
         <li><a href="/languages/santaa"><strong>Santaa</strong></a>, the language of Santa and Christmas</li>
         <li><a href="/languages/ultrafrench"><strong>ULTRAFRENCH</strong></a>, remember French, that old language from centuries ago? Well this is what came after.</li>
         <li><a href="/languages/hallowed-ween"><strong>The Hallowed Ween</strong></a>, the language of American Ghosts</li>
-        <li><a href="/languages/hyperformal"><strong>HyperFormal</strong></a>, the language of the HyperFormal, natural enemies of the Hyperpirates</li>
+        <li><a href="/languages/hyperformal"><strong>HyperFormal</strong></a>, the language of the HyperFormal, natural enemies of the HyperPirates</li>
         <li><a href="/languages/portugoose"><strong>Portugoose</strong></a>, the language of Portugeese</li>
         <li><a href="/languages/secret-handshake"><strong>Secret Handshake</strong></a>, a minilang for secret communication with one hand</li>
     </ul>
