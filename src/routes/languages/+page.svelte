@@ -48,7 +48,7 @@
         Ignore most of the other sheets that currently exist in this document, as they’re mostly vestiges of this gruelling process that I’m keeping in case of emergency.
     </p>
     <p>There may be a few lingering errors in ID matches.</p>
-    <p>See the <a href="/languages/hvasvan"><strong>Hvasvan</strong></a> page for more information about Proto Sern-Cahilan.</p>
+    <p>See the <a href="/languages/hvasvan">Hvasvan</a> page for more information about Proto Sern-Cahilan.</p>
 
     <div class="tab-wrapper">
         <div class="tab">
