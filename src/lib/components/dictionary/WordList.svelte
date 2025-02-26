@@ -26,6 +26,9 @@
                 {#if entry.forms}
                     <p class="forms"><strong class="strong-small">Forms: </strong> <em class="uf-font">{@html entry.forms}</em></p>
                 {/if}
+                {#if entry.ipa}
+                    <p class='ipa'><strong class='strong-small'>IPA:</strong> <span class='uf-font'>/{entry.ipa}/</span></p>
+                {/if}
                 {#if entry.def}
                     <p>{@html entry.def.def}</p>
                     {#if entry.def.comment}

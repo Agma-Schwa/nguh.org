@@ -8,6 +8,7 @@ export interface FullEntry {
     word: string,
     pos: string,
     etym?: string,
+    ipa?: string,
     def?: Sense,
     forms?: string,
     senses?: Sense[],
