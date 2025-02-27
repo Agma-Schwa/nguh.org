@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Entry} from '$lib/js/dictionary';
+    import type {Entry, Example} from '$lib/js/dictionary';
 
     interface Props {
         entries: Entry[];
@@ -11,6 +11,17 @@
         return s.length > 100 ? s.slice(0, 75) + "…" : s;
     }
 </script>
+
+{#snippet example(ex: Example)}
+<li>
+    {@html ex.text}
+    {#if ex.comment}
+        <p>
+            <em class="comment">{@html ex.comment}</em>
+        </p>
+    {/if}
+</li>
+{/snippet}
 
 {#each entries as entry}
     {#if 'word' in entry}
@@ -36,8 +47,8 @@
                     {/if}
                     {#if entry.def.examples}
                         <ul class="uf-dict-examples">
-                            {#each entry.def.examples as example}
-                                <li>{@html example}</li>
+                            {#each entry.def.examples as ex}
+                                {@render example(ex)}
                             {/each}
                         </ul>
                     {/if}
@@ -53,8 +64,8 @@
                         </li>
                         {#if sense.examples?.length}
                             <ul class="uf-dict-examples">
-                            {#each sense.examples as example}
-                                <li>{@html example}</li>
+                            {#each sense.examples as ex}
+                                {@render example(ex)}
                             {/each}
                             </ul>
                         {/if}

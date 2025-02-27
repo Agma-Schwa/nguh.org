@@ -1,7 +1,12 @@
+export interface Example {
+    text: string
+    comment?: string
+}
+
 export interface Sense {
     def: string,
     comment?: string,
-    examples?: string[]
+    examples?: Example[]
 }
 
 export interface FullEntry {
