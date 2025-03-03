@@ -27,7 +27,7 @@
     {#if 'word' in entry}
         <details>
             <summary>
-                <span class="headword"><uf-w>{@html entry.word}</uf-w> <em>{@html entry.pos}</em></span>
+                <span class="headword"><f-w>{@html entry.word}</f-w> <em>{@html entry.pos}</em></span>
                 <span class="short-def">{@html Truncate(entry?.def?.def ?? `1. ${entry?.senses?.[0].def}`)}</span>
             </summary>
             <div class="entry-content">
@@ -76,7 +76,7 @@
         </details>
     {:else if 'from' in entry}
         <div class='refentry cursor-pointer' onclick={() => search_value = entry.to}>
-            <span class="headword"><uf-w>{@html entry.from}</uf-w> → <uf-w>{@html entry.to}</uf-w></span>
+            <span class="headword"><f-w>{@html entry.from}</f-w> → <f-w>{@html entry.to}</f-w></span>
         </div>
     {/if}
 {/each}

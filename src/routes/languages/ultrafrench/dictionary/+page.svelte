@@ -124,15 +124,15 @@ TODO:
         font-family: CharisSIL, serif;
     }
 
-    :global(uf-w) {
+    :global(f-w) {
         @include word-format;
     }
 
-    :global(uf-s) {
+    :global(f-s) {
         @include small-caps;
     }
 
-    :global(uf-pf) {
+    :global(f-pf) {
         @include serif-font;
         font-style: italic;
         &::before {
@@ -141,13 +141,13 @@ TODO:
         }
     }
 
-    :global(uf-sense) {
+    :global(f-sense) {
         &::before {
             content: "sense ";
         }
     }
 
-    :global(uf-mut) {
+    :global(f-mut) {
         color: var(--accentcolour);
     }
 
