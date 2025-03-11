@@ -4,8 +4,8 @@ import type {LanguagePage} from "$lib/js/types";
 import * as fs from "node:fs";
 import sqlite3 from "sqlite3";
 import {error} from "@sveltejs/kit";
-import {building} from "$app/environment";
 import {ENABLE_DATABASES} from '$env/static/private';
+import { handle as HandleAuth } from './auth';
 
 const EnableDBs = ENABLE_DATABASES === 'TRUE'
 
@@ -51,8 +51,10 @@ function check(e: Error | null) {
     error(500);
 }
 
-export const handle: Handle = async ({event, resolve}) => {
+export const handle: Handle = async (request) => {
+    const { event } = request
     function SetUpDBs() {
+
         // Initialise locals.
         if (!event.locals.db) {
             // Connect to DB.
@@ -82,5 +84,5 @@ export const handle: Handle = async ({event, resolve}) => {
     if (!event.locals.ccc_submissions) event.locals.ccc_submissions = ccc_submissions
 
     // Pass the request further down the chain.
-    return resolve(event)
+    return HandleAuth(request)
 }
