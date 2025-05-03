@@ -33,3 +33,8 @@ export interface Dictionary {
     entries: FullEntry[],
     refs: RefEntry[]
 }
+
+export enum SearchMode {
+    Headword = "Headword",
+    Definition = "Definition",
+}

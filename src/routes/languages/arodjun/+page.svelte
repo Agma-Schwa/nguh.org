@@ -491,6 +491,10 @@
         dictionary, calendar, naming conventions, and grammar tables. For a better-looking, well-arranged grammar, check
         out the full book A Grammar of the Arodjun Language!</p>
 
+    <p>
+        The interactive Arodjun dictionary can be found <a href="/languages/arodjun/dictionary">here</a>.
+    </p>
+
     <div class="tab-wrapper">
         <div class="tab">
             <button class="tab-button" id="button_arodjun_docs" onclick={() => OpenTab('arodjun_docs')}>
