@@ -29,4 +29,4 @@
 
 <Page name="ULTRAFRENCH Dictionary" />
 <Stripe>Dictionary</Stripe>
-<Dictionary {NormaliseForSearch} dict={data.dict} lang_code={'uf'} />
+<Dictionary CustomSearchHandler={() => null} {NormaliseForSearch} dict={data.dict} lang_code={'uf'} />

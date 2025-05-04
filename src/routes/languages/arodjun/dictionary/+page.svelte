@@ -3,7 +3,7 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import type {PageProps} from './$types';
     import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
-    import {SearchMode} from '$lib/js/dictionary';
+    import {type Entry, SearchMode} from '$lib/js/dictionary';
 
     function NormaliseForSearch(value: string, _: SearchMode): string {
         return value.toLowerCase()
@@ -20,6 +20,16 @@
                 entry.def.def = entry.def.def.charAt(0).toUpperCase() + entry.def.def.slice(1)
         return copy
     })
+
+    function CustomSearchHandler(needle: string): Entry[] | null {
+        needle = needle.trim()
+        if (!needle.startsWith('#') || isNaN(Number(needle.slice(1)))) return null
+        let entries: Entry[] = []
+        for (const entry of dict.entries)
+            if (entry.etym && entry.etym.includes(`<f-s>psc ${needle}</f-s>`))
+                entries.push(entry)
+        return entries
+    }
 </script>
 
 <Page name="Arodjun Dictionary" />
@@ -29,4 +39,4 @@
         (Note: IPA transcriptions for Arodjun words are currently WIP)
     </p>
 </section>
-<Dictionary {NormaliseForSearch} {dict} lang_code={'ar'} />
+<Dictionary {CustomSearchHandler} {NormaliseForSearch} {dict} lang_code={'ar'} />

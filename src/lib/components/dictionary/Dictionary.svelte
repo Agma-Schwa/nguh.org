@@ -6,11 +6,17 @@
 
     interface Props {
         dict: Dictionary
+        CustomSearchHandler(needle: string): Entry[] | null
         NormaliseForSearch(value: string, mode: SearchMode): string
         lang_code: string
     }
 
-    let { dict, NormaliseForSearch, lang_code }: Props = $props()
+    let {
+        dict,
+        CustomSearchHandler,
+        NormaliseForSearch,
+        lang_code
+    }: Props = $props()
 
     type SearchPair = [string, Entry[]]
     class Search {
@@ -59,7 +65,11 @@
     }
 
     // Headword search.
-    let entries = $derived(search[search_mode.value].search(NormaliseForSearch(search_value, search_mode.value)))
+    let entries = $derived.by(() => {
+        let custom = CustomSearchHandler(search_value)
+        if (custom) return custom
+        return search[search_mode.value].search(NormaliseForSearch(search_value, search_mode.value))
+    })
 </script>
 
 <section id="search-section">
