@@ -9,13 +9,15 @@
         CustomSearchHandler(needle: string): Entry[] | null
         NormaliseForSearch(value: string, mode: SearchMode): string
         lang_code: string
+        search_example: string
     }
 
     let {
         dict,
         CustomSearchHandler,
         NormaliseForSearch,
-        lang_code
+        lang_code,
+        search_example
     }: Props = $props()
 
     type SearchPair = [string, Entry[]]
@@ -75,7 +77,7 @@
 <section id="search-section">
     <div id="search">
         <label>Search: </label>
-        <input id="search-input" type="text" placeholder="e.g. ad’hór" bind:value={search_value}>
+        <input id="search-input" type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
         <label>By: </label>
         <select id="search-mode" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}

@@ -34,4 +34,10 @@
 
 <Page name="Arodjun Dictionary" />
 <Stripe>Dictionary</Stripe>
-<Dictionary {CustomSearchHandler} {NormaliseForSearch} {dict} lang_code={'ar'} />
+<Dictionary
+    {CustomSearchHandler}
+    {NormaliseForSearch}
+    {dict}
+    lang_code={'ar'}
+    search_example={'pjecijau'}
+/>
