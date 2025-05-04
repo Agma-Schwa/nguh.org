@@ -34,9 +34,4 @@
 
 <Page name="Arodjun Dictionary" />
 <Stripe>Dictionary</Stripe>
-<section>
-    <p class='text-center italic mb-6 -mt-4'>
-        (Note: IPA transcriptions for Arodjun words are currently WIP)
-    </p>
-</section>
 <Dictionary {CustomSearchHandler} {NormaliseForSearch} {dict} lang_code={'ar'} />
