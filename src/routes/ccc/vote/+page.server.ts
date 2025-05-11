@@ -1,7 +1,7 @@
 import {type Actions, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {PageServerLoad, PageServerLoadEvent} from './$types';
 import {error} from '@sveltejs/kit';
-import {CCC_FORM_ENABLED, DISCORD_SERVER_ID} from '$env/static/private';
+import {CCC_FORM_ENABLED, DISCORD_SERVER_ID, DISCORD_ADMIN_ID} from '$env/static/private';
 
 export const prerender = false;
 
@@ -26,14 +26,15 @@ function ConvertNull(s: FormDataEntryValue | null) {
 }
 
 async function CheckAccess(event: PageServerLoadEvent | RequestEvent): Promise<string> {
+    const session = await event.locals.auth()
+
     // Check if the form is enabled.
-    if (CCC_FORM_ENABLED !== 'TRUE') error(
+    if (CCC_FORM_ENABLED !== 'TRUE' && session?.user?.id !== DISCORD_ADMIN_ID) error(
         403,
         'Forbidden\nThe voting form is currently disabled.'
     )
 
     // Ensure the user is logged in.
-    const session = await event.locals.auth()
     if (!session) redirect(307, "/login");
 
     // If they are make sure they are a member of the Agma Schwa Discord server.
