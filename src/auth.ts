@@ -1,6 +1,6 @@
 import {type DefaultSession, SvelteKitAuth} from '@auth/sveltekit';
 import Discord from "@auth/sveltekit/providers/discord"
-import {AUTH_SECRET} from '$env/static/private';
+import {AUTH_DISCORD_ID, AUTH_DISCORD_SECRET, AUTH_SECRET} from '$env/static/private';
 
 declare module "@auth/sveltekit" {
   interface Session {
@@ -22,7 +22,9 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             params: {
                 scope: "identify guilds"
             }
-        }
+        },
+        clientId: AUTH_DISCORD_ID,
+        clientSecret: AUTH_DISCORD_SECRET,
     })],
     callbacks: {
         async jwt({token, account, profile, user}) {
