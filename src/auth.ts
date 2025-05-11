@@ -1,5 +1,6 @@
 import {type DefaultSession, SvelteKitAuth} from '@auth/sveltekit';
 import Discord from "@auth/sveltekit/providers/discord"
+import {AUTH_SECRET} from '$env/static/private';
 
 declare module "@auth/sveltekit" {
   interface Session {
@@ -39,4 +40,5 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
         }
     },
     trustHost: true,
+    secret: AUTH_SECRET,
 })
