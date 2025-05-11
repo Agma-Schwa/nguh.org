@@ -5,17 +5,21 @@
 
 <Page name={page.status} />
 
-{#if page.error}
-    {#if page.error.message.includes('\n')}
-        {@const first_newline = page.error.message.indexOf('\n')}
-        <h2>{page.error.message.substring(0, first_newline)}</h2>
-        <p>{page.error.message.substring(first_newline)}</p>
+<section>
+    {#if page.error}
+        {#if page.error.message.includes('\n')}
+            {@const first_newline = page.error.message.indexOf('\n')}
+            <h2>{page.error.message.substring(0, first_newline)}</h2>
+            {#each page.error.message.substring(first_newline).split('\n') as line}
+                <p>{line}</p>
+            {/each}
+        {:else}
+            <h2>{page.error.message}</h2>
+        {/if}
     {:else}
-        <h2>{page.error.message}</h2>
+        <h2>Unknown error</h2>
     {/if}
-{:else}
-    <h2>Unknown error</h2>
-{/if}
+</section>
 
 <style>
     h2 {
@@ -31,5 +35,9 @@
         margin-top: 2rem;
         font-size: 2rem;
         text-align: center;
+    }
+
+    p + p {
+        margin-bottom: 2rem;
     }
 </style>

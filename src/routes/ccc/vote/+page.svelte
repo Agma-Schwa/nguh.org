@@ -52,6 +52,7 @@
 
 <Page name="CCC Voting Form"/>
 <Stripe>Cursed Conlang Circus</Stripe>
+{#if page.data.user}
 <section>
     <p>
         This is the official Cursed Conlang Circus voting form. As a reminder, the voting process works as follows:
@@ -90,3 +91,8 @@
         <input value="Vote" type="submit">
     </form>
 </section>
+{:else}
+<section>
+    <p>You must be logged in to access this page; you should probably never see this message.</p>
+</section>
+{/if}

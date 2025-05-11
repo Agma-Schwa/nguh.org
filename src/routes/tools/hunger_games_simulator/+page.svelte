@@ -23,6 +23,7 @@
     import TributeStatList from '$lib/components/hgs/TributeStatList.svelte';
     import {db} from './db';
     import {browser} from '$app/environment';
+    import {page} from '$app/state';
 
     // Dialogs.
     let error_dialog: ErrorDialog
@@ -180,7 +181,9 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
-<Ribbon><em>Last Updated: 24 January 2025</em></Ribbon>
+{#if !page.data.user}
+    <Ribbon><em>Last Updated: 24 January 2025</em></Ribbon>
+{/if}
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->

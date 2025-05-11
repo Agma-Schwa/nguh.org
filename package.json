@@ -35,6 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@auth/sveltekit": "^1.9.2",
 		"dexie": "^4.0.10",
 		"sqlite3": "^5.1.7"
 	}

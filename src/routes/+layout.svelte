@@ -8,6 +8,8 @@
     import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
     import {ClampXOffs, ClampYOffs} from "$lib/js/dialog";
+    import Ribbon from '$lib/components/Ribbon.svelte';
+    import {page} from '$app/state';
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement
@@ -144,6 +146,13 @@
 
 <Header langs={data.language_pages} />
 <Banner />
+{#if page.data.user}
+    <Ribbon>
+        Logged in as <span class='username'>{page.data.user.name}</span>
+        •
+        <a href='/login' class='login-link'>Sign out</a>
+    </Ribbon>
+{/if}
 <div id='h1-wrapper' class='absolute w-full flex flex-col items-center justify-center'>
     <div class='mx-auto'>
         <h1
@@ -215,5 +224,14 @@
             --h1-underline-height: .2rem;
             --header-offset: 1.5rem;
         }
+    }
+
+    .username {
+        color: var(--accentlighter);
+        font-weight: bold;
+    }
+
+    .login-link {
+        color: var(--accentmedium);
     }
 </style>
