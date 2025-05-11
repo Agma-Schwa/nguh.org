@@ -37,5 +37,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             session.user.id = token.discord_id as string
             return session
         }
-    }
+    },
+    trustHost: true,
 })
