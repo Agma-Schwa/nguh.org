@@ -6,6 +6,15 @@
 <SimpleDialog bind:this={dialog} title="Changelog">
     <div id="changelog" class="pl-8 pr-8">
         <div class='changelog-day'>
+            <h4>23 June 2025</h4>
+            <ul>
+                <li>
+                    This project is no longer maintained and will not be receiving updates or bugfixes
+                    in the foreseeable future.
+                </li>
+            </ul>
+        </div>
+        <div class='changelog-day'>
             <h4>24 January 2025</h4>
             <ul>
                 <li>Fixed a CSS bug that caused tribute images to not be cropped properly sometimes.</li>

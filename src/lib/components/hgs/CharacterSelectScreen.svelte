@@ -129,20 +129,11 @@
 <Stripe>Source Code, Bug Reports, Contributing, etc.</Stripe>
 <section>
     <p>
-        If you'd like to report a bug or suggest a feature, you can do so on the
-        <a href="https://discord.gg/zCA2Urv7Tc">Agma Schwa Discord Server</a>. Just ping Ætérnal
-        in the #hunger-games-simulator channel.
-    </p>
-    <p>
-        Alternatively, you can also file an issue <a href="https://github.com/Agma-Schwa/nguh.org/issues/new?assignees=Sirraide&labels=Hunger+Games+Simulator&projects=&template=hunger-games-simulator-bug.md&title=%5BHGS%5D+Insert+a+brief+description+of+your+problem+here">
-        here</a>. This requires you to have a free GitHub account.
+        <strong>This project is no longer actively maintained since we didn’t have time for it anymore.</strong>
     </p>
     <p>
         The source code of nguh.org, including the Hunger Games Simulator, is hosted in
         <a href="https://github.com/Agma-Schwa/nguh.org">this GitHub repository</a>.
-    </p>
-    <p>
-        Support the game developer, Ætérnal, on <a href="https://www.patreon.com/sirraide">Patreon</a>.
     </p>
     <p>
         Thanks also to GitHub user @spaulmark for implementing the bulk-upload feature.

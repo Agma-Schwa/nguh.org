@@ -181,9 +181,6 @@
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
-{#if !page.data.user}
-    <Ribbon><em>Last Updated: 24 January 2025</em></Ribbon>
-{/if}
 
 <svelte:head>
     <!-- FIXME: Extract metadata to separate component  -->
