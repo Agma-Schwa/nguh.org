@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ClampXOffs, ClampYOffs, type DialogPromise} from "$lib/js/dialog";
+    import {ClampXOffs, ClampYOffs, type DialogPromise} from "$lib/js/dialog.svelte";
 
     // ====================================================================== //
     //  Types & Interfaces                                                    //

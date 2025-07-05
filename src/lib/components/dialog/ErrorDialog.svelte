@@ -1,6 +1,6 @@
 <script lang="ts">
     import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import {HandledError, UserError} from "$lib/js/dialog";
+    import {HandledError, UserError} from "$lib/js/dialog.svelte";
 
     interface Props {
         title?: string

@@ -111,7 +111,7 @@ iframe {
     justify-content: center;
 }
 
-img:hover { cursor: pointer; }
+img:not(.non-previewable-icon):hover { cursor: pointer; }
 
 .danger-button {
     background: $accentred;

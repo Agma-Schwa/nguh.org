@@ -7,7 +7,7 @@
     import { page_title } from "$lib/page_title";
     import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
-    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog";
+    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog.svelte";
     import Ribbon from '$lib/components/Ribbon.svelte';
     import {page} from '$app/state';
 

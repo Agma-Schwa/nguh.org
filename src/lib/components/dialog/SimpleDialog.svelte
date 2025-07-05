@@ -1,6 +1,6 @@
 <script lang="ts">
     import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import type {DialogPromise} from "$lib/js/dialog";
+    import type {DialogPromise} from "$lib/js/dialog.svelte";
 
     interface Props {
         title: string

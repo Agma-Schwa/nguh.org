@@ -1,4 +1,4 @@
-import {UserError} from "$lib/js/dialog";
+import {UserError} from "$lib/js/dialog.svelte";
 import default_image_src from '$lib/images/hgs-default-character.png'
 import {Persist} from '$lib/js/persist.svelte';
 

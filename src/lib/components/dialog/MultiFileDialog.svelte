@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {type DialogPromise, FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog";
+    import {type DialogPromise, FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog.svelte";
     import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import Dialog from "$lib/components/dialog/Dialog.svelte";
 
