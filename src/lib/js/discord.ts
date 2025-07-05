@@ -2,7 +2,7 @@ import { dev } from '$app/environment';
 import {SERVICE_TOKEN} from '$env/static/private';
 import type {Session} from '@auth/sveltekit';
 import {error, redirect, type RequestEvent} from '@sveltejs/kit';
-import type {BooleanProperty, MemberProfile, Motion, MotionId, MotionNoText} from './ung_types';
+import type {Bool, I32, Meeting, MemberProfile, Motion, MotionNoText} from './ung_types';
 
 const API_URL = "http://localhost:25000"
 const deny_msg = 'Forbidden\nYou must be a member of the Agma Schwa Discord server ' +
@@ -83,7 +83,7 @@ export async function CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(sessio
         redirect(307, '/auto-log-out-user');
     }
 
-    const body: BooleanProperty = await res.json()
+    const body: Bool = await res.json()
     if (!body.value) error(403, deny_msg);
 
     // And return the ID.
@@ -106,11 +106,15 @@ export async function GetUŊMemberList() {
 export async function IsUŊAdmin(event: RequestEvent) {
     const session = await event.locals.auth()
     if (!session?.user.id) error(403, 'Should never get here w/o a valid session');
-    return (await MakeBotRequest<BooleanProperty>(null, `is_admin/${session.user.id}`)).value;
+    return (await MakeBotRequest<Bool>(null, `is_admin/${session.user.id}`)).value;
 }
 
-export async function IsUŊMeetingRunning() {
-    return (await MakeBotRequest<BooleanProperty>(null, `meeting/state`)).value
+export async function GetCurrentMeeting() {
+    return (await MakeBotRequest<I32>(null, `meeting/active`)).value
+}
+
+export async function GetAllMeetings() {
+    return await MakeBotRequest<Meeting[]>(null, 'meetings')
 }
 
 export async function GetMotion(id: number) {

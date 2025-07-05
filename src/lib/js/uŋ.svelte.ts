@@ -1,4 +1,6 @@
 import {browser} from '$app/environment';
+import type {LockPageRequestBody} from '$lib/js/ung_types';
+import {invalidateAll} from '$app/navigation';
 
 export function wrap(status: number): Response {
     return new Response(null, { status: status })
@@ -23,4 +25,14 @@ export async function UŊMakeRequest(
             'NguhOrg-Real-Method': method,
         },
     })
+}
+
+export async function LockMotion(motion: number, locked: boolean) {
+    const res = await UŊMakeRequest('admin/motion/lock', 'PATCH', {
+        id: motion,
+        locked,
+    } satisfies LockPageRequestBody)
+
+    if (res.ok) await invalidateAll();
+    else console.error(`Failed to lock motion: ${res.status} ${await res.text()}`)
 }

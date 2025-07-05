@@ -1,6 +1,6 @@
-import {GetMemberProfile, GetMotion, UpdateMotion} from '$lib/js/discord';
+import {GetCurrentMeeting, GetMemberProfile, GetMotion, MakeBotRequest, UpdateMotion} from '$lib/js/discord';
 import {type Actions, error, redirect, type RequestEvent} from '@sveltejs/kit';
-import {wrap} from '$lib/js/uŋ.svelte';
+import type {Vote} from '$lib/js/ung_types';
 
 interface RouteParams {
     id: number
@@ -20,5 +20,7 @@ export const actions: Actions = {
 export async function load({ params }: { params: RouteParams }) {
     const motion = await GetMotion(params.id)
     const author = await GetMemberProfile(motion.author)
-    return { motion, author }
+    const active = await GetCurrentMeeting()
+    const votes = await MakeBotRequest<Vote[]>(null, `motion/${motion.id}/votes`)
+    return { motion, author, votes, active }
 }

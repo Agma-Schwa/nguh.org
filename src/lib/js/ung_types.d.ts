@@ -1,7 +1,16 @@
 // This file was generated from Ætérnalbot type definitions. DO NOT EDIT!
-export type BooleanProperty = { value: boolean };
+export type Bool = { value: boolean };
+
+export type CreateMeetingRequestBody = { date: string };
+
+export type I32 = { value: number };
 
 export type LockPageRequestBody = { id: number; locked: boolean };
+
+/**
+ * UŊ Meeting.
+ */
+export type Meeting = { id: number; date: string };
 
 /**
  * UŊ Member.
@@ -13,13 +22,12 @@ export type MemberProfile = {
   administrator: boolean;
 };
 
-export type MotionId = { id: number };
-
 export type MotionNoText = {
   id: number;
   author: Snowflake;
   type: string;
   title: string;
+  meeting: number;
   locked: boolean;
   closed: boolean;
 };
@@ -30,11 +38,16 @@ export type Motion = {
   author: Snowflake;
   type: string;
   title: string;
+  meeting: number;
   locked: boolean;
   closed: boolean;
 };
+
+export type SetMotionMeetingRequestBody = { motion: number; meeting: number };
 
 /**
  * JavaScript is too stupid for proper 64-bit integers, so do this jank instead.
  */
 export type Snowflake = string;
+
+export type Vote = { member: MemberProfile; vote: boolean };
