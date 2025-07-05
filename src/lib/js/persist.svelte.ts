@@ -46,6 +46,10 @@ class PersistImpl<T> {
             })
         })
     }
+
+    clear() {
+        localStorage.removeItem(this.#key)
+    }
 }
 
 export function Persist<T>(

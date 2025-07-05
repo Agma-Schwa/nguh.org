@@ -1,6 +1,6 @@
 import {error, type RequestEvent} from '@sveltejs/kit';
 import {AddUŊMember, DeleteUŊMember} from '$lib/js/discord';
-import {wrap} from '$lib/js/utils';
+import {wrap} from '$lib/js/uŋ.svelte';
 
 function ParseId(event: RequestEvent) {
     // Note: '' becomes 0, which is an invalid id.

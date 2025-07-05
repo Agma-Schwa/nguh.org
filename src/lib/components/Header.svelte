@@ -5,14 +5,18 @@
     import Hamburger from '$lib/components/header/Hamburger.svelte';
     import {MediaQuery} from 'svelte/reactivity';
     import Dropdown from '$lib/components/header/Dropdown.svelte';
+    import {browser} from '$app/environment';
+    import {afterNavigate} from '$app/navigation';
 
     interface Props {
         langs: LanguagePage[];
     }
 
     let { langs }: Props = $props();
+    let in_ung_page = $state(false)
     const mobile = new MediaQuery('max-width: 900px');
     const laptop = new MediaQuery('(max-width: 1250px) and (min-width: 900px)');
+    afterNavigate(() => { in_ung_page = browser ? window.location.pathname.startsWith('/ung') : false })
 </script>
 
 {#snippet Tools()}
@@ -31,6 +35,9 @@
     <PageLink image={agma_logo} href='/'>AGMA SCHWA</PageLink>
     <nav>
         <Hamburger {mobile}>
+            {#if in_ung_page}
+                <PageLink href='/ung'>UŊ</PageLink>
+            {/if}
             <PageLink href='/the-channel'>The Channel</PageLink>
             <Dropdown href='/languages' name='Languages' {mobile}>
                 {#each langs as lang}

@@ -124,6 +124,12 @@ main {
 @include meta.load-css('components');
 @include meta.load-css('dialog');
 
+textarea {
+    border: 1px solid $accentcolour;
+    field-sizing: content;
+    padding-inline: .5rem;
+}
+
 input[type=submit] {
     border: 1px solid $accentcolour;
     width: 7rem;
@@ -169,5 +175,17 @@ button {
 @media (max-width: 900px) {
     #h1-underline {
         width: var(--h1-underline-length-short);
+    }
+}
+
+#ung-motion-text {
+    ol { list-style-type: decimal; }
+    ol, ul {
+        margin-block: 1rem;
+        li { margin-left: 3rem; }
+    }
+    h3 {
+        margin-bottom: 1rem;
+        text-align: left;
     }
 }
