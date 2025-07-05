@@ -6,7 +6,7 @@
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import Page from '$lib/components/Page.svelte';
-    import {EnableAdminMode} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {MemberProfile} from '$lib/js/ung_types';
     import Member from '$lib/components/ung/Member.svelte';
 
@@ -28,7 +28,7 @@
 
     async function DeleteMember(id: string, name: string) {
         confirm.open(`Are you sure you want to remove ${name}?`).on_success(async () => {
-            const res = await fetch(`/ung/api/member?id=${id}`, { method: 'DELETE' });
+            const res = await UŊMakeRequest(`admin/member/${id}`, 'DELETE');
             switch (res.status) {
                 case 500: error.open('Internal Server Error'); break;
                 case 403: error.open('Admins cannot be deleted'); break;

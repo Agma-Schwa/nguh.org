@@ -12,19 +12,16 @@ const deny_msg = 'Forbidden\nYou must be a member of the Agma Schwa Discord serv
     'of the only ways to keep ourselves sane during this entire process while also preventing ' +
     'people from spamming...'
 
-async function SendRequestImpl(
+export async function SendRequestImpl(
     session: Session | null,
     path: string,
     method = 'GET',
     body: BodyInit | null = null
 ) {
     const headers: Record<string, string> = { 'Authorization': SERVICE_TOKEN }
-    if (session?.user.id) headers['X-User-Id'] = session.user.id // Only used for requests requiring admin perms.
-    if (body instanceof FormData) {
-        headers['Content-Type'] = 'application/json';
-        body = JSON.stringify(Object.fromEntries(body))
-    }
-
+    if (session?.user.id) headers['NguhOrg-User-Id'] = session.user.id // Only used for requests requiring admin perms.
+    if (body instanceof FormData) body = JSON.stringify(Object.fromEntries(body))
+    if (body) headers['Content-Type'] = 'application/json';
     return await fetch(`${API_URL}/${path}`, { method, headers, body, })
 }
 
@@ -43,7 +40,7 @@ async function SendBotRequest(
     return res
 }
 
-async function MakeBotRequest<T>(
+export async function MakeBotRequest<T>(
     session: Session | null,
     path: string,
     method = 'GET',
@@ -98,14 +95,6 @@ export async function CheckIsLoggedInAsUŊMember(session: Session | null): Promi
     return await CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session)
 }
 
-export async function AddUŊMember(session: Session, id: string): Promise<number> {
-    return (await SendBotRequest(session, `admin/member/${id}`, 'PUT')).status
-}
-
-export async function DeleteUŊMember(session: Session, id: string): Promise<number> {
-    return (await SendBotRequest(session, `admin/member/${id}`, 'DELETE')).status
-}
-
 export async function GetMemberProfile(id: string) {
     return await MakeBotRequest<MemberProfile>(null, `member/${id}`)
 }
@@ -124,18 +113,6 @@ export async function IsUŊMeetingRunning() {
     return (await MakeBotRequest<BooleanProperty>(null, `meeting/state`)).value
 }
 
-export async function StartMeeting(session: Session) {
-    return (await SendBotRequest(session, 'admin/meeting', 'PUT')).status
-}
-
-export async function EndMeeting(session: Session) {
-    return (await SendBotRequest(session, 'admin/meeting', 'DELETE')).status
-}
-
-export async function CreateMotion(session: Session, data: FormData) {
-    return await MakeBotRequest<MotionId>(session, 'motion', 'POST', data)
-}
-
 export async function GetMotion(id: number) {
     return await MakeBotRequest<Motion>(null, `motion/${id}`)
 }
@@ -146,8 +123,4 @@ export async function GetAllMotions() {
 
 export async function UpdateMotion(session: Session, data: FormData) {
     return (await SendBotRequest(session, 'motion', 'PATCH', data)).status
-}
-
-export async function SetMotionLock(session: Session, req: Request) {
-    return (await SendBotRequest(session, 'admin/motion/lock', 'PATCH', req.body)).status
 }

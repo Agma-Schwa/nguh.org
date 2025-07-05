@@ -9,8 +9,9 @@
     import Member from '$lib/components/ung/Member.svelte';
     import EditMotion from '$lib/components/ung/EditMotion.svelte';
     import {page} from '$app/state';
-    import {EnableAdminMode} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import {invalidateAll} from '$app/navigation';
+    import type {LockPageRequestBody} from '$lib/js/ung_types';
     let { data } = $props();
     let edit_mode = $state(false)
     let admin = $derived(page.data.admin && EnableAdminMode())
@@ -20,13 +21,10 @@
     }
 
     async function SetLock() {
-        const res = await fetch('/ung/api/motion/lock', {
-            method: 'PATCH',
-            body: JSON.stringify({
-                id: data.motion.id,
-                locked: !data.motion.locked,
-            })
-        })
+        const res = await UŊMakeRequest('admin/motion/lock', 'PATCH', {
+            id: data.motion.id,
+            locked: !data.motion.locked,
+        } satisfies LockPageRequestBody)
 
         if (res.ok) await invalidateAll();
         else console.error(`Failed to lock motion: ${res.status} ${await res.text()}`)

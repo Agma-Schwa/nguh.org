@@ -4,7 +4,7 @@
     import {page} from '$app/state';
     import {invalidateAll} from '$app/navigation';
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
-    import {EnableAdminMode} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
 
     let error: ErrorDialog
     let admin = $derived(page.data.admin && EnableAdminMode())
@@ -18,12 +18,12 @@
     }
 
     async function EndMeeting() {
-        const res = await fetch(`/ung/api/meeting`, { method: 'DELETE' })
+        const res = await UŊMakeRequest('admin/meeting', 'DELETE')
         HandleStartEndResponse(res, false)
     }
 
     async function StartMeeting() {
-        const res = await fetch(`/ung/api/meeting`, { method: 'PUT' })
+        const res = await UŊMakeRequest('admin/meeting', 'PUT')
         HandleStartEndResponse(res, true)
     }
 </script>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import Dialog from "$lib/components/dialog/Dialog.svelte";
+    import {UŊMakeRequest} from '$lib/js/uŋ.svelte';
 
     interface Props {
         handle_status: (status: number) => void
@@ -10,7 +11,7 @@
     let id: string = $state('')
     function Open() {
         return the_dialog.open().and(async () => {
-            const res = await fetch(`/ung/api/member?id=${id}`, { method: 'PUT' });
+            const res = await UŊMakeRequest(`admin/member/${id}`, 'PUT')
             id = ''
             handle_status(res.status)
         })

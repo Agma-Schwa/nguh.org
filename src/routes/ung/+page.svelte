@@ -10,6 +10,7 @@
 <section>
     <div class='flex flex-col'>
         <a href='/ung/members'>Member List</a>
+        <a href='/ung/motions'>Open Motions</a>
         <a href='/ung/meeting'>Meeting</a>
         <a href='/ung/motion'>Create a Motion</a>
     </div>

@@ -1,6 +1,8 @@
 // This file was generated from Ætérnalbot type definitions. DO NOT EDIT!
 export type BooleanProperty = { value: boolean };
 
+export type LockPageRequestBody = { id: number; locked: boolean };
+
 /**
  * UŊ Member.
  */
