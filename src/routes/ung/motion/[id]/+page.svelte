@@ -26,11 +26,12 @@
 
     function Vote() {
         dialog.open().and(async (vote: boolean) => {
-            const res = await UŊMakeRequest(`motion/${data.motion.id}/vote/${vote ? 1 : 0}`, 'PATCH')
+            const res = await UŊMakeRequest(`motion/${data.motion.id}/vote/${vote ? 1 : 0}`, 'PUT')
             switch (res.status) {
                 default: error.open(`Unexpected Error (${res.status})`); break;
+                case 409: error.open('You have already voted on this motion.'); break;
                 case 404: error.open('Invalid Motion'); break;
-                case 403: error.open('Please wait until the motion is locked and on the agenda for an ongoing meeting'); break;
+                case 403: error.open('Please wait until the motion is locked and put on the agenda for an ongoing meeting.'); break;
                 case 204: await invalidateAll(); break;
             }
         })
@@ -50,9 +51,27 @@
         <button onclick={() => dialog.reject()}>Cancel</button>
     {/snippet}
     {#snippet content()}
-        Vote in favour of this motion?
+        <p>Vote in favour of this motion?</p>
+        <p>Choose carefully as you won’t be able to change your vote<br>once it has been submitted.</p>
     {/snippet}
 </Dialog>
+
+<!--
+    TODO:
+    On the backend, set 'closed' to true via a database trigged as soon as the
+    number of ayes or noes exceeds half of the quorum (or 3/5 or 2/5 in the case
+    of a constitutional motion).
+
+    When a motion is closed, display 'PASSED' or 'REJECTED' on the frontend (compute
+    this dynamically from the votes+quorum; we don't actually need to store this state).
+
+    Do not allow *changing* votes once a motion is closed (do allow people to *add* votes
+    if they haven’t voted yet though since that won't change anything and so people don't
+    get annoying errors as soon as we exceed the threshold).
+
+    Support manually closing/opening a motion (only for admins of course) to close motions
+    if there is no consensus or in case we want to allow someone to change their vote.
+-->
 
 <section>
     {#if edit_mode}
@@ -100,7 +119,13 @@
             {@html md.render(data.motion.text)}
         </div>
         <div class='flex mt-8 justify-center gap-10'>
-            {#if data.active && data.motion.meeting === data.active && !data.motion.closed && data.motion.locked}
+            {#if
+                data.active &&
+                data.motion.meeting === data.active &&
+                !data.motion.closed &&
+                data.motion.locked &&
+                !data.votes.find(v => v.member.discord_id === page.data.user.id)
+            }
                 <button onclick={Vote}>Vote</button>
             {/if}
             {#if (data.motion.author === page.data.user.id && !data.motion.locked) || admin}
