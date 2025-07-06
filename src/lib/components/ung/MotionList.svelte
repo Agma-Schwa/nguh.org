@@ -2,7 +2,7 @@
     import {page} from '$app/state';
     import Member from '$lib/components/ung/Member.svelte';
     import type {Meeting, MemberProfile, MotionNoText, SetMotionMeetingRequestBody} from '$lib/js/ung_types';
-    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, GetEmoji, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
 
@@ -67,7 +67,7 @@
             <span class='{motion.closed ? "line-through text-gray-500" : ""}'>
                 {motion.title}
                 [<span style='font-variant: small-caps'>{motion.type}</span>]
-                {#if motion.locked} <span>🔒</span> {/if}
+                <span>{GetEmoji(motion)}</span>
             </span>
         </a>
         {#if interactive}

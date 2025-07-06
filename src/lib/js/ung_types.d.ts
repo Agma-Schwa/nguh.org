@@ -32,6 +32,7 @@ export type MotionNoText = {
   locked: boolean;
   closed: boolean;
   supported: boolean;
+  passed: boolean;
   enabled: boolean;
 };
 
@@ -46,6 +47,7 @@ export type Motion = {
   locked: boolean;
   closed: boolean;
   supported: boolean;
+  passed: boolean;
   enabled: boolean;
 };
 

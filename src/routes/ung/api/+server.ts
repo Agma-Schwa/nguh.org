@@ -21,8 +21,7 @@ export async function POST(event: RequestEvent) {
     const res = await SendRequestImpl(session, path, method, body);
 
     // Log the response.
-    if (dev) console.log(`    --> ${res.status} ${res.ok ? '' : await res.text()}`)
-    if (!res.ok) return new Response(null, { status: res.status });
+    if (dev) console.log(`    --> ${res.status}`)
 
     // For some reason, responses returned by fetch() are immutable, so
     // create a new one instead.

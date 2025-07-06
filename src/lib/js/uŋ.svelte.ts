@@ -1,5 +1,6 @@
 import {browser} from '$app/environment';
 import {invalidateAll} from '$app/navigation';
+import type {Motion, MotionNoText} from '$lib/js/ung_types';
 
 export function wrap(status: number): Response {
     return new Response(null, { status: status })
@@ -36,6 +37,14 @@ export async function EnableMotion(motion: number, enabled: boolean) {
     const res = await UŊMakeRequest(`admin/motion/${motion}/enable/${enabled ? 1 : 0}`, 'PATCH')
     if (res.ok) await invalidateAll();
     else console.error(`Failed to enable motion: ${res.status} ${await res.text()}`)
+}
+
+export function GetEmoji(m: MotionNoText): string {
+    if (m.supported || (m.passed && m.type !== TYPE_CONST)) return '✅'
+    if (m.passed) return '⌛'
+    if (m.closed) return '❌'
+    if (m.locked) return '🔒'
+    return ''
 }
 
 export const TYPE_CONST: string = 'const'

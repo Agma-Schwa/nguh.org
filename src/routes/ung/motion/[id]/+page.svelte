@@ -9,18 +9,20 @@
     import Member from '$lib/components/ung/Member.svelte';
     import EditMotion from '$lib/components/ung/EditMotion.svelte';
     import {page} from '$app/state';
-    import {EnableAdminMode, EnableMotion, LockMotion, TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, EnableMotion, GetEmoji, LockMotion, TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import type {Motion} from '$lib/js/ung_types';
+    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
 
     let { data } = $props();
     let dialog: Dialog
     let error: ErrorDialog
+    let confirm: ConfirmDialog
     let edit_mode = $state(false)
-    let admin = $derived(page.data.admin && EnableAdminMode())
     let motion: Motion = $derived(data.motion)
+    let admin = $derived(page.data.admin && EnableAdminMode())
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();
@@ -38,6 +40,24 @@
             }
         })
     }
+
+    function ResetVotes() {
+        confirm.open('Reset this motion’s votes? THIS CANNOT BE UNDONE!').and(async () => {
+            const res = await UŊMakeRequest(`admin/motion/${motion.id}/reset`, 'POST')
+            if (res.ok) await invalidateAll();
+            else console.error(res.status, await res.text());
+        })
+    }
+
+    function LockMotionUser() {
+        confirm.open('Are you sure you want to lock this motion? You won‘t be able to edit it anymore.').and(async () => {
+            const res = await UŊMakeRequest(`motion/${motion.id}/lock`, 'PUT')
+            switch (res.status) {
+                default: error.open(`Error ${res.status}. Could not lock motion: ${await res.text()}`); break;
+                case 204: await invalidateAll(); break;
+            }
+        })
+    }
 </script>
 
 <svelte:window onbeforeunload={BeforeUnload} />
@@ -46,6 +66,7 @@
 <Stripe>Motion #{motion.id}</Stripe>
 
 <ErrorDialog bind:this={error} />
+<ConfirmDialog bind:this={confirm} />
 <Dialog bind:this={dialog} title='Vote'>
     {#snippet controls()}
         <button onclick={() => dialog.resolve(true)} class='bg-green-800 text-white'>Aye</button>
@@ -94,9 +115,7 @@
         <h2 class='mb-8'>
             {motion.title}
             [<span style='font-variant: small-caps'>{motion.type}</span>]
-            {#if motion.locked}
-                <span>🔒</span>
-            {/if}
+            <span>{GetEmoji(motion)}</span>
         </h2>
         <div class='mb-8'>
             <div class='m-auto w-fit'>
@@ -122,9 +141,8 @@
                     {/each}
                 </div>
 
-                <!-- FIXME: Constitutional motions in here should be treated like other motions; constitutional support should be done elsewhere. -->
                 {#if motion.closed}
-                    {#if ayes * 2 > motion.quorum}
+                    {#if motion.passed}
                             {#if motion.type !== TYPE_CONST}
                                 <p class='mt-4 text-green-600'><strong>PASSED</strong></p>
                             {:else if motion.supported}
@@ -166,6 +184,15 @@
                     title={page.data.absentia ? 'Must disable in-absentia voting first!' : ''}
                 >
                     {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
+                </button>
+                {#if data.votes.length !== 0}
+                    <button onclick={ResetVotes}>
+                        Reset Votes
+                    </button>
+                {/if}
+            {:else if !motion.locked && motion.author === page.data.user.id}
+                <button onclick={LockMotionUser}>
+                    Lock Motion
                 </button>
             {/if}
         </div>
