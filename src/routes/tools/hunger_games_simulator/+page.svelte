@@ -2,18 +2,15 @@
     import '$lib/css/hunger_games_simulator.scss'
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
-    import Ribbon from '$lib/components/Ribbon.svelte';
     import CharacterSelectScreen from '$lib/components/hgs/CharacterSelectScreen.svelte';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {
         Configuration,
         type EventList,
         type FormattedMessage,
         Game,
-        type GameRenderState, GameSettings,
+        type GameRenderState,
         PronounSetting,
         RenderState,
-        RequiredFatalitiesMode,
         TitleCase,
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
@@ -22,11 +19,9 @@
     import Card from '$lib/components/hgs/Card.svelte';
     import TributeStatList from '$lib/components/hgs/TributeStatList.svelte';
     import {db} from './db';
-    import {browser} from '$app/environment';
-    import {page} from '$app/state';
+    import {Err} from '$lib/js/dialog.svelte';
 
     // Dialogs.
-    let error_dialog: ErrorDialog
     let abort_confirm: ConfirmDialog
 
     // The current game state.
@@ -111,7 +106,7 @@
                 },
             ]
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 
@@ -119,7 +114,7 @@
     function StartGame() {
         const in_game_tributes = Game.CreateTributesFromCharacterSelectOptions(tributes)
         if (in_game_tributes instanceof Error) {
-            error_dialog.open(in_game_tributes)
+            Err(in_game_tributes)
             return
         }
 
@@ -130,13 +125,13 @@
     /** Advance the game. */
     function StepGame() {
         if (game === null) {
-            error_dialog.open(new Error("No game is currently running."))
+            Err(new Error("No game is currently running."))
             return
         }
 
         const state = game.AdvanceGame()
         if (state instanceof Error) {
-            error_dialog.open(state)
+            Err(state)
             return
         }
 
@@ -161,23 +156,9 @@
             await db.tributes.clear()
             await db.tributes.bulkAdd(characters)
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
-
-/*    async function Add() {
-        try {
-            await db.tributes.add({
-                name: 'Player 1',
-                gender_select: 'm',
-                pronoun_str: '',
-                tags: [],
-            })
-            tributes = tributes
-        } catch (e: any) {
-            error_dialog.open(e)
-        }
-    }*/
 </script>
 
 <Page name="Hunger Games Simulator" theme="dark" />
@@ -187,7 +168,6 @@
     <meta name="keywords" content="hunger games simulator hungergame hungergames hungergamessimulator humger-games simulator hunger-games-simulator">
 </svelte:head>
 
-<ErrorDialog bind:this={error_dialog} />
 <ConfirmDialog
     bind:this={abort_confirm}
     description="Your progress will be lost. Are you sure you want to abort the game?"

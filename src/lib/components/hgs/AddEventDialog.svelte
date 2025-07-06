@@ -1,7 +1,6 @@
 <script lang="ts">
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {
-        CalculateTributesInvolved,
         Configuration,
         Event as HGSEvent,
         type EventList,
@@ -9,8 +8,8 @@
     } from '$lib/js/hgs.svelte';
     import {TitleCase} from '$lib/js/hgs.svelte.js';
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import StoredEventTag = Configuration.V1.StoredEventTag;
+    import {Err} from '$lib/js/dialog.svelte';
 
     interface Props {
         event_list: EventList
@@ -19,7 +18,6 @@
     let {event_list = $bindable()}: Props = $props()
     let dialog: Dialog
     let message_syntax_dialog: SimpleDialog
-    let error_dialog: ErrorDialog
 
     let stage: EventListKey = $state(GameStage.BLOODBATH)
     let message: string = $state('')
@@ -42,12 +40,10 @@
             event_list[stage]!!.push(event)
             dialog.resolve()
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 </script>
-
-<ErrorDialog bind:this={error_dialog} />
 
 <SimpleDialog bind:this={message_syntax_dialog} title="Message Syntax">
     <div class="p-4 flex flex-col gap-4">

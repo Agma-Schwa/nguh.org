@@ -137,3 +137,21 @@ export async function GetFileData(
         case 'json': return new FileDialogResult(await res.json(), type)
     }
 }
+
+// This language is too stupid to let us assign to imports, so do this nonsense instead.
+class GlobalDialogWrapper {
+    public __instance__: any = $state(null)
+}
+
+export let __global_error_dialog__ = new GlobalDialogWrapper()
+
+/// Open an error dialog.
+export function Err(err: string | Error) {
+    if (!__global_error_dialog__.__instance__) {
+        console.warn('Global error dialog not initialised!')
+        console.error(err);
+        return;
+    }
+
+    __global_error_dialog__.__instance__.open(err)
+}

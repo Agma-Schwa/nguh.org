@@ -3,14 +3,13 @@
     import Page from '$lib/components/Page.svelte';
     import {page} from '$app/state';
     import {invalidateAll} from '$app/navigation';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {Meeting, MeetingParticipant, MemberProfile, MotionNoText} from '$lib/js/ung_types';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import MotionList from '$lib/components/ung/MotionList.svelte';
     import MemberList from '$lib/components/ung/MemberList.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
-    let error: ErrorDialog
     let confirm: ConfirmDialog;
     let admin = $derived(page.data.admin && EnableAdminMode())
     let meetings: Meeting[] = $derived(page.data.meetings)
@@ -23,8 +22,8 @@
 
     function HandleStartEndResponse(res: Response, enable?: boolean) {
         switch (res.status) {
-            case 500: error.open("Internal Server Error"); break;
-            case 409: error.open(`Meeting is ${enable ? "already" : "not"} running!`); break
+            case 500: Err("Internal Server Error"); break;
+            case 409: Err(`Meeting is ${enable ? "already" : "not"} running!`); break
             case 204: invalidateAll(); break;
         }
     }
@@ -76,7 +75,6 @@
 <Page name='UŊ' />
 <Stripe>Meeting</Stripe>
 
-<ErrorDialog bind:this={error} />
 <ConfirmDialog bind:this={confirm} />
 
 <section>

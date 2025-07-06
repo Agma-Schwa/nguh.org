@@ -2,14 +2,18 @@
     import Header from '$lib/components/Header.svelte';
     import Banner from "$lib/components/Banner.svelte";
     import '$lib/css/style.scss';
-    import {onDestroy, onMount} from "svelte";
+    import {onMount} from "svelte";
 
     import { page_title } from "$lib/page_title";
-    import {afterNavigate} from "$app/navigation";
     import type {LayoutData} from "./$types";
-    import {ClampXOffs, ClampYOffs} from "$lib/js/dialog.svelte";
+    import {
+        __global_error_dialog__,
+        ClampXOffs,
+        ClampYOffs
+    } from '$lib/js/dialog.svelte';
     import Ribbon from '$lib/components/Ribbon.svelte';
     import {page} from '$app/state';
+    import ErrorDialogInstance from '$lib/components/dialog/ErrorDialogInstance.svelte';
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement
@@ -144,6 +148,7 @@
     </div>
 </div>
 
+<ErrorDialogInstance bind:this={__global_error_dialog__.__instance__}/>
 <Header langs={data.language_pages} />
 <Banner />
 {#if page.data.user}

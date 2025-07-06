@@ -9,7 +9,7 @@
     import {afterNavigate} from '$app/navigation';
 
     interface Props {
-        langs: LanguagePage[];
+        langs: readonly LanguagePage[];
     }
 
     let { langs }: Props = $props();

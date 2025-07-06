@@ -3,13 +3,12 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import type {MemberProfile, Nation} from '$lib/js/ung_types';
     import {page} from '$app/state';
-    import Member from '$lib/components/ung/Member.svelte';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import MemberList from '$lib/components/ung/MemberList.svelte';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     let add_member: Dialog
     let nation: Nation = $derived(page.data.nation)
@@ -17,7 +16,6 @@
     let admin = $derived(page.data.admin && EnableAdminMode())
     let all_members: MemberProfile[] = $state([])
     let selected_member: string = $state('')
-    let error: ErrorDialog
     let confirm: ConfirmDialog
     let editor = $derived(admin || reps.find(page.data.user.id))
 
@@ -29,11 +27,11 @@
             const res = await UŊMakeRequest(`nation/${nation.id}/member/${selected_member}`, 'PUT')
             selected_member = ''
             switch (res.status) {
-                default: error.open(`Unexpected Error ${res.status}: ${await res.text()}`); break
-                case 423: error.open('Inactive ŋations cannot be modified'); break
-                case 422: error.open('You cannot add this user to a ŋation'); break
-                case 409: error.open('This member is already a representative for this ŋation.'); break;
-                case 404: error.open('The specified member could not be found.'); break;
+                default: Err(`Unexpected Error ${res.status}: ${await res.text()}`); break
+                case 423: Err('Inactive ŋations cannot be modified'); break
+                case 422: Err('You cannot add this user to a ŋation'); break
+                case 409: Err('This member is already a representative for this ŋation.'); break;
+                case 404: Err('The specified member could not be found.'); break;
                 case 204: await invalidateAll(); break;
             }
         })
@@ -43,16 +41,15 @@
         confirm.open(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
             const res = await UŊMakeRequest(`nation/${nation.id}/member/${m.discord_id}`, 'DELETE')
             switch (res.status) {
-                default: error.open(`Unexpected Error ${res.status}: ${await res.text()}`); break
-                case 423: error.open('Inactive ŋations cannot be modified'); break
-                case 404: error.open('The specified member could not be found or is not a representative.'); break;
+                default: Err(`Unexpected Error ${res.status}: ${await res.text()}`); break
+                case 423: Err('Inactive ŋations cannot be modified'); break
+                case 404: Err('The specified member could not be found or is not a representative.'); break;
                 case 204: await invalidateAll(); break;
             }
         })
     }
 </script>
 
-<ErrorDialog bind:this={error}/>
 <ConfirmDialog bind:this={confirm}/>
 <Dialog title='Add Member' bind:this={add_member}>
     {#snippet content()}

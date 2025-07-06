@@ -1,13 +1,17 @@
 <script lang="ts">
-    import {type DialogPromise, FileDialogResult, type FileType, GetFileData} from "$lib/js/dialog.svelte";
-    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
+    import {
+        type DialogPromise,
+        FileDialogResult,
+        type FileType,
+        GetFileData,
+        Err
+    } from '$lib/js/dialog.svelte';
     import Dialog from "$lib/components/dialog/Dialog.svelte";
 
     let the_dialog: Dialog
     let input: HTMLInputElement
     let file_or_url = $state('')
     let uploaded_file_data: File | undefined = $state(undefined)
-    let error_dialog: ErrorDialog
 
     interface Props {
         title: string
@@ -35,7 +39,7 @@
             const data = await GetFileData(type, uploaded_file_data, file_or_url, preserve_extern_urls)
             if (data) the_dialog.resolve(data)
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
             the_dialog.reject()
         }
     }
@@ -49,8 +53,6 @@
         file_or_url = input.value.slice(input.value.lastIndexOf('\\') + 1)
     }
 </script>
-
-<ErrorDialog bind:this={error_dialog} />
 
 {#snippet content()}
     <p>

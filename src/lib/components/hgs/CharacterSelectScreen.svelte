@@ -4,14 +4,13 @@
         Configuration,
         DownloadURL, type EventList,
         PronounSetting,
-        type GameOptions,
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
     import SingleFileDialog from "$lib/components/dialog/SingleFileDialog.svelte";
-    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import MultiFileDialog from "$lib/components/dialog/MultiFileDialog.svelte";
     import Changelog from "$lib/components/hgs/Changelog.svelte";
     import SettingsDialog from '$lib/components/hgs/SettingsDialog.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     interface Props {
         tributes: TributeCharacterSelectOptions[]
@@ -21,7 +20,6 @@
 
     let {tributes = $bindable(), event_list = $bindable(), start_game}: Props = $props();
     let get_image_dialog: SingleFileDialog
-    let error_dialog: ErrorDialog
     let load_characters_dialog: SingleFileDialog
     let upload_images_dialog: MultiFileDialog
     let settings_dialog: SettingsDialog
@@ -37,7 +35,7 @@
             try {
                 tributes = await Configuration.LoadCharacters(res.data as object);
             } catch (e: any) {
-                error_dialog.open(e)
+                Err(e)
             }
         })
     }
@@ -48,7 +46,7 @@
             const chars = await Configuration.SaveCharacters(tributes);
             DownloadURL('characters.json', URL.createObjectURL(new Blob([JSON.stringify(chars, null, 4)], {type: 'application/json'})))
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 
@@ -92,7 +90,6 @@
 />
 
 <SettingsDialog bind:this={settings_dialog} bind:event_list />
-<ErrorDialog bind:this={error_dialog} />
 
 <Stripe>Info</Stripe>
 <section>

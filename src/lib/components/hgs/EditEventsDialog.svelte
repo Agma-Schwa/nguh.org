@@ -2,9 +2,9 @@
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
     import {Configuration, DownloadURL, type EventList, Event, StringToObjectURL, TitleCase} from '$lib/js/hgs.svelte';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import SingleFileDialog from '$lib/components/dialog/SingleFileDialog.svelte';
     import AddEventDialog from '$lib/components/hgs/AddEventDialog.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     interface Props {
         event_list: EventList
@@ -12,7 +12,6 @@
 
     let {event_list = $bindable()}: Props = $props()
     let dialog: SimpleDialog
-    let error_dialog: ErrorDialog
     let confirm: ConfirmDialog
     let json_file_dialog: SingleFileDialog
 
@@ -31,7 +30,7 @@
             const data = JSON.stringify(Configuration.Save(event_list), null, 4)
             DownloadURL('hgs-events.json', StringToObjectURL(data))
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 
@@ -45,7 +44,7 @@
             Configuration.Load(event_list, config as object, replace, false)
             event_list = { ...event_list}
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 
@@ -67,7 +66,6 @@
 </script>
 
 <ConfirmDialog bind:this={confirm} />
-<ErrorDialog bind:this={error_dialog}/>
 <SingleFileDialog
     bind:this={json_file_dialog}
     title='Upload Events'

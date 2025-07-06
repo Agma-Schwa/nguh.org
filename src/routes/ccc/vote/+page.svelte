@@ -4,23 +4,21 @@
     import Stripe from "$lib/components/Stripe.svelte";
     import {enhance} from '$app/forms';
     import type {ActionResult} from "@sveltejs/kit";
-    import ErrorDialog from "$lib/components/dialog/ErrorDialog.svelte";
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     let success_dialog: SimpleDialog
-    let error_dialog: ErrorDialog
 
     // Show a success dialog after submitting.
     function ShowDialog(e: {result: ActionResult, update: () => void}) {
         if (e.result.status == 204) {
             success_dialog.open()
         } else if (e.result.type === 'error') {
-            error_dialog.open(e.result.error)
+            Err(e.result.error)
         }
     }
 </script>
 
-<ErrorDialog bind:this={error_dialog} />
 <SimpleDialog bind:this={success_dialog} title="Success">
     <p>Your votes have been submitted successfully.</p>
 </SimpleDialog>

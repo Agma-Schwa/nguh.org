@@ -2,11 +2,10 @@
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
     import {DownloadURL} from '$lib/js/hgs.svelte';
-    import {Stream, StreamImpl} from '$lib/js/stream';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
+    import {Stream} from '$lib/js/stream';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
-    import {browser} from '$app/environment';
     import {Persist} from '$lib/js/persist.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     type Classes = Map<string, string[]>
     abstract class Node {
@@ -161,7 +160,6 @@
         }
     }
 
-    let error_dialog: ErrorDialog
     let confirm_dialog: ConfirmDialog
     let classes_str = Persist('wordgen.classes', '', true)
     let phontactics = Persist('wordgen.phono', '', true)
@@ -194,7 +192,7 @@
             // Unique words here since our deduplication algorithms aren’t perfect.
             function DoIt() { output = [...new Set(parse_tree.generate())].join('\n') }
         } catch (e: any) {
-            error_dialog.open(e)
+            Err(e)
         }
     }
 
@@ -340,7 +338,6 @@
     }
 </script>
 
-<ErrorDialog bind:this={error_dialog} />
 <ConfirmDialog
     bind:this={confirm_dialog}
     title='Generate Words?'

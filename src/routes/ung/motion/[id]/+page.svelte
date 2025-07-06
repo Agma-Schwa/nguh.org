@@ -11,14 +11,13 @@
     import {page} from '$app/state';
     import {EnableAdminMode, EnableMotion, GetEmoji, LockMotion, TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
-    import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import type {Motion} from '$lib/js/ung_types';
     import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
+    import {Err} from '$lib/js/dialog.svelte';
 
     let { data } = $props();
     let dialog: Dialog
-    let error: ErrorDialog
     let confirm: ConfirmDialog
     let edit_mode = $state(false)
     let motion: Motion = $derived(data.motion)
@@ -32,10 +31,10 @@
         dialog.open().and(async (vote: boolean) => {
             const res = await UŊMakeRequest(`motion/${motion.id}/vote/${vote ? 1 : 0}`, 'PUT')
             switch (res.status) {
-                default: error.open(`Unexpected Error (${res.status})`); break;
-                case 409: error.open('You have already voted on this motion.'); break;
-                case 404: error.open('Invalid Motion'); break;
-                case 403: error.open('Please wait until the motion is locked and put on the agenda for an ongoing meeting.'); break;
+                default: Err(`Unexpected Error (${res.status})`); break;
+                case 409: Err('You have already voted on this motion.'); break;
+                case 404: Err('Invalid Motion'); break;
+                case 403: Err('Please wait until the motion is locked and put on the agenda for an ongoing meeting.'); break;
                 case 204: await invalidateAll(); break;
             }
         })
@@ -53,7 +52,7 @@
         confirm.open('Are you sure you want to lock this motion? You won‘t be able to edit it anymore.').and(async () => {
             const res = await UŊMakeRequest(`motion/${motion.id}/lock`, 'PUT')
             switch (res.status) {
-                default: error.open(`Error ${res.status}. Could not lock motion: ${await res.text()}`); break;
+                default: Err(`Error ${res.status}. Could not lock motion: ${await res.text()}`); break;
                 case 204: await invalidateAll(); break;
             }
         })
@@ -65,7 +64,6 @@
 <Page name='UŊ'></Page>
 <Stripe>Motion #{motion.id}</Stripe>
 
-<ErrorDialog bind:this={error} />
 <ConfirmDialog bind:this={confirm} />
 <Dialog bind:this={dialog} title='Vote'>
     {#snippet controls()}
