@@ -4,10 +4,11 @@ import {
     GetAllMotions,
     GetCurrentMeeting,
     GetUŊMemberList,
-    InAbsentiaVotingEnabled
+    InAbsentiaVotingEnabled, MakeBotRequest
 } from '$lib/js/discord';
+import type {MeetingParticipant} from '$lib/js/ung_types';
 
-export const load: PageServerLoad = async (event) => {
+export const load: PageServerLoad = async () => {
     const [
         meetings,
         running,
@@ -22,5 +23,6 @@ export const load: PageServerLoad = async (event) => {
         InAbsentiaVotingEnabled(),
     ])
 
-    return { meetings, running, motions, members, absentia }
+    const participants = running ? await MakeBotRequest<MeetingParticipant[]>(null, 'participants') : [];
+    return { meetings, running, motions, members, absentia, participants }
 }

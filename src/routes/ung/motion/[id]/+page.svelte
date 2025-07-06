@@ -113,12 +113,23 @@
         {#if data.votes.length !== 0}
             {@const ayes = data.votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
-            <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}{#if motion.type !== 'const'}, Quorum: {motion.quorum}{/if}</p>
-            <div class='grid gap-4 leading-8 mb-8' style='grid-template-columns: auto 1fr'>
-                {#each data.votes as vote}
-                    <div><Member member={vote.member}/></div>
-                    <div>{vote.vote ? '✅' : '❌'}</div>
-                {/each}
+            <div class=' mb-8'>
+                <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}{#if motion.type !== 'const'}, Quorum: {motion.quorum}{/if}</p>
+                <div class='grid gap-4 leading-8' style='grid-template-columns: auto 1fr'>
+                    {#each data.votes as vote}
+                        <div><Member member={vote.member}/></div>
+                        <div>{vote.vote ? '✅' : '❌'}</div>
+                    {/each}
+                </div>
+
+                <!-- FIXME: Constitutional motions in here should be treated like other motions; constitutional support should be done elsewhere. -->
+                {#if motion.closed}
+                    {#if ayes * 2 > motion.quorum}
+                        <p class='mt-4 text-green-600'><strong>PASSED</strong></p>
+                    {:else}
+                        <p class='mt-4 text-rose-600'><strong>REJECTED</strong></p>
+                    {/if}
+                {/if}
             </div>
         {/if}
         <div id='ung-motion-text'>

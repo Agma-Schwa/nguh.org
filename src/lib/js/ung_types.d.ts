@@ -5,6 +5,8 @@ export type CreateMeetingRequestBody = { date: string };
 
 export type I32 = { value: number };
 
+export type MeetingParticipant = { member: Snowflake; absentee_voter: boolean };
+
 /**
  * UŊ Meeting.
  */
@@ -28,6 +30,7 @@ export type MotionNoText = {
   meeting: number;
   quorum: number;
   locked: boolean;
+  closed: boolean;
   enabled: boolean;
 };
 
@@ -40,6 +43,7 @@ export type Motion = {
   meeting: number;
   quorum: number;
   locked: boolean;
+  closed: boolean;
   enabled: boolean;
 };
 

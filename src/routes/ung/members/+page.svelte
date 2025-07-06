@@ -8,7 +8,7 @@
     import Page from '$lib/components/Page.svelte';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {MemberProfile} from '$lib/js/ung_types';
-    import Member from '$lib/components/ung/Member.svelte';
+    import MemberList from '$lib/components/ung/MemberList.svelte';
 
     let error: ErrorDialog
     let confirm: ConfirmDialog
@@ -26,14 +26,14 @@
         }
     }
 
-    async function DeleteMember(id: string, name: string) {
-        confirm.open(`Are you sure you want to remove ${name}?`).on_success(async () => {
-            const res = await UŊMakeRequest(`admin/member/${id}`, 'DELETE');
+    async function DeleteMember(m: MemberProfile) {
+        confirm.open(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
+            const res = await UŊMakeRequest(`admin/member/${m.discord_id}`, 'DELETE');
             switch (res.status) {
-                case 500: error.open('Internal Server Error'); break;
+                case 500: error.open('Cannot delete this member. There are probably foreign keys referencing them.'); break;
                 case 403: error.open('Admins cannot be deleted'); break;
                 case 404: error.open('The specified member is not a UŊ member'); break;
-                case 204: invalidateAll(); break;
+                case 204: await invalidateAll(); break;
                 default: throw Error("Unreachable")
             }
         })
@@ -53,29 +53,10 @@
             <AddMemberForm handle_status={AddMemberHandleStatus} />
         </div>
     {/if}
-        <div class='flex flex-col gap-2'>
-        {#each members as member}
-            <div class='flex gap-2'>
-                {#if admin}
-                    <div>
-                        <button
-                            class='w-8 h-8 p-1 !bg-transparent { member.administrator ? "grayscale" : "hover:invert transition-[filter]" }'
-                            onclick={() => DeleteMember(member.discord_id, member.display_name) }
-                            disabled={member.administrator}>
-                            ❌
-                        </button>
-                    </div>
-                {/if}
-                <Member {member} />
-            </div>
-        {/each}
-        </div>
+        <MemberList
+            {admin}
+            {members}
+            can_be_removed={m => !m.administrator}
+            do_remove={DeleteMember}
+        />
 </section>
-
-
-<style lang='scss'>
-    .delete-button:not(:hover) {
-       // background: none !important;
-    }
-
-</style>
