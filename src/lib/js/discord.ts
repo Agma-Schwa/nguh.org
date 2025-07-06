@@ -19,7 +19,7 @@ export async function SendRequestImpl(
     body: BodyInit | null = null
 ) {
     const headers: Record<string, string> = { 'Authorization': SERVICE_TOKEN }
-    if (session?.user.id) headers['NguhOrg-User-Id'] = session.user.id // Only used for requests requiring admin perms.
+    if (session?.user.id) headers['NguhOrg-User-Id'] = session.user.id // Only used for requests that modify state.
     if (body instanceof FormData) body = JSON.stringify(Object.fromEntries(body))
     if (body) headers['Content-Type'] = 'application/json';
     return await fetch(`${API_URL}/${path}`, { method, headers, body, })
