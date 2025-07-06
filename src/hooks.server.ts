@@ -7,7 +7,7 @@ import {error} from "@sveltejs/kit";
 import {ENABLE_DATABASES} from '$env/static/private';
 import { handle as HandleAuth } from './auth';
 import {sequence} from '@sveltejs/kit/hooks';
-import {CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer} from '$lib/js/discord';
+import {CheckIsLoggedInAsUŊMember} from '$lib/js/discord';
 
 const EnableDBs = ENABLE_DATABASES === 'TRUE'
 
@@ -97,7 +97,7 @@ const CheckRouteAccess: Handle = async ({event, resolve}) => {
         return new Response(null, { status: 204 });
 
     if (event.url.pathname.startsWith('/ung'))
-        await CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(await event.locals.auth())
+        await CheckIsLoggedInAsUŊMember(await event.locals.auth())
 
     return resolve(event)
 }

@@ -5,7 +5,7 @@ import {error, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {Bool, I32, Meeting, MemberProfile, Motion, MotionNoText, Nation} from './ung_types';
 
 const API_URL = "http://localhost:25000"
-const deny_msg = 'Forbidden\nYou must be a member of the Agma Schwa Discord server ' +
+const CCC_DENY_MSG = 'Forbidden\nYou must be a member of the Agma Schwa Discord server ' +
     'to access this page.\nIf you just joined, please wait a ' +
     'few minutes before trying again. If you want to join the server, click on ' +
     'the Discord icon in the banner.\nSorry for the inconvenience, but this is one ' +
@@ -58,20 +58,22 @@ export async function MakeBotRequest<T>(
 // ===============================================================================
 //  API Routes
 // ===============================================================================
-export async function CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session: Session | null): Promise<string> {
+export async function CheckIsLoggedIn(session: Session | null, path: string, deny_msg: string) {
     // Ensure the user is logged in.
     if (!session || !session.user || !session.user.id) redirect(307, "/login");
 
     // If they are make sure they are a member of the Agma Schwa Discord server.
-    const res = await SendRequestImpl(session, `check_user_in_guild/${session.user.id}`)
+    const res = await SendRequestImpl(session, `${path}/${session.user.id}`)
+
+    //
 
     // If we couldn't query this, there is something wrong w/ the login data probably; so
     // just log the user out.
-    if (!res.ok) {
+    if (!res.ok && res.status != 401 && res.status != 403) {
         // Don't log out in dev mode since that's a bit annoying.
         if (dev) {
             console.error("Logout requested")
-            error(500, 'Note: Logout requested')
+            error(res.status, 'Note: Logout requested')
         }
 
         // Because webdevs are too fucking incompetent to actually write proper
@@ -83,16 +85,18 @@ export async function CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(sessio
         redirect(307, '/auto-log-out-user');
     }
 
+    if (!res.ok) error(res.status, await res.text())
     const body: Bool = await res.json()
     if (!body.value) error(403, deny_msg);
-
-    // And return the ID.
-    return session.user.id;
 }
 
-export async function CheckIsLoggedInAsUŊMember(session: Session | null): Promise<string> {
-    // TODO: Actually check for UŊ membership.
-    return await CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session)
+export async function CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session: Session | null): Promise<string> {
+    await CheckIsLoggedIn(session, 'is_server_member', CCC_DENY_MSG);
+    return session!!.user!!.id!! // If we make it this far, we know it’s valid.
+}
+
+export async function CheckIsLoggedInAsUŊMember(session: Session | null) {
+    await CheckIsLoggedIn(session, 'is_nguhcrafter', 'You must be a player on the Minecraft Server to access this page');
 }
 
 export async function GetMemberProfile(id: string) {
