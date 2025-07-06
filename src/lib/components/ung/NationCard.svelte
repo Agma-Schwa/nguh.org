@@ -4,15 +4,19 @@
     interface Props {
         nation: Nation;
         links?: boolean;
+        starred?: boolean,
     }
 
-    let { nation, links = false }: Props = $props()
+    let { nation, links = false, starred = false }: Props = $props()
 </script>
 
 {#snippet card()}
 <div class='flex gap-2'>
     <img src={nation.flag_url} class='h-10 non-previewable-icon select-none' alt={nation.name}>
-    <span id='name' class='leading-10 text-2xl'>{nation.name}</span>
+    <span id='name' class='leading-10 text-2xl'>
+        {nation.name}
+        {#if starred} ⭐ {/if}
+    </span>
 </div>
 {/snippet}
 

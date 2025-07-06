@@ -3,7 +3,7 @@
     import Page from '$lib/components/Page.svelte';
     import {page} from '$app/state';
     import {invalidateAll} from '$app/navigation';
-    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, LockMotion, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {Meeting, MeetingParticipant, MemberProfile, MotionNoText} from '$lib/js/ung_types';
     import MotionList from '$lib/components/ung/MotionList.svelte';
     import MemberList from '$lib/components/ung/MemberList.svelte';
@@ -31,6 +31,10 @@
         HandleStartEndResponse(res, false)
     }
 
+    async function LockMotions() {
+        for (const m of motions) await LockMotion(m.id, true)
+    }
+
     async function SetActiveMeeting() {
         const res = await UŊMakeRequest('admin/meeting', 'PUT', { value: Number(active) })
         HandleStartEndResponse(res, true)
@@ -45,7 +49,6 @@
     }
 
     async function ToggleAbsentia() {
-        console.log(page.data.absentia)
         const res = await UŊMakeRequest(`admin/meeting/absentia/${!page.data.absentia ? 1 : 0}`, 'PATCH')
         HandleStartEndResponse(res)
     }
@@ -77,6 +80,9 @@
     {#if admin && page.data.running}
         <div class='flex justify-center gap-8 mb-8'>
             <button onclick={EndMeeting}>End Meeting</button>
+            {#if motions.find(m => !m.locked)}
+                <button onclick={LockMotions}>Lock Motions</button>
+            {/if}
             <button onclick={ToggleAbsentia}>
                 {!page.data.absentia ? 'Enable' : 'Disable'} In-Absentia Voting
             </button>
@@ -109,7 +115,7 @@
                 <button onclick={SetActiveMeeting}>Set Active Meeting</button>
                 <select bind:value={active}>
                     {#each meetings as meeting}
-                        <option value='{meeting.id}'>#{meeting.id} — {meeting.date}</option>
+                        <option value='{meeting.id}'>#{meeting.id} — {meeting.name}</option>
                     {/each}
                 </select>
             </div>
@@ -121,7 +127,7 @@
     {/if}
 </section>
 
-{#if page.data.running && participants.length !== 0}
+{#if page.data.running && (participants.length !== 0 || admin)}
     <Stripe>Participants</Stripe>
     <section>
         {#if admin}

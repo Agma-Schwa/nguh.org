@@ -46,7 +46,7 @@
     {#snippet content()}
         <select bind:value={selected_meeting}>
             {#each meetings as meeting}
-                <option value={meeting.id}>#{meeting.id} – {meeting.date}</option>
+                <option value={meeting.id}>#{meeting.id} – {meeting.name}</option>
                 <option value='0'>Clear</option>
             {/each}
         </select>

@@ -10,7 +10,7 @@ export type MeetingParticipant = { member: Snowflake; absentee_voter: boolean };
 /**
  * UŊ Meeting.
  */
-export type Meeting = { id: number; date: string };
+export type Meeting = { id: number; name: string };
 
 /**
  * UŊ Member.
@@ -19,7 +19,10 @@ export type MemberProfile = {
   discord_id: Snowflake;
   display_name: string;
   avatar_url: string;
+  represented_nation: number;
+  active: boolean;
   administrator: boolean;
+  staff_only: boolean;
 };
 
 export type MotionNoText = {
