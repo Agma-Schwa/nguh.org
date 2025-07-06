@@ -31,6 +31,7 @@ export type MotionNoText = {
   quorum: number;
   locked: boolean;
   closed: boolean;
+  supported: boolean;
   enabled: boolean;
 };
 
@@ -44,6 +45,7 @@ export type Motion = {
   quorum: number;
   locked: boolean;
   closed: boolean;
+  supported: boolean;
   enabled: boolean;
 };
 

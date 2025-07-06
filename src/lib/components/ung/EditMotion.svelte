@@ -1,5 +1,6 @@
 <script lang='ts'>
     import { enhance } from '$app/forms';
+    import {TYPE_CONST} from '$lib/js/uŋ.svelte';
 
     interface Props {
         on_done: () => void
@@ -29,7 +30,7 @@
         <select bind:value={type} name='type'>
             <option value='none'>Unsure</option>
             <option value='leg'>Legislative</option>
-            <option value='const'>Constitutional</option>
+            <option value={TYPE_CONST}>Constitutional</option>
             <option value='exec'>Executive</option>
         </select>
 

@@ -37,3 +37,5 @@ export async function EnableMotion(motion: number, enabled: boolean) {
     if (res.ok) await invalidateAll();
     else console.error(`Failed to enable motion: ${res.status} ${await res.text()}`)
 }
+
+export const TYPE_CONST: string = 'const'

@@ -9,7 +9,7 @@
     import Member from '$lib/components/ung/Member.svelte';
     import EditMotion from '$lib/components/ung/EditMotion.svelte';
     import {page} from '$app/state';
-    import {EnableAdminMode, EnableMotion, LockMotion, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, EnableMotion, LockMotion, TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {invalidateAll} from '$app/navigation';
@@ -110,11 +110,11 @@
                 <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
             {/if}
         </div>
-        {#if data.votes.length !== 0}
+        {#if data.votes.length !== 0 || motion.enabled}
             {@const ayes = data.votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
             <div class=' mb-8'>
-                <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}{#if motion.type !== 'const'}, Quorum: {motion.quorum}{/if}</p>
+                <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}, Quorum: {motion.quorum}</p>
                 <div class='grid gap-4 leading-8' style='grid-template-columns: auto 1fr'>
                     {#each data.votes as vote}
                         <div><Member member={vote.member}/></div>
@@ -125,7 +125,13 @@
                 <!-- FIXME: Constitutional motions in here should be treated like other motions; constitutional support should be done elsewhere. -->
                 {#if motion.closed}
                     {#if ayes * 2 > motion.quorum}
-                        <p class='mt-4 text-green-600'><strong>PASSED</strong></p>
+                            {#if motion.type !== TYPE_CONST}
+                                <p class='mt-4 text-green-600'><strong>PASSED</strong></p>
+                            {:else if motion.supported}
+                                <p class='mt-4 text-green-600'><strong>SUPPORTED</strong></p>
+                            {:else}
+                                <p class='mt-4 text-yellow-500'><strong>PASSED ON CONDITION OF SUPPORT</strong></p>
+                            {/if}
                     {:else}
                         <p class='mt-4 text-rose-600'><strong>REJECTED</strong></p>
                     {/if}
