@@ -109,6 +109,10 @@ export async function IsUŊAdmin(event: RequestEvent) {
     return (await MakeBotRequest<Bool>(null, `is_admin/${session.user.id}`)).value;
 }
 
+export async function InAbsentiaVotingEnabled() {
+    return (await MakeBotRequest<Bool>(null, 'meeting/absentia')).value
+}
+
 export async function GetCurrentMeeting() {
     return (await MakeBotRequest<I32>(null, `meeting/active`)).value
 }

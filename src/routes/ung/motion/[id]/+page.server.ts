@@ -1,4 +1,11 @@
-import {GetCurrentMeeting, GetMemberProfile, GetMotion, MakeBotRequest, UpdateMotion} from '$lib/js/discord';
+import {
+    GetCurrentMeeting,
+    GetMemberProfile,
+    GetMotion,
+    InAbsentiaVotingEnabled,
+    MakeBotRequest,
+    UpdateMotion
+} from '$lib/js/discord';
 import {type Actions, error, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {Vote} from '$lib/js/ung_types';
 
@@ -19,8 +26,16 @@ export const actions: Actions = {
 
 export async function load({ params }: { params: RouteParams }) {
     const motion = await GetMotion(params.id)
-    const author = await GetMemberProfile(motion.author)
-    const active = await GetCurrentMeeting()
-    const votes = await MakeBotRequest<Vote[]>(null, `motion/${motion.id}/votes`)
-    return { motion, author, votes, active }
+    const [
+        author,
+        active,
+        votes,
+        absentia,
+    ] = await Promise.all([
+        GetMemberProfile(motion.author),
+        GetCurrentMeeting(),
+        MakeBotRequest<Vote[]>(null, `motion/${motion.id}/votes`),
+        InAbsentiaVotingEnabled(),
+    ])
+    return { motion, author, votes, active, absentia }
 }

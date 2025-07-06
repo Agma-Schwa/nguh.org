@@ -1,11 +1,26 @@
 import type {PageServerLoad} from './$types';
-import {GetAllMeetings, GetAllMotions, GetCurrentMeeting, GetUŊMemberList} from '$lib/js/discord';
+import {
+    GetAllMeetings,
+    GetAllMotions,
+    GetCurrentMeeting,
+    GetUŊMemberList,
+    InAbsentiaVotingEnabled
+} from '$lib/js/discord';
 
 export const load: PageServerLoad = async (event) => {
-    return {
-        meetings: await GetAllMeetings(),
-        running: await GetCurrentMeeting(),
-        motions: await GetAllMotions(),
-        members: await GetUŊMemberList(),
-    }
+    const [
+        meetings,
+        running,
+        motions,
+        members,
+        absentia
+    ] = await Promise.all([
+        GetAllMeetings(),
+        GetCurrentMeeting(),
+        GetAllMotions(),
+        GetUŊMemberList(),
+        InAbsentiaVotingEnabled(),
+    ])
+
+    return { meetings, running, motions, members, absentia }
 }

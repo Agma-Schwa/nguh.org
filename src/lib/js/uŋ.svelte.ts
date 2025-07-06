@@ -1,5 +1,4 @@
 import {browser} from '$app/environment';
-import type {LockPageRequestBody} from '$lib/js/ung_types';
 import {invalidateAll} from '$app/navigation';
 
 export function wrap(status: number): Response {
@@ -28,11 +27,13 @@ export async function UŊMakeRequest(
 }
 
 export async function LockMotion(motion: number, locked: boolean) {
-    const res = await UŊMakeRequest('admin/motion/lock', 'PATCH', {
-        id: motion,
-        locked,
-    } satisfies LockPageRequestBody)
-
+    const res = await UŊMakeRequest(`admin/motion/${motion}/lock/${locked ? 1 : 0}`, 'PATCH')
     if (res.ok) await invalidateAll();
     else console.error(`Failed to lock motion: ${res.status} ${await res.text()}`)
+}
+
+export async function EnableMotion(motion: number, enabled: boolean) {
+    const res = await UŊMakeRequest(`admin/motion/${motion}/enable/${enabled ? 1 : 0}`, 'PATCH')
+    if (res.ok) await invalidateAll();
+    else console.error(`Failed to enable motion: ${res.status} ${await res.text()}`)
 }

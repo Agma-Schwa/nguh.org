@@ -42,6 +42,12 @@
             HandleStartEndResponse(res)
         })
     }
+
+    async function ToggleAbsentia() {
+        console.log(page.data.absentia)
+        const res = await UŊMakeRequest(`admin/meeting/absentia/${!page.data.absentia ? 1 : 0}`, 'PATCH')
+        HandleStartEndResponse(res)
+    }
 </script>
 
 <Page name='UŊ' />
@@ -73,6 +79,9 @@
     {#if admin}
         {#if page.data.running}
             <button onclick={EndMeeting}>End Meeting</button>
+            <button onclick={ToggleAbsentia}>
+                {!page.data.absentia ? 'Enable' : 'Disable'} In-Absentia Voting
+            </button>
         {:else}
             <div id='admin-buttons'>
                 <div>

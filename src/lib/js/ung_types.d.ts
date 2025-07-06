@@ -5,8 +5,6 @@ export type CreateMeetingRequestBody = { date: string };
 
 export type I32 = { value: number };
 
-export type LockPageRequestBody = { id: number; locked: boolean };
-
 /**
  * UŊ Meeting.
  */
@@ -28,8 +26,9 @@ export type MotionNoText = {
   type: string;
   title: string;
   meeting: number;
+  quorum: number;
   locked: boolean;
-  closed: boolean;
+  enabled: boolean;
 };
 
 export type Motion = {
@@ -39,8 +38,9 @@ export type Motion = {
   type: string;
   title: string;
   meeting: number;
+  quorum: number;
   locked: boolean;
-  closed: boolean;
+  enabled: boolean;
 };
 
 export type SetMotionMeetingRequestBody = { motion: number; meeting: number };

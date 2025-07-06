@@ -9,16 +9,18 @@
     import Member from '$lib/components/ung/Member.svelte';
     import EditMotion from '$lib/components/ung/EditMotion.svelte';
     import {page} from '$app/state';
-    import {EnableAdminMode, LockMotion, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, EnableMotion, LockMotion, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import ErrorDialog from '$lib/components/dialog/ErrorDialog.svelte';
     import {invalidateAll} from '$app/navigation';
+    import type {Motion} from '$lib/js/ung_types';
 
     let { data } = $props();
     let dialog: Dialog
     let error: ErrorDialog
     let edit_mode = $state(false)
     let admin = $derived(page.data.admin && EnableAdminMode())
+    let motion: Motion = $derived(data.motion)
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();
@@ -26,7 +28,7 @@
 
     function Vote() {
         dialog.open().and(async (vote: boolean) => {
-            const res = await UŊMakeRequest(`motion/${data.motion.id}/vote/${vote ? 1 : 0}`, 'PUT')
+            const res = await UŊMakeRequest(`motion/${motion.id}/vote/${vote ? 1 : 0}`, 'PUT')
             switch (res.status) {
                 default: error.open(`Unexpected Error (${res.status})`); break;
                 case 409: error.open('You have already voted on this motion.'); break;
@@ -41,7 +43,7 @@
 <svelte:window onbeforeunload={BeforeUnload} />
 
 <Page name='UŊ'></Page>
-<Stripe>Motion #{data.motion.id}</Stripe>
+<Stripe>Motion #{motion.id}</Stripe>
 
 <ErrorDialog bind:this={error} />
 <Dialog bind:this={dialog} title='Vote'>
@@ -52,7 +54,11 @@
     {/snippet}
     {#snippet content()}
         <p>Vote in favour of this motion?</p>
-        <p>Choose carefully as you won’t be able to change your vote<br>once it has been submitted.</p>
+        {#if !page.data.absentia}
+            <p>Choose carefully as you won’t be able to change your vote<br>once it has been submitted.</p>
+        {:else}
+            <p>You’re voting in absentia; this means you can change your<br>vote at any time <em>before the next meeting</em>.</p>
+        {/if}
     {/snippet}
 </Dialog>
 
@@ -77,18 +83,18 @@
     {#if edit_mode}
         <EditMotion
             on_done={() => edit_mode = false}
-            type={data.motion.type}
-            title={data.motion.title}
-            text={data.motion.text}
+            type={motion.type}
+            title={motion.title}
+            text={motion.text}
         />
         <div class='flex'>
             <button class='m-auto'  onclick={() => document.location.reload()}>Cancel</button>
         </div>
     {:else}
         <h2 class='mb-8'>
-            {data.motion.title}
-            [<span style='font-variant: small-caps'>{data.motion.type}</span>]
-            {#if data.motion.locked}
+            {motion.title}
+            [<span style='font-variant: small-caps'>{motion.type}</span>]
+            {#if motion.locked}
                 <span>🔒</span>
             {/if}
         </h2>
@@ -97,17 +103,17 @@
                 <Member member={data.author} />
             </div>
         </div>
-        <div class='flex'>
-            {#if data.motion.closed}
-                <span class='italic m-auto'>Voted on During Meeting #{data.motion.meeting}</span>
-            {:else if data.motion.meeting}
-                <span class='italic m-auto'>Scheduled for Meeting #{data.motion.meeting}</span>
+        <div class='flex mb-8'>
+            {#if data.votes.length !== 0 && !motion.enabled}
+                <span class='italic m-auto'>Voted on During Meeting #{motion.meeting}</span>
+            {:else if motion.meeting}
+                <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
             {/if}
         </div>
         {#if data.votes.length !== 0}
             {@const ayes = data.votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
-            <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}, Quorum: TODO</p>
+            <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}{#if motion.type !== 'const'}, Quorum: {motion.quorum}{/if}</p>
             <div class='grid gap-4 leading-8 mb-8' style='grid-template-columns: auto 1fr'>
                 {#each data.votes as vote}
                     <div><Member member={vote.member}/></div>
@@ -116,24 +122,33 @@
             </div>
         {/if}
         <div id='ung-motion-text'>
-            {@html md.render(data.motion.text)}
+            {@html md.render(motion.text)}
         </div>
         <div class='flex mt-8 justify-center gap-10'>
             {#if
                 data.active &&
-                data.motion.meeting === data.active &&
-                !data.motion.closed &&
-                data.motion.locked &&
-                !data.votes.find(v => v.member.discord_id === page.data.user.id)
+                motion.meeting === data.active &&
+                motion.locked &&
+                (   // Allow amending votes in-absentia, but not during a meeting.
+                    page.data.absentia ||
+                    (motion.enabled && !data.votes.find(v => v.member.discord_id === page.data.user.id))
+                )
             }
-                <button onclick={Vote}>Vote</button>
+                <button onclick={Vote}>Vote {page.data.absentia ? 'in Absentia' : ''}</button>
             {/if}
-            {#if (data.motion.author === page.data.user.id && !data.motion.locked) || admin}
+            {#if (motion.author === page.data.user.id && !motion.locked) || admin}
                 <button onclick={() => edit_mode = true}>Edit Motion</button>
             {/if}
             {#if admin}
-                <button onclick={() => LockMotion(data.motion.id, !data.motion.locked)}>
-                    {data.motion.locked ? 'Unlock Motion' : 'Lock Motion'}
+                <button onclick={() => LockMotion(motion.id, !motion.locked)}>
+                    {motion.locked ? 'Unlock Motion' : 'Lock Motion'}
+                </button>
+                <button
+                    onclick={() => EnableMotion(motion.id, !motion.enabled)}
+                    disabled={page.data.absentia}
+                    title={page.data.absentia ? 'Must disable in-absentia voting first!' : ''}
+                >
+                    {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
                 </button>
             {/if}
         </div>
