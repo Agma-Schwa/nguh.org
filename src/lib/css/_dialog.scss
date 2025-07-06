@@ -98,6 +98,7 @@ dialog {
             flex-direction: row;
             justify-content: space-evenly;
             padding: 1rem;
+            button { min-width: 5rem; }
         }
 
         &-title {

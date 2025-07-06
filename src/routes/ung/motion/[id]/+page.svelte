@@ -48,12 +48,12 @@
 <ErrorDialog bind:this={error} />
 <Dialog bind:this={dialog} title='Vote'>
     {#snippet controls()}
-        <button onclick={() => dialog.resolve(true)}>Aye</button>
-        <button onclick={() => dialog.resolve(false)}>No</button>
+        <button onclick={() => dialog.resolve(true)} class='bg-green-800 text-white'>Aye</button>
         <button onclick={() => dialog.reject()}>Cancel</button>
+        <button onclick={() => dialog.resolve(false)} class='bg-rose-800 text-white'>No</button>
     {/snippet}
     {#snippet content()}
-        <p>Vote in favour of this motion?</p>
+        <p>Vote in support of this motion?</p>
         {#if !page.data.absentia}
             <p>Choose carefully as you won’t be able to change your vote<br>once it has been submitted.</p>
         {:else}
