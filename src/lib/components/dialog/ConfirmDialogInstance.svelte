@@ -18,18 +18,13 @@
     }
 </script>
 
-{#snippet controls()}
-    <button onclick={() => the_dialog.resolve(null)}>Yes</button>
-    <button onclick={() => the_dialog.reject()}>Cancel</button>
-{/snippet}
+<Dialog bind:this={the_dialog} title={actual_title}>
+    {#snippet controls()}
+        <button onclick={() => the_dialog.resolve(null)}>Yes</button>
+        <button onclick={() => the_dialog.reject()}>Cancel</button>
+    {/snippet}
 
-{#snippet content()}
-    <p>{description}</p>
-{/snippet}
-
-<Dialog
-    bind:this={the_dialog}
-    title={actual_title}
-    {controls}
-    {content}
-/>
+    {#snippet content()}
+        <p>{description}</p>
+    {/snippet}
+</Dialog>

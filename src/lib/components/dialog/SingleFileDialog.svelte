@@ -54,35 +54,30 @@
     }
 </script>
 
-{#snippet content()}
-    <p>
-        {#each description.split('\n') as line}
-            {line}<br>
-        {/each}
-    </p>
-    <div class="flex file-input-control">
-        <input type="file" bind:this={input} onchange={UpdateInput}>
-        <input
-            type="text"
-            placeholder="Enter a URL or click 'Browse Files'"
-            disabled={!!uploaded_file_data}
-            bind:value={file_or_url}
-        >
-    </div>
-{/snippet}
+<Dialog bind:this={the_dialog} {title}>
+    {#snippet content()}
+        <p>
+            {#each description.split('\n') as line}
+                {line}<br>
+            {/each}
+        </p>
+        <div class="flex file-input-control">
+            <input type="file" bind:this={input} onchange={UpdateInput}>
+            <input
+                type="text"
+                placeholder="Enter a URL or click 'Browse Files'"
+                disabled={!!uploaded_file_data}
+                bind:value={file_or_url}
+            >
+        </div>
+    {/snippet}
 
-{#snippet controls()}
-    <button onclick={() => input.click()}>Browse Files</button>
-    <button onclick={Accept} disabled={file_or_url === ''}>OK</button>
-    <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
-{/snippet}
-
-<Dialog
-    bind:this={the_dialog}
-    {title}
-    {content}
-    {controls}
-/>
+    {#snippet controls()}
+        <button onclick={() => input.click()}>Browse Files</button>
+        <button onclick={Accept} disabled={file_or_url === ''}>OK</button>
+        <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
+    {/snippet}
+</Dialog>
 
 <style lang="scss">
     .file-input-control {

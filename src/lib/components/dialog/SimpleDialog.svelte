@@ -12,13 +12,8 @@
     export function open() { return the_dialog.open().ignore_cancellation() }
 </script>
 
-{#snippet controls()}
-    <button onclick={() => the_dialog.resolve()}>OK</button>
-{/snippet}
-
-<Dialog
-    bind:this={the_dialog}
-    {title}
-    {controls}
-    content={children}
-/>
+<Dialog bind:this={the_dialog} {title} content={children}>
+    {#snippet controls()}
+        <button onclick={() => the_dialog.resolve()}>OK</button>
+    {/snippet}
+</Dialog>

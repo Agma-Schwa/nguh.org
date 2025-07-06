@@ -47,33 +47,29 @@
     }
 </script>
 
-{#snippet content()}
-    <p>{description}</p>
-    <div class="flex file-input-control">
-        <input type="file" multiple bind:this={input} onchange={UpdateInput}>
-        <p class="ml-4">
-            {#each uploaded_files.slice(0, 10) as file}
-                {file.name}<br>
-            {/each}
-            {#if uploaded_files.length > 10}
-                ...
-            {/if}
-        </p>
-    </div>
-{/snippet}
 
-{#snippet controls()}
-    <button onclick={() => input.click()}>Browse Files</button>
-    <button onclick={Accept} disabled={uploaded_files.length === 0}>OK</button>
-    <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
-{/snippet}
+<Dialog bind:this={the_dialog} {title}>
+    {#snippet content()}
+        <p>{description}</p>
+        <div class="flex file-input-control">
+            <input type="file" multiple bind:this={input} onchange={UpdateInput}>
+            <p class="ml-4">
+                {#each uploaded_files.slice(0, 10) as file}
+                    {file.name}<br>
+                {/each}
+                {#if uploaded_files.length > 10}
+                    ...
+                {/if}
+            </p>
+        </div>
+    {/snippet}
 
-<Dialog
-    bind:this={the_dialog}
-    {title}
-    {content}
-    {controls}
-/>
+    {#snippet controls()}
+        <button onclick={() => input.click()}>Browse Files</button>
+        <button onclick={Accept} disabled={uploaded_files.length === 0}>OK</button>
+        <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
+    {/snippet}
+</Dialog>
 
 <style lang="scss">
     .file-input-control {

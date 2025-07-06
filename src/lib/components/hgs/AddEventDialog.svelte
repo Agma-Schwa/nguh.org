@@ -79,47 +79,42 @@
     </div>
 </SimpleDialog>
 
-{#snippet content()}
-    <div class="flex flex-col gap-4 w-full">
-        <p>
-            Specify the data for an event below and then press 'Add' to add it;<br>to view the
-            message syntax, click on 'View Message Syntax' below.
-        </p>
-        <div class="
-                grid grid-cols-2 gap-4
-                [&>label]:text-right
-                [&>input]:p-0.5
-             "
-             style="grid-template-columns: auto 1fr;"
-        >
-            <label>Stage</label>
-            <select id="stage" bind:value={stage}>
-                {#each HGSEvent.list_keys_logical_order as key}
-                    <option value={key}>{TitleCase(key)}</option>
-                {/each}
-            </select>
-            <label>Message</label>
-            <input type="text" id="message" placeholder="%0 and %1 ambush %2 and %3, killing them both." bind:value={message}>
-            <label>Deaths</label>
-            <input type="text" id="deaths" placeholder="2, 3" bind:value={deaths}>
-            <label>Killers</label>
-            <input type="text" id="killers" placeholder="0, 1" bind:value={killers}>
+<Dialog bind:this={dialog} title="Add Event">
+    {#snippet content()}
+        <div class="flex flex-col gap-4 w-full">
+            <p>
+                Specify the data for an event below and then press 'Add' to add it;<br>to view the
+                message syntax, click on 'View Message Syntax' below.
+            </p>
+            <div class="
+                    grid grid-cols-2 gap-4
+                    [&>label]:text-right
+                    [&>input]:p-0.5
+                 "
+                 style="grid-template-columns: auto 1fr;"
+            >
+                <label>Stage</label>
+                <select id="stage" bind:value={stage}>
+                    {#each HGSEvent.list_keys_logical_order as key}
+                        <option value={key}>{TitleCase(key)}</option>
+                    {/each}
+                </select>
+                <label>Message</label>
+                <input type="text" id="message" placeholder="%0 and %1 ambush %2 and %3, killing them both." bind:value={message}>
+                <label>Deaths</label>
+                <input type="text" id="deaths" placeholder="2, 3" bind:value={deaths}>
+                <label>Killers</label>
+                <input type="text" id="killers" placeholder="0, 1" bind:value={killers}>
+            </div>
         </div>
-    </div>
-{/snippet}
+    {/snippet}
 
-{#snippet controls()}
-    <button onclick={Add}>Add</button>
-    <button onclick={() => message_syntax_dialog.open()}>View Message Syntax</button>
-    <button onclick={() => dialog.reject()}>Cancel</button>
-{/snippet}
-
-<Dialog
-    bind:this={dialog}
-    title="Add Event"
-    {content}
-    {controls}
-/>
+    {#snippet controls()}
+        <button onclick={Add}>Add</button>
+        <button onclick={() => message_syntax_dialog.open()}>View Message Syntax</button>
+        <button onclick={() => dialog.reject()}>Cancel</button>
+    {/snippet}
+</Dialog>
 
 <button onclick={() => dialog.open().ignore_cancellation()}>Add</button>
 

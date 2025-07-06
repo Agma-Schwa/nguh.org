@@ -19,46 +19,42 @@
     }
 </script>
 
-<!-- Dialog message. -->
-{#snippet content()}
-    {#if error !== ''}
-        {#if
-            typeof error === 'string' ||
-            error instanceof UserError ||
-            !include_stack_trace
-        }
-            {@const message = (
-                typeof error === 'object' && 'message' in error
-                ? error.message
-                : error
-            )}
-            <p>
-            {#each message.split('\n') as line}
-                {line}<br>
-            {/each}
-            </p>
-        {:else}
-            <p>
-            {#each (error.stack ?? error.message).split('\n') as line}
-                {line}<br>
-            {/each}
-            </p>
-        {/if}
-    {/if}
-{/snippet}
-
-<!-- Dialog buttons. -->
-{#snippet controls()}
-    <button onclick={() => the_dialog.resolve(null)}>OK</button>
-{/snippet}
-
 <Dialog
     bind:this={the_dialog}
     {title}
-    {controls}
-    {content}
     title_colours={{
     normal: 'var(--accentred)',
     hover: 'var(--accentred-dark)',
     text: 'white',
-}} />
+}}>
+    {#snippet content()}
+        {#if error !== ''}
+            {#if
+                typeof error === 'string' ||
+                error instanceof UserError ||
+                !include_stack_trace
+            }
+                {@const message = (
+                    typeof error === 'object' && 'message' in error
+                    ? error.message
+                    : error
+                )}
+                <p>
+                {#each message.split('\n') as line}
+                    {line}<br>
+                {/each}
+                </p>
+            {:else}
+                <p>
+                {#each (error.stack ?? error.message).split('\n') as line}
+                    {line}<br>
+                {/each}
+                </p>
+            {/if}
+        {/if}
+    {/snippet}
+
+    {#snippet controls()}
+        <button onclick={() => the_dialog.resolve(null)}>OK</button>
+    {/snippet}
+</Dialog>

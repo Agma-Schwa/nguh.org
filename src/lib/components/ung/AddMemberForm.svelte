@@ -18,23 +18,18 @@
     }
 </script>
 
-{#snippet controls()}
-    <button onclick={() => the_dialog.resolve()}>OK</button>
-    <button onclick={() => the_dialog.reject()}>Cancel</button>
-{/snippet}
+<Dialog bind:this={the_dialog} title='Add a UŊ member'>
+    {#snippet controls()}
+        <button onclick={() => the_dialog.resolve()}>OK</button>
+        <button onclick={() => the_dialog.reject()}>Cancel</button>
+    {/snippet}
 
-{#snippet children()}
-    <label>
-        Discord Id:
-        <input type='text' bind:value={id} class='w-max p-1'>
-    </label>
-{/snippet}
-
-<Dialog
-    bind:this={the_dialog}
-    title='Add a UŊ member'
-    {controls}
-    content={children}
-/>
+    {#snippet content()}
+        <label>
+            Discord Id:
+            <input type='text' bind:value={id} class='w-max p-1'>
+        </label>
+    {/snippet}
+</Dialog>
 
 <button onclick={Open}>Add Member</button>
