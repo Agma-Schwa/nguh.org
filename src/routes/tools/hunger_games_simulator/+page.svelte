@@ -15,14 +15,10 @@
         type TributeCharacterSelectOptions
     } from '$lib/js/hgs.svelte';
     import Message from '$lib/components/hgs/Message.svelte';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import Card from '$lib/components/hgs/Card.svelte';
     import TributeStatList from '$lib/components/hgs/TributeStatList.svelte';
     import {db} from './db';
-    import {Err} from '$lib/js/dialog.svelte';
-
-    // Dialogs.
-    let abort_confirm: ConfirmDialog
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     // The current game state.
     let game: Game | null = $state(null)
@@ -46,7 +42,7 @@
 
     /** Abort the current game. */
     function AbortGame() {
-        abort_confirm.open().and(EndGame)
+        Prompt('Your progress will be lost. Are you sure you want to abort the game?').and(EndGame)
     }
 
     /** End the current game. */
@@ -167,11 +163,6 @@
     <!-- FIXME: Extract metadata to separate component  -->
     <meta name="keywords" content="hunger games simulator hungergame hungergames hungergamessimulator humger-games simulator hunger-games-simulator">
 </svelte:head>
-
-<ConfirmDialog
-    bind:this={abort_confirm}
-    description="Your progress will be lost. Are you sure you want to abort the game?"
-/>
 
 {#if game === null}
     <CharacterSelectScreen

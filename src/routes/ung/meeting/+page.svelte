@@ -5,12 +5,10 @@
     import {invalidateAll} from '$app/navigation';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {Meeting, MeetingParticipant, MemberProfile, MotionNoText} from '$lib/js/ung_types';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import MotionList from '$lib/components/ung/MotionList.svelte';
     import MemberList from '$lib/components/ung/MemberList.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
-    let confirm: ConfirmDialog;
     let admin = $derived(page.data.admin && EnableAdminMode())
     let meetings: Meeting[] = $derived(page.data.meetings)
     let members: MemberProfile[] = $derived(page.data.members)
@@ -39,7 +37,7 @@
     }
 
     async function CreateMeeting() {
-        confirm.open(`Create meeting ${name}?`).and(async () => {
+        Prompt(`Create meeting ${name}?`).and(async () => {
             const res = await UŊMakeRequest("admin/meeting", "POST", { date: name })
             name = ''
             HandleStartEndResponse(res)
@@ -53,7 +51,7 @@
     }
 
     async function ResetParticipants() {
-        confirm.open('Reset participant list?').and(async () => {
+        Prompt('Reset participant list?').and(async () => {
             const res = await UŊMakeRequest(`admin/participants/reset`, 'POST')
             HandleStartEndResponse(res)
         })
@@ -74,8 +72,6 @@
 
 <Page name='UŊ' />
 <Stripe>Meeting</Stripe>
-
-<ConfirmDialog bind:this={confirm} />
 
 <section>
     {#if admin && page.data.running}

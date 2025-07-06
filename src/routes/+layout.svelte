@@ -7,6 +7,7 @@
     import { page_title } from "$lib/page_title";
     import type {LayoutData} from "./$types";
     import {
+        __global_confirm_dialog__,
         __global_error_dialog__,
         ClampXOffs,
         ClampYOffs
@@ -14,6 +15,7 @@
     import Ribbon from '$lib/components/Ribbon.svelte';
     import {page} from '$app/state';
     import ErrorDialogInstance from '$lib/components/dialog/ErrorDialogInstance.svelte';
+    import ConfirmDialogInstance from '$lib/components/dialog/ConfirmDialogInstance.svelte';
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement
@@ -149,6 +151,7 @@
 </div>
 
 <ErrorDialogInstance bind:this={__global_error_dialog__.__instance__}/>
+<ConfirmDialogInstance bind:this={__global_confirm_dialog__.__instance__}/>
 <Header langs={data.language_pages} />
 <Banner />
 {#if page.data.user}

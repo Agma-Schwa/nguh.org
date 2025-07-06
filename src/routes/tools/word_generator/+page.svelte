@@ -3,9 +3,8 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import {DownloadURL} from '$lib/js/hgs.svelte';
     import {Stream} from '$lib/js/stream';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import {Persist} from '$lib/js/persist.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     type Classes = Map<string, string[]>
     abstract class Node {
@@ -160,7 +159,6 @@
         }
     }
 
-    let confirm_dialog: ConfirmDialog
     let classes_str = Persist('wordgen.classes', '', true)
     let phontactics = Persist('wordgen.phono', '', true)
     let output: string = $state('')
@@ -187,7 +185,7 @@
         try {
             const parse_tree = Parse()
             if (parse_tree.count() < 100_000) DoIt()
-            else confirm_dialog.open().and(DoIt)
+            else Prompt('You are about to generate {word_count} words. Continue?', 'Generate Words?').and(DoIt)
 
             // Unique words here since our deduplication algorithms aren’t perfect.
             function DoIt() { output = [...new Set(parse_tree.generate())].join('\n') }
@@ -337,12 +335,6 @@
         }
     }
 </script>
-
-<ConfirmDialog
-    bind:this={confirm_dialog}
-    title='Generate Words?'
-    description='You are about to generate {word_count} words. Continue?'
-/>
 
 <Page name='Word Generator'></Page>
 <Stripe>Word Generator</Stripe>

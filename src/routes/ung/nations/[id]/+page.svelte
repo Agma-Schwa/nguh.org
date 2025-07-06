@@ -7,8 +7,7 @@
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import MemberList from '$lib/components/ung/MemberList.svelte';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     let add_member: Dialog
     let nation: Nation = $derived(page.data.nation)
@@ -16,7 +15,6 @@
     let admin = $derived(page.data.admin && EnableAdminMode())
     let all_members: MemberProfile[] = $state([])
     let selected_member: string = $state('')
-    let confirm: ConfirmDialog
     let editor = $derived(admin || reps.find(page.data.user.id))
 
     async function AddMember() {
@@ -38,7 +36,7 @@
     }
 
     async function RemoveMember(m: MemberProfile) {
-        confirm.open(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
+        Prompt(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
             const res = await UŊMakeRequest(`nation/${nation.id}/member/${m.discord_id}`, 'DELETE')
             switch (res.status) {
                 default: Err(`Unexpected Error ${res.status}: ${await res.text()}`); break
@@ -50,7 +48,6 @@
     }
 </script>
 
-<ConfirmDialog bind:this={confirm}/>
 <Dialog title='Add Member' bind:this={add_member}>
     {#snippet content()}
         Choose a member to add as a representative.

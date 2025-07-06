@@ -1,10 +1,9 @@
 <script lang='ts'>
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
     import {Configuration, DownloadURL, type EventList, Event, StringToObjectURL, TitleCase} from '$lib/js/hgs.svelte';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import SingleFileDialog from '$lib/components/dialog/SingleFileDialog.svelte';
     import AddEventDialog from '$lib/components/hgs/AddEventDialog.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     interface Props {
         event_list: EventList
@@ -12,13 +11,10 @@
 
     let {event_list = $bindable()}: Props = $props()
     let dialog: SimpleDialog
-    let confirm: ConfirmDialog
     let json_file_dialog: SingleFileDialog
 
     function Clear() {
-        confirm.open('This will completely delete ALL events. Continue?').and(() => {
-            event_list = {}
-        })
+        Prompt('This will completely delete ALL events. Continue?').and(() => { event_list = {} })
     }
 
     function DoReset() {
@@ -49,23 +45,20 @@
     }
 
     function Reset() {
-        confirm.open('This will reset the event list to its builtin state. Continue?').and(() => {
-            DoReset()
-        })
+        Prompt('This will reset the event list to its builtin state. Continue?').and(DoReset)
     }
 
     function Upload(replace: boolean) {
         json_file_dialog.open().and(res => {
             // No prompt if there are no events at all or if we’re not replacing anything.
             if (IsEmpty() || !replace) LoadEvents(res.data as object, replace)
-            else confirm.open('This will replace ALL events with the uploaded ones. Continue?').and(() => {
+            else Prompt('This will replace ALL events with the uploaded ones. Continue?').and(() => {
                 LoadEvents(res.data as object, replace)
             })
         })
     }
 </script>
 
-<ConfirmDialog bind:this={confirm} />
 <SingleFileDialog
     bind:this={json_file_dialog}
     title='Upload Events'

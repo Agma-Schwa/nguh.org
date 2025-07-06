@@ -2,15 +2,13 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import {page} from '$app/state';
     import AddMemberForm from '$lib/components/ung/AddMemberForm.svelte';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import Page from '$lib/components/Page.svelte';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import type {MemberProfile} from '$lib/js/ung_types';
     import MemberList from '$lib/components/ung/MemberList.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
-    let confirm: ConfirmDialog
     let members: MemberProfile[] = $derived(page.data.members)
     let admin = $derived(page.data.admin && EnableAdminMode())
 
@@ -26,7 +24,7 @@
     }
 
     async function DeleteMember(m: MemberProfile) {
-        confirm.open(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
+        Prompt(`Are you sure you want to remove ${m.display_name}?`).and(async () => {
             const res = await UŊMakeRequest(`admin/member/${m.discord_id}`, 'DELETE');
             switch (res.status) {
                 case 500: Err('Cannot delete this member. There are probably foreign keys referencing them.'); break;
@@ -40,8 +38,6 @@
 </script>
 
 <Page name='UŊ' />
-
-<ConfirmDialog bind:this={confirm}/>
 
 <Stripe>Members</Stripe>
 <section>

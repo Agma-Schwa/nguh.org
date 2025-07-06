@@ -9,9 +9,11 @@
 
     let {title = 'Warning', description = '<No description provided>'}: Props = $props()
     let the_dialog: Dialog
+    let actual_title = $state(title)
 
-    export function open(override_description?: string): DialogPromise {
+    export function open(override_description?: string, override_title?: string): DialogPromise {
         if (override_description) description = override_description
+        actual_title = override_title ?? title
         return the_dialog.open()
     }
 </script>
@@ -27,7 +29,7 @@
 
 <Dialog
     bind:this={the_dialog}
-    {title}
+    title={actual_title}
     {controls}
     {content}
 />

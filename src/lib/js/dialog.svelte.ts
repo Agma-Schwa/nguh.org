@@ -144,6 +144,7 @@ class GlobalDialogWrapper {
 }
 
 export let __global_error_dialog__ = new GlobalDialogWrapper()
+export let __global_confirm_dialog__ = new GlobalDialogWrapper()
 
 /// Open an error dialog.
 export function Err(err: string | Error) {
@@ -154,4 +155,12 @@ export function Err(err: string | Error) {
     }
 
     __global_error_dialog__.__instance__.open(err)
+}
+
+/// Open a confirm dialog.
+export function Prompt(prompt: string, title?: string): DialogPromise {
+    if (!__global_confirm_dialog__.__instance__)
+        throw Error('Confirm error dialog not initialised!')
+
+    return __global_confirm_dialog__.__instance__.open(prompt, title)
 }

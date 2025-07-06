@@ -13,12 +13,10 @@
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import type {Motion} from '$lib/js/ung_types';
-    import ConfirmDialog from '$lib/components/dialog/ConfirmDialog.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     let { data } = $props();
     let dialog: Dialog
-    let confirm: ConfirmDialog
     let edit_mode = $state(false)
     let motion: Motion = $derived(data.motion)
     let admin = $derived(page.data.admin && EnableAdminMode())
@@ -41,7 +39,7 @@
     }
 
     function ResetVotes() {
-        confirm.open('Reset this motion’s votes? THIS CANNOT BE UNDONE!').and(async () => {
+        Prompt('Reset this motion’s votes? THIS CANNOT BE UNDONE!').and(async () => {
             const res = await UŊMakeRequest(`admin/motion/${motion.id}/reset`, 'POST')
             if (res.ok) await invalidateAll();
             else console.error(res.status, await res.text());
@@ -49,7 +47,7 @@
     }
 
     function LockMotionUser() {
-        confirm.open('Are you sure you want to lock this motion? You won‘t be able to edit it anymore.').and(async () => {
+        Prompt('Are you sure you want to lock this motion? You won‘t be able to edit it anymore.').and(async () => {
             const res = await UŊMakeRequest(`motion/${motion.id}/lock`, 'PUT')
             switch (res.status) {
                 default: Err(`Error ${res.status}. Could not lock motion: ${await res.text()}`); break;
@@ -64,7 +62,6 @@
 <Page name='UŊ'></Page>
 <Stripe>Motion #{motion.id}</Stripe>
 
-<ConfirmDialog bind:this={confirm} />
 <Dialog bind:this={dialog} title='Vote'>
     {#snippet controls()}
         <button onclick={() => dialog.resolve(true)} class='bg-green-800 text-white'>Aye</button>
