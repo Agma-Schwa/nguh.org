@@ -143,7 +143,7 @@
             </div>
         {/if}
         <MemberList
-            {admin}
+            editable={admin}
             members={participants.map(participant => members.find(m => m.discord_id === participant.member)).filter(m => m !== undefined)}
             can_be_removed={m => !participants.find(p => p.member === m.discord_id)?.absentee_voter}
             do_remove={RemoveParticipant}

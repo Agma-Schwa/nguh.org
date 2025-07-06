@@ -2,7 +2,7 @@ import { dev } from '$app/environment';
 import {SERVICE_TOKEN} from '$env/static/private';
 import type {Session} from '@auth/sveltekit';
 import {error, redirect, type RequestEvent} from '@sveltejs/kit';
-import type {Bool, I32, Meeting, MemberProfile, Motion, MotionNoText} from './ung_types';
+import type {Bool, I32, Meeting, MemberProfile, Motion, MotionNoText, Nation} from './ung_types';
 
 const API_URL = "http://localhost:25000"
 const deny_msg = 'Forbidden\nYou must be a member of the Agma Schwa Discord server ' +
@@ -126,7 +126,11 @@ export async function GetMotion(id: number) {
 }
 
 export async function GetAllMotions() {
-    return await MakeBotRequest<MotionNoText>(null, `motions`)
+    return await MakeBotRequest<MotionNoText[]>(null, `motions`)
+}
+
+export async function GetAllNations() {
+    return await MakeBotRequest<Nation[]>(null, `nations`)
 }
 
 export async function UpdateMotion(session: Session, data: FormData) {

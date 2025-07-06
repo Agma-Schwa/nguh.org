@@ -54,8 +54,8 @@
         </div>
     {/if}
         <MemberList
-            {admin}
             {members}
+            editable={admin}
             can_be_removed={m => !m.administrator}
             do_remove={DeleteMember}
         />

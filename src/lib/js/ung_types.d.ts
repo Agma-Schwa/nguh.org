@@ -51,6 +51,13 @@ export type Motion = {
   enabled: boolean;
 };
 
+export type Nation = {
+  id: number;
+  name: string;
+  flag_url: string | null;
+  active: boolean;
+};
+
 export type SetMotionMeetingRequestBody = { motion: number; meeting: number };
 
 /**
