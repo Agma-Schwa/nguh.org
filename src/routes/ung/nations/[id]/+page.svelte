@@ -67,7 +67,7 @@
 <Stripe>{nation.name}</Stripe>
 <section>
     <div class='flex'>
-        <img src={nation.flag_url} class='w-32 mx-auto' style='image-rendering: crisp-edges'>
+        <img src={nation.flag_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
     </div>
 
     <h2 class='mt-12'>Representatives</h2>

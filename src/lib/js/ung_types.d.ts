@@ -1,4 +1,26 @@
 // This file was generated from Ætérnalbot type definitions. DO NOT EDIT!
+export type AdmissionFormRequestBody = {
+  name: string;
+  ruler: string;
+  banner_text: string;
+  banner_url: string;
+  claim_text: string;
+  claim_url: string;
+  trivia: string;
+};
+
+export type Admission = {
+  id: number;
+  author: MemberProfile;
+  name: string;
+  ruler: string;
+  banner_text: string;
+  banner_url: string;
+  claim_text: string;
+  claim_url: string;
+  trivia: string;
+};
+
 /**
  * A boolean value.
  */

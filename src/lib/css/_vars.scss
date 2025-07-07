@@ -42,6 +42,7 @@ $video-width-16-to-9: 56.25%;
     --h1-underline-height: .4rem;
     --header-offset: 1rem;
     --content-padding-top: 0;
+    --ridge-border: 3px ridge var(--accentcolour);
 }
 
 @media (min-width: 900px) {

@@ -56,6 +56,6 @@ export function Persist<T>(
     key: string,
     default_value: T,
     legacy_treat_invalid_json_as_string: Boolean = false,
-): { value: T  } {
-    return new PersistImpl(key, default_value, legacy_treat_invalid_json_as_string);
+): PersistImpl<T> {
+    return new PersistImpl<T>(key, default_value, legacy_treat_invalid_json_as_string);
 }
