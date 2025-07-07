@@ -14,12 +14,11 @@
         EnableMotion,
         GetEmoji,
         LockMotion,
-        TYPE_CONST,
         UŊMakeRequest,
         UŊMakeRequestAndCheckErr
     } from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
-    import {invalidateAll} from '$app/navigation';
+    import {goto, invalidateAll} from '$app/navigation';
     import type {CreateMotion, Motion} from '$lib/js/ung_types';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
 
@@ -28,6 +27,7 @@
     let edit_mode = $state(false)
     let motion: Motion = $derived(data.motion)
     let admin = $derived(page.data.admin && EnableAdminMode())
+    let owner_can_edit = $derived(!motion.locked && motion.author === page.data.user.id)
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();
@@ -58,6 +58,14 @@
         })
     }
 
+    function DeleteMotion() {
+        Prompt('Are you sure you want to DELETE this motion? THIS CANNOT BE UNDONE!').and(async () => {
+            const res = await UŊMakeRequest(`motion/${motion.id}`, 'DELETE')
+            if (res.ok) await goto('/ung/motions', { replaceState: true, invalidateAll: true })
+            else Err(`Error ${res.ok}`);
+        })
+    }
+
     async function Edit(data: CreateMotion) {
         const res = await UŊMakeRequest(`motion/${motion.id}`, 'PATCH', data)
         edit_mode = false
@@ -65,6 +73,14 @@
             default: Err(`Error ${res.status}: ${await res.text()}`); break;
             case 413: Err('The motion text or title is too long!'); break;
             case 204: await invalidateAll(); break;
+        }
+    }
+
+    function FormatMotionType(): string | undefined {
+        switch (motion.type) {
+            case "Legislative": return '[legal]'
+            case "Executive": return '[exec]'
+            case "Constitutional": return '[const]'
         }
     }
 </script>
@@ -112,7 +128,7 @@
     {:else}
         <h2 class='mb-8'>
             {motion.title}
-            [<span style='font-variant: small-caps'>{motion.type}</span>]
+            <span style='font-variant: small-caps'>{FormatMotionType()}</span>
             <span>{GetEmoji(motion)}</span>
         </h2>
         <div class='mb-8'>
@@ -141,7 +157,7 @@
 
                 {#if motion.closed}
                     {#if motion.passed}
-                            {#if motion.type !== TYPE_CONST}
+                            {#if motion.type !== 'Constitutional'}
                                 <p class='mt-4 text-green-600'><strong>PASSED</strong></p>
                             {:else if motion.supported}
                                 <p class='mt-4 text-green-600'><strong>SUPPORTED</strong></p>
@@ -169,12 +185,12 @@
             }
                 <button onclick={Vote}>Vote {page.data.absentia ? 'in Absentia' : ''}</button>
             {/if}
-            {#if (motion.author === page.data.user.id && !motion.locked) || admin}
-                <button onclick={() => edit_mode = true}>Edit Motion</button>
+            {#if owner_can_edit || admin}
+                <button onclick={() => edit_mode = true}>Edit</button>
             {/if}
             {#if admin}
                 <button onclick={() => LockMotion(motion.id, !motion.locked)}>
-                    {motion.locked ? 'Unlock Motion' : 'Lock Motion'}
+                    {motion.locked ? 'Unlock' : 'Lock'}
                 </button>
                 <button
                     onclick={() => EnableMotion(motion.id, !motion.enabled)}
@@ -188,9 +204,14 @@
                         Reset Votes
                     </button>
                 {/if}
-            {:else if !motion.locked && motion.author === page.data.user.id}
+            {:else if owner_can_edit}
                 <button onclick={LockMotionUser}>
-                    Lock Motion
+                    Lock
+                </button>
+            {/if}
+            {#if !motion.locked && (admin || owner_can_edit)}
+                <button onclick={DeleteMotion} class='bg-rose-800 text-white'>
+                    Delete
                 </button>
             {/if}
         </div>

@@ -51,11 +51,9 @@ export async function EnableMotion(motion: number, enabled: boolean) {
 }
 
 export function GetEmoji(m: MotionNoText): string {
-    if (m.supported || (m.passed && m.type !== TYPE_CONST)) return '✅'
+    if (m.supported || (m.passed && m.type !== 'Constitutional')) return '✅'
     if (m.passed) return '⌛'
     if (m.closed) return '❌'
     if (m.locked) return '🔒'
     return ''
 }
-
-export const TYPE_CONST: string = 'const'

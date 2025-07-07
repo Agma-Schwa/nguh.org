@@ -6,7 +6,7 @@ export type Bool = { value: boolean };
 
 export type CreateMeetingRequestBody = { date: string };
 
-export type CreateMotion = { type: string; title: string; text: string };
+export type CreateMotion = { type: MotionType; title: string; text: string };
 
 /**
  * An integer value.
@@ -43,7 +43,7 @@ export type MemberProfile = {
 export type MotionNoText = {
   id: number;
   author: Snowflake;
-  type: string;
+  type: MotionType;
   title: string;
   meeting: number;
   quorum: number;
@@ -61,7 +61,7 @@ export type Motion = {
   text: string;
   id: number;
   author: Snowflake;
-  type: string;
+  type: MotionType;
   title: string;
   meeting: number;
   quorum: number;
@@ -71,6 +71,15 @@ export type Motion = {
   passed: boolean;
   enabled: boolean;
 };
+
+/**
+ * The type of a motion.
+ */
+export type MotionType =
+  | "Unsure"
+  | "Legislative"
+  | "Executive"
+  | "Constitutional";
 
 /**
  * UŊ Ŋation.

@@ -1,12 +1,11 @@
 <script lang='ts'>
-    import { enhance } from '$app/forms';
-    import {TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
-    import type {CreateMotion} from '$lib/js/ung_types';
-    import {clamp, Err} from '$lib/js/dialog.svelte';
+    import {enhance} from '$app/forms';
+    import type {CreateMotion, MotionType} from '$lib/js/ung_types';
+    import {clamp} from '$lib/js/dialog.svelte';
 
     interface Props {
         on_submit: (data: CreateMotion) => void
-        type: string,
+        type: MotionType,
         title: string,
         text: string,
     }
@@ -16,7 +15,7 @@
         type = $bindable(),
         title = $bindable(),
         text = $bindable(),
-    } = $props()
+    }: Props = $props()
 
     let valid = $derived(
         LimitString(type, 1, 50) &&
@@ -43,10 +42,10 @@
     <form method='POST' use:enhance={OnSubmit}>
         <label>Type</label>
         <select bind:value={type} name='type'>
-            <option value='none'>Unsure</option>
-            <option value='leg'>Legislative</option>
-            <option value={TYPE_CONST}>Constitutional</option>
-            <option value='exec'>Executive</option>
+            <option value='Unsure'>Unsure</option>
+            <option value='Legislative'>Legislative</option>
+            <option value='Executive'>Executive</option>
+            <option value='Constitutional'>Constitutional</option>
         </select>
 
         <label class='w-full flex gap-4'>Title</label>
