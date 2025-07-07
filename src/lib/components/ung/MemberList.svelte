@@ -1,6 +1,7 @@
 <script lang='ts'>
     import Member from '$lib/components/ung/Member.svelte';
     import type {MemberProfile} from '$lib/js/ung_types';
+    import XButton from '$lib/components/ung/XButton.svelte';
 
     interface Props {
         members: MemberProfile[],
@@ -15,16 +16,9 @@
 <div class='flex flex-col gap-2'>
     {#each members as member}
         {@const removable = can_be_removed(member)}
-        <div class='flex gap-2'>
+        <div class='flex gap-1'>
             {#if editable}
-                <div>
-                    <button
-                        class='w-8 h-8 p-1 !bg-transparent { !removable ? "grayscale" : "hover:invert transition-[filter]" }'
-                        onclick={() => do_remove(member)}
-                        disabled={!removable}>
-                        ❌
-                    </button>
-                </div>
+                <XButton enabled={removable} onclick={() => do_remove(member)} />
             {/if}
             <Member {member} />
         </div>

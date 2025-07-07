@@ -1,6 +1,7 @@
 import {browser} from '$app/environment';
 import {invalidateAll} from '$app/navigation';
 import type {Motion, MotionNoText} from '$lib/js/ung_types';
+import {Err} from '$lib/js/dialog.svelte';
 
 export function wrap(status: number): Response {
     return new Response(null, { status: status })
@@ -25,6 +26,16 @@ export async function UŊMakeRequest(
             'NguhOrg-Real-Method': method,
         },
     })
+}
+
+export async function UŊMakeRequestAndCheckErr(
+    backend_path: string,
+    method: Method = 'GET',
+    data: object | null = null
+) {
+    const res = await UŊMakeRequest(backend_path, method, data);
+    if (res.ok) await invalidateAll()
+    else Err(`Error ${res.status} ${res.statusText}: ${await res.text()}`);
 }
 
 export async function LockMotion(motion: number, locked: boolean) {

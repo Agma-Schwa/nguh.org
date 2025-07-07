@@ -1,11 +1,20 @@
 // This file was generated from Ætérnalbot type definitions. DO NOT EDIT!
+/**
+ * A boolean value.
+ */
 export type Bool = { value: boolean };
 
 export type CreateMeetingRequestBody = { date: string };
 
+/**
+ * An integer value.
+ */
 export type I32 = { value: number };
 
-export type MeetingParticipant = { member: Snowflake; absentee_voter: boolean };
+/**
+ * An entry for a participant in a UŊ meeting.
+ */
+export type MeetingParticipant = { nation: Nation; absentee_voter: boolean };
 
 /**
  * UŊ Meeting.
@@ -19,12 +28,16 @@ export type MemberProfile = {
   discord_id: Snowflake;
   display_name: string;
   avatar_url: string;
-  represented_nation: number;
+  represented_nation: number | null;
   active: boolean;
   administrator: boolean;
   staff_only: boolean;
 };
 
+/**
+ * A motion but without the text; this is usually used for APIs that
+ * return motions in bulk to avoid transferring too much data.
+ */
 export type MotionNoText = {
   id: number;
   author: Snowflake;
@@ -39,6 +52,9 @@ export type MotionNoText = {
   enabled: boolean;
 };
 
+/**
+ * UŊ Motion.
+ */
 export type Motion = {
   text: string;
   id: number;
@@ -54,6 +70,9 @@ export type Motion = {
   enabled: boolean;
 };
 
+/**
+ * UŊ Ŋation.
+ */
 export type Nation = {
   id: number;
   name: string;
@@ -65,7 +84,27 @@ export type SetMotionMeetingRequestBody = { motion: number; meeting: number };
 
 /**
  * JavaScript is too stupid for proper 64-bit integers, so do this jank instead.
+ *
+ * Since Ids for our own custom objects are unlikely to ever exceed 2 *billion*,
+ * we just use i32s for them, which *can* be represented as JS numbers. Snowflakes
+ * are only used for Ids coming from Discord, which currently is just member Ids.
  */
 export type Snowflake = string;
 
-export type Vote = { member: MemberProfile; vote: boolean };
+/**
+ * A vote on a motion.
+ */
+export type Vote = {
+  /**
+   * The member that voted on behalf of the ŋation.
+   */
+  member: MemberProfile;
+  /**
+   * The nation that cast the vote.
+   */
+  nation: Nation;
+  /**
+   * True if the vote was in favour and false otherwise.
+   */
+  vote: boolean;
+};

@@ -3,20 +3,21 @@
     import Page from '$lib/components/Page.svelte';
     import {page} from '$app/state';
     import {invalidateAll} from '$app/navigation';
-    import {EnableAdminMode, LockMotion, UŊMakeRequest} from '$lib/js/uŋ.svelte';
-    import type {Meeting, MeetingParticipant, MemberProfile, MotionNoText} from '$lib/js/ung_types';
+    import {EnableAdminMode, LockMotion, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
+    import type {Meeting, MeetingParticipant, MemberProfile, MotionNoText, Nation} from '$lib/js/ung_types';
     import MotionList from '$lib/components/ung/MotionList.svelte';
-    import MemberList from '$lib/components/ung/MemberList.svelte';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
+    import NationCard from '$lib/components/ung/NationCard.svelte';
+    import XButton from '$lib/components/ung/XButton.svelte';
 
     let admin = $derived(page.data.admin && EnableAdminMode())
     let meetings: Meeting[] = $derived(page.data.meetings)
     let members: MemberProfile[] = $derived(page.data.members)
     let motions: MotionNoText[] = $derived(page.data.motions.filter(m => m.meeting === page.data.running))
     let participants: MeetingParticipant[] = $derived(page.data.participants)
+    let me = $derived(members.find(m => m.discord_id === page.data.user.id))
     let name: string = ''
     let active: string = ''
-    let select_participant: string = $state('')
 
     function HandleStartEndResponse(res: Response, enable?: boolean) {
         switch (res.status) {
@@ -42,34 +43,27 @@
 
     async function CreateMeeting() {
         Prompt(`Create meeting ${name}?`).and(async () => {
-            const res = await UŊMakeRequest("admin/meeting", "POST", { date: name })
+            await UŊMakeRequestAndCheckErr("admin/meeting", "POST", { date: name })
             name = ''
-            HandleStartEndResponse(res)
         })
     }
 
     async function ToggleAbsentia() {
-        const res = await UŊMakeRequest(`admin/meeting/absentia/${!page.data.absentia ? 1 : 0}`, 'PATCH')
-        HandleStartEndResponse(res)
+        await UŊMakeRequestAndCheckErr(`admin/meeting/absentia/${!page.data.absentia ? 1 : 0}`, 'PATCH')
     }
 
     async function ResetParticipants() {
         Prompt('Reset participant list?').and(async () => {
-            const res = await UŊMakeRequest(`admin/participants/reset`, 'POST')
-            HandleStartEndResponse(res)
+            await UŊMakeRequestAndCheckErr(`admin/participants/reset`, 'POST')
         })
     }
 
-    async function AddParticipant() {
-        if (select_participant.length === 0) return
-        const res = await UŊMakeRequest(`admin/participant/${select_participant}`, 'PUT')
-        HandleStartEndResponse(res)
-        select_participant = ''
+    async function Join() {
+        if (me) await UŊMakeRequestAndCheckErr(`participant/${me.represented_nation}`, 'PUT')
     }
 
-    async function RemoveParticipant(m: MemberProfile) {
-        const res = await UŊMakeRequest(`admin/participant/${m.discord_id}`, 'DELETE')
-        HandleStartEndResponse(res)
+    async function RemoveParticipant(m: MeetingParticipant) {
+        await UŊMakeRequestAndCheckErr(`participant/${m.nation.id}`, 'DELETE')
     }
 </script>
 
@@ -86,7 +80,9 @@
             <button onclick={ToggleAbsentia}>
                 {!page.data.absentia ? 'Enable' : 'Disable'} In-Absentia Voting
             </button>
-            <button onclick={ResetParticipants}>Reset Participants</button>
+            {#if !page.data.absentia}
+                <button onclick={ResetParticipants}>Reset Participants</button>
+            {/if}
         </div>
     {/if}
 
@@ -127,27 +123,34 @@
     {/if}
 </section>
 
-{#if page.data.running && (participants.length !== 0 || admin)}
+{#if page.data.running && !page.data.absentia}
+    {@const my_part = participants.find(p => p.nation.id === me?.represented_nation)}
+    {@const sorted = my_part ? [my_part, ...participants.filter(p => p !== my_part)] : participants}
     <Stripe>Participants</Stripe>
     <section>
-        {#if admin}
-            <div class='mb-8 admin-buttons'>
-                <div>
-                    <button onclick={AddParticipant}>Add Participant</button>
-                    <select bind:value={select_participant}>
-                        {#each members.filter(m => !participants.find(p => p.member === m.discord_id)).sort() as member}
-                            <option value={member.discord_id}>{member.display_name}</option>
-                        {/each}
-                    </select>
-                </div>
+        {#if !my_part}
+            <div class='flex'>
+                <button class='mb-6 mx-auto' onclick={Join}>Join Meeting</button>
+            </div>
+        {:else if !my_part.absentee_voter}
+            <div class='flex'>
+                <button class='mb-6 mx-auto' onclick={() => RemoveParticipant(my_part) }>Leave Meeting</button>
             </div>
         {/if}
-        <MemberList
-            editable={admin}
-            members={participants.map(participant => members.find(m => m.discord_id === participant.member)).filter(m => m !== undefined)}
-            can_be_removed={m => !participants.find(p => p.member === m.discord_id)?.absentee_voter}
-            do_remove={RemoveParticipant}
-        />
+        {#each sorted as participant}
+            <div class='flex flex-row items-center gap-1.5'>
+                {#if admin}
+                    <XButton
+                        enabled={!participant.absentee_voter}
+                        onclick={() => RemoveParticipant(participant)}
+                    />
+                {/if}
+                <NationCard nation={participant.nation} />
+                {#if participant.absentee_voter}
+                    <p class='text-2xl italic'>(in absentia)</p>
+                {/if}
+            </div>
+        {/each}
     </section>
 {/if}
 
