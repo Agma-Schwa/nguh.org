@@ -130,7 +130,7 @@ textarea {
     padding-inline: .5rem;
 }
 
-input[type=submit] {
+input[type=submit][disabled=false] {
     border: 1px solid $accentcolour;
     width: 7rem;
 

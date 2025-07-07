@@ -6,6 +6,8 @@ export type Bool = { value: boolean };
 
 export type CreateMeetingRequestBody = { date: string };
 
+export type CreateMotion = { type: string; title: string; text: string };
+
 /**
  * An integer value.
  */

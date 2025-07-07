@@ -18,7 +18,7 @@ export class UserError extends Error {
     }
 }
 
-function clamp(val: number, lo: number, hi: number) {
+export function clamp(val: number, lo: number, hi: number) {
     if (lo > hi) return lo
     return val < lo ? lo : val > hi ? hi : val
 }
@@ -147,14 +147,17 @@ export let __global_error_dialog__ = new GlobalDialogWrapper()
 export let __global_confirm_dialog__ = new GlobalDialogWrapper()
 
 /// Open an error dialog.
-export function Err(err: string | Error) {
+///
+/// Returns false for convenience.
+export function Err(err: string | Error): boolean {
     if (!__global_error_dialog__.__instance__) {
         console.warn('Global error dialog not initialised!')
         console.error(err);
-        return;
+        return false;
     }
 
     __global_error_dialog__.__instance__.open(err)
+    return false
 }
 
 /// Open a confirm dialog.

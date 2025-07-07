@@ -136,7 +136,3 @@ export async function GetAllMotions() {
 export async function GetAllNations() {
     return await MakeBotRequest<Nation[]>(null, `nations`)
 }
-
-export async function UpdateMotion(session: Session, data: FormData) {
-    return (await SendBotRequest(session, 'motion', 'PATCH', data)).status
-}

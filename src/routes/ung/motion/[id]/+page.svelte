@@ -9,10 +9,18 @@
     import Member from '$lib/components/ung/Member.svelte';
     import EditMotion from '$lib/components/ung/EditMotion.svelte';
     import {page} from '$app/state';
-    import {EnableAdminMode, EnableMotion, GetEmoji, LockMotion, TYPE_CONST, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {
+        EnableAdminMode,
+        EnableMotion,
+        GetEmoji,
+        LockMotion,
+        TYPE_CONST,
+        UŊMakeRequest,
+        UŊMakeRequestAndCheckErr
+    } from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
-    import type {Motion} from '$lib/js/ung_types';
+    import type {CreateMotion, Motion} from '$lib/js/ung_types';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     let { data } = $props();
@@ -40,20 +48,24 @@
 
     function ResetVotes() {
         Prompt('Reset this motion’s votes? THIS CANNOT BE UNDONE!').and(async () => {
-            const res = await UŊMakeRequest(`admin/motion/${motion.id}/reset`, 'POST')
-            if (res.ok) await invalidateAll();
-            else console.error(res.status, await res.text());
+            await UŊMakeRequestAndCheckErr(`admin/motion/${motion.id}/reset`, 'POST')
         })
     }
 
     function LockMotionUser() {
         Prompt('Are you sure you want to lock this motion? You won‘t be able to edit it anymore.').and(async () => {
-            const res = await UŊMakeRequest(`motion/${motion.id}/lock`, 'PUT')
-            switch (res.status) {
-                default: Err(`Error ${res.status}. Could not lock motion: ${await res.text()}`); break;
-                case 204: await invalidateAll(); break;
-            }
+            await UŊMakeRequestAndCheckErr(`motion/${motion.id}/lock`, 'PUT')
         })
+    }
+
+    async function Edit(data: CreateMotion) {
+        const res = await UŊMakeRequest(`motion/${motion.id}`, 'PATCH', data)
+        edit_mode = false
+        switch (res.status) {
+            default: Err(`Error ${res.status}: ${await res.text()}`); break;
+            case 413: Err('The motion text or title is too long!'); break;
+            case 204: await invalidateAll(); break;
+        }
     }
 </script>
 
@@ -80,25 +92,16 @@
 
 <!--
     TODO:
-    On the backend, set 'closed' to true via a database trigged as soon as the
-    number of ayes or noes exceeds half of the quorum (or 3/5 or 2/5 in the case
-    of a constitutional motion).
-
-    When a motion is closed, display 'PASSED' or 'REJECTED' on the frontend (compute
-    this dynamically from the votes+quorum; we don't actually need to store this state).
-
-    Do not allow *changing* votes once a motion is closed (do allow people to *add* votes
-    if they haven’t voted yet though since that won't change anything and so people don't
-    get annoying errors as soon as we exceed the threshold).
-
-    Support manually closing/opening a motion (only for admins of course) to close motions
+    Support manually closing a motion (only for admins of course) to close motions
     if there is no consensus or in case we want to allow someone to change their vote.
 -->
+
+<!-- TODO: Votes should be nation+member -->
 
 <section>
     {#if edit_mode}
         <EditMotion
-            on_done={() => edit_mode = false}
+            on_submit={Edit}
             type={motion.type}
             title={motion.title}
             text={motion.text}
