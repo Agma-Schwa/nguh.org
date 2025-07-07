@@ -21,6 +21,7 @@
     import {goto, invalidateAll} from '$app/navigation';
     import type {CreateMotion, MemberProfile, Motion, Vote} from '$lib/js/ung_types';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
+    import NationCard from '$lib/components/ung/NationCard.svelte';
 
     let { data } = $props();
     let dialog: Dialog
@@ -161,9 +162,9 @@
             <h3 class='text-left'>Votes</h3>
             <div class=' mb-8'>
                 <p>Ayes: {ayes}, Noes: {votes.length - ayes}, Quorum: {motion.quorum}</p>
-                <div class='grid gap-4 leading-8' style='grid-template-columns: auto 1fr'>
+                <div class='grid gap-4 leading-8 items-center' style='grid-template-columns: auto 1fr'>
                     {#each votes as vote}
-                        <div><Member member={vote.member}/></div>
+                        <div><NationCard nation={vote.nation} member={vote.member}/></div>
                         <div>{vote.vote ? '✅' : '❌'}</div>
                     {/each}
                 </div>
