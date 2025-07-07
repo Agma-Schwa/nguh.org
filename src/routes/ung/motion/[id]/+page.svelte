@@ -19,15 +19,18 @@
     } from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {goto, invalidateAll} from '$app/navigation';
-    import type {CreateMotion, Motion} from '$lib/js/ung_types';
+    import type {CreateMotion, MemberProfile, Motion, Vote} from '$lib/js/ung_types';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
 
     let { data } = $props();
     let dialog: Dialog
     let edit_mode = $state(false)
+    let me: MemberProfile | null = $derived(page.data.me)
     let motion: Motion = $derived(data.motion)
     let admin = $derived(page.data.admin && EnableAdminMode())
     let owner_can_edit = $derived(!motion.locked && motion.author === page.data.user.id)
+    let votes: Vote[] = $derived(data.votes)
+    let voted: boolean = $derived(votes.find(v => v.nation.id === me?.represented_nation) !== null)
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();
@@ -90,6 +93,18 @@
 <Page name='UŊ'></Page>
 <Stripe>Motion #{motion.id}</Stripe>
 
+<!--
+    Note: There is no way to remove in-absentia votes per motion. This is because
+    so long as at least one in-absentia vote for any one nation remains across all
+    motions that are part of a meeting, that nation is counted as part of the meeting,
+    which raises the quorum, and as a result, a missing vote by that nation is equal
+    to a rejection. I.e. to 'remove' a vote, simply change it to 'reject' instead.
+
+    Only if 'all' in-absentia votes by a nation are removed is that nation removed
+    from the meeting; there is a button for that on the meeting page since this is
+    also required if a nation wishes to rescind their in-absentia votes and attend
+    in person instead.
+-->
 <Dialog bind:this={dialog} title='Vote'>
     {#snippet controls()}
         <button onclick={() => dialog.resolve(true)} class='bg-green-800 text-white'>Aye</button>
@@ -111,8 +126,6 @@
     Support manually closing a motion (only for admins of course) to close motions
     if there is no consensus or in case we want to allow someone to change their vote.
 -->
-
-<!-- TODO: Votes should be nation+member -->
 
 <section>
     {#if edit_mode}
@@ -137,19 +150,19 @@
             </div>
         </div>
         <div class='flex mb-8'>
-            {#if data.votes.length !== 0 && !motion.enabled}
+            {#if votes.length !== 0 && !motion.enabled}
                 <span class='italic m-auto'>Voted on During Meeting #{motion.meeting}</span>
             {:else if motion.meeting}
                 <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
             {/if}
         </div>
-        {#if data.votes.length !== 0 || motion.enabled}
-            {@const ayes = data.votes.filter(v => v.vote).length}
+        {#if votes.length !== 0 || motion.enabled}
+            {@const ayes = votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
             <div class=' mb-8'>
-                <p>Ayes: {ayes}, Noes: {data.votes.length - ayes}, Quorum: {motion.quorum}</p>
+                <p>Ayes: {ayes}, Noes: {votes.length - ayes}, Quorum: {motion.quorum}</p>
                 <div class='grid gap-4 leading-8' style='grid-template-columns: auto 1fr'>
-                    {#each data.votes as vote}
+                    {#each votes as vote}
                         <div><Member member={vote.member}/></div>
                         <div>{vote.vote ? '✅' : '❌'}</div>
                     {/each}
@@ -180,7 +193,7 @@
                 motion.locked &&
                 (   // Allow amending votes in-absentia, but not during a meeting.
                     page.data.absentia ||
-                    (motion.enabled && !data.votes.find(v => v.member.discord_id === page.data.user.id))
+                    (motion.enabled && !voted)
                 )
             }
                 <button onclick={Vote}>Vote {page.data.absentia ? 'in Absentia' : ''}</button>
@@ -199,7 +212,7 @@
                 >
                     {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
                 </button>
-                {#if data.votes.length !== 0}
+                {#if votes.length !== 0}
                     <button onclick={ResetVotes}>
                         Reset Votes
                     </button>

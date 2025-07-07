@@ -93,7 +93,7 @@
                 {#if !admin} Please wait until an administrator creates the next meeting. {/if}
             </p>
             {#if admin}
-                <p> Looks like you have admin privileges! To start a meeting, press 'Set Active Meeting' above. </p>
+                <p> Looks like you have admin privileges! To start a meeting, press 'Set Active Meeting' below. </p>
             {/if}
         {:else}
             <h3>Agenda for Meeting #{page.data.running}</h3>
@@ -128,6 +128,7 @@
     {@const sorted = my_part ? [my_part, ...participants.filter(p => p !== my_part)] : participants}
     <Stripe>Participants</Stripe>
     <section>
+        <!-- TODO: Allow a member who has voted in absentia to join, which clears ALL their in-absentia votes -->
         {#if !my_part}
             <div class='flex'>
                 <button class='mb-6 mx-auto' onclick={Join}>Join Meeting</button>

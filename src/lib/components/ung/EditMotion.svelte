@@ -5,7 +5,7 @@
 
     interface Props {
         on_submit: (data: CreateMotion) => void
-        type: MotionType,
+        type: string,
         title: string,
         text: string,
     }
@@ -31,7 +31,7 @@
     function OnSubmit({ cancel }: { cancel: () => void }) {
         cancel()
         on_submit({
-            type,
+            type: type as MotionType,
             title: title.normalize('NFC'),
             text: text.normalize('NFC')
         })
