@@ -15,7 +15,7 @@
     let admin = $derived(page.data.admin && EnableAdminMode())
     let all_members: MemberProfile[] = $state([])
     let selected_member: string = $state('')
-    let editor = $derived(admin || reps.find(page.data.user.id))
+    let editor = $derived(admin || reps.find(r => r.discord_id == page.data.user.id))
 
     async function AddMember() {
         const res = await UŊMakeRequest('members')

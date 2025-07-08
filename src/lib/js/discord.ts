@@ -99,6 +99,13 @@ export async function CheckIsLoggedInAsUŊMember(session: Session | null) {
     await CheckIsLoggedIn(session, 'is_nguhcrafter', 'You must be a player on the Minecraft Server to access this page');
 }
 
+export async function GetMe(session: Session | null): Promise<MemberProfile | null> {
+    const res = await SendRequestImpl(session, 'me')
+    if (res.status == 403 || res.status == 401) return null
+    if (!res.ok) error(res.status, res.statusText)
+    return await res.json() as MemberProfile // See above as to why this is ok.
+}
+
 export async function GetMemberProfile(id: string) {
     return await MakeBotRequest<MemberProfile>(null, `member/${id}`)
 }

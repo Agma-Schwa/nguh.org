@@ -1,5 +1,5 @@
 import {
-    GetCurrentMeeting,
+    GetCurrentMeeting, GetMe,
     GetMemberProfile,
     GetMotion,
     InAbsentiaVotingEnabled,
@@ -17,7 +17,7 @@ export async function load(event) {
         votes,
         absentia,
     ] = await Promise.all([
-        MakeBotRequest(session, 'me'),
+        GetMe(session),
         GetMemberProfile(motion.author),
         GetCurrentMeeting(),
         MakeBotRequest<Vote[]>(null, `motion/${motion.id}/votes`),

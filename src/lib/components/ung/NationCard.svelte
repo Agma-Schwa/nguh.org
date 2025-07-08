@@ -14,7 +14,7 @@
 {#snippet card()}
 <div class='flex gap-2 wrapper'>
     <div class='relative'>
-        <img src={nation.flag_url} class='nation-flag non-previewable-icon' alt={nation.name}>
+        <img src={nation.flag_url} class='nation-flag non-previewable-icon'>
         {#if member}
             <img src='{member.avatar_url}' class='member-image non-previewable-icon'>
         {/if}

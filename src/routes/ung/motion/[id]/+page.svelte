@@ -189,6 +189,7 @@
         </div>
         <div class='flex mt-8 justify-center gap-10'>
             {#if
+                me?.represented_nation &&
                 data.active &&
                 motion.meeting === data.active &&
                 motion.locked &&

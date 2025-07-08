@@ -12,6 +12,8 @@ export type AdmissionFormRequestBody = {
 export type Admission = {
   id: number;
   author: MemberProfile;
+  passed: boolean;
+  closed: boolean;
   name: string;
   ruler: string;
   banner_text: string;

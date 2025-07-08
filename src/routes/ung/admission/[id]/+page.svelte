@@ -1,17 +1,23 @@
 <script lang='ts'>
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
-    import type {Admission, AdmissionFormRequestBody} from '$lib/js/ung_types';
+    import type {Admission, AdmissionFormRequestBody, MemberProfile, Vote} from '$lib/js/ung_types';
     import {page} from '$app/state';
     import Member from '$lib/components/ung/Member.svelte';
-    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
     import EditAdmission from '$lib/components/ung/EditAdmission.svelte';
     import {invalidateAll} from '$app/navigation';
     import {Err} from '$lib/js/dialog.svelte';
+    import Dialog from '$lib/components/dialog/Dialog.svelte';
+    import NationCard from '$lib/components/ung/NationCard.svelte';
 
     let admission: Admission = $derived(page.data.admission)
     let admin: boolean = $derived(page.data.admin && EnableAdminMode())
+    let me: MemberProfile | null = $derived(page.data.me)
     let edit_mode: boolean = $state(false)
+    let votes: Vote[] = $derived(page.data.votes)
+    let ayes = $derived(votes.filter(v => v.vote).length)
+    let dialog: Dialog
 
     async function Edit(data: AdmissionFormRequestBody) {
         const res = await UŊMakeRequest(`admission/${admission.id}`, 'PATCH', data)
@@ -25,13 +31,39 @@
             case 470: Err('One or more required field is empty!'); break;
         }
     }
+
+    function Vote() {
+        dialog.open().and(async (vote: boolean) => {
+            await UŊMakeRequestAndCheckErr(`admission/${admission.id}/vote/${vote ? 1 : 0}`, 'PUT')
+        })
+    }
 </script>
+
+<Dialog bind:this={dialog} title='Vote'>
+    {#snippet controls()}
+        <button onclick={() => dialog.resolve(true)} class='bg-green-800 text-white'>Aye</button>
+        <button onclick={() => dialog.reject()}>Cancel</button>
+        <button onclick={() => dialog.resolve(false)} class='bg-rose-800 text-white'>No</button>
+    {/snippet}
+    {#snippet content()}
+        <p>Vote in favour of this nation being admitted?</p>
+    {/snippet}
+</Dialog>
 
 <Page name='UŊ'></Page>
 <Stripe>Admission</Stripe>
 <section>
     {#if edit_mode}
-        <EditAdmission data={admission} on_submit={Edit}></EditAdmission>
+        <EditAdmission
+            on_submit={Edit}
+            name={admission.name}
+            ruler={admission.ruler}
+            banner_text={admission.banner_text}
+            banner_url={admission.banner_url}
+            claim_text={admission.claim_text}
+            claim_url={admission.claim_url}
+            trivia={admission.trivia}
+        />
     {:else}
         <h3 class='text-4xl'>{admission.name}</h3>
         {#if admission.ruler}
@@ -50,6 +82,24 @@
                 <img src={admission.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
             </div>
         {/if}
+            <h3 class='text-left'>Votes</h3>
+            <div class=' mb-8'>
+                <p>Ayes: {ayes}, Noes: {votes.length - ayes}</p>
+                <div class='grid gap-4 leading-8 items-center' style='grid-template-columns: auto 1fr'>
+                    {#each votes as vote}
+                        <div><NationCard nation={vote.nation} member={vote.member}/></div>
+                        <div>{vote.vote ? '✅' : '❌'}</div>
+                    {/each}
+                </div>
+
+                {#if admission.closed}
+                    {#if admission.passed}
+                        <p class='mt-4 text-green-600'><strong>ADMITTED</strong></p>
+                    {:else}
+                        <p class='mt-4 text-rose-600'><strong>REJECTED</strong></p>
+                    {/if}
+                {/if}
+            </div>
         <h3 class='mt-12 text-left'>Claims</h3>
         {#if admission.claim_text || admission.claim_url}
             <p>{admission.claim_text}</p>
@@ -67,10 +117,13 @@
             <h3 class='mt-12 text-left'>Description</h3>
             {admission.trivia}
         {/if}
-        {#if admin || (page.data.user.id === admission.author.discord_id)}
-            <div class='flex justify-center'>
+        <div class='flex justify-center gap-8'>
+            {#if !admission.closed && me?.represented_nation && me.discord_id !== admission.author.discord_id}
+                <button onclick={Vote}>Vote</button>
+            {/if}
+            {#if admin || (page.data.user.id === admission.author.discord_id && !admission.closed)}
                 <button onclick={() => edit_mode = true}>Edit</button>
-            </div>
-        {/if}
+            {/if}
+        </div>
     {/if}
 </section>
