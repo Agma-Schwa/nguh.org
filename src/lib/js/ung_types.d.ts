@@ -106,6 +106,23 @@ export type MotionType =
   | "Constitutional";
 
 /**
+ * UŊ Member that represents a ŋation.
+ */
+export type NationMemberProfile = {
+  /**
+   * Whether this member is a ruler of this ŋation, allowing them to add/remove members.
+   */
+  ruler: boolean;
+  discord_id: Snowflake;
+  display_name: string;
+  avatar_url: string;
+  represented_nation: number | null;
+  active: boolean;
+  administrator: boolean;
+  staff_only: boolean;
+};
+
+/**
  * UŊ Ŋation.
  */
 export type Nation = {

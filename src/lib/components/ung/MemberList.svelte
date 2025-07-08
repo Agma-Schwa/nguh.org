@@ -1,13 +1,16 @@
-<script lang='ts'>
-    import Member from '$lib/components/ung/Member.svelte';
+<script lang='ts' module>
     import type {MemberProfile} from '$lib/js/ung_types';
+</script>
+
+<script lang='ts' generics='Profile extends MemberProfile'>
+    import Member from '$lib/components/ung/Member.svelte';
     import XButton from '$lib/components/ung/XButton.svelte';
 
     interface Props {
-        members: MemberProfile[],
+        members: Profile[],
         editable: boolean,
-        can_be_removed(m: MemberProfile): boolean
-        do_remove(m: MemberProfile): void
+        can_be_removed(m: Profile): boolean
+        do_remove(m: Profile): void
     }
 
     let { members, editable, can_be_removed, do_remove }: Props = $props()
