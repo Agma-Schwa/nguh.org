@@ -14,10 +14,20 @@
     }
 
     let { members, editable, can_be_removed, do_remove }: Props = $props()
+
+    // Put rulers first, then administrators, then other members by name. We sort these
+    // here since there may be multiple code paths and queries retrieving members on the
+    // server (and that way less work is happening on the server which is also nice).
+    let members_sorted = $derived(members.toSorted((m1, m2) => {
+        // @ts-ignore
+        if (m1.ruler !== m2.ruler) return +m2.ruler - +m1.ruler
+        if (m1.administrator !== m2.administrator) return +m2.administrator - +m1.administrator
+        return m1.display_name.localeCompare(m2.display_name)
+    }))
 </script>
 
 <div class='flex flex-col gap-2'>
-    {#each members as member}
+    {#each members_sorted as member}
         {@const removable = can_be_removed(member)}
         <div class='flex gap-1'>
             {#if editable}
