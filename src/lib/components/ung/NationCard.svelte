@@ -5,6 +5,7 @@
         id?: number,
         name: string,
         banner_url: string | null,
+        observer?: boolean,
     }
 
     interface Props {
@@ -27,6 +28,7 @@
     </div>
     <span id='name' class='leading-10 text-2xl'>
         {nation.name}
+        {#if nation.observer} 👁️ {/if}
         {#if starred} ⭐ {/if}
     </span>
 </div>

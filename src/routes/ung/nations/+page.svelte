@@ -13,6 +13,7 @@
     let me: MemberProfile | null = $derived(page.data.me);
     let represented: Nation | undefined = $derived(all.find(n => n.id === me?.represented_nation))
     let my_nations: Nation[] = $derived(all.filter(n => page.data.my_nations.includes(n.id) && n.id != me?.represented_nation))
+    let my_non_observer_nations: Nation[] = $derived(my_nations.filter(n => !n.observer))
     let other_nations: Nation[] = $derived(all.filter(n => !page.data.my_nations.includes(n.id)))
     let select_dialog: Dialog
     let selected: string = $state('')
@@ -35,7 +36,7 @@
         This will not affect any past votes.
 
         <select bind:value={selected}>
-            {#each my_nations as nation}
+            {#each my_non_observer_nations as nation}
                 <option value={nation.id}>{nation.name}</option>
             {/each}
         </select>
@@ -51,7 +52,7 @@
 <section class=''>
     {#if my_nations.length !== 0 || represented}
         <h3 class='text-left mb-4'>My Nations</h3>
-        {#if my_nations.length !== 0}
+        {#if my_non_observer_nations.length !== 0}
             <button class='mb-6' onclick={Select}>Set Main Ŋation</button>
         {/if}
         <div class='flex flex-col gap-4'>

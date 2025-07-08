@@ -32,7 +32,11 @@ export type CreateMeetingRequestBody = { date: string };
 
 export type CreateMotion = { type: MotionType; title: string; text: string };
 
-export type EditNation = { name: string; banner_url: string };
+export type EditNation = {
+  name: string;
+  banner_url: string;
+  wiki_page_link: string;
+};
 
 /**
  * An integer value.
@@ -131,7 +135,11 @@ export type Nation = {
   id: number;
   name: string;
   banner_url: string | null;
-  active: boolean;
+  wiki_page_link: string | null;
+  /**
+   * An observer ŋation cannot vote and does not count towards quorums.
+   */
+  observer: boolean;
 };
 
 export type SetMotionMeetingRequestBody = { motion: number; meeting: number };

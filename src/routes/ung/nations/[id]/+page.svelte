@@ -3,7 +3,7 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import type {EditNation, MemberProfile, Nation, NationMemberProfile} from '$lib/js/ung_types';
     import {page} from '$app/state';
-    import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import MemberList from '$lib/components/ung/MemberList.svelte';
@@ -24,6 +24,7 @@
     // Not $derived() because we want to be able to edit it.
     let edit_name: string = $state(nation.name)
     let edit_banner_url: string = $state(nation.banner_url ?? '')
+    let edit_wiki_page: string = $state(nation.wiki_page_link ?? '')
 
     async function AddMember() {
         // Only show members that are not already representatives and not already rulers.
@@ -68,6 +69,7 @@
         const res = await UŊMakeRequest(`nation/${nation.id}`, 'PATCH', {
             name: edit_name,
             banner_url: edit_banner_url,
+            wiki_page_link: edit_wiki_page,
         } satisfies EditNation)
         edit_mode = false
         if (res.ok) await invalidateAll();
@@ -77,6 +79,16 @@
             case 413: Err('One or more fields are too long!'); break;
             case 470: Err('One or more required field is empty!'); break;
         }
+    }
+
+    function ToggleObserver() {
+        Prompt(
+            nation.observer
+                ? 'Promote this ŋation to a full ŋation?'
+                : 'Demote this ŋation to observer status?'
+        ).and(async () => {
+            await UŊMakeRequestAndCheckErr(`admin/nation/${nation.id}/observer/${nation.observer ? 0 : 1}`, 'PATCH')
+        })
     }
 </script>
 
@@ -107,6 +119,9 @@
             <label>Name</label>
             <input type='text' minlength='1' maxlength='200' required bind:value={edit_name}>
 
+            <label>Wiki Page</label>
+            <input type='url' maxlength='6000' bind:value={edit_wiki_page} placeholder='Enter Nguhcraft wiki page URL here...'>
+
             <label>Banner URL</label>
             <input type='url' maxlength='6000' bind:value={edit_banner_url} placeholder='Enter Banner URL here...'>
             {#if URL.canParse(edit_banner_url)}
@@ -125,7 +140,14 @@
             <img src={nation.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
         </div>
 
-        <h2 class='mt-12'>Representatives</h2>
+        {#if nation.observer}
+            <div class='flex justify-center text-2xl mt-8'>
+                <em>This ŋation is an observer ŋation</em>
+                <span class='px-3 py-.5'>👁️</span>
+            </div>
+        {/if}
+
+        <h2 class='mt-8'>Representatives</h2>
         <MemberList
             editable={editor}
             members={reps}
@@ -140,6 +162,13 @@
             {/if}
             {#if my_rep}
                 <button onclick={Leave} class='{my_rep.ruler ? "text-white bg-rose-800" : ""}'>Leave Ŋation</button>
+            {/if}
+            {#if admin}
+                {#if nation.observer}
+                    <button onclick={ToggleObserver} class='text-white bg-green-800'>Promote from Observer</button>
+                {:else}
+                    <button onclick={ToggleObserver} class='text-white bg-rose-800'>Demote to Observer</button>
+                {/if}
             {/if}
         </div>
     {/if}
