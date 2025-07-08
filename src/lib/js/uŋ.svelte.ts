@@ -2,6 +2,7 @@ import {browser} from '$app/environment';
 import {invalidateAll} from '$app/navigation';
 import type {Motion, MotionNoText} from '$lib/js/ung_types';
 import {Err} from '$lib/js/dialog.svelte';
+import markdownit from 'markdown-it'
 
 export function wrap(status: number): Response {
     return new Response(null, { status: status })
@@ -57,3 +58,10 @@ export function GetEmoji(m: MotionNoText): string {
     if (m.locked) return '🔒'
     return ''
 }
+
+
+export const MarkdownInstance = markdownit({
+    html: false,
+    linkify: true,
+    typographer: true,
+})

@@ -4,7 +4,7 @@
     import type {Admission, AdmissionFormRequestBody, MemberProfile, Vote} from '$lib/js/ung_types';
     import {page} from '$app/state';
     import Member from '$lib/components/ung/Member.svelte';
-    import {EnableAdminMode, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
+    import {EnableAdminMode, MarkdownInstance, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
     import EditAdmission from '$lib/components/ung/EditAdmission.svelte';
     import {invalidateAll} from '$app/navigation';
     import {Err} from '$lib/js/dialog.svelte';
@@ -102,7 +102,9 @@
             </div>
         <h3 class='mt-12 text-left'>Claims</h3>
         {#if admission.claim_text || admission.claim_url}
-            <p>{admission.claim_text}</p>
+            {#if admission.claim_text}
+                {@html MarkdownInstance.render(admission.claim_text)}
+            {/if}
             {#if admission.claim_url}
                 <div class='flex justify-center mt-8'>
                     <div class='w-1/2 min-w-5 min-h-5' style='border: var(--ridge-border);'>
@@ -115,9 +117,9 @@
         {/if}
         {#if admission.trivia}
             <h3 class='mt-12 text-left'>Description</h3>
-            {admission.trivia}
+            {@html MarkdownInstance.render(admission.trivia)}
         {/if}
-        <div class='flex justify-center gap-8'>
+        <div class='flex mt-8 justify-center gap-8'>
             {#if !admission.closed && me?.represented_nation && me.discord_id !== admission.author.discord_id}
                 <button onclick={Vote}>Vote</button>
             {/if}

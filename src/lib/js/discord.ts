@@ -55,6 +55,17 @@ export async function MakeBotRequest<T>(
     return await res.json() as T
 }
 
+export async function GetOrDefault<T>(
+    session: Session | null,
+    path: string,
+    default_value: T, /// Returned if the request fails with 401 or 403.
+): Promise<T> {
+    const res = await SendRequestImpl(session, path)
+    if (res.status == 403 || res.status == 401) return default_value
+    if (!res.ok) error(res.status, res.statusText)
+    return await res.json() as T // See above as to why this is ok.
+}
+
 // ===============================================================================
 //  API Routes
 // ===============================================================================
@@ -100,10 +111,11 @@ export async function CheckIsLoggedInAsUŊMember(session: Session | null) {
 }
 
 export async function GetMe(session: Session | null): Promise<MemberProfile | null> {
-    const res = await SendRequestImpl(session, 'me')
-    if (res.status == 403 || res.status == 401) return null
-    if (!res.ok) error(res.status, res.statusText)
-    return await res.json() as MemberProfile // See above as to why this is ok.
+    return await GetOrDefault(session, 'me', null)
+}
+
+export async function GetMyNations(session: Session | null): Promise<number[]> {
+    return await GetOrDefault<number[]>(session, 'me/nations', [])
 }
 
 export async function GetMemberProfile(id: string) {

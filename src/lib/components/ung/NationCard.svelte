@@ -1,8 +1,14 @@
 <script lang='ts'>
-    import type {MemberProfile, Nation} from '$lib/js/ung_types';
+    import type {MemberProfile} from '$lib/js/ung_types';
+
+    interface NationPartial {
+        id?: number,
+        name: string,
+        banner_url: string | null,
+    }
 
     interface Props {
-        nation: Nation;
+        nation: NationPartial;
         member?: MemberProfile;
         links?: boolean;
         starred?: boolean,
@@ -14,7 +20,7 @@
 {#snippet card()}
 <div class='flex gap-2 wrapper'>
     <div class='relative'>
-        <img src={nation.flag_url} class='nation-flag non-previewable-icon'>
+        <img src={nation.banner_url} class='nation-flag non-previewable-icon'>
         {#if member}
             <img src='{member.avatar_url}' class='member-image non-previewable-icon'>
         {/if}
@@ -26,7 +32,7 @@
 </div>
 {/snippet}
 
-{#if links}
+{#if links && nation.id}
     <a href='/ung/nations/{nation.id}'>{@render card()}</a>
 {:else}
     {@render card()}

@@ -128,7 +128,7 @@ export type NationMemberProfile = {
 export type Nation = {
   id: number;
   name: string;
-  flag_url: string | null;
+  banner_url: string | null;
   active: boolean;
 };
 

@@ -1,8 +1,3 @@
-<script lang='ts' module>
-    import markdownit from 'markdown-it'
-    const md = markdownit()
-</script>
-
 <script lang='ts'>
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
@@ -13,7 +8,7 @@
         EnableAdminMode,
         EnableMotion,
         GetEmoji,
-        LockMotion,
+        LockMotion, MarkdownInstance,
         UŊMakeRequest,
         UŊMakeRequestAndCheckErr
     } from '$lib/js/uŋ.svelte';
@@ -185,7 +180,7 @@
             </div>
         {/if}
         <div id='ung-motion-text'>
-            {@html md.render(motion.text)}
+            {@html MarkdownInstance.render(motion.text)}
         </div>
         <div class='flex mt-8 justify-center gap-10'>
             {#if
