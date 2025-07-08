@@ -202,13 +202,15 @@
                 <button onclick={() => LockMotion(motion.id, !motion.locked)}>
                     {motion.locked ? 'Unlock' : 'Lock'}
                 </button>
-                <button
-                    onclick={() => EnableMotion(motion.id, !motion.enabled)}
-                    disabled={page.data.absentia}
-                    title={page.data.absentia ? 'Must disable in-absentia voting first!' : ''}
-                >
-                    {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
-                </button>
+                {#if data.active && motion.meeting === data.active}
+                    <button
+                        onclick={() => EnableMotion(motion.id, !motion.enabled)}
+                        disabled={page.data.absentia}
+                        title={page.data.absentia ? 'Must disable in-absentia voting first!' : ''}
+                    >
+                        {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
+                    </button>
+                {/if}
                 {#if votes.length !== 0}
                     <button onclick={ResetVotes}>
                         Reset Votes

@@ -43,15 +43,11 @@ export async function UŊMakeRequestAndCheckErr(
 }
 
 export async function LockMotion(motion: number, locked: boolean) {
-    const res = await UŊMakeRequest(`admin/motion/${motion}/lock/${locked ? 1 : 0}`, 'PATCH')
-    if (res.ok) await invalidateAll();
-    else console.error(`Failed to lock motion: ${res.status} ${await res.text()}`)
+    await UŊMakeRequestAndCheckErr(`admin/motion/${motion}/lock/${locked ? 1 : 0}`, 'PATCH')
 }
 
 export async function EnableMotion(motion: number, enabled: boolean) {
-    const res = await UŊMakeRequest(`admin/motion/${motion}/enable/${enabled ? 1 : 0}`, 'PATCH')
-    if (res.ok) await invalidateAll();
-    else console.error(`Failed to enable motion: ${res.status} ${await res.text()}`)
+    await UŊMakeRequestAndCheckErr(`admin/motion/${motion}/enable/${enabled ? 1 : 0}`, 'PATCH')
 }
 
 export function GetEmoji(m: MotionNoText): string {

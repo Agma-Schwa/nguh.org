@@ -15,6 +15,7 @@
     let my_nations: Nation[] = $derived(all.filter(n => page.data.my_nations.includes(n.id) && n.id != me?.represented_nation))
     let my_non_observer_nations: Nation[] = $derived(my_nations.filter(n => !n.observer))
     let other_nations: Nation[] = $derived(all.filter(n => !page.data.my_nations.includes(n.id)))
+    let active = $derived(page.data.nations.filter(n => !n.observer).length)
     let select_dialog: Dialog
     let selected: string = $state('')
 
@@ -50,6 +51,7 @@
 <Page name='UŊ'></Page>
 <Stripe>Ŋations</Stripe>
 <section class=''>
+    <p class='text-center'>Active Ŋations: {active}, Observer Ŋations: {page.data.nations.length - active}</p>
     {#if my_nations.length !== 0 || represented}
         <h3 class='text-left mb-4'>My Nations</h3>
         {#if my_non_observer_nations.length !== 0}
