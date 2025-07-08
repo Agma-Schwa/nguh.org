@@ -89,7 +89,7 @@
     <MemberList
         editable={editor}
         members={reps}
-        can_be_removed={m => !m.ruler}
+        can_be_removed={m => admin || !m.ruler}
         do_remove={m => RemoveMember(m)}
     />
 
