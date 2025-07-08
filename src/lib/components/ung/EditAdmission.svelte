@@ -1,6 +1,6 @@
 <script lang='ts'>
-    import {enhance} from '$app/forms';
     import type {AdmissionFormRequestBody} from '$lib/js/ung_types';
+    import {form} from '$lib/js/uŋ.svelte';
 
     interface Props {
         on_submit(data: AdmissionFormRequestBody, form: HTMLFormElement): void,
@@ -25,15 +25,13 @@
     }: Props = $props();
     let claim_url_valid = $derived(URL.canParse(claim_url))
 
-    async function OnSubmit({ cancel, formElement }: { cancel: () => void, formElement: HTMLFormElement }) {
-        cancel()
-        if (!formElement.reportValidity()) return
-        on_submit({name, ruler, banner_text, banner_url, claim_text, claim_url, trivia}, formElement)
+    async function OnSubmit(form: HTMLFormElement) {
+        on_submit({name, ruler, banner_text, banner_url, claim_text, claim_url, trivia}, form)
     }
 </script>
 
 <section>
-    <form method='POST' use:enhance={OnSubmit}>
+    <form method='POST' use:form={OnSubmit}>
         <label>Country Name*</label>
         <input type='text' minlength='1' maxlength='200' required bind:value={name}>
 

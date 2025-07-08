@@ -1,7 +1,6 @@
 <script lang='ts'>
-    import {enhance} from '$app/forms';
     import type {CreateMotion, MotionType} from '$lib/js/ung_types';
-    import {clamp} from '$lib/js/dialog.svelte';
+    import {form} from '$lib/js/uŋ.svelte';
 
     interface Props {
         on_submit: (data: CreateMotion) => void
@@ -17,9 +16,7 @@
         text = $bindable(),
     }: Props = $props()
 
-    function OnSubmit({ cancel, formElement }: { cancel: () => void, formElement: HTMLFormElement }) {
-        cancel()
-        if (!formElement.reportValidity()) return
+    function OnSubmit() {
         on_submit({
             type: type as MotionType,
             title: title.normalize('NFC'),
@@ -29,7 +26,7 @@
 </script>
 
 <section>
-    <form method='POST' use:enhance={OnSubmit}>
+    <form method='POST' use:form={OnSubmit}>
         <label>Type</label>
         <select bind:value={type} name='type' required>
             <option value='Unsure'>Unsure</option>

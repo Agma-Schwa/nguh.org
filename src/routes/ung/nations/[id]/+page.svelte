@@ -1,13 +1,14 @@
 <script lang='ts'>
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
-    import type {MemberProfile, Nation, NationMemberProfile} from '$lib/js/ung_types';
+    import type {EditNation, MemberProfile, Nation, NationMemberProfile} from '$lib/js/ung_types';
     import {page} from '$app/state';
     import {EnableAdminMode, UŊMakeRequest} from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
     import MemberList from '$lib/components/ung/MemberList.svelte';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
+    import {form} from '$lib/js/uŋ.svelte';
 
     let add_member: Dialog
     let nation: Nation = $derived(page.data.nation)
@@ -18,6 +19,11 @@
     let selected_member: string = $state('')
     let ruler_checkbox: boolean = $state(false)
     let editor = $derived(admin || my_rep?.ruler)
+    let edit_mode: boolean = $state(false)
+
+    // Not $derived() because we want to be able to edit it.
+    let edit_name: string = $state(nation.name)
+    let edit_banner_url: string = $state(nation.banner_url ?? '')
 
     async function AddMember() {
         // Only show members that are not already representatives and not already rulers.
@@ -57,6 +63,21 @@
     async function Leave() {
         if (my_rep) await RemoveMember(my_rep)
     }
+
+    async function Edit() {
+        const res = await UŊMakeRequest(`nation/${nation.id}`, 'PATCH', {
+            name: edit_name,
+            banner_url: edit_banner_url,
+        } satisfies EditNation)
+        edit_mode = false
+        if (res.ok) await invalidateAll();
+        else switch (res.status) {
+            default: Err(`Unexpected Error ${res.status}: ${await res.text()}`); break
+            case 423: Err('Inactive ŋations cannot be modified'); break
+            case 413: Err('One or more fields are too long!'); break;
+            case 470: Err('One or more required field is empty!'); break;
+        }
+    }
 </script>
 
 <Dialog title='Add Member' bind:this={add_member}>
@@ -81,24 +102,45 @@
 <Page name='UŊ'></Page>
 <Stripe>{nation.name}</Stripe>
 <section>
-    <div class='flex'>
-        <img src={nation.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
-    </div>
+    {#if edit_mode}
+        <form method='POST' use:form={Edit}>
+            <label>Name</label>
+            <input type='text' minlength='1' maxlength='200' required bind:value={edit_name}>
 
-    <h2 class='mt-12'>Representatives</h2>
-    <MemberList
-        editable={editor}
-        members={reps}
-        can_be_removed={m => admin || !m.ruler}
-        do_remove={m => RemoveMember(m)}
-    />
+            <label>Banner URL</label>
+            <input type='url' maxlength='6000' bind:value={edit_banner_url} placeholder='Enter Banner URL here...'>
+            {#if URL.canParse(edit_banner_url)}
+                <div class='flex justify-center mt-8'>
+                    <img src={edit_banner_url} alt='Map Image' class='w-20 non-previewable-icon' />
+                </div>
+            {/if}
 
-    <div class='flex gap-4'>
-        {#if editor}
-            <button onclick={AddMember} class='mt-4'>Add Member</button>
-        {/if}
-        {#if my_rep}
-            <button onclick={Leave} class='mt-4 {my_rep.ruler ? "text-white bg-rose-800" : ""}'>Leave Ŋation</button>
-        {/if}
-    </div>
+            <div class='flex justify-center mt-6 -mb-8 gap-8'>
+                <input type='submit' value='Update' class='w-32 border-none' />
+                <button onclick={() => edit_mode = false}>Cancel</button>
+            </div>
+        </form>
+    {:else}
+        <div class='flex'>
+            <img src={nation.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
+        </div>
+
+        <h2 class='mt-12'>Representatives</h2>
+        <MemberList
+            editable={editor}
+            members={reps}
+            can_be_removed={m => admin || !m.ruler}
+            do_remove={m => RemoveMember(m)}
+        />
+
+        <div class='flex gap-4 mt-4'>
+            {#if editor}
+                <button onclick={AddMember}>Add Member</button>
+                <button onclick={() => edit_mode = true}>Edit Ŋation</button>
+            {/if}
+            {#if my_rep}
+                <button onclick={Leave} class='{my_rep.ruler ? "text-white bg-rose-800" : ""}'>Leave Ŋation</button>
+            {/if}
+        </div>
+    {/if}
 </section>

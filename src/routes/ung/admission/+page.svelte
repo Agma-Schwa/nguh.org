@@ -51,7 +51,7 @@
             case 401: Err('You must be logged in to fill in this form'); break
             case 403: Err('You must be a member of the minecraft server to fill in this form'); break
             case 409: Err('You can’t create a new ŋation if you’re already the ruler of a different one.'); break
-            case 413: Err('One or more fields is too long!'); break;
+            case 413: Err('One or more fields are too long!'); break;
             case 470: Err('One or more required field is empty!'); break;
             case 471: Err('You already have an open admission!'); break;
         }

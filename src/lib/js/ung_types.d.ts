@@ -32,6 +32,8 @@ export type CreateMeetingRequestBody = { date: string };
 
 export type CreateMotion = { type: MotionType; title: string; text: string };
 
+export type EditNation = { name: string; banner_url: string };
+
 /**
  * An integer value.
  */

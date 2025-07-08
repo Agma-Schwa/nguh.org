@@ -27,7 +27,7 @@
             default: Err(`Error ${res.status}`); break
             case 401: Err('You must be logged in to fill in this form'); break
             case 403: Err('You don’t have the permissions to edit this admission!'); break
-            case 413: Err('One or more fields is too long!'); break;
+            case 413: Err('One or more fields are too long!'); break;
             case 470: Err('One or more required field is empty!'); break;
         }
     }

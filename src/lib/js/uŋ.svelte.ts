@@ -3,6 +3,8 @@ import {invalidateAll} from '$app/navigation';
 import type {Motion, MotionNoText} from '$lib/js/ung_types';
 import {Err} from '$lib/js/dialog.svelte';
 import markdownit from 'markdown-it'
+import type {Action} from 'svelte/action';
+import {enhance} from '$app/forms';
 
 export function wrap(status: number): Response {
     return new Response(null, { status: status })
@@ -13,6 +15,7 @@ export function EnableAdminMode() {
 }
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+type FormSubmitData = { cancel: () => void, formElement: HTMLFormElement }
 
 export async function UŊMakeRequest(
     backend_path: string,
@@ -59,6 +62,14 @@ export function GetEmoji(m: MotionNoText): string {
     return ''
 }
 
+export const form: Action<HTMLFormElement, (form: HTMLFormElement) => void> = (
+    form,
+    cb
+) => enhance(form, ({ cancel, formElement} : FormSubmitData) => {
+    cancel()
+    if (!formElement.reportValidity()) return
+    cb(formElement)
+})
 
 export const MarkdownInstance = markdownit({
     html: false,
