@@ -156,7 +156,7 @@
             {@const ayes = votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
             <div class=' mb-8'>
-                <p>Ayes: {ayes}, Noes: {votes.length - ayes}, Quorum: {motion.quorum}</p>
+                <p>Ayes: {ayes}, Noes: {votes.length - ayes}{#if !data.absentia}, Quorum: {motion.quorum}{/if}</p>
                 <div class='grid gap-4 leading-8 items-center' style='grid-template-columns: auto 1fr'>
                     {#each votes as vote}
                         <div><NationCard nation={vote.nation} member={vote.member}/></div>

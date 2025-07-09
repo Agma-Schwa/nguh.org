@@ -79,7 +79,7 @@
         </div>
         {#if admission.banner_url}
             <div class='flex mt-8'>
-                <img src={admission.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
+                <img src={admission.banner_url} class='w-32 mx-auto banner'>
             </div>
         {/if}
             <h3 class='text-left'>Votes</h3>

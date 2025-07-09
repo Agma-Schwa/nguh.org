@@ -54,7 +54,7 @@
         <input type='url' maxlength='6000' bind:value={banner_url} placeholder='Enter Banner URL here...'>
         {#if URL.canParse(banner_url)}
             <div class='flex justify-center mt-8'>
-                <img src={banner_url} alt='Map Image' class='w-20 non-previewable-icon' />
+                <img src={banner_url} alt='Map Image' class='w-20 non-previewable-icon banner' />
             </div>
         {/if}
 

@@ -126,7 +126,7 @@
             <input type='url' maxlength='6000' bind:value={edit_banner_url} placeholder='Enter Banner URL here...'>
             {#if URL.canParse(edit_banner_url)}
                 <div class='flex justify-center mt-8'>
-                    <img src={edit_banner_url} alt='Map Image' class='w-20 non-previewable-icon' />
+                    <img src={edit_banner_url} alt='Map Image' class='w-20 non-previewable-icon banner' />
                 </div>
             {/if}
 
@@ -137,7 +137,7 @@
         </form>
     {:else}
         <div class='flex'>
-            <img src={nation.banner_url} class='w-32 mx-auto' style='image-rendering: crisp-edges;'>
+            <img src={nation.banner_url} class='w-32 mx-auto banner'>
         </div>
 
         {#if nation.observer}
