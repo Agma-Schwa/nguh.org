@@ -146,8 +146,11 @@
                 <span class='px-3 py-.5'>👁️</span>
             </div>
         {/if}
+        {#if nation.wiki_page_link}
+            <a href={nation.wiki_page_link} class='text-center block mt-6 text-2xl'>View Wiki Page</a>
+        {/if}
 
-        <h2 class='mt-8'>Representatives</h2>
+        <h3 class='my-8 text-left'>Representatives</h3>
         <MemberList
             editable={editor}
             members={reps}
@@ -155,7 +158,7 @@
             do_remove={m => RemoveMember(m)}
         />
 
-        <div class='flex gap-4 mt-4'>
+        <div class='flex gap-4 mt-12'>
             {#if editor}
                 <button onclick={AddMember}>Add Member</button>
                 <button onclick={() => edit_mode = true}>Edit Ŋation</button>
