@@ -7,10 +7,12 @@
     import {UŊMakeRequest} from '$lib/js/uŋ.svelte.js';
     import {Err} from '$lib/js/dialog.svelte.js';
     import {goto} from '$app/navigation';
+    import {page} from '$app/state';
 
     let type = Persist('ung.motion.form.type', 'none')
     let title = Persist('ung.motion.form.title', '')
     let text = Persist('ung.motion.form.text', '')
+    let me = $derived(page.data.me)
 
     async function Create(data: CreateMotion) {
         const res = await UŊMakeRequest('motion', 'POST', data)
@@ -24,9 +26,13 @@
 
 <Page name='UŊ' />
 <Stripe>Submit a Motion</Stripe>
-<EditMotion
-    on_submit={Create}
-    bind:type={type.value}
-    bind:title={title.value}
-    bind:text={text.value}
-/>
+{#if me}
+    <EditMotion
+        on_submit={Create}
+        bind:type={type.value}
+        bind:title={title.value}
+        bind:text={text.value}
+    />
+{:else}
+    <section>You must be a UŊ member to create motions.</section>
+{/if}

@@ -22,7 +22,6 @@
 
     <h3 class='text-left'>Lists</h3>
     <div class='flex flex-col'>
-        <a href='/ung/meeting'>Current Meeting</a>
         <a href='/ung/members'>Members</a>
         <a href='/ung/nations'>Ŋations</a>
         <a href='/ung/motions'>Motions</a>
