@@ -45,8 +45,8 @@
         })
     }
 
-    function ResetVotes() {
-        Prompt('Reset this motion’s votes? THIS CANNOT BE UNDONE!').and(async () => {
+    function Reset() {
+        Prompt('Completely reset this motion’s state and votes? THIS CANNOT BE UNDONE!').and(async () => {
             await UŊMakeRequestAndCheckErr(`admin/motion/${motion.id}/reset`, 'POST')
         })
     }
@@ -211,9 +211,9 @@
                         {motion.enabled ? 'Disable Voting' : 'Enable Voting'}
                     </button>
                 {/if}
-                {#if votes.length !== 0}
-                    <button onclick={ResetVotes}>
-                        Reset Votes
+                {#if votes.length !== 0 || motion.closed}
+                    <button onclick={Reset} class='bg-rose-800 text-white'>
+                        Reset
                     </button>
                 {/if}
             {:else if owner_can_edit}
