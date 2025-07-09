@@ -45,6 +45,12 @@
         })
     }
 
+    function CloseAsRejected() {
+        Prompt('Forcefully close this motion? This will cause it to be rejected!').and(async () => {
+            await UŊMakeRequestAndCheckErr(`admin/motion/${motion.id}/close`, 'POST')
+        })
+    }
+
     function Reset() {
         Prompt('Completely reset this motion’s state and votes? THIS CANNOT BE UNDONE!').and(async () => {
             await UŊMakeRequestAndCheckErr(`admin/motion/${motion.id}/reset`, 'POST')
@@ -152,7 +158,7 @@
                 <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
             {/if}
         </div>
-        {#if votes.length !== 0 || motion.enabled}
+        {#if votes.length !== 0 || motion.enabled || motion.closed}
             {@const ayes = votes.filter(v => v.vote).length}
             <h3 class='text-left'>Votes</h3>
             <div class=' mb-8'>
@@ -214,6 +220,11 @@
                 {#if votes.length !== 0 || motion.closed}
                     <button onclick={Reset} class='bg-rose-800 text-white'>
                         Reset
+                    </button>
+                {/if}
+                {#if !motion.closed}
+                    <button onclick={CloseAsRejected} class='bg-rose-800 text-white'>
+                        Close as Rejected
                     </button>
                 {/if}
             {:else if owner_can_edit}
