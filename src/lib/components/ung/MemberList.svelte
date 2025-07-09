@@ -22,7 +22,9 @@
         // @ts-ignore
         if (m1.ruler !== m2.ruler) return +m2.ruler - +m1.ruler
         if (m1.administrator !== m2.administrator) return +m2.administrator - +m1.administrator
-        return m1.display_name.localeCompare(m2.display_name)
+        let name1 = m1.display_name.normalize('NFKC').toLowerCase();
+        let name2 = m2.display_name.normalize('NFKC').toLowerCase();
+        return name1.localeCompare(name2)
     }))
 </script>
 
