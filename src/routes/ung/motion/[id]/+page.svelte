@@ -146,7 +146,7 @@
             </div>
         </div>
         <div class='flex mb-8'>
-            {#if votes.length !== 0 && !motion.enabled}
+            {#if votes.length !== 0 && motion.closed}
                 <span class='italic m-auto'>Voted on During Meeting #{motion.meeting}</span>
             {:else if motion.meeting}
                 <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
