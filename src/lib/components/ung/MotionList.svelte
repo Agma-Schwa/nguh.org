@@ -54,7 +54,7 @@
 
     <Dialog
         bind:this={schedule}
-        title='Schedule Meeting'
+        title={'Schedule Meeting'}
         {controls}
         {content}
     />
@@ -62,7 +62,7 @@
 
 <div id='motion-grid'>
     {#each motions as motion}
-        <div><Member member='{members.find(m => m.discord_id === motion.author)}' /></div>
+        <div><Member member={members.find(m => m.discord_id === motion.author)} /></div>
         <a href='/ung/motion/{motion.id}' class='overflow-x-hidden'>
             <span class='{motion.closed ? "line-through text-gray-500" : ""}'>
                 {motion.title}

@@ -5,7 +5,7 @@
 
     const logged_in = !!page.data.user;
 </script>
-<Page name='Sign In'>Sign In</Page>
+<Page name='Sign In' />
 
 {#if !logged_in}
     <Stripe>Login</Stripe>

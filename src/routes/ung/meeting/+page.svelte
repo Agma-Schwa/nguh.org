@@ -16,8 +16,8 @@
     let motions: MotionNoText[] = $derived(page.data.motions.filter(m => m.meeting === page.data.running))
     let participants: MeetingParticipant[] = $derived(page.data.participants)
     let me = $derived(members.find(m => m.discord_id === page.data.user.id))
-    let name: string = ''
-    let active: string = ''
+    let name: string = $state('')
+    let active: string = $state('')
 
     function HandleStartEndResponse(res: Response, enable?: boolean) {
         switch (res.status) {
