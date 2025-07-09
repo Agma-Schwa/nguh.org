@@ -32,6 +32,12 @@
         }
     }
 
+    function Pass() {
+        Prompt(`Pass the admission for ${admission.name}?`).and(async () => {
+            await UŊMakeRequestAndCheckErr(`admin/admission/${admission.id}/pass`, 'POST')
+        })
+    }
+
     function Delete() {
         Prompt("Are you sure you want to delete your admission? This cannot be undone!").and(async () => {
             await UŊMakeRequestAndCheckErr(`admission/${admission.id}`, 'DELETE')
@@ -132,6 +138,9 @@
             {/if}
             {#if admin || (page.data.user.id === admission.author.discord_id && !admission.closed)}
                 <button onclick={() => edit_mode = true}>Edit</button>
+                {#if admin}
+                    <button onclick={Pass} class='text-white bg-green-800'>Pass Admission</button>
+                {/if}
                 <button onclick={Delete} class='text-white bg-rose-800'>Delete Admission</button>
             {/if}
         </div>
