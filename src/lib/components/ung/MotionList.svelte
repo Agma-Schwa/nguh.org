@@ -67,8 +67,8 @@
             <span class='{motion.closed ? "line-through text-gray-500" : ""}'>
                 {motion.title}
                 [<span style='font-variant: small-caps'>{motion.type}</span>]
-                <span>{GetEmoji(motion)}</span>
             </span>
+            <span>{GetEmoji(motion)}</span>
         </a>
         {#if interactive}
             <div class='flex flex-row justify-end gap-2'>

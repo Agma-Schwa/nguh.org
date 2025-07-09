@@ -12,7 +12,7 @@
     let all: Nation[] = $derived(page.data.nations)
     let me: MemberProfile | null = $derived(page.data.me);
     let represented: Nation | undefined = $derived(all.find(n => n.id === me?.represented_nation))
-    let my_nations: Nation[] = $derived(all.filter(n => page.data.my_nations.includes(n.id) && n.id != me?.represented_nation))
+    let my_nations: Nation[] = $derived(all.filter(n => page.data.my_nations.includes(n.id) && n.id !== me?.represented_nation))
     let my_non_observer_nations: Nation[] = $derived(my_nations.filter(n => !n.observer))
     let other_nations: Nation[] = $derived(all.filter(n => !page.data.my_nations.includes(n.id)))
     let active = $derived(page.data.nations.filter(n => !n.observer).length)

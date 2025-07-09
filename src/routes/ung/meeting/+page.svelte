@@ -59,7 +59,7 @@
     }
 
     async function Join() {
-        if (me) await UŊMakeRequestAndCheckErr(`participant/${me.represented_nation}`, 'PUT')
+        if (me?.represented_nation) await UŊMakeRequestAndCheckErr(`participant/${me.represented_nation}`, 'PUT')
     }
 
     async function RemoveParticipant(m: MeetingParticipant) {
@@ -129,17 +129,19 @@
     <Stripe>Participants</Stripe>
     <section>
         <!-- TODO: Allow a member who has voted in absentia to join, which clears ALL their in-absentia votes -->
-        {#if !my_part}
-            <div class='flex'>
-                <button class='mb-6 mx-auto' onclick={Join}>Join Meeting</button>
-            </div>
-        {:else if !my_part.absentee_voter}
-            <div class='flex'>
-                <button class='mb-6 mx-auto' onclick={() => RemoveParticipant(my_part) }>Leave Meeting</button>
-            </div>
+        {#if me?.represented_nation}
+            {#if !my_part}
+                <div class='flex'>
+                    <button class='mb-6 mx-auto' onclick={Join}>Join Meeting</button>
+                </div>
+            {:else if !my_part.absentee_voter}
+                <div class='flex'>
+                    <button class='mb-6 mx-auto' onclick={() => RemoveParticipant(my_part) }>Leave Meeting</button>
+                </div>
+            {/if}
         {/if}
         {#each sorted as participant}
-            <div class='flex flex-row items-center gap-1.5'>
+            <div class='flex flex-row items-center gap-1.5 mt-4'>
                 {#if admin}
                     <XButton
                         enabled={!participant.absentee_voter}

@@ -26,7 +26,7 @@
     let admin = $derived(page.data.admin && EnableAdminMode())
     let owner_can_edit = $derived(!motion.locked && motion.author === page.data.user.id)
     let votes: Vote[] = $derived(data.votes)
-    let voted: boolean = $derived(votes.find(v => v.nation.id === me?.represented_nation) !== null)
+    let voted: boolean = $derived(Boolean(votes.find(v => v.nation.id === me?.represented_nation)))
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();

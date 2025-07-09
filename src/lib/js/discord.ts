@@ -80,7 +80,7 @@ export async function CheckIsLoggedIn(session: Session | null, path: string, den
 
     // If we couldn't query this, there is something wrong w/ the login data probably; so
     // just log the user out.
-    if (!res.ok && res.status != 401 && res.status != 403) {
+    if (!res.ok && res.status !== 401 && res.status !== 403) {
         // Don't log out in dev mode since that's a bit annoying.
         if (dev) {
             console.error("Logout requested")
