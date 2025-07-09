@@ -6,8 +6,8 @@
     import Member from '$lib/components/ung/Member.svelte';
     import {EnableAdminMode, MarkdownInstance, UŊMakeRequest, UŊMakeRequestAndCheckErr} from '$lib/js/uŋ.svelte';
     import EditAdmission from '$lib/components/ung/EditAdmission.svelte';
-    import {invalidateAll} from '$app/navigation';
-    import {Err} from '$lib/js/dialog.svelte';
+    import {goto, invalidateAll} from '$app/navigation';
+    import {Err, Prompt} from '$lib/js/dialog.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import NationCard from '$lib/components/ung/NationCard.svelte';
 
@@ -30,6 +30,13 @@
             case 413: Err('One or more fields are too long!'); break;
             case 470: Err('One or more required field is empty!'); break;
         }
+    }
+
+    function Delete() {
+        Prompt("Are you sure you want to delete your admission? This cannot be undone!").and(async () => {
+            await UŊMakeRequestAndCheckErr(`admission/${admission.id}`, 'DELETE')
+            await goto('/ung/admissions', { replaceState: true, invalidateAll: true})
+        })
     }
 
     function Vote() {
@@ -125,6 +132,7 @@
             {/if}
             {#if admin || (page.data.user.id === admission.author.discord_id && !admission.closed)}
                 <button onclick={() => edit_mode = true}>Edit</button>
+                <button onclick={Delete} class='text-white bg-rose-800'>Delete Admission</button>
             {/if}
         </div>
     {/if}
