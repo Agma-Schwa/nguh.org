@@ -65,6 +65,14 @@
     async function RemoveParticipant(m: MeetingParticipant) {
         await UŊMakeRequestAndCheckErr(`participant/${m.nation.id}`, 'DELETE')
     }
+
+    function ClearInAbsentiaVotes(m: MeetingParticipant) {
+        Prompt(
+            `Delete ALL of ${m.nation.name}’s pending in-absentia votes for the current meeting?`
+        ).and(async () => {
+            await UŊMakeRequestAndCheckErr(`participant/${m.nation.id}/absentia`, 'DELETE')
+        })
+    }
 </script>
 
 <Page name='UŊ' />
@@ -134,6 +142,10 @@
             {:else if !my_part.absentee_voter}
                 <div class='flex'>
                     <button class='mb-6 mx-auto' onclick={() => RemoveParticipant(my_part) }>Leave Meeting</button>
+                </div>
+            {:else}
+                <div class='flex'>
+                    <button class='mb-6 mx-auto' onclick={() => ClearInAbsentiaVotes(my_part)}>Clear In-Absentia Votes</button>
                 </div>
             {/if}
         {/if}
