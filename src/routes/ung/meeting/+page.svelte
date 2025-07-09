@@ -92,9 +92,6 @@
                 No meeting is currently active.
                 {#if !admin} Please wait until an administrator creates the next meeting. {/if}
             </p>
-            {#if admin}
-                <p> Looks like you have admin privileges! To start a meeting, press 'Set Active Meeting' below. </p>
-            {/if}
         {:else}
             <h3>Agenda for Meeting #{page.data.running}</h3>
             <MotionList

@@ -12,6 +12,9 @@
 <Page name='UŊ' />
 <Stripe>Open Admissions</Stripe>
 <section>
+    {#if admissions.length === 0}
+        <p>There are no open admissions at the moment.</p>
+    {/if}
     {#each admissions as admission}
         <div class='grid gap-8' style='grid-template-columns: auto 1fr'>
             <a href='/ung/admission/{admission.id}'>
