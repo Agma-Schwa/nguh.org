@@ -14,6 +14,7 @@
     let meetings: Meeting[] = $derived(page.data.meetings)
     let members: MemberProfile[] = $derived(page.data.members)
     let motions: MotionNoText[] = $derived(page.data.motions.filter(m => m.meeting === page.data.running))
+    let active_meeting: Meeting | undefined = $derived(meetings.find(m => m.id === page.data.running))
     let participants: MeetingParticipant[] = $derived(page.data.participants)
     let me = $derived(members.find(m => m.discord_id === page.data.user.id))
     let name: string = $state('')
@@ -79,7 +80,7 @@
 <Stripe>Meeting</Stripe>
 
 <section>
-    {#if admin && page.data.running}
+    {#if admin && active_meeting}
         <div class='flex justify-center gap-8 mb-8'>
             <button onclick={EndMeeting}>End Meeting</button>
             {#if motions.find(m => !m.locked)}
@@ -95,28 +96,29 @@
     {/if}
 
     <div class='mb-5'>
-        {#if !page.data.running}
+        {#if !active_meeting}
             <p>
                 No meeting is currently active.
                 {#if !admin} Please wait until an administrator creates the next meeting. {/if}
             </p>
         {:else}
-            <h3>Agenda for Meeting #{page.data.running}</h3>
+            <h3>Agenda for Meeting {active_meeting.name}</h3>
             <MotionList
                 interactive={false}
                 {motions}
                 {members}
+                {meetings}
             />
         {/if}
     </div>
 
-    {#if admin && !page.data.running}
+    {#if admin && !active_meeting}
         <div class='admin-buttons'>
             <div>
                 <button onclick={SetActiveMeeting}>Set Active Meeting</button>
                 <select bind:value={active}>
                     {#each meetings as meeting}
-                        <option value='{meeting.id}'>#{meeting.id} — {meeting.name}</option>
+                        <option value='{meeting.id}'>{meeting.name}</option>
                     {/each}
                 </select>
             </div>
@@ -128,7 +130,7 @@
     {/if}
 </section>
 
-{#if page.data.running && !page.data.absentia}
+{#if active_meeting && !page.data.absentia}
     {@const my_part = participants.find(p => p.nation.id === me?.represented_nation)}
     {@const sorted = my_part ? [my_part, ...participants.filter(p => p !== my_part)] : participants}
     <Stripe>Participants</Stripe>

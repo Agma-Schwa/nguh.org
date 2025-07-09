@@ -14,7 +14,7 @@
     } from '$lib/js/uŋ.svelte';
     import Dialog from '$lib/components/dialog/Dialog.svelte';
     import {goto, invalidateAll} from '$app/navigation';
-    import type {CreateMotion, MemberProfile, Motion, Vote} from '$lib/js/ung_types';
+    import type {CreateMotion, Meeting, MemberProfile, Motion, Vote} from '$lib/js/ung_types';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
     import NationCard from '$lib/components/ung/NationCard.svelte';
 
@@ -27,6 +27,7 @@
     let owner_can_edit = $derived(!motion.locked && motion.author === page.data.user.id)
     let votes: Vote[] = $derived(data.votes)
     let voted: boolean = $derived(Boolean(votes.find(v => v.nation.id === me?.represented_nation)))
+    let meeting: Meeting | undefined = $derived(page.data.meetings.find(m => m.id === motion.meeting))
 
     function BeforeUnload(e: BeforeUnloadEvent) {
         if (edit_mode) e.preventDefault();
@@ -147,9 +148,9 @@
         </div>
         <div class='flex mb-8'>
             {#if votes.length !== 0 && motion.closed}
-                <span class='italic m-auto'>Voted on During Meeting #{motion.meeting}</span>
-            {:else if motion.meeting}
-                <span class='italic m-auto'>Scheduled for Meeting #{motion.meeting}</span>
+                <span class='italic m-auto'>Voted on During Meeting {meeting?.name}</span>
+            {:else if meeting}
+                <span class='italic m-auto'>Scheduled for Meeting {meeting.name}</span>
             {/if}
         </div>
         {#if votes.length !== 0 || motion.enabled || motion.closed}

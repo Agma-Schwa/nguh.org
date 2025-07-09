@@ -1,4 +1,5 @@
 import {
+    GetAllMeetings,
     GetCurrentMeeting, GetMe,
     GetMemberProfile,
     GetMotion,
@@ -16,12 +17,14 @@ export async function load(event) {
         active,
         votes,
         absentia,
+        meetings,
     ] = await Promise.all([
         GetMe(session),
         GetMemberProfile(motion.author),
         GetCurrentMeeting(),
         MakeBotRequest<Vote[]>(null, `motion/${motion.id}/votes`),
         InAbsentiaVotingEnabled(),
+        GetAllMeetings(),
     ])
-    return { me, motion, author, votes, active, absentia }
+    return { me, motion, author, votes, active, absentia, meetings }
 }

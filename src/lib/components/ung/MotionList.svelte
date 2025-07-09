@@ -10,14 +10,14 @@
         interactive: boolean
         motions: MotionNoText[],
         members: MemberProfile[],
-        meetings?: Meeting[],
+        meetings: Meeting[],
     }
 
     let {
         interactive,
         motions,
         members,
-        meetings = [],
+        meetings,
     }: Props = $props()
 
     let admin = $derived(page.data.admin && EnableAdminMode())
@@ -47,7 +47,7 @@
         <select bind:value={selected_meeting}>
             <option value='0'>Clear</option>
             {#each meetings as meeting}
-                <option value={meeting.id}>#{meeting.id} – {meeting.name}</option>
+                <option value={meeting.id}>{meeting.name}</option>
             {/each}
         </select>
     {/snippet}
@@ -62,6 +62,7 @@
 
 <div id='motion-grid'>
     {#each motions as motion}
+        {@const meeting = meetings.find(m => motion.meeting === m.id)}
         <div><Member member={members.find(m => m.discord_id === motion.author)} /></div>
         <a href='/ung/motion/{motion.id}' class='overflow-x-hidden'>
             <span class='{motion.closed ? "line-through text-gray-500" : ""}'>
@@ -73,10 +74,10 @@
         {#if interactive}
             <div class='flex flex-row justify-end gap-2'>
                 {#if motion.closed}
-                    Voted on during meeting #{motion.meeting}
+                    Voted on during meeting {meeting?.name}
                 {:else}
-                    {#if motion.meeting}
-                        Scheduled for meeting #{motion.meeting}
+                    {#if meeting}
+                        Scheduled for meeting {meeting.name}
                     {:else}
                         Not scheduled
                     {/if}
