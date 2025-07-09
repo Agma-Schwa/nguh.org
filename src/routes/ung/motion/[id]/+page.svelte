@@ -123,12 +123,6 @@
     {/snippet}
 </Dialog>
 
-<!--
-    TODO:
-    Support manually closing a motion (only for admins of course) to close motions
-    if there is no consensus or in case we want to allow someone to change their vote.
--->
-
 <section>
     {#if edit_mode}
         <EditMotion

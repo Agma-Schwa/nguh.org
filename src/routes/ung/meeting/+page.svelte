@@ -133,7 +133,6 @@
     {@const sorted = my_part ? [my_part, ...participants.filter(p => p !== my_part)] : participants}
     <Stripe>Participants</Stripe>
     <section>
-        <!-- TODO: Allow a member who has voted in absentia to join, which clears ALL their in-absentia votes -->
         {#if me?.represented_nation}
             {#if !my_part}
                 <div class='flex'>
