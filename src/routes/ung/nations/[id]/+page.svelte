@@ -18,7 +18,7 @@
     let all_members: MemberProfile[] = $state([])
     let selected_member: string = $state('')
     let ruler_checkbox: boolean = $state(false)
-    let editor = $derived(admin || my_rep?.ruler)
+    let ruler = $derived(admin || my_rep?.ruler)
     let edit_mode: boolean = $state(false)
 
     // Not $derived() because we want to be able to edit it.
@@ -87,7 +87,7 @@
                 ? 'Promote this ŋation to a full ŋation?'
                 : 'Demote this ŋation to observer status?'
         ).and(async () => {
-            await UŊMakeRequestAndCheckErr(`admin/nation/${nation.id}/observer/${nation.observer ? 0 : 1}`, 'PATCH')
+            await UŊMakeRequestAndCheckErr(`nation/${nation.id}/observer/${nation.observer ? 0 : 1}`, 'PATCH')
         })
     }
 </script>
@@ -152,21 +152,21 @@
 
         <h3 class='my-8 text-left'>Representatives</h3>
         <MemberList
-            editable={editor}
+            editable={ruler}
             members={reps}
             can_be_removed={m => admin || !m.ruler}
             do_remove={m => RemoveMember(m)}
         />
 
         <div class='flex gap-4 mt-12'>
-            {#if editor}
+            {#if ruler}
                 <button onclick={AddMember}>Add Member</button>
                 <button onclick={() => edit_mode = true}>Edit Ŋation</button>
             {/if}
             {#if my_rep}
                 <button onclick={Leave} class='{my_rep.ruler ? "text-white bg-rose-800" : ""}'>Leave Ŋation</button>
             {/if}
-            {#if admin}
+            {#if admin || ruler}
                 {#if nation.observer}
                     <button onclick={ToggleObserver} class='text-white bg-green-800'>Promote from Observer</button>
                 {:else}
