@@ -64,12 +64,12 @@
     {#each motions as motion}
         {@const meeting = meetings.find(m => motion.meeting === m.id)}
         <div><Member member={members.find(m => m.discord_id === motion.author)} /></div>
-        <a href='/ung/motion/{motion.id}' class='overflow-x-hidden'>
-            <span class='{motion.closed ? "line-through text-gray-500" : ""}'>
-                {motion.title}
-                [<span style='font-variant: small-caps'>{motion.type}</span>]
-            </span>
-            <span>{GetEmoji(motion)}</span>
+        <a href='/ung/motion/{motion.id}' class='whitespace-nowrap overflow-hidden text-ellipsis'>
+            <div class='flex flex-row gap-1'>
+                <div class='min-w-0 overflow-hidden text-ellipsis {motion.closed ? "line-through text-gray-500" : ""}'>{motion.title}</div>
+                <div>[<span style='font-variant: small-caps'>{motion.type}</span>]</div>
+                <div>{GetEmoji(motion)}</div>
+            </div>
         </a>
         {#if interactive}
             <div class='flex flex-row justify-end gap-2'>
