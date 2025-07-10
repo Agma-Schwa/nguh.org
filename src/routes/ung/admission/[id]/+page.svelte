@@ -59,7 +59,7 @@
         <button onclick={() => dialog.resolve(false)} class='bg-rose-800 text-white'>No</button>
     {/snippet}
     {#snippet content()}
-        <p>Vote in favour of this nation being admitted?</p>
+        <p>Vote in favour of this ŋation being admitted?</p>
     {/snippet}
 </Dialog>
 

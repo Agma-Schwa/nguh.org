@@ -32,7 +32,7 @@
 
 <section>
     <form method='POST' use:form={OnSubmit}>
-        <label>Country Name*</label>
+        <label>Ŋation Name*</label>
         <input type='text' minlength='1' maxlength='200' required bind:value={name}>
 
         <label>Ruler Name</label>

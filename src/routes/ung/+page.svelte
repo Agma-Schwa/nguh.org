@@ -17,7 +17,7 @@
     <h3 class='text-left'>Actions</h3>
     <div class='flex flex-col'>
         <a href='/ung/motion'>Create a Motion</a>
-        <a href='/ung/admission'>Create a Country</a>
+        <a href='/ung/admission'>Create a Ŋation</a>
     </div>
 
     <h3 class='text-left'>Lists</h3>
