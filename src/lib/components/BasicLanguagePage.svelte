@@ -17,8 +17,8 @@
         name,
         stripe,
         video,
-        docs,
-        before_docs,
+        docs = undefined,
+        before_docs = undefined,
         children
     }: Props = $props();
 </script>
