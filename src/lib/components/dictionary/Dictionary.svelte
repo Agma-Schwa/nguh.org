@@ -108,6 +108,10 @@
         @include small-caps;
     }
 
+    :global(f-nf) {
+        font-style: normal;
+    }
+
     :global(f-pf) {
         @include serif-font;
         font-style: italic;

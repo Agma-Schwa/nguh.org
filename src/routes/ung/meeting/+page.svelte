@@ -79,6 +79,14 @@
 <Page name='UŊ' />
 <Stripe>Meeting</Stripe>
 
+<!--
+    To do: differentiate between 3 states instead of just 2:
+
+    - No meeting is active
+    - A meeting is active but not running
+    - The active meeting is running.
+-->
+
 <section>
     {#if admin && active_meeting}
         <div class='flex justify-center gap-8 mb-8'>
