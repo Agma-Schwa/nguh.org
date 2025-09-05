@@ -11,7 +11,7 @@
 <div class='flex gap-2'>
     <div><img src='{member.avatar_url}' class='w-8 rounded-full non-previewable-icon select-none'></div>
     <div class='leading-8'>
-        {member.display_name}
+        <span class='{member.active ? "" : "line-through text-gray-500"}'>{member.display_name}</span>
         {#if member.administrator}<span class='select-none'>🛡️</span>{/if}
         {#if member.ruler}<span class='select-none'>👑</span>{/if}
     </div>
