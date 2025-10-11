@@ -101,11 +101,6 @@ export async function CheckIsLoggedIn(session: Session | null, path: string, den
     if (!body.value) error(403, deny_msg);
 }
 
-export async function CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session: Session | null): Promise<string> {
-    await CheckIsLoggedIn(session, 'is_server_member', CCC_DENY_MSG);
-    return session!!.user!!.id!! // If we make it this far, we know it’s valid.
-}
-
 export async function CheckIsLoggedInAsUŊMember(session: Session | null) {
     await CheckIsLoggedIn(session, 'is_nguhcrafter', 'You must be a player on the Minecraft Server to access this page');
 }

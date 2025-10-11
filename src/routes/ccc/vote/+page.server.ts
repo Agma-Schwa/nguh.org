@@ -1,4 +1,4 @@
-import {type Actions, type RequestEvent} from '@sveltejs/kit';
+import {type Actions, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {PageServerLoad, PageServerLoadEvent} from './$types';
 import {error} from '@sveltejs/kit';
 import {CCC_FORM_ENABLED, DISCORD_ADMIN_ID} from '$env/static/private';
@@ -25,7 +25,8 @@ async function CheckAccess(event: PageServerLoadEvent | RequestEvent): Promise<s
         'Forbidden\nThe voting form is currently disabled.'
     )
 
-    return CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer(session);
+    if (!session?.user?.id) redirect(303, "/login")
+    return session?.user?.id
 }
 
 function ConvertNull(s: FormDataEntryValue | null) {
