@@ -91,6 +91,9 @@
 </section>
 {:else}
 <section>
-    <p>You must be logged in to access this page; you should probably never see this message.</p>
+    <p>
+       Please reload the page. If you still can’t see this page afterwards, navigate to
+       <a href="/login">/login</a> to log in with Discord.
+    </p>
 </section>
 {/if}
