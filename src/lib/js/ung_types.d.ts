@@ -131,7 +131,7 @@ export type NationMemberProfile = {
 /**
  * UŊ Ŋation.
  */
-export type Nation = {
+export type NationProfile = {
   id: number;
   name: string;
   banner_url: string | null;
