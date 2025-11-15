@@ -1,15 +1,10 @@
-import type {Handle} from "@sveltejs/kit";
-import type {LanguagePage} from "$lib/js/types";
+import {error, type Handle, redirect} from '@sveltejs/kit';
+import type {LanguagePage} from '$lib/js/types';
 
-import * as fs from "node:fs";
-import sqlite3 from "sqlite3";
-import {error} from "@sveltejs/kit";
-import {ENABLE_DATABASES} from '$env/static/private';
-import { handle as HandleAuth } from './auth';
+import * as fs from 'node:fs';
+import sqlite3 from 'sqlite3';
+import {handle as HandleAuth} from './auth';
 import {sequence} from '@sveltejs/kit/hooks';
-import {CheckIsLoggedInAsUŊMember} from '$lib/js/discord';
-
-const EnableDBs = ENABLE_DATABASES === 'TRUE'
 
 // Grab all language pages.
 function LoadLanguagePages() {
@@ -75,12 +70,6 @@ function SetUpDB() {
         ) STRICT;
     `, check)
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS ung_members (
-            id TEXT PRIMARY KEY
-        ) STRICT;
-    `)
-
     return db
 }
 
@@ -96,8 +85,9 @@ const CheckRouteAccess: Handle = async ({event, resolve}) => {
     if (event.url.pathname.startsWith('/.well-known/appspecific/com.chrome.devtools'))
         return new Response(null, { status: 204 });
 
+    // Redirect people to the new ung frontend.
     if (event.url.pathname.startsWith('/ung'))
-        await CheckIsLoggedInAsUŊMember(await event.locals.auth())
+        redirect(301, 'https://ung.nguh.org/')
 
     return resolve(event)
 }

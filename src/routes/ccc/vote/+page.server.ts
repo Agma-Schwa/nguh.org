@@ -2,7 +2,6 @@ import {type Actions, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {PageServerLoad, PageServerLoadEvent} from './$types';
 import {error} from '@sveltejs/kit';
 import {CCC_FORM_ENABLED, DISCORD_ADMIN_ID} from '$env/static/private';
-import {CheckIsLoggedInAsAMemberOfTheAgmaSchwaDiscordServer} from '$lib/js/discord';
 
 export const prerender = false;
 
