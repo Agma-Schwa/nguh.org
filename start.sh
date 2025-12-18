@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 set -eu
-exec bun /srv/nguh.org/www/build
+exec /srv/symlinks/bun /srv/nguh.org/www/build
