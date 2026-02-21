@@ -187,22 +187,19 @@
 <div
     class='flex gap-4'
     style='
-        padding-top: var(--content-padding-top);
-        min-height: calc(100vh - var(--banner-height) - var(--content-padding-top))
+        padding-top: var(--content-top-offs);
+        min-height: calc(100vh - var(--banner-height) - var(--content-top-offs))
 '>  <main
         style='
             box-shadow: var(--main-shadow);
             max-width: min(90rem, 100vw);
             width: 90rem;
         '
-        class='
-            relative my-0 mx-auto pb-16
-            flex flex-col
-        '
+        class='relative my-0 mx-auto flex flex-col'
     >
         {@render children?.()}
         <footer
-            class='absolute inset-x-4 bottom-4 text-center'
+            class='justify-end text-center pb-2 mt-4'
         >
             <hr
                 style='border: 2px solid var(--accentcolour);'
@@ -218,6 +215,10 @@
     #h1-wrapper {
         top: var(--header-height);
         height: calc(var(--banner-height) - var(--header-height)  - var(--header-offset));
+    }
+
+    :global(body.page-hide-banner #h1-wrapper) {
+        display: none !important;
     }
 
     @media (max-width: 900px) {

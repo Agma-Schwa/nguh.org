@@ -1,43 +1,53 @@
 <script lang="ts">
-    import {type Dictionary, type Entry, type FullEntry, type RefEntry, SearchMode} from '$lib/js/dictionary';
+    import VirtualList from '@humanspeak/svelte-virtual-list'
+    import {type Dictionary, IsFullEntry, IsRefEntry, SearchMode} from '$lib/js/dictionary';
     import {Persist} from '$lib/js/persist.svelte';
-    import WordList from '$lib/components/dictionary/WordList.svelte';
-
+    import type {Snippet} from 'svelte';
 
     interface Props {
-        dict: Dictionary
-        CustomSearchHandler(needle: string): Entry[] | null
+        dict: Dictionary.Data
+        CustomSearchHandler(needle: string): Dictionary.Entry[] | null
         NormaliseForSearch(value: string, mode: SearchMode): string
+        CustomMacroHandler?: Snippet<[Dictionary.CustomMacroNode, Snippet<[Dictionary.Node]>]>
         lang_code: string
         search_example: string
+        capitalise?: boolean
     }
 
     let {
         dict,
         CustomSearchHandler,
         NormaliseForSearch,
+        CustomMacroHandler,
         lang_code,
-        search_example
+        search_example,
+        capitalise = false
     }: Props = $props()
 
-    type SearchPair = [string, Entry[]]
+    type SearchPair = [string, Dictionary.Entry[]]
     class Search {
         readonly #entry_list: SearchPair[] = []
-        constructor(entries: FullEntry[], key: 'def-search' | 'hw-search', refs: RefEntry[] = []) {
-            const map = new Map<string, Set<Entry>>()
+        constructor(
+            entries: Dictionary.Entry[],
+            key: 'def_search' | 'hw_search',
+            include_refs: boolean,
+        ) {
+            const map = new Map<string, Set<Dictionary.Entry>>()
 
             // Add entries.
-            for (const entry of entries) {
-                for (const def of entry[key].split(' ')) {
+            for (const entry of entries.filter(IsFullEntry)) {
+                for (const def of entry[key]!.split(' ')) {
                     if (map.has(def)) map.get(def)!!.add(entry)
-                    else map.set(def, new Set<Entry>().add(entry))
+                    else map.set(def, new Set<Dictionary.Entry>().add(entry))
                 }
             }
 
             // Add reference entries.
-            for (const ref of refs) {
-                if (map.has(ref['from-search'])) map.get(ref['from-search'])!!.add(ref)
-                else map.set(ref['from-search'], new Set<Entry>().add(ref))
+            if (include_refs) {
+                for (const ref of entries.filter(IsRefEntry)) {
+                    if (map.has(ref.search)) map.get(ref.search)!!.add(ref)
+                    else map.set(ref.search, new Set<Dictionary.Entry>().add(ref))
+                }
             }
 
             // Flatten to arrays and sort since the operation we need is finding
@@ -47,9 +57,9 @@
             this.#entry_list = flattened
         }
 
-        search(input: string): Entry[] {
+        search(input: string): Dictionary.Entry[] {
             if (input.length === 0) return dict.entries
-            const matches = new Set<Entry>()
+            const matches = new Set<Dictionary.Entry>()
             for (const entry of this.#entry_list)
                 if (entry[0].startsWith(input))
                     for (const e of entry[1])
@@ -62,8 +72,8 @@
     let search_value: string = $state('')
     let search_mode = Persist(`${lang_code}-dict-search-mode`, SearchMode.Definition, true)
     const search = {
-        [SearchMode.Headword]: new Search(dict.entries, 'hw-search', dict.refs),
-        [SearchMode.Definition]: new Search(dict.entries, 'def-search')
+        [SearchMode.Headword]: new Search(dict.entries, 'hw_search', true),
+        [SearchMode.Definition]: new Search(dict.entries, 'def_search', false)
     }
 
     // Headword search.
@@ -72,9 +82,107 @@
         if (custom) return custom
         return search[search_mode.value].search(NormaliseForSearch(search_value, search_mode.value))
     })
+
+    function RenderPlainText(entry: Dictionary.Entry, n: Dictionary.Node): string {
+        function RenderAll(nodes: Dictionary.Node[] | undefined) {
+            return nodes?.map(child => RenderPlainText(entry, child)).join('') ?? ''
+        }
+
+        if ('text' in n) return n.text
+        if ('math' in n) return n.math
+        if ('group' in n) return RenderAll(n.group)
+        if ('macro' in n) switch (n.macro.name) {
+            case 'ellipsis':  return '…'
+            case 'paragraph_break': return '';
+            case 'sense': return `sense&nbsp;${RenderAll(n.macro.args)}`
+            case 'soft_hyphen': return '&shy;';
+            case 'this': return RenderPlainText(entry, entry.word)
+            default: return RenderAll(n.macro.args)
+        }
+
+        return '<INVALID NODE>'
+    }
 </script>
 
-<section id="search-section">
+
+{#snippet Nodes(nodes: Dictionary.Node[] | undefined)}
+    {#if nodes}
+        {#each nodes as node}
+            {@render Node(node)}
+        {/each}
+    {/if}
+{/snippet}
+
+{#snippet Node(node: Dictionary.Node)}
+    {#if 'text' in node}
+        {node.text}
+    {:else if 'math' in node}
+        {node.math}
+    {:else if 'group' in node}
+        {@render Nodes(node.group)}
+    {:else if 'macro' in node}
+        {#if node.macro.name === 'bold'}
+            <strong>{@render Nodes(node.macro.args)}</strong>
+        {:else if node.macro.name === "ellipsis"}
+            &hellip;
+        {:else if node.macro.name === "italic"}
+            <em class='uf-font'>{@render Nodes(node.macro.args)}</em>
+        {:else if node.macro.name === "lemma"}
+            <span class='lemma'>{@render Nodes(node.macro.args)}</span>
+        {:else if node.macro.name === "normal"}
+            <span style='font-weight: normal; font-style: normal;'>
+                {@render Nodes(node.macro.args)}
+            </span>
+        {:else if node.macro.name === "paragraph_break"}
+            <br>
+        {:else if node.macro.name === "sense"}
+            sense&nbsp;{@render Nodes(node.macro.args)}
+        {:else if node.macro.name === "small_caps"}
+            <span class='smallcaps'>{@render Nodes(node.macro.args)}</span>
+        {:else if node.macro.name === "subscript"}
+            <sub>{@render Nodes(node.macro.args)}</sub>
+        {:else if node.macro.name === "superscript"}
+            <sup>{@render Nodes(node.macro.args)}</sup>
+        {:else if node.macro.name === "soft_hyphen"}
+            &shy;
+        {:else if node.macro.name === "this"}
+            <strong>~</strong>
+        {:else if node.macro.name === "reference"}
+            grammar
+        {:else}
+            &lt;UNSUPPORTED MACRO: {node.macro}&gt;
+        {/if}
+    {:else if 'custom_macro' in node}
+        {#if CustomMacroHandler}
+            {@render CustomMacroHandler(node, Node)}
+        {:else}
+            &lt;CUSTOM MACROS ARE NOT SUPPORTED; ADD A CUSTOM MACRO HANDLER&gt;
+        {/if}
+    {:else}
+            &lt;UNSUPPORTED NODE: {JSON.stringify(node)}&gt;
+    {/if}
+{/snippet}
+
+{#snippet NodeCapitalised(node: Dictionary.Node)}
+    <span class={`${capitalise ? 'first-letter:uppercase' : ''} inline-block`}>{@render Node(node)}</span>
+{/snippet}
+
+{#snippet Examples(examples: Dictionary.Example[])}
+    <ul class='pl-10'>
+        {#each examples as ex}
+            <li>
+                {@render Node(ex.text)}
+                {#if ex.comment}
+                    <p>
+                        <em class='comment'>{@render NodeCapitalised(ex.comment)}</em>
+                    </p>
+                {/if}
+            </li>
+        {/each}
+    </ul>
+{/snippet}
+
+<section id="search-section" class='mt-4 !mb-0'>
     <div id="search">
         <label>Search: </label>
         <input id="search-input" type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
@@ -89,54 +197,94 @@
         Click on the first line of an entry to expand or collapse it, and click on a reference entry
         to view the referenced word.
     </p>
-    <WordList entries={entries} bind:search_value />
-    <div id="last"></div>
+    <div class='w-full h-[36.9rem] [border:1px_solid_black]'>
+        <VirtualList items={entries}>
+            {#snippet renderItem(entry)}
+                {#if IsFullEntry(entry)}
+                    <details>
+                        <summary class='p-1 marker:content-none grid grid-cols-[1fr_2fr] items-center'>
+                            <span class='uf-font h-8'>
+                                <span class='lemma'>{@render Node(entry.word)}</span>
+                                <em class='uf-font'>{@render Node(entry.pos)}</em>
+                            </span>
+                            <span class='short-def min-w-0 whitespace-nowrap h-8'>
+                                {#if entry.primary_definition}
+                                    {@render NodeCapitalised(entry.primary_definition.def)}
+                                {:else if entry.senses?.[0].def}
+                                    1. {@render NodeCapitalised(entry.senses?.[0].def)}
+                                {:else}
+                                    MALFORMED ENTRY
+                                {/if}
+                            </span>
+                        </summary>
+                        <div class='entry-content'>
+                            {#if entry.etym}
+                                <p class="etym"><strong class="strong-small">Etymology: </strong> {@render Node(entry.etym)}</p>
+                            {/if}
+                            {#if entry.forms}
+                                <p class="forms"><strong class="strong-small">Forms: </strong> <em class='uf-font'>{@render Node(entry.forms)}</em></p>
+                            {/if}
+                            {#if entry.ipa}
+                                <p class='ipa'><strong class='strong-small'>IPA:</strong> <span class='uf-font'>/{@render Node(entry.ipa)}/</span></p>
+                            {/if}
+                            {#if entry.primary_definition}
+                                <p>{@render NodeCapitalised(entry.primary_definition.def)}</p>
+                                {#if entry.primary_definition.comment}
+                                    <em class='comment'>{@render NodeCapitalised(entry.primary_definition.comment)}</em>
+                                {/if}
+                                {#if entry.primary_definition.examples}
+                                    {@render Examples(entry.primary_definition.examples)}
+                                {/if}
+                            {/if}
+                            {#if entry?.senses?.length}
+                                <ol class='list-decimal pl-5'>
+                                {#each entry.senses as sense}
+                                    <li class=''>
+                                        <p>{@render NodeCapitalised(sense.def)}</p>
+                                        {#if sense.comment}
+                                            <em class='comment'>{@render NodeCapitalised(sense.comment)}</em>
+                                        {/if}
+                                    </li>
+                                    {#if sense.examples?.length}
+                                        {@render Examples(sense.examples)}
+                                    {/if}
+                                {/each}
+                                </ol>
+                            {/if}
+                        </div>
+                    </details>
+                {:else if IsRefEntry(entry)}
+                    <div class='refentry cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
+                        <span class='uf-font'>
+                            <span class='lemma'>{@render Node(entry.word)}</span> →
+                            <span class='lemma'>{@render Node(entry.ref)}</span>
+                        </span>
+                    </div>
+                {/if}
+            {/snippet}
+        </VirtualList>
+    </div>
 </section>
 
 <style lang="scss">
     @use '$lib/css/dictionary' as *;
+    @use "$lib/css/_vars" as vars;
+    .uf-font { @include serif-font; }
+    .lemma { @include word-format; }
+    .smallcaps { @include small-caps; }
+    strong { color: var(--accentdarker); }
+    .entry-content, .refentry { padding: 3pt; }
+    .entry-content { border-top: $border; }
+    p { margin: 0; }
 
-    :global(.uf-font) {
-        font-family: CharisSIL, serif;
-    }
-
-    :global(f-w) {
-        @include word-format;
-    }
-
-    :global(f-s) {
-        @include small-caps;
-    }
-
-    :global(f-nf) {
-        font-style: normal;
-    }
-
-    :global(f-pf) {
-        @include serif-font;
-        font-style: italic;
-        &::before {
-            content: "pf ";
-            @include small-caps
-        }
-    }
-
-    :global(f-sense) {
-        &::before {
-            content: "sense ";
-        }
-    }
-
-    :global(f-mut) {
-        color: var(--accentcolour);
-    }
-
-    #last {
+    details, .refentry {
         border-top: $border;
+        border-bottom-style: none;
+        @include sans-font;
     }
 
     #search {
-        margin-bottom: 1rem;
+        margin-bottom: .5rem;
         height: 2.5rem;
 
         #search-input { margin-right: 2rem; }
@@ -162,7 +310,33 @@
         }
     }
 
-    #search-section {
-        min-height: 100vh;
+    // Remove the top border from the first element since we add it to the surrounding
+    // container instead (otherwise, the top border disappears when scrolling); the virtual
+    // list uses the 'data-original-index' attribute to identify elements, so we just use that.
+    //
+    // Conversely, do add the bottom border to the last element.
+    :global([data-original-index]) {
+        &:first-child details { border-top: none; }
+        &:last-child details { border-bottom: $border; }
+    }
+
+    details {
+        &[open] { .short-def { display: none; } }
+        &:not([open]) {
+            cursor: pointer;
+            .short-def > span {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                max-width: 100%;
+            }
+        }
+    }
+
+    .etym, .forms {
+        font-size: var(--text-small); // Make this smaller since it’s less important information.
+    }
+
+    .strong-small {
+        font-weight: 600;
     }
 </style>

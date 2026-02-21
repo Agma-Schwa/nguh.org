@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"@auth/sveltekit": "^1.11.1",
+		"@humanspeak/svelte-virtual-list": "^0.4.1",
 		"dexie": "^4.2.1",
 		"lru-cache": "^11.2.4",
 		"sqlite3": "^5.1.7",

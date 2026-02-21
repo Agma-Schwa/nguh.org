@@ -1,11 +1,13 @@
 import type {PageLoad} from "./$types";
-import type {Dictionary} from "$lib/js/dictionary";
 import {dev} from "$app/environment";
+import type {Dictionary} from '$lib/js/dictionary';
 
 export const ssr = false;
 
 const path = dev ? "/DICTIONARY.json" : "/static/DICTIONARY.json";
 
 export const load: PageLoad = async (event) => {
-    return { dict: await (event.fetch(path).then((r) => r.json()) as Promise<Dictionary>) }
+    const req = await event.fetch(path)
+    const json = await req.json()
+    return { dict: json as Dictionary.Data };
 }

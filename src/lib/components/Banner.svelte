@@ -97,6 +97,10 @@
         background-size: cover;
     }
 
+    :global(body.page-hide-banner #banner) {
+        display: none !important;
+    }
+
     img {
         height: 2rem;
         margin-left: 1rem;

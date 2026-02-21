@@ -6,10 +6,11 @@
     import {page_theme} from "$lib/page_theme";
     interface Props {
         name: any;
+        banner?: boolean,
         theme?: string;
     }
 
-    let { name, theme = 'light' }: Props = $props();
+    let { name, theme = 'light', banner = true }: Props = $props();
 
     $page_title = name;
     $page_theme = theme;
@@ -26,4 +27,19 @@
         if (theme === 'light') document.body.classList.remove('dark')
         else document.body.classList.add('dark')
     })
+
+    // If requested, hide the banner, and adjust the content top offset accordingly.
+    function HideBanner() {
+        if (!banner) {
+            document.body.classList.add('page-hide-banner')
+            document.body.style.setProperty('--content-top-offs', 'var(--header-height)')
+            return () => {
+                document.body.classList.remove('page-hide-banner')
+                document.body.style.setProperty('--content-top-offs', 'var(--content-padding-top)')
+            }
+        }
+    }
+
 </script>
+
+<svelte:body {@attach HideBanner} />

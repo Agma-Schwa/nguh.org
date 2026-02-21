@@ -5,6 +5,7 @@
       "name": "www",
       "dependencies": {
         "@auth/sveltekit": "^1.11.1",
+        "@humanspeak/svelte-virtual-list": "^0.4.1",
         "dexie": "^4.2.1",
         "lru-cache": "^11.2.4",
         "sqlite3": "^5.1.7",
@@ -91,6 +92,8 @@
     "@fontsource/fira-mono": ["@fontsource/fira-mono@4.5.10", "", {}, "sha512-bxUnRP8xptGRo8YXeY073DSpfK74XpSb0ZyRNpHV9WvLnJ7TwPOjZll8hTMin7zLC6iOp59pDZ8EQDj1gzgAQQ=="],
 
     "@gar/promisify": ["@gar/promisify@1.1.3", "", {}, "sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw=="],
+
+    "@humanspeak/svelte-virtual-list": ["@humanspeak/svelte-virtual-list@0.4.1", "", { "dependencies": { "esm-env": "^1.2.2" }, "peerDependencies": { "svelte": "^5.0.0" } }, "sha512-U8sS5YXhPyyAY/D1V0hvxfVOw18cG0qL4D1l3OMNG2gQdMqZoMZ8ZV8gPUTNLvl+8i55kqd+ITfqqM40/85ziw=="],
 
     "@isaacs/cliui": ["@isaacs/cliui@8.0.2", "", { "dependencies": { "string-width": "^5.1.2", "string-width-cjs": "npm:string-width@^4.2.0", "strip-ansi": "^7.0.1", "strip-ansi-cjs": "npm:strip-ansi@^6.0.1", "wrap-ansi": "^8.1.0", "wrap-ansi-cjs": "npm:wrap-ansi@^7.0.0" } }, "sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA=="],
 

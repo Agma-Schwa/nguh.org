@@ -27,8 +27,7 @@
     let { data }: PageProps = $props();
 </script>
 
-<Page name="ULTRAFRENCH Dictionary" />
-<Stripe>Dictionary</Stripe>
+<Page name="ULTRAFRENCH Dictionary" banner={false} />
 <Dictionary
     CustomSearchHandler={() => null}
     {NormaliseForSearch}

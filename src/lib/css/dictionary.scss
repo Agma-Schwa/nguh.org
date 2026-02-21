@@ -5,13 +5,11 @@ $line-height: $headword-size; // To prevent the line height from changing if a l
 @mixin serif-font {
     font-family: CharisSIL, serif;
     font-size: var(--text-size);
-    line-height: var(--text-size);
 }
 
 @mixin sans-font {
     font-family: OpenSans, sans-serif;
     font-style: normal;
-    line-height: var(--text-size);
 }
 
 @mixin small-caps {

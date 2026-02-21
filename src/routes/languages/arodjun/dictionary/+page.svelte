@@ -1,9 +1,10 @@
 <script lang="ts">
     import Page from '$lib/components/Page.svelte';
-    import Stripe from '$lib/components/Stripe.svelte';
     import type {PageProps} from './$types';
     import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
-    import {type Entry, SearchMode} from '$lib/js/dictionary';
+    import {type Dictionary as Dict, IsFullEntry} from '$lib/js/dictionary';
+    import {SearchMode} from '$lib/js/dictionary';
+    import type {Snippet} from 'svelte';
 
     function NormaliseForSearch(value: string, _: SearchMode): string {
         return value.toLowerCase()
@@ -11,33 +12,66 @@
 
     let { data }: PageProps = $props();
 
-    // Capitalise the first letter of the definition of each word because
-    // Agma doesn’t do that in the actual dictionary.
-    let dict = $derived.by(() => {
-        let copy = structuredClone(data.dict)
-        for (const entry of copy.entries)
-            if (entry.def && entry.def.def && entry.def.def.length > 1)
-                entry.def.def = entry.def.def.charAt(0).toUpperCase() + entry.def.def.slice(1)
-        return copy
-    })
-
-    function CustomSearchHandler(needle: string): Entry[] | null {
+    function CustomSearchHandler(needle: string): Dict.Entry[] | null {
         needle = needle.trim()
-        if (!needle.startsWith('#') || isNaN(Number(needle.slice(1)))) return null
-        let entries: Entry[] = []
-        for (const entry of dict.entries)
-            if (entry.etym && entry.etym.includes(`<f-s>psc ${needle}</f-s>`))
-                entries.push(entry)
+        const id = Number(needle.slice(1))
+        if (!needle.startsWith('#') || isNaN(id)) return null
+        let entries: Dict.Entry[] = []
+
+        // Check if this entry contains a PSC id macro node.
+        function FindPSCId(node: Dict.Node): number | null {
+            if ('group' in node) {
+                for (const n of node.group) {
+                    const id = FindPSCId(n)
+                    if (id !== null) return id
+                }
+            } else if ('macro' in node) {
+                for (const n of node.macro.args ?? []) {
+                    const id = FindPSCId(n)
+                    if (id !== null) return id
+                }
+            } else if ('custom_macro' in node) {
+                if (node.custom_macro.name === 'psc') {
+                    const num = node.custom_macro.args!![0]
+                    if ('text' in num) return Number(num.text)
+                }
+            }
+            return null
+        }
+
+        for (const entry of data.dict.entries) {
+            if (!IsFullEntry(entry) || !entry.etym) continue
+            const found = FindPSCId(entry.etym)
+            if (found !== null && found == id) entries.push(entry)
+        }
+
         return entries
     }
 </script>
 
-<Page name="Arodjun Dictionary" />
-<Stripe>Dictionary</Stripe>
+{#snippet CustomMacroHandler(node: Dict.CustomMacroNode, render_callback: Snippet<[Dict.Node]>)}
+    {#if node.custom_macro.name === 'psc' && node.custom_macro.args}
+        from
+        <span class='smallcaps'>psc&nbsp;#{@render render_callback(node.custom_macro.args[0])}</span>
+        <span class='lemma'>{@render render_callback(node.custom_macro.args[1])}</span>
+    {:else}
+        &lt;UNSUPPORTED CUSTOM MACRO: {node.custom_macro.name}&gt;
+    {/if}
+{/snippet}
+
+<Page name="Arodjun Dictionary" banner={false} />
 <Dictionary
     {CustomSearchHandler}
     {NormaliseForSearch}
-    {dict}
+    {CustomMacroHandler}
+    dict={data.dict}
     lang_code={'ar'}
     search_example={'pjecijau'}
+    capitalise={true}
 />
+
+<style lang='scss'>
+    @use "$lib/css/dictionary" as *;
+    .smallcaps { @include small-caps; }
+    .lemma { @include word-format; }
+</style>

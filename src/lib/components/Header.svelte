@@ -70,6 +70,7 @@
         --nav-a-padding-left: .5rem;
         height: var(--header-height);
         background: var(--nav-bg);
+        box-shadow: var(--main-shadow);
     }
 
     :global(.header-bg-transition) {
