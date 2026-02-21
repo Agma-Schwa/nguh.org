@@ -2,6 +2,7 @@
     import Header from '$lib/components/Header.svelte';
     import Banner from "$lib/components/Banner.svelte";
     import '$lib/css/style.scss';
+    import '$lib/css/tailwind.css';
     import {onMount} from "svelte";
 
     import { page_title } from "$lib/page_title";
@@ -136,7 +137,7 @@
 <div
     bind:this={image_preview}
     class="
-        fixed inset-0 [z-index:9998]
+        fixed inset-0 z-9998
         w-full h-full
         hidden items-center justify-center
         backdrop-brightness-50
@@ -188,14 +189,13 @@
     class='flex gap-4'
     style='
         padding-top: var(--content-top-offs);
-        min-height: calc(100vh - var(--banner-height) - var(--content-top-offs))
 '>  <main
         style='
             box-shadow: var(--main-shadow);
             max-width: min(90rem, 100vw);
             width: 90rem;
         '
-        class='relative my-0 mx-auto flex flex-col'
+        class='relative my-0 mx-auto flex flex-col grow'
     >
         {@render children?.()}
         <footer

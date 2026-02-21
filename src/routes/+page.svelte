@@ -52,7 +52,7 @@
 <section class="flex gap-8">
     <div>
         <h3 class="mb-8">Follow the Agma Schwa Social Media Channels!</h3>
-        <article class="flex [&>*]:basis-full gap-8">
+        <article class="flex *:basis-full gap-8">
             <div>
                 <img
                     src="$lib/images/index/Zlevau djoDaxwex.png"

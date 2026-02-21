@@ -33,7 +33,7 @@
     <PageLink href='/support-us'>Support Us</PageLink>
 {/snippet}
 
-<header class='fixed top-0 w-full [z-index:10000] flex select-none {mobile.current ? "" : "justify-between"}'>
+<header class='fixed top-0 w-full z-10000 flex select-none {mobile.current ? "" : "justify-between"}'>
     <PageLink image={agma_logo} href='/'>AGMA SCHWA</PageLink>
     <nav>
         <Hamburger {mobile}>

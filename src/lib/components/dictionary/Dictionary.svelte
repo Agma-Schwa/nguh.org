@@ -182,10 +182,93 @@
     </ul>
 {/snippet}
 
-<section id="search-section" class='mt-4 !mb-0'>
-    <div id="search">
+{#snippet renderItem(entry: Dictionary.Entry)}
+    {#if IsFullEntry(entry)}
+        <details class='
+            open:[&_.short-def]:hidden not-open:cursor-pointer
+            not-open:[&_.uf-lemma]:min-w-0
+            [border-top:var(--border)]
+        '>
+            <summary class='p-1 marker:content-none grid grid-cols-[1fr_2fr] [&>*]:h-8 items-center whitespace-nowrap'>
+                <span class='uf-font uf-lemma inline-block overflow-x-clip text-ellipsis max-w-full'>
+                    <span class='lemma'>{@render Node(entry.word)}</span>
+                    <em class='uf-font'>{@render Node(entry.pos)}</em>
+                </span>
+                <span class='
+                    short-def min-w-0
+                    [&_*]:overflow-x-clip [&_*]:text-ellipsis [&_*]:max-w-full
+                '>
+                    {#if entry.primary_definition}
+                        <div>{@render NodeCapitalised(entry.primary_definition.def)}</div>
+                    {:else if entry.senses?.[0].def}
+                        <div class='short-def'>
+                            <span>1.</span>
+                            <span>{@render NodeCapitalised(entry.senses?.[0].def)}</span>
+                        </div>
+                    {:else}
+                        MALFORMED ENTRY
+                    {/if}
+                </span>
+            </summary>
+            <div class='[border-top:var(--border)] p-1 [&>p]:!text-(size:--text-small) [&>p>strong]:font-semibold'>
+                {#if entry.etym}
+                    <p>
+                        <strong>Etymology: </strong>
+                        {@render Node(entry.etym)}
+                    </p>
+                {/if}
+                {#if entry.forms}
+                    <p>
+                        <strong>Forms: </strong>
+                        <em class='uf-font'>{@render Node(entry.forms)}</em>
+                    </p>
+                {/if}
+                {#if entry.ipa}
+                    <p>
+                        <strong>IPA:</strong>
+                        <span class='uf-font'>/{@render Node(entry.ipa)}/</span>
+                    </p>
+                {/if}
+                {#if entry.primary_definition}
+                    <p>{@render NodeCapitalised(entry.primary_definition.def)}</p>
+                    {#if entry.primary_definition.comment}
+                        <em class='comment'>{@render NodeCapitalised(entry.primary_definition.comment)}</em>
+                    {/if}
+                    {#if entry.primary_definition.examples}
+                        {@render Examples(entry.primary_definition.examples)}
+                    {/if}
+                {/if}
+                {#if entry?.senses?.length}
+                    <ol class='list-decimal pl-5'>
+                    {#each entry.senses as sense}
+                        <li class=''>
+                            <p>{@render NodeCapitalised(sense.def)}</p>
+                            {#if sense.comment}
+                                <em class='comment'>{@render NodeCapitalised(sense.comment)}</em>
+                            {/if}
+                        </li>
+                        {#if sense.examples?.length}
+                            {@render Examples(sense.examples)}
+                        {/if}
+                    {/each}
+                    </ol>
+                {/if}
+            </div>
+        </details>
+    {:else if IsRefEntry(entry)}
+        <div class='[border-top:var(--border)] p-1 cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
+            <span class='uf-font'>
+                <span class='lemma'>{@render Node(entry.word)}</span> →
+                <span class='lemma'>{@render Node(entry.ref)}</span>
+            </span>
+        </div>
+    {/if}
+{/snippet}
+
+<section id="search-section" class='!mt-4 [--border:1px_solid_black]'>
+    <div id="search" class='h-10 mb-2'>
         <label>Search: </label>
-        <input id="search-input" type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
+        <input class='mr-8' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
         <label>By: </label>
         <select id="search-mode" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}
@@ -197,98 +280,26 @@
         Click on the first line of an entry to expand or collapse it, and click on a reference entry
         to view the referenced word.
     </p>
-    <div class='w-full h-[36.9rem] [border:1px_solid_black]'>
-        <VirtualList items={entries}>
-            {#snippet renderItem(entry)}
-                {#if IsFullEntry(entry)}
-                    <details>
-                        <summary class='p-1 marker:content-none grid grid-cols-[1fr_2fr] items-center'>
-                            <span class='uf-font h-8'>
-                                <span class='lemma'>{@render Node(entry.word)}</span>
-                                <em class='uf-font'>{@render Node(entry.pos)}</em>
-                            </span>
-                            <span class='short-def min-w-0 whitespace-nowrap h-8'>
-                                {#if entry.primary_definition}
-                                    {@render NodeCapitalised(entry.primary_definition.def)}
-                                {:else if entry.senses?.[0].def}
-                                    1. {@render NodeCapitalised(entry.senses?.[0].def)}
-                                {:else}
-                                    MALFORMED ENTRY
-                                {/if}
-                            </span>
-                        </summary>
-                        <div class='entry-content'>
-                            {#if entry.etym}
-                                <p class="etym"><strong class="strong-small">Etymology: </strong> {@render Node(entry.etym)}</p>
-                            {/if}
-                            {#if entry.forms}
-                                <p class="forms"><strong class="strong-small">Forms: </strong> <em class='uf-font'>{@render Node(entry.forms)}</em></p>
-                            {/if}
-                            {#if entry.ipa}
-                                <p class='ipa'><strong class='strong-small'>IPA:</strong> <span class='uf-font'>/{@render Node(entry.ipa)}/</span></p>
-                            {/if}
-                            {#if entry.primary_definition}
-                                <p>{@render NodeCapitalised(entry.primary_definition.def)}</p>
-                                {#if entry.primary_definition.comment}
-                                    <em class='comment'>{@render NodeCapitalised(entry.primary_definition.comment)}</em>
-                                {/if}
-                                {#if entry.primary_definition.examples}
-                                    {@render Examples(entry.primary_definition.examples)}
-                                {/if}
-                            {/if}
-                            {#if entry?.senses?.length}
-                                <ol class='list-decimal pl-5'>
-                                {#each entry.senses as sense}
-                                    <li class=''>
-                                        <p>{@render NodeCapitalised(sense.def)}</p>
-                                        {#if sense.comment}
-                                            <em class='comment'>{@render NodeCapitalised(sense.comment)}</em>
-                                        {/if}
-                                    </li>
-                                    {#if sense.examples?.length}
-                                        {@render Examples(sense.examples)}
-                                    {/if}
-                                {/each}
-                                </ol>
-                            {/if}
-                        </div>
-                    </details>
-                {:else if IsRefEntry(entry)}
-                    <div class='refentry cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
-                        <span class='uf-font'>
-                            <span class='lemma'>{@render Node(entry.word)}</span> →
-                            <span class='lemma'>{@render Node(entry.ref)}</span>
-                        </span>
-                    </div>
-                {/if}
-            {/snippet}
-        </VirtualList>
+    <div class='
+        w-full h-[36.9rem] [border:var(--border)]
+        [&_*:first-child>details]:border-t-0
+        [&_*:last-child>details]:[border-bottom:var(--border)]
+    '>
+        <VirtualList items={entries} {renderItem} />
     </div>
 </section>
 
 <style lang="scss">
     @use '$lib/css/dictionary' as *;
     @use "$lib/css/_vars" as vars;
+    details { @include sans-font; }
     .uf-font { @include serif-font; }
     .lemma { @include word-format; }
     .smallcaps { @include small-caps; }
     strong { color: var(--accentdarker); }
-    .entry-content, .refentry { padding: 3pt; }
-    .entry-content { border-top: $border; }
     p { margin: 0; }
 
-    details, .refentry {
-        border-top: $border;
-        border-bottom-style: none;
-        @include sans-font;
-    }
-
     #search {
-        margin-bottom: .5rem;
-        height: 2.5rem;
-
-        #search-input { margin-right: 2rem; }
-
         input {
             @include word-format;
             height: 100%;
@@ -308,35 +319,5 @@
             -moz-box-sizing: border-box;
             -webkit-box-sizing: border-box;
         }
-    }
-
-    // Remove the top border from the first element since we add it to the surrounding
-    // container instead (otherwise, the top border disappears when scrolling); the virtual
-    // list uses the 'data-original-index' attribute to identify elements, so we just use that.
-    //
-    // Conversely, do add the bottom border to the last element.
-    :global([data-original-index]) {
-        &:first-child details { border-top: none; }
-        &:last-child details { border-bottom: $border; }
-    }
-
-    details {
-        &[open] { .short-def { display: none; } }
-        &:not([open]) {
-            cursor: pointer;
-            .short-def > span {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                max-width: 100%;
-            }
-        }
-    }
-
-    .etym, .forms {
-        font-size: var(--text-small); // Make this smaller since it’s less important information.
-    }
-
-    .strong-small {
-        font-weight: 600;
     }
 </style>

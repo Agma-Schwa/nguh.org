@@ -6,7 +6,7 @@
 
 <Stripe>A Wiki-formatted story</Stripe>
 <h3 class='mb-8 -mt-3'>by Agma Schwa and Suzudo</h3>
-<section class="flex gap-8 [&>*]:basis-full">
+<section class="flex gap-8 *:basis-full">
     <article class='w-1/2'>
         <img src="$lib/images/gambian_holiday/wiki.png" alt="Preview" class="object-cover">
     </article>
@@ -27,7 +27,7 @@
         </p>
         <a
             href="https://gambianholiday.nguh.org/w/index.php?title=Main_Page"
-            class="link-button mt-8 block text-2xl !w-3/4 !h-10 !leading-10 mx-auto"
+            class="link-button mt-8 block text-2xl w-3/4! h-10! leading-10! mx-auto"
         >Enter the Gambian Holiday Wiki</a>
     </article>
 </section>

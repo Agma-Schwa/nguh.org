@@ -1,12 +1,11 @@
 @use "sass:meta";
 @use 'vars' as *;
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-* {
-    margin-block-start: 0;
-    accent-color: $accentlight;
+@layer base {
+    * {
+        margin-block-start: 0;
+        accent-color: $accentlight;
+    }
 }
 
 h3, h4, h5 { color: var(--accentlight) !important; }
@@ -166,7 +165,6 @@ button {
         display: none !important;
     }
 }
-
 
 #h1-underline {
     width: var(--h1-underline-length);

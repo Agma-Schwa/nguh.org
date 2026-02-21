@@ -6,7 +6,7 @@
 <Page name="Merch" />
 
 <Stripe>Agma Schwa Merch Available Now</Stripe>
-<section class="flex gap-8 [&>*]:basis-full">
+<section class="flex gap-8 *:basis-full">
     <article class="flex flex-col" style="justify-content: space-between">
         <h3>Check out Agma Schwa merch!</h3>
         <h4>Provided by Spreadshirt, Redbubble, and Amazon</h4>

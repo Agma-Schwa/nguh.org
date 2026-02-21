@@ -7,7 +7,7 @@
 <Page name="Rabbid" />
 <Stripe>Rabbid (Lapin Cretin)</Stripe>
 <section>
-    <article class="flex gap-8 [&>*]:basis-1/2">
+    <article class="flex gap-8 *:basis-1/2">
         <YouTubeVideo src="https://www.youtube.com/embed/mQi5_IUDAzg" />
         <YouTubeVideo src="https://www.youtube.com/embed/iLKo5yb3goI" />
     </article>

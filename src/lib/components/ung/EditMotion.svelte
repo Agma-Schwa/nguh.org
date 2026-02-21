@@ -41,6 +41,6 @@
         <label>Text</label>
         <textarea class='min-h-40' name="text" minlength='1' maxlength='10000' bind:value={text} required></textarea>
 
-        <input type='submit' value='Submit Motion' class='!w-40 m-auto'/>
+        <input type='submit' value='Submit Motion' class='w-40! m-auto'/>
     </form>
 </section>

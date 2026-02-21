@@ -184,8 +184,9 @@
     function Generate() {
         try {
             const parse_tree = Parse()
+            const count = parse_tree.count();
             if (parse_tree.count() < 100_000) DoIt()
-            else Prompt('You are about to generate {word_count} words. Continue?', 'Generate Words?').and(DoIt)
+            else Prompt(`You are about to generate ${count} words. Continue?`, 'Generate Words?').and(DoIt)
 
             // Unique words here since our deduplication algorithms aren’t perfect.
             function DoIt() { output = [...new Set(parse_tree.generate())].join('\n') }
@@ -397,9 +398,9 @@ s = sn, st, sp
             possible words.
         </p>
     </div>
-    <div class='grid grid-cols-2 gap-8 mt-4 min-h-[50vh]'>
+    <div class='grid grid-cols-2 gap-8 mt-4 h-[35rem] max-h-[35rem]'>
         <div class='h-full flex flex-col'>
-            <div class='textbox flex-grow'>
+            <div class='textbox grow'>
                 <label>Classes</label>
                 <textarea bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
@@ -409,9 +410,9 @@ s = sn, st, sp
                 <input bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
             </div>
         </div>
-        <div class='textbox'>
+        <div class='textbox max-h-[inherit]'>
             <label>Words</label>
-            <textarea bind:value={output} class='h-full' name='classes' autocorrect='off' readonly></textarea>
+            <textarea bind:value={output} class='overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
         </div>
     </div>
     <div class='flex justify-between items-center mt-8 gap-8'>
@@ -445,6 +446,7 @@ s = sn, st, sp
         border: 1px solid var(--accentlight);
         color: revert;
         padding: 2px;
+        background: white;
         font-family: CharisSIL, Doulos SIL, Times New Roman, serif;
     }
 

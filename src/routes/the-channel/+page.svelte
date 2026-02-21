@@ -5,7 +5,7 @@
 
 <Page name="The Channel"></Page>
 <Stripe>Agma Schwa</Stripe>
-<section class="flex [&>*]:basis-full gap-8">
+<section class="flex *:basis-full gap-8">
     <div><img src="$lib/images/the_channel/subscribe.png" alt="ŋəbscribe" class="my-0 mx-auto"></div>
     <article>
         <p>
