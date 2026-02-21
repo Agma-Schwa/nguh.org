@@ -7,8 +7,14 @@ interface RouteParams {
 }
 
 export function load({ params }: { params: RouteParams }) {
-    // Do a directory listing. Each directory in 'comic' is a chapter.
-    const chapters = fs.readdirSync('../static/comic');
+    // Do a directory listing. Each directory in 'comic' is a chapter. Take care
+    // to sort the directories as they may be returned in any order.
+    const chapters = fs.readdirSync('../static/comic')
+        .map(dir => parseInt(dir))
+        .filter(dir => !isNaN(dir))
+        .sort((a, b) => a - b)
+
+    // Figure out what the maximum page for each chapter is.
     const pages: number[] = []
     for (const c of chapters) pages.push(
         fs.readdirSync(`../static/comic/${c}`)
