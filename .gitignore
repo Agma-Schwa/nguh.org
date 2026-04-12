@@ -17,6 +17,7 @@ vite.config.ts.timestamp-*
 /static/ccc-langs.json
 /static/comic
 /static/DICTIONARY.json
+/static/elvish-dictionary.json
 
 # Database.
 /www.db
