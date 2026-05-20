@@ -19,6 +19,12 @@ const config = {
 		files: {
 			assets: 'static',
 		}
+	},
+
+	compilerOptions: {
+		experimental: {
+			async: true
+		}
 	}
 };
 

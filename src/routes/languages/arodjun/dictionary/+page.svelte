@@ -2,7 +2,7 @@
     import Page from '$lib/components/Page.svelte';
     import type {PageProps} from './$types';
     import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
-    import {type Dictionary as Dict, IsFullEntry} from '$lib/js/dictionary';
+    import {type Dictionary as Dict, IsFullEntry, ParseDictionary} from '$lib/js/dictionary';
     import {SearchMode} from '$lib/js/dictionary';
     import type {Snippet} from 'svelte';
 
@@ -11,6 +11,8 @@
     }
 
     let { data }: PageProps = $props();
+    const generator = $derived(await ParseDictionary(data.dict))
+    const dict = $derived(generator.dictionary)
 
     function CustomSearchHandler(needle: string): Dict.Entry[] | null {
         needle = needle.trim()
@@ -39,7 +41,7 @@
             return null
         }
 
-        for (const entry of data.dict.entries) {
+        for (const entry of dict.entries) {
             if (!IsFullEntry(entry) || !entry.etym) continue
             const found = FindPSCId(entry.etym)
             if (found !== null && found == id) entries.push(entry)
@@ -64,7 +66,7 @@
     {CustomSearchHandler}
     {NormaliseForSearch}
     {CustomMacroHandler}
-    dict={data.dict}
+    dict={dict}
     lang_code={'ar'}
     search_example={'pjecijau'}
     capitalise={true}

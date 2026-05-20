@@ -13,11 +13,10 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Static data that is not part of git.
-/static/arodjun-dictionary.json
+/static/*.dict.txt
+/static/dictgen.wasm
 /static/ccc-langs.json
 /static/comic
-/static/DICTIONARY.json
-/static/elvish-dictionary.json
 
 # Database.
 /www.db

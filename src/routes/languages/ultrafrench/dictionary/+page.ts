@@ -1,13 +1,12 @@
 import type {PageLoad} from "./$types";
 import {dev} from "$app/environment";
-import type {Dictionary} from '$lib/js/dictionary';
 
 export const ssr = false;
 
-const path = dev ? "/DICTIONARY.json" : "/static/DICTIONARY.json";
+const path = dev ? "/ULTRAFRENCH.dict.txt" : "/static/ULTRAFRENCH.dict.txt";
 
 export const load: PageLoad = async (event) => {
     const req = await event.fetch(path)
-    const json = await req.json()
-    return { dict: json as Dictionary.Data };
+    const text = await req.text()
+    return { dict: text };
 }
