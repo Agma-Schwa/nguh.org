@@ -18,6 +18,7 @@
 		"@sveltejs/kit": "^2.60.1",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@tailwindcss/postcss": "^4.3.0",
+		"@tailwindcss/vite": "^4.3.0",
 		"@types/cookie": "^1.0.0",
 		"@types/sqlite3": "^5.1.0",
 		"postcss": "^8.5.15",

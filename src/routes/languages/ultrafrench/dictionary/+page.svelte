@@ -1,39 +1,17 @@
 <script lang="ts">
     import Page from '$lib/components/Page.svelte';
-    import Stripe from '$lib/components/Stripe.svelte';
     import type {PageProps} from './$types';
     import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
-    import {ParseDictionary, SearchMode} from '$lib/js/dictionary';
-
-    // This MUST mirror NormaliseForSearch() as defined in the ULTRAFRENCHER.
-    function NormaliseForSearch(value: string, mode: SearchMode): string {
-        let needle = value
-            .toLowerCase()
-            .normalize("NFKD")
-            .replaceAll(/[^a-zA-ZłŁ ]/g, "")
-
-        // Additional transformations that only apply to the needle and
-        // only if it is an UF word:
-        //
-        // Convert from Early Modern UF spelling to modern spelling.
-        if (mode == SearchMode.Headword) {
-            needle = needle.replaceAll('ph', 'bh');
-            needle = needle.replaceAll('p', 'b');
-            needle = needle.replaceAll(/t(?!’)/g, 'd');
-        }
-        return needle
-    }
+    import {ParseDictionary} from '$lib/js/dictionary';
 
     let { data }: PageProps = $props();
     const generator = $derived(await ParseDictionary(data.dict))
-    const dict = $derived(generator.dictionary)
 </script>
 
 <Page name="ULTRAFRENCH Dictionary" banner={false} />
 <Dictionary
     CustomSearchHandler={() => null}
-    {NormaliseForSearch}
-    dict={dict}
+    dict={generator}
     lang_code={'uf'}
     search_example={'ad’hór'}
 />

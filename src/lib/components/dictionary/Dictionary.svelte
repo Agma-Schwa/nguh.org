@@ -5,9 +5,8 @@
     import type {Snippet} from 'svelte';
 
     interface Props {
-        dict: Dictionary.Data
+        dict: Dictionary.Generator
         CustomSearchHandler(needle: string): Dictionary.Entry[] | null
-        NormaliseForSearch(value: string, mode: SearchMode): string
         CustomMacroHandler?: Snippet<[Dictionary.CustomMacroNode, Snippet<[Dictionary.Node]>]>
         lang_code: string
         search_example: string
@@ -17,12 +16,12 @@
     let {
         dict,
         CustomSearchHandler,
-        NormaliseForSearch,
         CustomMacroHandler,
         lang_code,
         search_example,
         capitalise = false
     }: Props = $props()
+    const data = $derived(dict.dictionary);
 
     type SearchPair = [string, Dictionary.Entry[]]
     class Search {
@@ -58,7 +57,7 @@
         }
 
         search(input: string): Dictionary.Entry[] {
-            if (input.length === 0) return dict.entries
+            if (input.length === 0) return data.entries
             const matches = new Set<Dictionary.Entry>()
             for (const entry of this.#entry_list)
                 if (entry[0].startsWith(input))
@@ -72,8 +71,8 @@
     let search_value: string = $state('')
     let search_mode = Persist(`${lang_code}-dict-search-mode`, SearchMode.Definition, true)
     const search = {
-        [SearchMode.Headword]: new Search(dict.entries, 'hw_search', true),
-        [SearchMode.Definition]: new Search(dict.entries, 'def_search', false)
+        [SearchMode.Headword]: new Search(data.entries, 'hw_search', true),
+        [SearchMode.Definition]: new Search(data.entries, 'def_search', false)
     }
 
     // Headword search.
@@ -82,6 +81,10 @@
         if (custom) return custom
         return search[search_mode.value].search(NormaliseForSearch(search_value, search_mode.value))
     })
+
+    function NormaliseForSearch(needle: string, mode: SearchMode): string {
+        return dict.normalise_for_search(needle, mode)
+    }
 
     function RenderPlainText(entry: Dictionary.Entry, n: Dictionary.Node): string {
         function RenderAll(nodes: Dictionary.Node[] | undefined) {

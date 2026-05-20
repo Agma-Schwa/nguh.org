@@ -8,8 +8,8 @@
         name: string;
         stripe: string;
         video: string;
-        docs: string | undefined;
-        before_docs: string | undefined;
+        docs?: string | undefined;
+        before_docs?: string | undefined;
         children?: import('svelte').Snippet;
     }
 

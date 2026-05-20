@@ -70,8 +70,13 @@ export namespace Dictionary {
                              | "reference"
 
     namespace Internal {
+        export const LemmaCollation = 0
+        export const DefinitionCollation = 1
+        type Collation = typeof LemmaCollation | typeof DefinitionCollation
+
         export type DictGen = WebAssembly.Exports & {
             allocate(n: number): number
+            collate(ptr: number, n: number, collation: Collation): number
             free(ptr: number, n: number): void
             get_output_size(): number
             get_output_ptr(): number
@@ -84,7 +89,8 @@ export namespace Dictionary {
             #ptr: number
             #size: number
             #buffer: Uint8Array
-            constructor(instance: DictGen, js_buffer: Uint8Array) {
+            constructor(instance: DictGen, contents: string) {
+                const js_buffer = new TextEncoder().encode(contents)
                 this.#instance = instance
                 this.#size = js_buffer.byteLength
                 this.#ptr = this.#instance.allocate(this.#size)
@@ -106,33 +112,49 @@ export namespace Dictionary {
     export class Generator {
         #data: Readonly<Data>
         #instance: Internal.DictGen
-        constructor(instance: Internal.DictGen, data: Readonly<Data>) {
+        constructor(instance: Internal.DictGen, dict: string) {
             this.#instance = instance
-            this.#data = data
+
+            // Parse the dictionary.
+            const parse_result = this.#UploadAndRun(dict, (ptr, size) => this.#instance.parse(ptr, size))
+            if (parse_result !== 0) throw new Error("Dictionary Generator: Parse Error")
+
+            // Save the JSON data.
+            this.#data = Object.freeze(JSON.parse(this.#GetOutput()) as Data)
         }
 
+        /** Get the dictionary data. */
         get dictionary() { return this.#data; }
+
+        /** Normalise a word for searching. */
+        normalise_for_search(s: string, mode: SearchMode): string {
+            const coll = mode == SearchMode.Definition ? Internal.DefinitionCollation : Internal.LemmaCollation
+            const collate_result = this.#UploadAndRun(s, (ptr, size) => this.#instance.collate(ptr, size, coll))
+            if (collate_result !== 0) return s; // If this failed, just return the original string.
+            return this.#GetOutput()
+        }
+
+        /** Get the contents of the generator’s output buffer. */
+        #GetOutput(): string {
+            const size = this.#instance.get_output_size()
+            const data = this.#instance.get_output_ptr()
+            const raw = new Uint8Array(this.#instance.memory.buffer, data, size)
+            return new TextDecoder().decode(raw);
+        }
+
+        /** Upload data to Rust and run 'cb' on it. */
+        #UploadAndRun<T>(s: string, cb: (ptr: number, size: number) => T): T {
+            const buffer = new Internal.RustBuffer(this.#instance, s)
+            try { return cb(buffer.ptr, buffer.size) }
+            finally { buffer.delete() }
+        }
     }
 
      export async function Parse(s: string): Promise<Generator> {
         const wasm = fetch(Internal.DictGenURL)
-
-        // Load the generator.
         const exports: WebAssembly.Exports = (await WebAssembly.instantiateStreaming(wasm)).instance.exports
         const instance = exports as Internal.DictGen
-
-        // Parse the dictionary.
-        const dict_buffer = new Internal.RustBuffer(instance, new TextEncoder().encode(s))
-        const parse_result = instance.parse(dict_buffer.ptr, dict_buffer.size)
-        dict_buffer.delete()
-        if (parse_result !== 0) throw new Error("Dictionary Generator: Parse Error")
-
-        // Get the JSON output.
-        const json_size = instance.get_output_size()
-        const json_data = instance.get_output_ptr()
-        const json_raw = new Uint8Array(instance.memory.buffer, json_data, json_size)
-        const json_str = new TextDecoder().decode(json_raw);
-        return new Generator(instance, Object.freeze(JSON.parse(json_str) as Data))
+        return new Generator(instance, s)
     }
 }
 

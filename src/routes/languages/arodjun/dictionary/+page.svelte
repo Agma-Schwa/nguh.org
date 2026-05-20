@@ -3,12 +3,7 @@
     import type {PageProps} from './$types';
     import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
     import {type Dictionary as Dict, IsFullEntry, ParseDictionary} from '$lib/js/dictionary';
-    import {SearchMode} from '$lib/js/dictionary';
     import type {Snippet} from 'svelte';
-
-    function NormaliseForSearch(value: string, _: SearchMode): string {
-        return value.toLowerCase()
-    }
 
     let { data }: PageProps = $props();
     const generator = $derived(await ParseDictionary(data.dict))
@@ -64,9 +59,8 @@
 <Page name="Arodjun Dictionary" banner={false} />
 <Dictionary
     {CustomSearchHandler}
-    {NormaliseForSearch}
     {CustomMacroHandler}
-    dict={dict}
+    dict={generator}
     lang_code={'ar'}
     search_example={'pjecijau'}
     capitalise={true}
