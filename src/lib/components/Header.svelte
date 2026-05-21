@@ -20,7 +20,6 @@
 </script>
 
 {#snippet Tools()}
-    <PageLink href='/tools/hunger_games_simulator'>Hunger Games Simulator</PageLink>
     <PageLink href='/tools/word_generator'>Word Generator</PageLink>
     <PageLink href='/tools/speedrun'>Speedrun</PageLink>
     <div data-sveltekit-reload>

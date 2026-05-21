@@ -1,7 +1,6 @@
 <script lang='ts'>
     import Page from '$lib/components/Page.svelte';
     import Stripe from '$lib/components/Stripe.svelte';
-    import {DownloadURL} from '$lib/js/hgs.svelte';
     import {Stream} from '$lib/js/stream';
     import {Persist} from '$lib/js/persist.svelte';
     import {Err, Prompt} from '$lib/js/dialog.svelte';
@@ -175,6 +174,21 @@
                 if (!pred(ta[i], tb[i]))
                     return false
             return true
+    }
+
+    /** Prompt the user to download a file.
+     *
+     * @param filename The name that the file should have.
+     * @param url The URL of the file.
+     * */
+    export function DownloadURL(filename: string, url: string) {
+        let a = document.createElement('a')
+        a.setAttribute('href', url)
+        a.setAttribute('download', filename)
+        a.style.display = 'none'
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
     }
 
     function Download() {

@@ -1,14 +1,8 @@
 ## Running the server
 ```bash
-npm install
-npm run dev -- --open
+bun install
+bun run dev
 ```
-
-## Hunger Games Simulator
-If you came here looking for the Hunger Games Simulator, it’s here:
-- [/src/routes/tools/hunger_games_simulator/+page.svelte](src/routes/tools/hunger_games_simulator/+page.svelte),
-- [/src/lib/js/hgs.svelte.ts](src/lib/js/hgs.svelte.ts),
-- [/src/lib/components/hgs](src/lib/components/hgs).
 
 ## Creating a page
 To create the page `/foo/bar/baz`, create the directories

@@ -63,7 +63,7 @@
     <p>
         In 2022, the channel reached 4,000 subscribers, with several large-scale projects in the works. A comic,
         titled “Dog Days,” has been in production since early 2022. Aeternal created a Conlang-themed
-        <a href="/tools/hunger_games_simulator">Hunger Games Simulator</a> on this site in the spring of 2022, which
+        Hunger Games Simulator on this site (now no longer maintained) in the spring of 2022, which
         quickly exploded in popularity after being featured by several YouTubers, including Zeez Vov Gee 2. A card game,
         under the working title “Prescriptivism: The Game” was created in late 2022, with plans of future printing and
         online multiplayer gaming. In August of 2022, Nguh announced the first-ever “Cursed Conlang Circus,” a challenge
