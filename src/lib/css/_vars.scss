@@ -59,26 +59,32 @@ $video-width-16-to-9: 56.25%;
 
 @font-face {
     font-family: CharisSIL;
-    src: local('Charis SIL'), local('Charis-SIL'), url('$lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
+    src: local('Charis'), local('Charis SIL'), local('Charis-SIL'), url('$lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-style: italic;
-    src: local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
+    src: local('Charis Italic'), local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-weight: bold;
-    src: local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('$lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
+    src: local('Charis Bold'), local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('$lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-weight: bold;
     font-style: italic;
-    src: local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
+    src: local('Charis Bold Italic'), local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
+}
+
+@font-face {
+    font-family: Santaa;
+    font-style: italic;
+    src: url('$lib/fonts/Santaa/Santaa-MediumItalic.woff') format('woff');
 }
 
 @font-face {
