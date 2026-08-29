@@ -22,6 +22,7 @@
 {#snippet Tools()}
     <PageLink href='/tools/word_generator'>Word Generator</PageLink>
     <PageLink href='/tools/speedrun'>Speedrun</PageLink>
+    <PageLink href='/ccc/rules'>CCC Rules</PageLink>
     <div data-sveltekit-reload>
         <PageLink href='/ccc/vote'>CCC Voting Form</PageLink>
     </div>

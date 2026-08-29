@@ -15,6 +15,7 @@ vite.config.ts.timestamp-*
 # Static data that is not part of git.
 /static/*.dict.txt
 /static/dictgen.wasm
+/static/ccc-rules.md
 /static/ccc-langs.json
 /static/comic
 
