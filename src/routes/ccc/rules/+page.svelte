@@ -110,6 +110,7 @@
 
 <style lang="scss">
     :global(h3) {
+        scroll-margin-top: var(--header-height);
         font-size: 24pt !important;
         margin-top: 1rem !important;
         text-align: left;
