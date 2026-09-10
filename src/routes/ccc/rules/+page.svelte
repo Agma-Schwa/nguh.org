@@ -110,6 +110,7 @@
 
 <style lang="scss">
     :global(h3) {
+        counter-set: h4 0;
         scroll-margin-top: var(--header-height);
         font-size: 24pt !important;
         margin-top: 1rem !important;
