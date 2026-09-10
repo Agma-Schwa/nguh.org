@@ -152,6 +152,7 @@
         :global(blockquote) {
             font-style: italic;
             padding-inline: 2rem;
+            margin-bottom: 1rem;
         }
 
         :global(details) {
