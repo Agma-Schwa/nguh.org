@@ -1,46 +1,37 @@
-import {type DefaultSession, SvelteKitAuth} from '@auth/sveltekit';
-import Discord from "@auth/sveltekit/providers/discord"
-import {AUTH_DISCORD_ID, AUTH_DISCORD_SECRET, AUTH_SECRET} from '$env/static/private';
+import { AUTH_DISCORD_ID, AUTH_DISCORD_SECRET, AUTH_SECRET } from '$app/env/private';
+import { getRequestEvent } from '$app/server';
+import { betterAuth } from 'better-auth';
+import { getMigrations } from 'better-auth/db/migration';
+import { sveltekitCookies } from 'better-auth/svelte-kit';
+import { db } from './database';
 
-declare module "@auth/sveltekit" {
-  interface Session {
-    access_token: string | undefined,
-    user: {
-      /**
-       * By default, TypeScript merges new interface properties and overwrites existing ones.
-       * In this case, the default session user properties will be overwritten,
-       * with the new ones defined above. To keep the default session user properties,
-       * you need to add them back into the newly declared interface.
-       */
-    } & DefaultSession["user"]
-  }
-}
-
-export const { handle, signIn, signOut } = SvelteKitAuth({
-    providers: [Discord({
-        authorization: {
-            params: {
-                scope: "identify guilds"
-            }
-        },
-        clientId: AUTH_DISCORD_ID,
-        clientSecret: AUTH_DISCORD_SECRET,
-    })],
-    callbacks: {
-        async jwt({token, account, profile, user}) {
-            // During sign-in, 'user' is set; this is when we need to save the access_token etc.
-            if (user) return { ...token, access_token: account?.access_token, discord_id: profile?.id }
-
-            // Otherwise, we’re fetching an existing token, so take care not to override it.
-            return token
-        },
-
-        async session({token, session}) {
-            session.access_token = token.access_token as string
-            session.user.id = token.discord_id as string
-            return session
+export const auth = betterAuth({
+    database: db,
+    baseURL: {
+        allowedHosts: ['nguh.org', 'www.nguh.org', 'localhost:*', '127.0.0.1:*'],
+        fallback: 'https://www.nguh.org'
+    },
+    basePath: '/auth',
+    secret: AUTH_SECRET,
+    account: {
+        accountLinking: { enabled: false },
+        encryptOAuthTokens: true
+    },
+    socialProviders: {
+        discord: {
+            clientId: AUTH_DISCORD_ID,
+            clientSecret: AUTH_DISCORD_SECRET,
+            disableDefaultScope: true,
+            scope: ['identify'],
+            // Discord sign-in only needs the account ID. Supply the email field
+            // Better Auth requires without asking Discord for the user's email.
+            mapProfileToUser: ({ id }) => ({ email: `${id}@discord.invalid`, emailVerified: false })
         }
     },
-    trustHost: true,
-    secret: AUTH_SECRET,
-})
+    plugins: [sveltekitCookies(getRequestEvent)]
+});
+
+export async function migrateAuth() {
+    const { runMigrations } = await getMigrations(auth.options);
+    await runMigrations();
+}

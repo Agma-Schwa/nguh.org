@@ -1,7 +1,8 @@
 import {type Actions, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {PageServerLoad, PageServerLoadEvent} from './$types';
 import {error} from '@sveltejs/kit';
-import {CCC_FORM_ENABLED, DISCORD_ADMIN_ID} from '$env/static/private';
+import {auth} from '../../../auth';
+import {CCC_FORM_ENABLED, DISCORD_ADMIN_ID} from '$app/env/private';
 
 export const prerender = false;
 
@@ -16,16 +17,20 @@ interface Vote {
 }
 
 async function CheckAccess(event: PageServerLoadEvent | RequestEvent): Promise<string> {
-    const session = await event.locals.auth()
+    const accounts = event.locals.user ? await auth.api.listUserAccounts({
+        request: event.request, 
+        headers: event.request.headers, 
+        asResponse: false
+    }) : [];
 
-    // Bail early to avoid hitting the Discord API if the form is disabled.
-    if (CCC_FORM_ENABLED !== 'TRUE' && session?.user?.id !== DISCORD_ADMIN_ID) error(
+    const discordId = accounts.find(account => account.providerId === 'discord')?.accountId;
+    if (CCC_FORM_ENABLED !== 'TRUE' && discordId !== DISCORD_ADMIN_ID) error(
         403,
         'Forbidden\nThe voting form is currently disabled.'
     )
 
-    if (!session?.user?.id) redirect(303, "/login")
-    return session?.user?.id
+    if (!discordId) redirect(303, "/login")
+    return discordId
 }
 
 function ConvertNull(s: FormDataEntryValue | null) {
@@ -77,20 +82,9 @@ export const actions: Actions = {
 export const load: PageServerLoad = async (event) => {
     const user = await CheckAccess(event)
 
-    // Get their previous vote.
-    const res: [boolean, Vote | Error] = await new Promise(async (resolve) => {
-        event.locals.db.get(
-            'SELECT * FROM votes WHERE id = ?;',
-            [user],
-            (err: Error, row: Vote) => {
-                if (err) resolve([false, err])
-                resolve([true, row])
-            }
-        )
-    })
+    const vote = event.locals.db.query<Vote, [string]>(
+        'SELECT * FROM votes WHERE id = ?;'
+    ).get(user) ?? undefined;
 
-    if (!res[0]) error(500, (res[1] as Error).message)
-
-    // Check if the voting form is enabled.
-    return {vote: res[1] as Vote, langs: event.locals.ccc_submissions}
+    return {vote, langs: event.locals.ccc_submissions}
 };

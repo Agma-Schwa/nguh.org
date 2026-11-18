@@ -1,5 +1,5 @@
 import type {PageLoad} from "./$types";
-import {dev} from "$app/environment";
+import {dev} from "$app/env";
 
 export const ssr = false;
 

@@ -1,10 +1,12 @@
-import {error, type Handle, redirect} from '@sveltejs/kit';
+import { building } from '$app/env';
+import {redirect} from '@sveltejs/kit';
 import type {LanguagePage} from '$lib/js/types';
 
 import * as fs from 'node:fs';
-import sqlite3 from 'sqlite3';
-import {handle as HandleAuth} from './auth';
-import {sequence} from '@sveltejs/kit/hooks';
+import {db} from './database';
+import {auth, migrateAuth} from './auth';
+import {svelteKitHandler} from 'better-auth/svelte-kit';
+import {sequence, type Handle} from '@sveltejs/kit/hooks';
 
 // Grab all language pages.
 function LoadLanguagePages() {
@@ -45,36 +47,8 @@ const ccc_submissions = Object.freeze((fs.existsSync(CCCLangsPath) ? fs.readFile
 if (new Set(ccc_submissions).size !== ccc_submissions.length)
     throw new Error("Duplicate CCC submissions detected!")
 
-function check(e: Error | null) {
-    if (!e) return
-    console.error(e)
-    error(500);
-}
-
-// Connect to DB.
-const db = SetUpDB()
-function SetUpDB() {
-    const db = new sqlite3.Database('www.db', check)
-
-    // Set up tables.
-    db.run(`
-        CREATE TABLE IF NOT EXISTS votes (
-            id TEXT PRIMARY KEY,
-            time_unix_ms INTEGER,
-            top1 TEXT,
-            top2 TEXT,
-            top3 TEXT,
-            top4 TEXT,
-            top5 TEXT,
-            top6 TEXT
-        ) STRICT;
-    `, check)
-
-    return db
-}
-
 const HandleSetUp: Handle = async ({event, resolve}) => {
-    if (!event.locals.db) event.locals.db = db
+    if (db && !event.locals.db) event.locals.db = db
     if (!event.locals.language_pages) event.locals.language_pages = lang_pages
     if (!event.locals.ccc_submissions) event.locals.ccc_submissions = ccc_submissions
     return resolve(event)
@@ -92,4 +66,17 @@ const CheckRouteAccess: Handle = async ({event, resolve}) => {
     return resolve(event)
 }
 
-export const handle: Handle = sequence(HandleSetUp, HandleAuth, CheckRouteAccess);
+export async function init() {
+    if (!building) await migrateAuth();
+}
+
+const HandleAuth: Handle = async ({event, resolve}) => {
+    event.locals.user = building ? null : (await auth.api.getSession({
+        request: event.request, 
+        headers: event.request.headers, 
+        asResponse: false
+    }))?.user ?? null;
+    return svelteKitHandler({auth, event, resolve, building});
+}
+
+export const handle: Handle = sequence(CheckRouteAccess, HandleSetUp, HandleAuth);

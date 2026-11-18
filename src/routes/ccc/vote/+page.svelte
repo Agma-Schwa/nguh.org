@@ -2,8 +2,7 @@
     import {page} from "$app/state";
     import Page from "$lib/components/Page.svelte";
     import Stripe from "$lib/components/Stripe.svelte";
-    import {enhance} from '$app/forms';
-    import type {ActionResult} from "@sveltejs/kit";
+    import {enhance, type ActionResult} from '$app/forms';
     import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
     import {Err} from '$lib/js/dialog.svelte';
 
@@ -14,7 +13,7 @@
         if (e.result.status == 204) {
             success_dialog.open()
         } else if (e.result.type === 'error') {
-            Err(e.result.error)
+            Err(e.result.error.message)
         }
     }
 </script>

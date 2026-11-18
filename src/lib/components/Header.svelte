@@ -5,7 +5,7 @@
     import Hamburger from '$lib/components/header/Hamburger.svelte';
     import {MediaQuery} from 'svelte/reactivity';
     import Dropdown from '$lib/components/header/Dropdown.svelte';
-    import {browser} from '$app/environment';
+    import {browser} from '$app/env';
     import {afterNavigate} from '$app/navigation';
 
     interface Props {

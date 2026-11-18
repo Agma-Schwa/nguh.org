@@ -3,7 +3,7 @@
     import Stripe from '$lib/components/Stripe.svelte';
     import {page} from '$app/state';
 
-    const logged_in = !!page.data.user;
+    const logged_in = $derived(!!page.data.user);
 </script>
 <Page name='Sign In' />
 
