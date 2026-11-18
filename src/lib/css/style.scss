@@ -62,7 +62,6 @@ body {
     --main-shadow: 0 0 2em var(--content-box-shadow-colour);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background: var(--body-background-colour);
     color: var(--text-colour);
 
@@ -78,6 +77,10 @@ body.dark {
     --body-background-colour: var(--accentblack);
     --text-colour: #fafafe;
     --content-box-shadow-colour: rgba(0, 0, 0, .3);
+}
+
+body.page-hide-banner {
+    justify-content: center;
 }
 
 main {
