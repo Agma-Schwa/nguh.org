@@ -23,8 +23,13 @@ img { display: block; }
 html, body { overflow-x: hidden; }
 
 html {
+    scroll-padding-block-start: calc(var(--header-height) + .5rem);
     scrollbar-color: var(--accentlight) var(--accentblack);
     scrollbar-width: auto;
+
+    @media (display-mode: fullscreen) {
+        scroll-padding-block-start: 0;
+    }
 }
 
 p {

@@ -3,6 +3,7 @@
     import Page from "#lib/components/Page.svelte";
     import Stripe from "#lib/components/Stripe.svelte";
     import SvelteMarkdown, { type MarkedExtension } from "@humanspeak/svelte-markdown";
+    import type { Snippet } from 'svelte';
     import {
         markedFootnote,
         markedAlert,
@@ -15,6 +16,31 @@
         alert: AlertRenderer,
         footnoteRef: FootnoteRef,
         footnoteSection: FootnoteSection
+    }
+
+    const footnoteExtension = markedFootnote()
+    for (const extension of footnoteExtension.extensions ?? []) {
+        if (extension.name !== 'footnoteSection' || !('tokenizer' in extension)) continue
+        const tokenize = extension.tokenizer
+
+        // Keep adjacent definitions in one list even when the source separates them with blank lines.
+        extension.tokenizer = function (source, tokens) {
+            const section = tokenize.call(this, source, tokens)
+            if (!section) return
+
+            let end = section.raw.length
+            while (end < source.length) {
+                const rest = source.slice(end)
+                const definitions = rest.replace(/^(?:[ \t]*\r?\n)+/, '')
+                const next = tokenize.call(this, definitions, tokens)
+                if (!next) break
+
+                end += rest.length - definitions.length + next.raw.length
+                section.footnotes.push(...next.footnotes)
+            }
+
+            return { ...section, raw: source.slice(0, end) }
+        }
     }
 
     // Extension for simplifying <details>
@@ -32,7 +58,7 @@
                     type: 'details',
                     raw: match[0],
                     title: match[1].trim(),
-                    text: match[2].trim()
+                    tokens: this.lexer.blockTokens(match[2].trim(), [])
                 }
             }
         }]
@@ -58,8 +84,27 @@
             .replaceAll("&nbsp;", "\u00a0")
             .replaceAll("%N", CIRCUS_NUMBER)
     )
+
+    async function ScrollToExpandedFragment() {
+        const target = document.querySelector(':target')
+        const details = target?.closest('details')
+        if (!target || !details || target === details) return
+
+        details.open = true
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+
+        // The browser may adjust the scroll position while the disclosure is expanding.
+        const duration = parseFloat(getComputedStyle(details, '::details-content').transitionDuration)
+        if (duration > 0) {
+            await new Promise(resolve => setTimeout(resolve, duration * 1000))
+            await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+        }
+
+        if (target.matches(':target')) target.scrollIntoView()
+    }
 </script>
 
+<svelte:window onhashchange={ScrollToExpandedFragment} />
 
 <Page name="CCC Rules"/>
 <Stripe>Cursed Conlang Circus Rules</Stripe>
@@ -79,7 +124,7 @@
     <SvelteMarkdown
         source={text}
         options={{headerIds: true}}
-        extensions={[markedFootnote(), markedAlert(), detailsExtension]} {renderers}
+        extensions={[footnoteExtension, markedAlert(), detailsExtension]} {renderers}
     >
     {#snippet alert(props)}
         <div class="border-2 border-(--accentcolour) bg-(--accentlighter) mb-2">
@@ -95,14 +140,10 @@
             </p>
         </div>
     {/snippet}
-    {#snippet details(props)}
+    {#snippet details({ title, children }: { title: string; children: Snippet })}
         <details>
-            <summary>
-                {props.title}
-            </summary>
-            <p>
-                <SvelteMarkdown source={props.text} />
-            </p>
+            <summary>{title}</summary>
+            {@render children()}
         </details>
     {/snippet}
     </SvelteMarkdown>
@@ -111,7 +152,6 @@
 <style>
     :global(h3) {
         counter-set: h4 0;
-        scroll-margin-top: var(--header-height);
         font-size: 24pt !important;
         margin-top: 1rem !important;
         text-align: left;
@@ -179,17 +219,18 @@
                 block-size: auto;
             }
         }
+
     }
 
-    :global(.footnotes) {
+    #container :global(.footnotes) {
         margin-top: 2rem;
         padding-inline: 0;
         padding-top: .25rem;
         border-top: 1px solid var(--accentcolour);
 
         :global(ol) {
-            list-style: number;
-            padding-left: 0 !important;
+            list-style: decimal;
+            padding-inline-start: 1.5rem;
             margin-block: 0 !important;
         }
     }

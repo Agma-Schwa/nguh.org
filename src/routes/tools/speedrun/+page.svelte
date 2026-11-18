@@ -96,7 +96,7 @@
         <li><a target="_blank" rel="noopener noreferrer" href="https://www.online-stopwatch.com/">Time Yourself</a></li>
     </ul>
 
-    <h3 id="rules" class="text-left scroll-mt-(--header-height)">RULES</h3>
+    <h3 id="rules" class="text-left">RULES</h3>
     <ol>
         <li>
             <p class="list-head">Choose phonology</p>
