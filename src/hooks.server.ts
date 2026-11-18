@@ -1,5 +1,4 @@
 import { building } from '$app/env';
-import {redirect} from '@sveltejs/kit';
 import type {LanguagePage} from '#lib/js/types.js';
 
 import * as fs from 'node:fs';
@@ -58,10 +57,6 @@ const CheckRouteAccess: Handle = async ({event, resolve}) => {
     // Ignore this nonsense.
     if (event.url.pathname.startsWith('/.well-known/appspecific/com.chrome.devtools'))
         return new Response(null, { status: 204 });
-
-    // Redirect people to the new ung frontend.
-    if (event.url.pathname.startsWith('/ung'))
-        redirect(301, 'https://ung.nguh.org/')
 
     return resolve(event)
 }
