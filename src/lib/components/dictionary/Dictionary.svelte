@@ -201,12 +201,14 @@
                     [&_*]:overflow-x-clip [&_*]:text-ellipsis [&_*]:max-w-full
                 '>
                     {#if entry.primary_definition}
-                        <div>{@render NodeCapitalised(entry.primary_definition.def)}</div>
-                    {:else if entry.senses?.[0].def}
-                        <div class='short-def'>
+                        <span class='block'>{@render NodeCapitalised(entry.primary_definition.def)}</span>
+                    {:else if entry.senses?.[0]?.def}
+                        <span class='grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-1'>
                             <span>1.</span>
-                            <span>{@render NodeCapitalised(entry.senses?.[0].def)}</span>
-                        </div>
+                            <span class={capitalise ? 'first-letter:uppercase' : undefined}>
+                                {@render Node(entry.senses[0].def)}
+                            </span>
+                        </span>
                     {:else}
                         MALFORMED ENTRY
                     {/if}
@@ -243,15 +245,15 @@
                 {#if entry?.senses?.length}
                     <ol class='list-decimal pl-5'>
                     {#each entry.senses as sense}
-                        <li class=''>
-                            <p>{@render NodeCapitalised(sense.def)}</p>
+                        <li>
+                            <p class={capitalise ? 'first-letter:uppercase' : undefined}>{@render Node(sense.def)}</p>
                             {#if sense.comment}
                                 <em class='comment'>{@render NodeCapitalised(sense.comment)}</em>
                             {/if}
+                            {#if sense.examples?.length}
+                                {@render Examples(sense.examples)}
+                            {/if}
                         </li>
-                        {#if sense.examples?.length}
-                            {@render Examples(sense.examples)}
-                        {/if}
                     {/each}
                     </ol>
                 {/if}
