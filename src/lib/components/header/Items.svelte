@@ -20,9 +20,11 @@
     {/if}
 
     <div class='items-wrapper absolute top-0 -z-2 flex min-w-(--nav-link-min-wd) flex-col
-                bg-(--nav-bg) pt-(--header-height) [&_a]:h-8! [&_a]:leading-8! [&_a_span]:text-left!
-                min-[900px]:[&_a]:px-5!
-                {scroll_y ? "h-screen overflow-y-scroll" : ""} {align === "right" ? "right-0" : ""}'>
+                bg-(--nav-bg) pt-(--header-height) [&_a_span]:text-left!
+                {scroll_y
+                    ? "h-dvh w-full overflow-y-auto overscroll-contain [&_a]:h-auto! [&_a]:min-h-9 [&_a]:py-1 [&_a]:leading-tight! [&_a]:whitespace-normal"
+                    : "[&_a]:h-8! [&_a]:leading-8! [&_a]:px-5!"}
+                {align === "right" ? "right-0" : ""}'>
         {@render children()}
     </div>
 {/if}

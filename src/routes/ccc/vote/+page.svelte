@@ -47,9 +47,9 @@
 
     <form method="POST" id="submit-form" class="flex w-[min(100%,40rem)] items-center" use:enhance={() => ShowDialog}>
         {#each [1, 2, 3, 4, 5, 6] as entry}
-            <label class="flex h-10 w-full gap-4 leading-10">
+            <label class="grid min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
                 Top {entry}:
-                <select class="grow" name="top{entry}">
+                <select class="min-h-11 w-full min-w-0" name="top{entry}">
                     <option value="<none>">&lt;none&gt;</option>
                     {#each page.data.langs as lang}
                         {#if page.data.vote && page.data.vote[`top${entry}`] === lang}

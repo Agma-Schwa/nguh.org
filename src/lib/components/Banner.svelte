@@ -52,7 +52,7 @@
 
 <div
     id="banner"
-    class='relative h-(--banner-height) bg-cover bg-no-repeat
+    class='relative isolate h-(--banner-height) bg-cover bg-no-repeat
         shadow-[inset_0_0_0_1000px_rgb(0_0_0/.25),0_2px_1rem_black]
         [.page-hide-banner_&]:hidden!'
     style:background-image={`url("${backgrounds[GetSeason()]}")`}

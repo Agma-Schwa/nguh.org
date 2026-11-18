@@ -414,11 +414,11 @@ s = sn, st, sp
             possible words.
         </p>
     </div>
-    <div class='grid grid-cols-2 gap-8 mt-4 h-[35rem] max-h-[35rem]'>
-        <div class='h-full flex flex-col'>
+    <div class='mt-4 grid gap-6 md:h-[35rem] md:max-h-[35rem] md:grid-cols-2 md:gap-8'>
+        <div class='flex min-w-0 flex-col md:h-full'>
             <div class='{textboxClass} grow'>
                 <label for="word-classes">Classes</label>
-                <textarea id="word-classes" class={fieldClass} bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
+                <textarea id="word-classes" class={[fieldClass, 'max-md:min-h-32']} bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
 
             <div class='{textboxClass} mt-8'>
@@ -428,14 +428,14 @@ s = sn, st, sp
         </div>
         <div class='{textboxClass} max-h-[inherit]'>
             <label for="generated-words">Words</label>
-            <textarea id="generated-words" bind:value={output} class='{fieldClass} overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
+            <textarea id="generated-words" bind:value={output} class='{fieldClass} min-h-0 resize-none overflow-y-auto [field-sizing:fixed]! max-md:h-80' name='classes' autocorrect='off' readonly></textarea>
         </div>
     </div>
-    <div class='flex justify-between items-center mt-8 gap-8'>
+    <div class='mt-8 flex flex-wrap items-center justify-between gap-4 md:gap-8'>
         <div>
             <p>Possible Words ≈ {word_count ?? '<ERROR>'}</p>
         </div>
-        <div class='flex items-center gap-8 [&>button]:w-32'>
+        <div class='flex flex-wrap items-center gap-2 max-md:[&>button]:min-h-11 md:gap-8 md:[&>button]:w-32'>
             <button onclick={Generate}>Generate</button>
             <button onclick={Download} disabled={output.length === 0}>Download</button>
             <button onclick={() => output = ''} disabled={output.length === 0}>Clear</button>

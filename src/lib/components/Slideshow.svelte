@@ -8,12 +8,12 @@
 
     let { slides, class: className }: Props = $props();
 
-    const arrowClass = 'absolute inset-y-0 z-1 flex cursor-pointer select-none items-center justify-center px-[.5em] text-[2rem] text-white mix-blend-difference transition-transform duration-500 hover:mix-blend-normal hover:shadow-[inset_0_0_0_1000px_rgb(0_0_0/.2)]'
+    const arrowClass = 'absolute inset-y-0 z-1 flex min-w-11 cursor-pointer select-none items-center justify-center bg-transparent! px-[.5em]! text-[2rem]! text-white! mix-blend-difference hover:mix-blend-normal hover:shadow-[inset_0_0_0_1000px_rgb(0_0_0/.2)]'
 
     let slideshow: HTMLDivElement
     let active: number
     let timestamp_last_switched: number
-    let update_interval_handle = undefined
+    let update_interval_handle: number | undefined
 
     function UnsetActiveSlide() {
         let slides = slideshow.getElementsByTagName('img')
@@ -24,12 +24,14 @@
         for (let el of [slides, buttons])
             if (el)
                 el[active].classList.remove('active')
+        buttons[active].removeAttribute('aria-current')
 
         return {slides, buttons};
     }
 
     function SetActiveSlide(slides: HTMLCollectionOf<HTMLImageElement>, buttons: HTMLCollection, slide: number) {
         for (let el of [slides, buttons]) el[slide].classList.add('active')
+        buttons[slide].setAttribute('aria-current', 'true')
     }
 
     function AdvanceSlideshow(increment: number) {
@@ -84,7 +86,9 @@
 
 <div class={["slideshow", className]} bind:this={slideshow}>
     <div class="relative grid place-items-center [grid-template-areas:'inner'] [&>img]:w-full [&>img]:opacity-0 [&>img]:[grid-area:inner] [&>img]:transition-opacity [&>img]:duration-1000 [&>img.active]:opacity-100">
-        <div class="left-0 {arrowClass}" onclick={PreviousSlide} aria-hidden=true>❮</div>
+        {#if slides.length > 1}
+            <button type="button" class="left-0 {arrowClass}" onclick={PreviousSlide} aria-label="Previous slide">❮</button>
+        {/if}
         {#each slides as slide, i}
             {#if i === 0}
                 <img class="active" src={slide} alt="Slide {i}">
@@ -92,17 +96,24 @@
                 <img src={slide} alt="Slide {i}">
             {/if}
         {/each}
-        <div class="right-0 {arrowClass}" onclick={NextSlide} aria-hidden=true>❯</div>
+        {#if slides.length > 1}
+            <button type="button" class="right-0 {arrowClass}" onclick={NextSlide} aria-label="Next slide">❯</button>
+        {/if}
     </div>
-    <div class="slideshow-navbar flex h-[2em] w-full items-center justify-center gap-[1em] hover:cursor-pointer
-               [&>div]:size-[.6em] [&>div]:rounded-full [&>div]:bg-[lightgrey] [&>div]:transition-colors
-               [&>div]:duration-200 [&>div.active]:bg-(--accentcolour) [&>div:hover]:bg-(--accentcolour)">
-        {#each slides as _, i}
-            {#if i === 0}
-                <div class="active" onclick={() => JumpToSlide(i)} aria-hidden=true></div>
-            {:else}
-                <div onclick={() => JumpToSlide(i)} aria-hidden=true></div>
-            {/if}
-        {/each}
-    </div>
+    {#if slides.length > 1}
+        <div class="slideshow-navbar flex min-h-[2em] w-full flex-wrap items-center justify-center
+                   [&>button]:grid [&>button]:size-[1.6em] [&>button]:place-items-center [&>button]:bg-transparent! [&>button]:p-0!
+                   max-md:[&>button]:size-11 [&>button]:before:size-[.6em] [&>button]:before:rounded-full
+                   [&>button]:before:bg-[lightgrey] [&>button.active]:before:bg-(--accentcolour) [&>button:hover]:before:bg-(--accentcolour)">
+            {#each slides as _, i}
+                <button
+                    type="button"
+                    class:active={i === 0}
+                    aria-current={i === 0 ? 'true' : undefined}
+                    aria-label="Show slide {i + 1}"
+                    onclick={() => JumpToSlide(i)}
+                ></button>
+            {/each}
+        </div>
+    {/if}
 </div>

@@ -13,4 +13,4 @@
     $effect(() => { div.style.background = `url('${image}'` })
 </script>
 
-<div bind:this={div} class="fixed top-0 left-0 -z-10000 h-screen w-screen bg-cover bg-center bg-no-repeat blur-[1rem]"></div>
+<div bind:this={div} class="fixed inset-0 -z-10000 max-w-screen bg-cover bg-center bg-no-repeat blur-[1rem]"></div>

@@ -35,7 +35,7 @@
     </div>
 
     <div class="mb-4 flex justify-center">
-        <a class="link-button h-16! w-140! text-5xl leading-16! [@media(max-width:900px)]:w-full!" href="/comic/en/1/0">READ THE COMIC</a>
+        <a class="link-button h-16! w-140! text-5xl leading-16! [@media(max-width:900px)]:w-full! [@media(max-width:900px)]:h-auto! [@media(max-width:900px)]:text-2xl! [@media(max-width:900px)]:leading-snug!" href="/comic/en/1/0">READ THE COMIC</a>
     </div>
 
     <p>
@@ -52,7 +52,7 @@
         on mobile) that you can use to switch between the two at any time.
     </p>
 
-    <div class="flex justify-center gap-8 [&>a]:w-60! [@media(max-width:900px)]:[&>a]:w-full!">
+    <div class="flex justify-center gap-8 max-md:flex-col max-md:gap-3 [&>a]:w-60! [@media(max-width:900px)]:[&>a]:w-full!">
         <a href="/comic/explore-the-world" class="link-button">Explore the World</a>
         <a href="/languages/arodjun" class="link-button">Learn About Arodjun</a>
         <a href="/comic/characters" class="link-button">Meet the Characters</a>

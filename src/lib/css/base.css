@@ -32,8 +32,9 @@ html {
     }
 }
 
-p {
+p, main li, main blockquote, main dd {
     text-align: justify;
+    hyphens: auto;
 }
 
 p:where(:not(:last-child)) { margin-bottom: .5rem; }
@@ -53,7 +54,10 @@ p:where(:not(:last-child)) { margin-bottom: .5rem; }
     background: var(--accentlight);
 }
 
-code, pre, samp, kbd, var { font-family: var(--font-code); }
+code, pre, samp, kbd, var {
+    font-family: var(--font-code);
+    hyphens: none;
+}
 
 body {
     --body-background-colour: #fafafe;
@@ -89,9 +93,9 @@ body.page-hide-banner {
     &:hover { color: var(--accentcolour); }
 }
 
-.smaller-image { max-width: 17.5rem; }
+.smaller-image { max-width: min(100%, 17.5rem); }
 
-.small-image { max-width: 25rem; }
+.small-image { max-width: min(100%, 25rem); }
 
 .center { text-align: center; }
 

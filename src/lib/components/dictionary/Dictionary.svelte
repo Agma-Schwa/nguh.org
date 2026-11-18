@@ -191,7 +191,7 @@
             open:[&_.short-def]:hidden not-open:cursor-pointer
             not-open:[&_.uf-lemma]:min-w-0
         '>
-            <summary class='p-1 marker:content-none grid grid-cols-[1fr_2fr] [&>*]:h-8 items-center whitespace-nowrap'>
+            <summary class='p-1 marker:content-none grid items-center max-md:gap-1 max-md:py-2 md:grid-cols-[1fr_2fr] md:whitespace-nowrap md:[&>*]:h-8'>
                 <span class='dictionary-serif uf-lemma inline-block overflow-x-clip text-ellipsis max-w-full'>
                     <span class='dictionary-lemma'>{@render Node(entry.word)}</span>
                     <em class='dictionary-serif'>{@render Node(entry.pos)}</em>
@@ -268,11 +268,11 @@
 {/snippet}
 
 <section id="search-section" class='!mt-4 [--border:1px_solid_black] [&_p]:m-0! [&_strong]:text-(--accentdarker)'>
-    <div id="search" class='h-10 mb-2'>
+    <div id="search" class="mb-2 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 md:flex">
         <label for="dictionary-search">Search: </label>
-        <input id='dictionary-search' class='dictionary-lemma mr-8 h-full border border-black' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
+        <input id='dictionary-search' class='dictionary-lemma min-h-11 w-full min-w-0 border border-black px-2 md:mr-6 md:w-auto' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
         <label for="search-mode">By: </label>
-        <select id="search-mode" class="dictionary-sans h-full border border-black bg-none text-(length:--text-large)" bind:value={search_mode.value}>
+        <select id="search-mode" class="dictionary-sans min-h-11 w-full min-w-0 border border-black bg-none px-2 md:w-auto text-(length:--text-large)" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}
                 <option value="{mode}" selected>{mode}</option>
             {/each}
@@ -283,7 +283,7 @@
         to view the referenced word.
     </p>
     <div class='
-        w-full h-[36.9rem] [border:var(--border)]
+        w-full h-[clamp(16rem,60dvh,36.9rem)] md:h-[36.9rem] [border:var(--border)]
         [&_[data-svl-item]:not([data-original-index="0"])]:[border-top:var(--border)]
         [&_[data-svl-item]:last-child]:[border-bottom:var(--border)]
     '>

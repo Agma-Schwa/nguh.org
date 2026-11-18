@@ -39,7 +39,7 @@
 
 <Stripe>Phonology</Stripe>
 <section>
-    <article class="flex gap-8">
+    <article class="flex gap-8 *:min-w-0 max-md:flex-col">
         <div>
             <h3 class='mb-4'><em>:·pʰ.ð.m</em> Vowels</h3>
             <img src="@lib/images/pthm/pthmvowels.jpg" alt="pthm Vowels">

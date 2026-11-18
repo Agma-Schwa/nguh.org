@@ -8,7 +8,7 @@
 
 <Stripe>The Languages of Agma Schwa</Stripe>
 <section>
-    <h3 class="text-left">Conlangs from the world of Djogawa Djororx</h3>
+    <h3 class="text-center [@media(width>900px)]:text-left">Conlangs from the world of Djogawa Djororx</h3>
     
     <p>These are the languages spoken by the dog people (“pups”) in the canon of the <em>In Pursuit of Bez</em> universe, 
         including the ongoing comic <a href="/comic"><em>Djogawa Djororx</em></a>:
@@ -24,7 +24,7 @@
         <li><a href="/languages/xomitec"><strong>Xomitec</strong></a>, the language of the Xomitec Empire in the 2000's AR</li>
     </ul>
 
-    <h3 class="text-left">Cursed Conlangs, Jokelangs</h3>
+    <h3 class="text-center [@media(width>900px)]:text-left">Cursed Conlangs, Jokelangs</h3>
     <p>These are the nightmarish abominations created by Nguh and Ætérnal over the years:
 
     </p>
@@ -43,7 +43,7 @@
 </section>
 <Stripe>Sern-Cahilan Dictionaries</Stripe>
 <section>
-    <h3 class="text-left">Sern-Cahilan Unified Dictionary with PSC ID #s </h3>
+    <h3 class="text-center [@media(width>900px)]:text-left">Sern-Cahilan Unified Dictionary with PSC ID #s </h3>
     <p>The spreadsheet below contains the unified Sern-Cahilan Dictionary. It shows how the root words of every applicable word derived from Proto-Sern-Cahilan (Hvasvan) words.
         Every PSC Root has an ID number attached to it that can be used to create loan words with trackable etymologies. 
         Ignore most of the other sheets that currently exist in this document, as they’re mostly vestiges of this gruelling process that I’m keeping in case of emergency.

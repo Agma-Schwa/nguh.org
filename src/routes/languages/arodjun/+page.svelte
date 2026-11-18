@@ -142,35 +142,37 @@
         seven-vowel system including a phonemic /ɛ/ (which merged with /e/)
         and /ə/ (which merged with phonemic /a/):</p>
 
+    <div class="overflow-x-auto">
     <table id="vowels-table" class="[&_th]:[border:1px_solid_var(--accentcolour)]! [&_td]:[border:1px_solid_var(--accentcolour)]! [&_td:not(:first-child)]:text-center [&_td:not(:first-child)]:[font-family:var(--font-ipa)]">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Front</th>
-                <th>Central</th>
-                <th>Back</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>High</td>
-                <td><strong>i</strong> [i, ɪ]</td>
-                <td><strong>u</strong> [u, ʊ, ə]</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Close-Mid</td>
-                <td><strong>e</strong> [ɛ, ɜ]</td>
-                <td><strong>r</strong> [ɚ]</td>
-                <td><strong>o</strong> [o, ʌ]</td>
-            </tr>
-            <tr>
-                <td>Low</td>
-                <td colspan="2"><strong>a</strong> [a, ɐ, ə]</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Front</th>
+                    <th>Central</th>
+                    <th>Back</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>High</td>
+                    <td><strong>i</strong> [i, ɪ]</td>
+                    <td><strong>u</strong> [u, ʊ, ə]</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Close-Mid</td>
+                    <td><strong>e</strong> [ɛ, ɜ]</td>
+                    <td><strong>r</strong> [ɚ]</td>
+                    <td><strong>o</strong> [o, ʌ]</td>
+                </tr>
+                <tr>
+                    <td>Low</td>
+                    <td colspan="2"><strong>a</strong> [a, ɐ, ə]</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 <Stripe>Morphosyntax and Morphology</Stripe>
@@ -184,42 +186,44 @@
         the identity of the subject, the nominative case will be present. As such, the Accusative case is typically only
         marked when a Nominative noun is also present in the sentence, mostly for clarification purposes.</p>
 
+    <div class="overflow-x-auto">
     <table>
-        <thead>
-            <tr>
-                <th>Noun Cases</th>
-                <th>Regular Forms</th>
-                <th>Following Plosives</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>NOM</td>
-                <td>-ka</td>
-                <td>-a</td>
-            </tr>
-            <tr>
-                <td>ACC</td>
-                <td>-pe</td>
-                <td>-e</td>
-            </tr>
-            <tr>
-                <td>DAT</td>
-                <td>-mo</td>
-                <td>-mo</td>
-            </tr>
-            <tr>
-                <td>GEN</td>
-                <td>-bwa</td>
-                <td>-vwa</td>
-            </tr>
-            <tr>
-                <td>AGEN</td>
-                <td>-r</td>
-                <td>-r</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>Noun Cases</th>
+                    <th>Regular Forms</th>
+                    <th>Following Plosives</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NOM</td>
+                    <td>-ka</td>
+                    <td>-a</td>
+                </tr>
+                <tr>
+                    <td>ACC</td>
+                    <td>-pe</td>
+                    <td>-e</td>
+                </tr>
+                <tr>
+                    <td>DAT</td>
+                    <td>-mo</td>
+                    <td>-mo</td>
+                </tr>
+                <tr>
+                    <td>GEN</td>
+                    <td>-bwa</td>
+                    <td>-vwa</td>
+                </tr>
+                <tr>
+                    <td>AGEN</td>
+                    <td>-r</td>
+                    <td>-r</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
     <h3>Noun Classes</h3>
@@ -229,37 +233,39 @@
         suffixes as well, though these do not qualify as “grammatical gender,” as they don’t alter verb conjugations or
         affect related adjectives, etc. Nonphysical nouns are not split into any subcategories. </p>
 
+    <div class="overflow-x-auto">
     <table>
-        <thead>
-            <tr>
-                <th>Noun Classes</th>
-                <th>Singular</th>
-                <th>Plural</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Nonphysical</td>
-                <td>-x, -∅</td>
-                <td>-x, -∅</td>
-            </tr>
-            <tr>
-                <td>Physical (Neutral/Neuter)</td>
-                <td>-au</td>
-                <td>-awa</td>
-            </tr>
-            <tr>
-                <td>Physical (masculine)</td>
-                <td>-aux</td>
-                <td>-auxo</td>
-            </tr>
-            <tr>
-                <td>Physical (feminine)</td>
-                <td>-aix</td>
-                <td>-aixe</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>Noun Classes</th>
+                    <th>Singular</th>
+                    <th>Plural</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nonphysical</td>
+                    <td>-x, -∅</td>
+                    <td>-x, -∅</td>
+                </tr>
+                <tr>
+                    <td>Physical (Neutral/Neuter)</td>
+                    <td>-au</td>
+                    <td>-awa</td>
+                </tr>
+                <tr>
+                    <td>Physical (masculine)</td>
+                    <td>-aux</td>
+                    <td>-auxo</td>
+                </tr>
+                <tr>
+                    <td>Physical (feminine)</td>
+                    <td>-aix</td>
+                    <td>-aixe</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h3>Derivational Affixes</h3>
 
@@ -268,190 +274,196 @@
         meanings. Here are a few of them in their regular forms.
     </p>
     <div>
+    <div class="overflow-x-auto">
     <table>
-        <thead>
-            <tr>
-                <th>Noun Endings</th>
-                <th>Singular</th>
-                <th>Plural</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Masuline</td>
-                <td>-aux</td>
-                <td>-auxo</td>
-            </tr>
-            <tr>
-                <td>Feminine</td>
-                <td>-aix</td>
-                <td>-aixe</td>
-            </tr>
-            <tr>
-                <td>Neuter/Physical</td>
-                <td>-au</td>
-                <td>-awa</td>
-            </tr>
-            <tr>
-                <td>Nonphysical</td>
-                <td colspan="2">-x</td>
-            </tr>
-            <tr>
-                <td>Professional</td>
-                <td>-in</td>
-                <td>-ino</td>
-            </tr>
-            <tr>
-                <td>Instrumental</td>
-                <td>-it</td>
-                <td>-ito</td>
-            </tr>
-            <tr>
-                <td>Regnant</td>
-                <td>-uv</td>
-                <td>-ubuv</td>
-            </tr>
-            <tr>
-                <td>Commander/Honorific</td>
-                <td>-ib</td>
-                <td>-ivo</td>
-            </tr>
-            <tr>
-                <td>Nationality</td>
-                <td>-unk</td>
-                <td>-uno</td>
-            </tr>
-            <tr>
-                <td>City</td>
-                <td colspan="2">-un/-n</td>
-            </tr>
-            <tr>
-                <td>Town</td>
-                <td colspan="2">-ic</td>
-            </tr>
-            <tr>
-                <td>Area/Land</td>
-                <td colspan="2">-sja</td>
-            </tr>
-            <tr>
-                <td>Ridge</td>
-                <td colspan="2">-kojo</td>
-            </tr>
-            <tr>
-                <td>Lake</td>
-                <td colspan="2">-dmair</td>
-            </tr>
-            <tr>
-                <td>strait/river</td>
-                <td colspan="2">-wif</td>
-            </tr>
-            <tr>
-                <td>Hill</td>
-                <td colspan="2">-anuin</td>
-            </tr>
-            <tr>
-                <td>Pass</td>
-                <td colspan="2">-ijet</td>
-            </tr>
-            <tr>
-                <td>Canyon</td>
-                <td colspan="2">-cijot</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>Noun Endings</th>
+                    <th>Singular</th>
+                    <th>Plural</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Masuline</td>
+                    <td>-aux</td>
+                    <td>-auxo</td>
+                </tr>
+                <tr>
+                    <td>Feminine</td>
+                    <td>-aix</td>
+                    <td>-aixe</td>
+                </tr>
+                <tr>
+                    <td>Neuter/Physical</td>
+                    <td>-au</td>
+                    <td>-awa</td>
+                </tr>
+                <tr>
+                    <td>Nonphysical</td>
+                    <td colspan="2">-x</td>
+                </tr>
+                <tr>
+                    <td>Professional</td>
+                    <td>-in</td>
+                    <td>-ino</td>
+                </tr>
+                <tr>
+                    <td>Instrumental</td>
+                    <td>-it</td>
+                    <td>-ito</td>
+                </tr>
+                <tr>
+                    <td>Regnant</td>
+                    <td>-uv</td>
+                    <td>-ubuv</td>
+                </tr>
+                <tr>
+                    <td>Commander/Honorific</td>
+                    <td>-ib</td>
+                    <td>-ivo</td>
+                </tr>
+                <tr>
+                    <td>Nationality</td>
+                    <td>-unk</td>
+                    <td>-uno</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td colspan="2">-un/-n</td>
+                </tr>
+                <tr>
+                    <td>Town</td>
+                    <td colspan="2">-ic</td>
+                </tr>
+                <tr>
+                    <td>Area/Land</td>
+                    <td colspan="2">-sja</td>
+                </tr>
+                <tr>
+                    <td>Ridge</td>
+                    <td colspan="2">-kojo</td>
+                </tr>
+                <tr>
+                    <td>Lake</td>
+                    <td colspan="2">-dmair</td>
+                </tr>
+                <tr>
+                    <td>strait/river</td>
+                    <td colspan="2">-wif</td>
+                </tr>
+                <tr>
+                    <td>Hill</td>
+                    <td colspan="2">-anuin</td>
+                </tr>
+                <tr>
+                    <td>Pass</td>
+                    <td colspan="2">-ijet</td>
+                </tr>
+                <tr>
+                    <td>Canyon</td>
+                    <td colspan="2">-cijot</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
+    <div class="overflow-x-auto">
     <table>
-        <thead>
-            <tr>
-                <th colspan="2">Noun Quantifiers</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Neutral</td>
-                <td>Ø</td>
-            </tr>
-            <tr>
-                <td>Extra-Positive of</td>
-                <td>xw-</td>
-            </tr>
-            <tr>
-                <td>Opposite of</td>
-                <td>k'-</td>
-            </tr>
-            <tr>
-                <td>Lack of</td>
-                <td>t'-</td>
-            </tr>
-            <tr>
-                <td>Big/Many/Very</td>
-                <td>xu-/x-</td>
-            </tr>
-            <tr>
-                <td>Biggest/Collective</td>
-                <td>xju-/xj-</td>
-            </tr>
-            <tr>
-                <td>Small/Few</td>
-                <td>pe-/p-</td>
-            </tr>
-            <tr>
-                <td>Smallest/Piece of</td>
-                <td>p'sju-/p'sj-</td>
-            </tr>
-            <tr>
-                <td>Increment</td>
-                <td>dja-/dj-</td>
-            </tr>
-            <tr>
-                <td>Decrement</td>
-                <td>vja-/vj-</td>
-            </tr>
-            <tr>
-                <td>before/under</td>
-                <td>qlo-/qlow-</td>
-            </tr>
-            <tr>
-                <td>after/above</td>
-                <td>bo-/bow-</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th colspan="2">Noun Quantifiers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Neutral</td>
+                    <td>Ø</td>
+                </tr>
+                <tr>
+                    <td>Extra-Positive of</td>
+                    <td>xw-</td>
+                </tr>
+                <tr>
+                    <td>Opposite of</td>
+                    <td>k'-</td>
+                </tr>
+                <tr>
+                    <td>Lack of</td>
+                    <td>t'-</td>
+                </tr>
+                <tr>
+                    <td>Big/Many/Very</td>
+                    <td>xu-/x-</td>
+                </tr>
+                <tr>
+                    <td>Biggest/Collective</td>
+                    <td>xju-/xj-</td>
+                </tr>
+                <tr>
+                    <td>Small/Few</td>
+                    <td>pe-/p-</td>
+                </tr>
+                <tr>
+                    <td>Smallest/Piece of</td>
+                    <td>p'sju-/p'sj-</td>
+                </tr>
+                <tr>
+                    <td>Increment</td>
+                    <td>dja-/dj-</td>
+                </tr>
+                <tr>
+                    <td>Decrement</td>
+                    <td>vja-/vj-</td>
+                </tr>
+                <tr>
+                    <td>before/under</td>
+                    <td>qlo-/qlow-</td>
+                </tr>
+                <tr>
+                    <td>after/above</td>
+                    <td>bo-/bow-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
+    <div class="overflow-x-auto">
     <table>
-        <thead>
-            <tr>
-                <th>Articles</th>
-                <th>Suffix</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>This/These</td>
-                <td>-k</td>
-            </tr>
-            <tr>
-                <td>That/Those</td>
-                <td>-c</td>
-            </tr>
-            <tr>
-                <td>The Only</td>
-                <td>-m</td>
-            </tr>
-            <tr>
-                <td>The(Any)</td>
-                <td>Ø</td>
-            </tr>
-            <tr>
-                <td>A/Some</td>
-                <td>-g</td>
-            </tr>
-            <tr>
-                <td>None</td>
-                <td>-xi</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>Articles</th>
+                    <th>Suffix</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>This/These</td>
+                    <td>-k</td>
+                </tr>
+                <tr>
+                    <td>That/Those</td>
+                    <td>-c</td>
+                </tr>
+                <tr>
+                    <td>The Only</td>
+                    <td>-m</td>
+                </tr>
+                <tr>
+                    <td>The(Any)</td>
+                    <td>Ø</td>
+                </tr>
+                <tr>
+                    <td>A/Some</td>
+                    <td>-g</td>
+                </tr>
+                <tr>
+                    <td>None</td>
+                    <td>-xi</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     </div>
 </section>
 

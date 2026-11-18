@@ -21,8 +21,8 @@
 <img src="@lib/images/index/banner 3.jpg" alt="banner 3.jpg">
 
 <Stripe>Hey everybody, welcome to “Nguh”</Stripe>
-<section class="flex gap-8">
-    <article class="">
+<section class="flex gap-8 *:min-w-0 max-[900px]:flex-col">
+    <article class="grow">
         <YouTubeVideo src="https://www.youtube.com/embed/KEGsSCcSVRo"/>
         <div>
             <p>
@@ -49,15 +49,15 @@
 </section>
 
 <Stripe>Socials</Stripe>
-<section class="flex gap-8">
+<section class="flex gap-8 *:min-w-0 max-[900px]:flex-col">
     <div>
         <h3 class="mb-8">Follow the Agma Schwa Social Media Channels!</h3>
-        <article class="flex *:basis-full gap-8">
+        <article class="flex gap-8 *:min-w-0 *:basis-full max-[900px]:flex-col">
             <div>
                 <img
                     src="@lib/images/index/Zlevau djoDaxwex.png"
                     alt="Zlevau djoDaxwex"
-                    class="mb-8 h-[17em] w-full object-cover"
+                    class="mb-8 w-full min-[900px]:h-[17em] min-[900px]:object-cover"
                 >
 
                 <div class="spaced-button-group">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div>
-                <Slideshow class="[&_img]:h-[17em] [&_img]:object-cover" slides={[
+                <Slideshow class="[&_img]:aspect-video [&_img]:object-contain min-[900px]:[&_img]:h-[17em] min-[900px]:[&_img]:object-cover" slides={[
                     slide1,
                     slide2,
                     slide3,
@@ -89,7 +89,7 @@
             <h3 class="mb-8">Join the Discord Server</h3>
             <div class="flex items-center justify-center">
                 <iframe src="https://discord.com/widget?id=697450809390268467&theme=dark" width="350" height="500"
-                    class="mx-auto border-0" allowtransparency="true" title="Discord Widget" frameborder="0"
+                    class="mx-auto max-w-full border-0" allowtransparency="true" title="Discord Widget" frameborder="0"
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
                 </iframe>
             </div>
@@ -101,7 +101,7 @@
 </section>
 
 <Stripe>Merch</Stripe>
-<section class="flex gap-8">
+<section class="flex gap-8 *:min-w-0 max-[900px]:flex-col">
     <article><img src="@lib/images/merch/merch.jpg" alt="Merch" class="mt-8 object-cover"></article>
     <article class="flex flex-col justify-center">
         <h3 class="mb-8">Agma Schwa Merch Available Now!</h3>

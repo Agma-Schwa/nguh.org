@@ -41,5 +41,5 @@
 </div>
 
 <NavButtons {data} />
-<img src='/static/comic/{data.chapter}/{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon cursor-default">
+<img src='/static/comic/{data.chapter}/{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon w-full cursor-default">
 <NavButtons {data} />

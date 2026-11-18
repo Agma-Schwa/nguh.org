@@ -157,21 +157,21 @@
 <Banner />
 {#if page.data.user}
     <Ribbon>
-        Logged in as <span class='font-bold text-(--accentlighter)'>{page.data.user.name}</span>
-        •
-        <a href='/login' class='text-(--accentmedium)!'>Sign out</a>
+        <span class='shrink-0'>Logged in as</span>
+        <span class='min-w-0 truncate font-bold text-(--accentlighter)' title={page.data.user.name}>{page.data.user.name}</span>
+        <span class='shrink-0' aria-hidden='true'>•</span>
+        <a href='/login' class='shrink-0 text-(--accentmedium)!'>Sign out</a>
     </Ribbon>
 {/if}
 <div class='absolute top-(--header-height) flex h-[calc(var(--banner-height)-var(--header-height)-var(--header-offset))]
     w-full flex-col items-center justify-center [.page-hide-banner_&]:hidden!'>
-    <div class='mx-auto'>
+    <div class='mx-auto text-[clamp(1.5rem,6vw,3rem)] sm:text-[3rem] md:text-[4rem]'>
         <h1
             class='
-                p-0 block [text-shadow:-3px_3px_rgb(0_0_0/.8)]
+                p-0 block wrap-anywhere [text-shadow:-3px_3px_rgb(0_0_0/.8)]
                 font-black text-center
                 text-white
-                sm:text-[3rem]
-                md:text-[4rem]
+                px-4
                 md:text-nowrap
                 uppercase
             '
@@ -179,18 +179,18 @@
             {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
         </h1>
         <hr
-            class='m-auto -mt-3 w-3/4 [border:var(--h1-underline-height)_solid_var(--accentlight)]'
+            class='mx-auto -mt-[.1875em] w-3/4 [border:var(--h1-underline-height)_solid_var(--accentlight)]'
         >
     </div>
 </div>
 
 <div
-    class='flex gap-4 pt-(--content-top-offs)'
->   <main class='relative mx-auto my-0 flex w-[90rem] max-w-[min(90rem,100vw)] grow flex-col bg-(--body-background-colour) [box-shadow:var(--main-shadow)]'
+    class='flex min-w-0 pt-(--content-top-offs)'
+>   <main class='relative mx-auto my-0 flex w-full min-w-0 max-w-[90rem] flex-col bg-(--body-background-colour) [box-shadow:var(--main-shadow)]'
     >
         {@render children?.()}
         <footer
-            class='justify-end text-center pb-2 mt-4'
+            class='justify-end text-center pb-2 mt-4 max-md:px-4'
         >
             <hr
                 class='m-auto mb-2 w-4/5 border-2 border-(--accentcolour)'

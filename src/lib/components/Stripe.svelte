@@ -12,7 +12,7 @@
     class={[`relative flex min-h-40 items-center justify-center bg-(--accentlight) text-(--accentdarker)!
         before:absolute before:inset-x-0 before:top-0 before:h-6 before:[background-image:var(--stripe-border)] before:bg-size-[auto_1.5rem]
         after:absolute after:inset-x-0 after:bottom-0 after:h-6 after:[background-image:var(--stripe-border)] after:bg-size-[auto_1.5rem]
-        first-of-type:mt-0 [@media(max-width:900px)]:min-h-28`,
+        first-of-type:mt-0 [@media(max-width:900px)]:min-h-28 [@media(max-width:900px)]:px-4 [@media(max-width:900px)]:py-6`,
         tight ? 'my-6' : 'my-12']}
     style:--stripe-border={`url("${border}")`}
 >

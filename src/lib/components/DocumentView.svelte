@@ -26,6 +26,6 @@
         </button>
     </div>
     <div {id} class="relative flex items-center justify-center border border-(--accentcolour)">
-        <iframe id={frameId} class="mx-auto h-[60rem] w-full border-0" {src} {title} {sandbox} allowfullscreen={sandbox !== undefined}></iframe>
+        <iframe id={frameId} class="mx-auto h-[60rem] w-full max-md:h-[75svh] border-0" {src} {title} {sandbox} allowfullscreen={sandbox !== undefined}></iframe>
     </div>
 </div>

@@ -5,7 +5,7 @@
 
 <Page name="The Channel"></Page>
 <Stripe>Agma Schwa</Stripe>
-<section class="flex *:basis-full gap-8">
+<section class="flex gap-8 *:min-w-0 *:basis-full max-[900px]:flex-col">
     <div><img src="@lib/images/the_channel/subscribe.png" alt="ŋəbscribe" class="my-0 mx-auto"></div>
     <article>
         <p>
@@ -25,7 +25,7 @@
 
 <Stripe>History</Stripe>
 <section>
-    <img src="@lib/images/the_channel/album 1.png" alt="ŋə music" class="my-0 mx-auto max-sm:w-full md:float-right w-1/2 ml-4 mb-4">
+    <img src="@lib/images/the_channel/album 1.png" alt="ŋə music" class="mx-auto mb-4 w-full md:float-right md:ml-4 md:w-1/2">
     <p class='-mt-1.5'>
         Robert Cole, aka 'Nguh', has been writing stories and drawing comics since he was a little kid.
         He began conlanging as a middle schooler in the early 2010s, though he had no idea that "conlanging"

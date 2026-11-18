@@ -171,7 +171,7 @@
     }: Props = $props()
 </script>
 
-<dialog {id} bind:this={the_dialog} onclose={OnClose} class="modal absolute top-1/2 bottom-auto! left-1/2 right-auto! z-98 w-fit min-w-[50ch] max-w-[90vw]
+<dialog {id} bind:this={the_dialog} onclose={OnClose} class="modal absolute top-1/2 bottom-auto! left-1/2 right-auto! z-98 w-fit min-w-[min(50ch,90vw)] max-w-[90vw] max-h-[90dvh]
         flex-col justify-between [border:1px_solid_var(--bg-border)] bg-(--accentblack) p-0 text-(length:--text-size) text-white
         [box-shadow:10px_10px_2em_rgb(0_0_0/.5)] not-open:hidden! backdrop:bg-[rgb(0_0_0/.5)]
         [--title-bar-colour:var(--accentlight)] [--title-bar-text-colour:var(--accentdarker)]
@@ -190,7 +190,7 @@
     <div class="flex flex-col gap-3 overflow-y-auto px-4 pt-4 pb-2 [&_p]:my-0!">
         {@render content?.()}
     </div>
-    <div class="flex justify-evenly p-4 [&_button]:min-w-20">
+    <div class="flex flex-wrap justify-evenly gap-2 p-4 [&_button]:min-w-20">
         {@render controls()}
     </div>
 </dialog>

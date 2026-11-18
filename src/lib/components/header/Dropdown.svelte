@@ -24,7 +24,7 @@
 
     <!-- Render the content. -->
     {#if mobile.current}
-        <div class='[@media(max-width:900px)]:[&_a]:[--nav-a-padding-left:2rem]'>
+        <div class='[&_a]:[--nav-a-padding-left:2rem]'>
             {@render children()}
         </div>
     {:else}

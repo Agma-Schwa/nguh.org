@@ -16,9 +16,9 @@
     }: Props = $props();
 </script>
 
-<div class="flex">
-    <img class="w-60!" src={image} alt={name}>
-    <div class="w-full pl-8">
+<div class="flex max-sm:flex-col max-sm:items-center max-sm:gap-4">
+    <img class="w-60 max-w-full shrink-0 max-sm:w-40" src={image} alt={name}>
+    <div class="w-full min-w-0 sm:pl-8">
         <h3 class="w-full text-center">{name}</h3>
         <p class="text-(--accentcolour)">
             {#each Object.entries(info) as [key, value], i}

@@ -109,7 +109,7 @@
 <Page name="CCC Rules"/>
 <Stripe>Cursed Conlang Circus Rules</Stripe>
 
-<section>
+<section class="toc">
     <h3> Contents </h3>
     <ol>
         {#each toc as item}
@@ -150,22 +150,22 @@
 </section>
 
 <style>
-    :global(h3) {
+    #container :global(h3), .toc h3 {
         counter-set: h4 0;
         font-size: 24pt !important;
         margin-top: 1rem !important;
         text-align: left;
     }
 
-    :global(h4) {
+    #container :global(h4) {
         font-size: 18pt !important;
         margin-top: 1rem !important;
         text-align: left !important;
     }
 
-    :global(ol) {
-        list-style: number;
-        padding-left: 3rem;
+    #container :global(ol), .toc ol {
+        list-style: decimal;
+        padding-inline-start: clamp(1.25rem, 5vw, 3rem);
         margin-block: 1rem;
     }
 
@@ -173,7 +173,7 @@
         counter-reset: h3 h4;
 
         :global(ul) {
-            padding-left: 3rem;
+            padding-inline-start: clamp(1.25rem, 5vw, 3rem);
             margin-block: 1rem;
         }
 
@@ -201,6 +201,10 @@
                 color: var(--accentcolour);
                 font-weight: bold;
                 cursor: pointer;
+
+                @media (max-width: 900px) {
+                    font-size: var(--text-size);
+                }
             }
 
             &::details-content {
