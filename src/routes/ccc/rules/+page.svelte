@@ -1,7 +1,7 @@
 <script lang="ts">
     import {page} from "$app/state";
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
     import SvelteMarkdown, { type MarkedExtension } from "@humanspeak/svelte-markdown";
     import {
         markedFootnote,

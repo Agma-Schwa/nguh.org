@@ -1,7 +1,7 @@
 <script>
-    import BasicLanguagePage from "$lib/components/BasicLanguagePage.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import DocumentView from '$lib/components/DocumentView.svelte';
+    import BasicLanguagePage from "#lib/components/BasicLanguagePage.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import DocumentView from '#lib/components/DocumentView.svelte';
 </script>
 
 <BasicLanguagePage

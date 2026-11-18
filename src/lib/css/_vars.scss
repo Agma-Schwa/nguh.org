@@ -54,162 +54,162 @@ $video-width-16-to-9: 56.25%;
 
 @font-face {
     font-family: DecoBorders;
-    src: local('DecoBorders'), url('$lib/fonts/DecoBorders/Decoborders-W0R9.woff') format('woff');
+    src: local('DecoBorders'), url('@lib/fonts/DecoBorders/Decoborders-W0R9.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
-    src: local('Charis'), local('Charis SIL'), local('Charis-SIL'), url('$lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
+    src: local('Charis'), local('Charis SIL'), local('Charis-SIL'), url('@lib/fonts/Charis SIL/CharisSIL-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-style: italic;
-    src: local('Charis Italic'), local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
+    src: local('Charis Italic'), local('Charis SIL Italic'), local('Charis-SIL-Italic'), url('@lib/fonts/Charis SIL/CharisSIL-Italic.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-weight: bold;
-    src: local('Charis Bold'), local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('$lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
+    src: local('Charis Bold'), local('Charis SIL Bold'), local('Charis-SIL-Bold'), url('@lib/fonts/Charis SIL/CharisSIL-Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: CharisSIL;
     font-weight: bold;
     font-style: italic;
-    src: local('Charis Bold Italic'), local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('$lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
+    src: local('Charis Bold Italic'), local('Charis SIL Bold Italic'), local('Charis-SIL-Bold-Italic'), url('@lib/fonts/Charis SIL/CharisSIL-BoldItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: Santaa;
     font-style: italic;
-    src: url('$lib/fonts/Santaa/Santaa-MediumItalic.woff') format('woff');
+    src: url('@lib/fonts/Santaa/Santaa-MediumItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
-    src: local('Lato'), url('$lib/fonts/Lato/Lato_Regular.woff') format('woff');
+    src: local('Lato'), url('@lib/fonts/Lato/Lato_Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-style: italic;
-    src: local('Lato Italic'), local('Lato-Italic'), url('$lib/fonts/Lato/Lato_Italic.woff') format('woff');
+    src: local('Lato Italic'), local('Lato-Italic'), url('@lib/fonts/Lato/Lato_Italic.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: bold;
-    src: local('Lato Bold'), local('Lato-Bold'), url('$lib/fonts/Lato/Lato_Bold.woff') format('woff');
+    src: local('Lato Bold'), local('Lato-Bold'), url('@lib/fonts/Lato/Lato_Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: bold;
     font-style: italic;
-    src: local('Lato Bold Italic'), local('Lato-Bold-Italic'), url('$lib/fonts/Lato/Lato_BoldItalic.woff') format('woff');
+    src: local('Lato Bold Italic'), local('Lato-Bold-Italic'), url('@lib/fonts/Lato/Lato_BoldItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: 1000;
-    src: local('Lato Black'), local('Lato-Black'), url('$lib/fonts/Lato/Lato_Black.woff') format('woff');
+    src: local('Lato Black'), local('Lato-Black'), url('@lib/fonts/Lato/Lato_Black.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: 1000;
     font-style: italic;
-    src: local('Lato Black Italic'), local('Lato-Black-Italic'), url('$lib/fonts/Lato/Lato_BlackItalic.woff') format('woff');
+    src: local('Lato Black Italic'), local('Lato-Black-Italic'), url('@lib/fonts/Lato/Lato_BlackItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: 200;
-    src: local('Lato Light'), local('Lato-Light'), url('$lib/fonts/Lato/Lato_Light.woff') format('woff');
+    src: local('Lato Light'), local('Lato-Light'), url('@lib/fonts/Lato/Lato_Light.woff') format('woff');
 }
 
 @font-face {
     font-family: LatoFont;
     font-weight: 200;
     font-style: italic;
-    src: local('Lato Light Italic'), local('Lato-Light-Italic'), url('$lib/fonts/Lato/Lato_LightItalic.woff') format('woff');
+    src: local('Lato Light Italic'), local('Lato-Light-Italic'), url('@lib/fonts/Lato/Lato_LightItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: FiraCode;
-    src: local('Fira Code'), local('Fira-Code'), url('$lib/fonts/FiraCode/FiraCode-Regular.woff') format('woff');
+    src: local('Fira Code'), local('Fira-Code'), url('@lib/fonts/FiraCode/FiraCode-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 300;
     font-style: normal;
-    src: local('Open Sans Light'), local('Open-Sans-Light'), url('$lib/fonts/Open Sans/OpenSans-Light.woff') format('woff');
+    src: local('Open Sans Light'), local('Open-Sans-Light'), url('@lib/fonts/Open Sans/OpenSans-Light.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 300;
     font-style: italic;
-    src: local('Open Sans Light Italic'), local('Open-Sans-Light-Italic'), url('$lib/fonts/Open Sans/OpenSans-LightItalic.woff') format('woff');
+    src: local('Open Sans Light Italic'), local('Open-Sans-Light-Italic'), url('@lib/fonts/Open Sans/OpenSans-LightItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 400;
     font-style: normal;
-    src: local('Open Sans'), local('Open-Sans'), url('$lib/fonts/Open Sans/OpenSans-Regular.woff') format('woff');
+    src: local('Open Sans'), local('Open-Sans'), url('@lib/fonts/Open Sans/OpenSans-Regular.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 400;
     font-style: italic;
-    src: local('Open Sans Italic'), local('Open-Sans-Italic'), url('$lib/fonts/Open Sans/OpenSans-Italic.woff') format('woff');
+    src: local('Open Sans Italic'), local('Open-Sans-Italic'), url('@lib/fonts/Open Sans/OpenSans-Italic.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 600;
     font-style: normal;
-    src: local('Open Sans SemiBold'), local('Open-Sans-SemiBold'), url('$lib/fonts/Open Sans/OpenSans-Semibold.woff') format('woff');
+    src: local('Open Sans SemiBold'), local('Open-Sans-SemiBold'), url('@lib/fonts/Open Sans/OpenSans-Semibold.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 600;
     font-style: italic;
-    src: local('Open Sans SemiBold Italic'), local('Open-Sans-SemiBold-Italic'), url('$lib/fonts/Open Sans/OpenSans-SemiboldItalic.woff') format('woff');
+    src: local('Open Sans SemiBold Italic'), local('Open-Sans-SemiBold-Italic'), url('@lib/fonts/Open Sans/OpenSans-SemiboldItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 700;
     font-style: normal;
-    src: local('Open Sans Bold'), local('Open-Sans-Bold'), url('$lib/fonts/Open Sans/OpenSans-Bold.woff') format('woff');
+    src: local('Open Sans Bold'), local('Open-Sans-Bold'), url('@lib/fonts/Open Sans/OpenSans-Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 700;
     font-style: italic;
-    src: local('Open Sans Bold Italic'), local('Open-Sans-Bold-Italic'), url('$lib/fonts/Open Sans/OpenSans-BoldItalic.woff') format('woff');
+    src: local('Open Sans Bold Italic'), local('Open-Sans-Bold-Italic'), url('@lib/fonts/Open Sans/OpenSans-BoldItalic.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 800;
     font-style: normal;
-    src: local('Open Sans ExtraBold'), local('Open-Sans-ExtraBold'), url('$lib/fonts/Open Sans/OpenSans-ExtraBold.woff') format('woff');
+    src: local('Open Sans ExtraBold'), local('Open-Sans-ExtraBold'), url('@lib/fonts/Open Sans/OpenSans-ExtraBold.woff') format('woff');
 }
 
 @font-face {
     font-family: OpenSans;
     font-weight: 800;
     font-style: italic;
-    src: local('Open Sans ExtraBold Italic'), local('Open-Sans-ExtraBold-Italic'), url('$lib/fonts/Open Sans/OpenSans-ExtraBoldItalic.woff') format('woff');
+    src: local('Open Sans ExtraBold Italic'), local('Open-Sans-ExtraBold-Italic'), url('@lib/fonts/Open Sans/OpenSans-ExtraBoldItalic.woff') format('woff');
 }
 
 @mixin scrollbar {

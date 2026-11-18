@@ -36,6 +36,9 @@
 		"vite": "^8.3.8"
 	},
 	"type": "module",
+	"imports": {
+		"#lib/*": "./src/lib/*"
+	},
 	"dependencies": {
 		"@humanspeak/svelte-markdown": "^2.3.0",
 		"@humanspeak/svelte-virtual-list": "^0.5.15",

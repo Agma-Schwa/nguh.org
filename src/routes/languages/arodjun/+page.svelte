@@ -1,9 +1,9 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
 
-    import {OpenTab} from "$lib/js/menus";
+    import {OpenTab} from "#lib/js/menus.js";
 </script>
 
 <Page name="Arodjun" />
@@ -122,7 +122,7 @@
         </table>
     </div>
 
-    <label class="table-label">Common Clusters:</label>
+    <span>Common Clusters:</span>
 
     <div class="table-wrapper">
         <table class="single-row-table" id="common-clusters">
@@ -507,7 +507,7 @@
                 <iframe jsname="L5Fo6c" jscontroller="usmiIb" jsaction="rcuQ6b:WYd;" class="embedded-doc"
                     id="arodjun_docs_content"
                     sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
-                    aria-label="Spreadsheet, Arodjun, Katauu 9.0.4" allowfullscreen=""
+                    title="Spreadsheet, Arodjun, Katauu 9.0.4" allowfullscreen=""
                     src="https://docs.google.com/spreadsheets/d/1bVD4K2BA1b45YmQqa8I2wWBZ_ztr0Cr9Len-g6mBb7k/htmlembed"
                     frameborder="0">
                 </iframe>
@@ -517,7 +517,7 @@
 </section>
 
 <style lang="scss">
-    @use '$lib/css/_vars.scss' as *;
+    @use '@lib/css/_vars.scss' as *;
 
     #consonant-chart {
         margin-top: 1rem;

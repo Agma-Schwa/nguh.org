@@ -1,10 +1,10 @@
 <script lang="ts">
-    import agma_logo from '$lib/images/agma_logo.png';
-    import type {LanguagePage} from "$lib/js/types";
-    import PageLink from '$lib/components/header/PageLink.svelte';
-    import Hamburger from '$lib/components/header/Hamburger.svelte';
+    import agma_logo from '#lib/images/agma_logo.png';
+    import type {LanguagePage} from "#lib/js/types.js";
+    import PageLink from '#lib/components/header/PageLink.svelte';
+    import Hamburger from '#lib/components/header/Hamburger.svelte';
     import {MediaQuery} from 'svelte/reactivity';
-    import Dropdown from '$lib/components/header/Dropdown.svelte';
+    import Dropdown from '#lib/components/header/Dropdown.svelte';
     import {browser} from '$app/env';
     import {afterNavigate} from '$app/navigation';
 

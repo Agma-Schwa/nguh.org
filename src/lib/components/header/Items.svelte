@@ -19,7 +19,7 @@
         <div id='background' class='absolute top-0 left-0 w-full'></div>
     {/if}
 
-    <div id='wrapper' class='absolute flex flex-col {scroll_y ? "topmost" : ""} {align === "right" ? "right-0" : "" }'>
+    <div class='items-wrapper absolute flex flex-col {scroll_y ? "topmost" : ""} {align === "right" ? "right-0" : "" }'>
         {@render children()}
     </div>
 {/if}
@@ -31,7 +31,7 @@
         height: var(--header-height);
     }
 
-    #wrapper {
+    .items-wrapper {
         z-index: -2;
         background: var(--nav-bg);
         top: 0;

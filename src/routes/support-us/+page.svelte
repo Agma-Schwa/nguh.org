@@ -1,11 +1,11 @@
 <script>
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Page from "$lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
 </script>
 
 <Page name="Support Us" />
 
-<img src="$lib/images/index/banner.png" alt="banner.png">
+<img src="@lib/images/index/banner.png" alt="banner.png">
 
 <Stripe>Support the channel!</Stripe>
 <section>

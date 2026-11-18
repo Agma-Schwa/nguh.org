@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import type {MemberProfile} from '$lib/js/ung_types';
+    import type {MemberProfile} from '#lib/js/ung_types';
 
     interface Props {
         member: MemberProfile,

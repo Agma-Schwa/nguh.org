@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import {onMount, untrack} from "svelte";
 
 
-    import {page_title} from "$lib/page_title";
-    import {page_theme} from "$lib/page_theme";
+    import {page_title} from "#lib/page_title.js";
+    import {page_theme} from "#lib/page_theme.js";
     interface Props {
         name: any;
         banner?: boolean,
@@ -12,8 +12,10 @@
 
     let { name, theme = 'light', banner = true }: Props = $props();
 
-    $page_title = name;
-    $page_theme = theme;
+    untrack(() => {
+        $page_title = name;
+        $page_theme = theme;
+    });
 
     onMount(() => {
         /// Make all images previewable. On the first page load, the

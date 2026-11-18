@@ -1,9 +1,9 @@
 <script lang='ts'>
     import {page} from '$app/state';
-    import Member from '$lib/components/ung/Member.svelte';
-    import type {Meeting, MemberProfile, MotionNoText, SetMotionMeetingRequestBody} from '$lib/js/ung_types';
-    import {EnableAdminMode, GetEmoji, UŊMakeRequest} from '$lib/js/uŋ.svelte';
-    import Dialog from '$lib/components/dialog/Dialog.svelte';
+    import Member from '#lib/components/ung/Member.svelte';
+    import type {Meeting, MemberProfile, MotionNoText, SetMotionMeetingRequestBody} from '#lib/js/ung_types';
+    import {EnableAdminMode, GetEmoji, UŊMakeRequest} from '#lib/js/uŋ.svelte';
+    import Dialog from '#lib/components/dialog/Dialog.svelte';
     import {invalidateAll} from '$app/navigation';
 
     interface Props {

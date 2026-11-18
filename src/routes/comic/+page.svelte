@@ -1,7 +1,7 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Backdrop from "$lib/components/Backdrop.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import Backdrop from "#lib/components/Backdrop.svelte";
     import { style } from 'svelte-body';
 
     const first_page = '/static/comic/1/1-en.png'
@@ -17,7 +17,7 @@
 <Backdrop image="/static/comic/1/0-en.png" />
 
 <Stripe>A Webcomic by Agma Schwa</Stripe>
-<img src="$lib/images/comic/image-cover.png" alt="Cover Page" style="margin-block: -3rem">
+<img src="@lib/images/comic/image-cover.png" alt="Cover Page" style="margin-block: -3rem">
 
 <Stripe>About</Stripe>
 <section>
@@ -29,9 +29,9 @@
     </p>
 
     <div class="images">
-        <img src="$lib/images/comic/image-1.png" alt="">
-        <img src="$lib/images/comic/image-2.png" alt="">
-        <img src="$lib/images/comic/image-3.png" alt="">
+        <img src="@lib/images/comic/image-1.png" alt="">
+        <img src="@lib/images/comic/image-2.png" alt="">
+        <img src="@lib/images/comic/image-3.png" alt="">
     </div>
 
     <div class="flex comic-button">

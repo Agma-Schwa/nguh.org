@@ -1,7 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 import type {Database} from "bun:sqlite";
-import type {LanguagePage} from "$lib/js/types";
+import type {LanguagePage} from "#lib/js/types.js";
 
 declare global {
     namespace App {

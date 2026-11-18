@@ -1,8 +1,8 @@
 <script lang="ts">
     import VirtualList from '@humanspeak/svelte-virtual-list'
-    import {type Dictionary, IsFullEntry, IsRefEntry, SearchMode} from '$lib/js/dictionary';
-    import {Persist} from '$lib/js/persist.svelte';
-    import type {Snippet} from 'svelte';
+    import {type Dictionary, IsFullEntry, IsRefEntry, SearchMode} from '#lib/js/dictionary.js';
+    import {Persist} from '#lib/js/persist.svelte.js';
+    import {untrack, type Snippet} from 'svelte';
 
     interface Props {
         dict: Dictionary.Generator
@@ -69,11 +69,11 @@
 
     // Search input.
     let search_value: string = $state('')
-    let search_mode = Persist(`${lang_code}-dict-search-mode`, SearchMode.Definition, true)
-    const search = {
+    let search_mode = untrack(() => Persist(`${lang_code}-dict-search-mode`, SearchMode.Definition, true))
+    const search = $derived({
         [SearchMode.Headword]: new Search(data.entries, 'hw_search', true),
         [SearchMode.Definition]: new Search(data.entries, 'def_search', false)
-    }
+    })
 
     // Headword search.
     let entries = $derived.by(() => {
@@ -259,20 +259,20 @@
             </div>
         </details>
     {:else if IsRefEntry(entry)}
-        <div class='[border-top:var(--border)] p-1 cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
+        <button type='button' class='reference-entry block w-full text-left [border-top:var(--border)] cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
             <span class='uf-font'>
                 <span class='lemma'>{@render Node(entry.word)}</span> →
                 <span class='lemma'>{@render Node(entry.ref)}</span>
             </span>
-        </div>
+        </button>
     {/if}
 {/snippet}
 
 <section id="search-section" class='!mt-4 [--border:1px_solid_black]'>
     <div id="search" class='h-10 mb-2'>
-        <label>Search: </label>
-        <input class='mr-8' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
-        <label>By: </label>
+        <label for="dictionary-search">Search: </label>
+        <input id='dictionary-search' class='mr-8' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
+        <label for="search-mode">By: </label>
         <select id="search-mode" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}
                 <option value="{mode}" selected>{mode}</option>
@@ -293,8 +293,14 @@
 </section>
 
 <style lang="scss">
-    @use '$lib/css/dictionary' as *;
-    @use "$lib/css/_vars" as vars;
+    @use '@lib/css/dictionary' as *;
+    @use "@lib/css/_vars" as vars;
+
+    .reference-entry {
+        background: transparent;
+        color: inherit;
+        padding: .25rem;
+    }
     details { @include sans-font; }
     .uf-font { @include serif-font; }
     .lemma { @include word-format; }

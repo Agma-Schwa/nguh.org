@@ -1,12 +1,12 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
 </script>
 
 <Page name="The Channel"></Page>
 <Stripe>Agma Schwa</Stripe>
 <section class="flex *:basis-full gap-8">
-    <div><img src="$lib/images/the_channel/subscribe.png" alt="ŋəbscribe" class="my-0 mx-auto"></div>
+    <div><img src="@lib/images/the_channel/subscribe.png" alt="ŋəbscribe" class="my-0 mx-auto"></div>
     <article>
         <p>
             The YouTube channel, “Agma Schwa,” was created in September of 2019,
@@ -25,7 +25,7 @@
 
 <Stripe>History</Stripe>
 <section>
-    <img src="$lib/images/the_channel/album 1.png" alt="ŋə music" class="my-0 mx-auto max-sm:w-full md:float-right w-1/2 ml-4 mb-4">
+    <img src="@lib/images/the_channel/album 1.png" alt="ŋə music" class="my-0 mx-auto max-sm:w-full md:float-right w-1/2 ml-4 mb-4">
     <p class='-mt-1.5'>
         Robert Cole, aka 'Nguh', has been writing stories and drawing comics since he was a little kid.
         He began conlanging as a middle schooler in the early 2010s, though he had no idea that "conlanging"
@@ -81,7 +81,7 @@
 
 <Stripe>Content</Stripe>
 <section>
-    <img src="$lib/images/the_channel/thum.jpg" alt="Allophone Video Thumbnail" class="my-0 mx-auto md:float-left md:w-1/2 md:mr-2">
+    <img src="@lib/images/the_channel/thum.jpg" alt="Allophone Video Thumbnail" class="my-0 mx-auto md:float-left md:w-1/2 md:mr-2">
     <p class='-mt-1.5'>
         The content of the Agma Schwa YouTube channel has evolved quite a bit since its first releases in the
         fall of 2019. At first, most videos were explanations of the progress of the development of Arodjun, with

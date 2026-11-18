@@ -1,11 +1,11 @@
 <script lang="ts">
-    import '$lib/css/speedrun.scss'
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
-    import Leaderboard from "$lib/components/speedrun/Leaderboard.svelte";
-    import any_per_cent_image from '$lib/images/speedrun/any percent.png'
-    import dice_per_cent_image from '$lib/images/speedrun/dice percent.png'
+    import '#lib/css/speedrun.scss'
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
+    import Leaderboard from "#lib/components/speedrun/Leaderboard.svelte";
+    import any_per_cent_image from '#lib/images/speedrun/any percent.png'
+    import dice_per_cent_image from '#lib/images/speedrun/dice percent.png'
 </script>
 
 <Page name="Speedrun" />

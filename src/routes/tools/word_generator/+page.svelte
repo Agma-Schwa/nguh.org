@@ -1,9 +1,9 @@
 <script lang='ts'>
-    import Page from '$lib/components/Page.svelte';
-    import Stripe from '$lib/components/Stripe.svelte';
-    import {Stream} from '$lib/js/stream';
-    import {Persist} from '$lib/js/persist.svelte';
-    import {Err, Prompt} from '$lib/js/dialog.svelte';
+    import Page from '#lib/components/Page.svelte';
+    import Stripe from '#lib/components/Stripe.svelte';
+    import {Stream} from '#lib/js/stream.js';
+    import {Persist} from '#lib/js/persist.svelte.js';
+    import {Err, Prompt} from '#lib/js/dialog.svelte.js';
 
     type Classes = Map<string, string[]>
     abstract class Node {
@@ -415,18 +415,18 @@ s = sn, st, sp
     <div class='grid grid-cols-2 gap-8 mt-4 h-[35rem] max-h-[35rem]'>
         <div class='h-full flex flex-col'>
             <div class='textbox grow'>
-                <label>Classes</label>
-                <textarea bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
+                <label for="word-classes">Classes</label>
+                <textarea id="word-classes" bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
 
             <div class='textbox mt-8'>
-                <label>Phonotactics</label>
-                <input bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
+                <label for="word-phonotactics">Phonotactics</label>
+                <input id="word-phonotactics" bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
             </div>
         </div>
         <div class='textbox max-h-[inherit]'>
-            <label>Words</label>
-            <textarea bind:value={output} class='overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
+            <label for="generated-words">Words</label>
+            <textarea id="generated-words" bind:value={output} class='overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
         </div>
     </div>
     <div class='flex justify-between items-center mt-8 gap-8'>

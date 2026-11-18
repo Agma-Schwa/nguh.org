@@ -1,6 +1,6 @@
 <script lang='ts'>
-    import Page from '$lib/components/Page.svelte';
-    import Stripe from '$lib/components/Stripe.svelte';
+    import Page from '#lib/components/Page.svelte';
+    import Stripe from '#lib/components/Stripe.svelte';
     import {page} from '$app/state';
 
     const logged_in = $derived(!!page.data.user);

@@ -1,4 +1,4 @@
-@use '$lib/css/vars' as *; // For the 'button' mixin.
+@use '@lib/css/vars' as *; // For the 'button' mixin.
 dialog {
     position: absolute;
     z-index: 98;

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import PageLink from '$lib/components/header/PageLink.svelte';
-    import Items from '$lib/components/header/Items.svelte';
+    import PageLink from '#lib/components/header/PageLink.svelte';
+    import Items from '#lib/components/header/Items.svelte';
     import type {MediaQuery} from 'svelte/reactivity';
 
     interface Props {
@@ -12,31 +12,37 @@
     }
 
     let {href, name, align = 'left', mobile, children}: Props = $props()
-    let hovered = $state(false)
 </script>
 
-<div onmouseenter={() => hovered = true} onmouseleave={() => hovered = false}>
+<div class='dropdown'>
     <!-- If the name is a link render it; if not, only render it if we’re not in mobile mode. -->
     {#if href}
         <PageLink {href} category={true}>{name}</PageLink>
     {:else if !mobile.current}
-        <div class='name header-bg-transition'>
-            <span>{name}</span>
-        </div>
+        <button type='button' class='name header-bg-transition'>{name}</button>
     {/if}
 
     <!-- Render the content. -->
     {#if mobile.current}
-        <div id='wrapper'>
+        <div class='mobile-items'>
             {@render children()}
         </div>
-    {:else if hovered}
-        <Items active={hovered} {align} {children} />
+    {:else}
+        <div class='dropdown-items'>
+            <Items active={true} {align} {children} />
+        </div>
     {/if}
 </div>
 
 <style lang='scss'>
+    .dropdown-items { display: none; }
+
+    .dropdown:hover > .dropdown-items,
+    .dropdown:focus-within > .dropdown-items { display: block; }
+
     .name {
+        &:not(:hover) { background: transparent; }
+        &:hover { background: white; }
         min-width: var(--nav-link-min-wd);
         color: var(--nav-fg);
         height: var(--header-height);
@@ -45,7 +51,7 @@
     }
 
     @media (max-width: 900px) {
-        #wrapper :global(a) {
+        .mobile-items :global(a) {
             --nav-a-padding-left: 2rem;
         }
     }

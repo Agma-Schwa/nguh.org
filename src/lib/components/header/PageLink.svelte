@@ -21,7 +21,7 @@
 
 <a {href} class='flex items-center header-bg-transition text-nowrap pr-2 {active ? "active" : ""}'>
     {#if image}
-        <img alt='Page Image' src={image} class='non-previewable-icon mr-2 h-12'>
+        <img alt='' src={image} class='non-previewable-icon mr-2 h-12'>
     {/if}
     <span class='text-center w-full'>
         {@render children()}

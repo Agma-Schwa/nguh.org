@@ -1,6 +1,6 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
 </script>
 <Page name="Gambian Holiday Wiki" />
 
@@ -8,7 +8,7 @@
 <h3 class='mb-8 -mt-3'>by Agma Schwa and Suzudo</h3>
 <section class="flex gap-8 *:basis-full">
     <article class='w-1/2'>
-        <img src="$lib/images/gambian_holiday/wiki.png" alt="Preview" class="object-cover">
+        <img src="@lib/images/gambian_holiday/wiki.png" alt="Preview" class="object-cover">
     </article>
     <article>
         <p>

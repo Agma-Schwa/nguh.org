@@ -5,7 +5,7 @@ $h2-decoration-height: 1.5rem;
 
 section, p, ul, ol, li { font-size: var(--text-size); }
 
-ul li { list-style-image: url("$lib/images/fleur-de-lis.svg"); }
+ul li { list-style-image: url("@lib/images/fleur-de-lis.svg"); }
 
 a { text-decoration: none; }
 
@@ -99,7 +99,7 @@ h4 {
         height: $h2-decoration-height;
 
         content: "";
-        background-image: url("$lib/images/border.svg");
+        background-image: url("@lib/images/border.svg");
         background-size: auto 1.5em;
         font-size: 1rem;
         color: $accentdarker;

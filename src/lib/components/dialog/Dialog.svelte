@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ClampXOffs, ClampYOffs, type DialogPromise} from "$lib/js/dialog.svelte";
+    import {ClampXOffs, ClampYOffs, type DialogPromise} from "#lib/js/dialog.svelte.js";
 
     // ====================================================================== //
     //  Types & Interfaces                                                    //
@@ -97,6 +97,7 @@
     }
 
     function StartDrag(e: MouseEvent) {
+        if (e.target instanceof Element && e.target.closest('button')) return
         e.preventDefault()
 
         // Position where we start dragging.
@@ -171,15 +172,15 @@
 </script>
 
 <dialog {id} bind:this={the_dialog} onclose={OnClose} class="modal">
-    <div class="dialog-title" onmousedown={StartDrag}>
+    <div class="dialog-title" role="presentation" onmousedown={StartDrag}>
         <div class="dialog-title-content">{title}</div>
-        <div class="dialog-close-button" title="Close" onclick={() => the_promise?.reject("Closed by user")}>
+        <button type="button" class="dialog-close-button" title="Close" aria-label="Close" onclick={() => the_promise?.reject("Closed by user")}>
             <svg class="close-button-icon" width="1cm" height="1cm" viewBox="0 0 100 100"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M 40 38 L 62 60 L 60 62 L 38 40"></path>
                 <path d="M 60 38 L 38 60 L 40 62 L 62 40"></path>
             </svg>
-        </div>
+        </button>
     </div>
     <div class="dialog-content">
         {@render content?.()}
@@ -190,6 +191,8 @@
 </dialog>
 
 <style lang="scss">
-    // Styles have been moved into a proper CSS file so they
-    // can affect other dialogs that use this component.
+    .dialog-close-button {
+        background: transparent;
+        padding: 0;
+    }
 </style>

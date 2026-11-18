@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Page from '$lib/components/Page.svelte';
+    import Page from '#lib/components/Page.svelte';
     import type {PageProps} from './$types';
-    import Dictionary from '$lib/components/dictionary/Dictionary.svelte';
-    import {type Dictionary as Dict, ParseDictionary} from '$lib/js/dictionary';
+    import Dictionary from '#lib/components/dictionary/Dictionary.svelte';
+    import {type Dictionary as Dict, ParseDictionary} from '#lib/js/dictionary.js';
     import type {Snippet} from 'svelte';
 
     let { data }: PageProps = $props();
@@ -31,7 +31,7 @@
 />
 
 <style lang='scss'>
-    @use "$lib/css/dictionary" as *;
+    @use "@lib/css/dictionary" as *;
     .smallcaps { @include small-caps; }
     .lemma { @include word-format; }
 </style>

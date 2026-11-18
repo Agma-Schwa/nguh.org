@@ -5,8 +5,8 @@
         type FileType,
         GetFileData,
         Err
-    } from '$lib/js/dialog.svelte';
-    import Dialog from "$lib/components/dialog/Dialog.svelte";
+    } from '#lib/js/dialog.svelte.js';
+    import Dialog from "#lib/components/dialog/Dialog.svelte";
 
     let the_dialog: Dialog
     let input: HTMLInputElement

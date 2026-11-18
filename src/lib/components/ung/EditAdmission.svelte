@@ -1,6 +1,6 @@
 <script lang='ts'>
-    import type {AdmissionFormRequestBody} from '$lib/js/ung_types';
-    import {form} from '$lib/js/uŋ.svelte';
+    import type {AdmissionFormRequestBody} from '#lib/js/ung_types';
+    import {form} from '#lib/js/uŋ.svelte';
 
     interface Props {
         on_submit(data: AdmissionFormRequestBody, form: HTMLFormElement): void,

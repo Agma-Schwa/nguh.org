@@ -1,6 +1,6 @@
 import { building } from '$app/env';
 import {redirect} from '@sveltejs/kit';
-import type {LanguagePage} from '$lib/js/types';
+import type {LanguagePage} from '#lib/js/types.js';
 
 import * as fs from 'node:fs';
 import {db} from './database';

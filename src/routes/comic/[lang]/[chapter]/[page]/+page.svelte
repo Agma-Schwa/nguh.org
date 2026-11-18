@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Page from "$lib/components/Page.svelte";
-    import NavButtons from "$lib/components/comic/NavButtons.svelte";
-    import Backdrop from "$lib/components/Backdrop.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import NavButtons from "#lib/components/comic/NavButtons.svelte";
+    import Backdrop from "#lib/components/Backdrop.svelte";
     import { style } from 'svelte-body';
 
     let { data } = $props();

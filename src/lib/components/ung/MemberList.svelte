@@ -1,10 +1,10 @@
 <script lang='ts' module>
-    import type {MemberProfile} from '$lib/js/ung_types';
+    import type {MemberProfile} from '#lib/js/ung_types';
 </script>
 
 <script lang='ts' generics='Profile extends MemberProfile'>
-    import Member from '$lib/components/ung/Member.svelte';
-    import XButton from '$lib/components/ung/XButton.svelte';
+    import Member from '#lib/components/ung/Member.svelte';
+    import XButton from '#lib/components/ung/XButton.svelte';
 
     interface Props {
         members: Profile[],

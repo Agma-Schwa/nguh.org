@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import {UŊMakeRequest} from '$lib/js/uŋ.svelte';
+    import Dialog from "#lib/components/dialog/Dialog.svelte";
+    import {UŊMakeRequest} from '#lib/js/uŋ.svelte';
 
     interface Props {
         handle_status: (status: number) => void

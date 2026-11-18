@@ -1,7 +1,7 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
 </script>
 <Page name="pʰ.ð.m" />
 
@@ -32,7 +32,7 @@
 </section>
 
 <section>
-    <img src="$lib/images/languages/pthm/pthm_text.png" alt="pthm text" class="my-0 mx-auto small-image">
+    <img src="@lib/images/languages/pthm/pthm_text.png" alt="pthm text" class="my-0 mx-auto small-image">
     <h4><em>pʰíɸðam</em>, the instrumental singular
         case noun referring to the act of speaking <em>:·pʰ.ð.m</em></h4>
 </section>
@@ -42,17 +42,17 @@
     <article class="flex gap-8">
         <div>
             <h3 class='mb-4'><em>:·pʰ.ð.m</em> Vowels</h3>
-            <img src="$lib/images/pthm/pthmvowels.jpg" alt="pthm Vowels">
+            <img src="@lib/images/pthm/pthmvowels.jpg" alt="pthm Vowels">
         </div>
         <div>
             <h3 class='mb-4'><em>:·pʰ.ð.m</em> Consonants</h3>
-            <img src="$lib/images/pthm/pthmphono.jpg" alt="pthm Phonology">
+            <img src="@lib/images/pthm/pthmphono.jpg" alt="pthm Phonology">
         </div>
     </article>
 
     <article class="mt-4">
         <h3 class='mb-4'>
             <em>:·pʰ.ð.m</em> Phonotactics</h3>
-            <img src="$lib/images/pthm/pthm phonotac.jpg" alt="pthm Phonotactics" class="w-1/2 mx-auto">
+            <img src="@lib/images/pthm/pthm phonotac.jpg" alt="pthm Phonotactics" class="w-1/2 mx-auto">
     </article>
 </section>

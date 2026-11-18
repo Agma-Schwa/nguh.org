@@ -1,22 +1,22 @@
 <script lang="ts">
-    import Header from '$lib/components/Header.svelte';
-    import Banner from "$lib/components/Banner.svelte";
-    import '$lib/css/style.scss';
-    import '$lib/css/tailwind.css';
+    import Header from '#lib/components/Header.svelte';
+    import Banner from "#lib/components/Banner.svelte";
+    import '#lib/css/style.scss';
+    import '#lib/css/tailwind.css';
     import {onMount} from "svelte";
 
-    import { page_title } from "$lib/page_title";
+    import { page_title } from "#lib/page_title.js";
     import type {LayoutData} from "./$types";
     import {
         __global_confirm_dialog__,
         __global_error_dialog__,
         ClampXOffs,
         ClampYOffs
-    } from '$lib/js/dialog.svelte';
-    import Ribbon from '$lib/components/Ribbon.svelte';
+    } from '#lib/js/dialog.svelte.js';
+    import Ribbon from '#lib/components/Ribbon.svelte';
     import {page} from '$app/state';
-    import ErrorDialogInstance from '$lib/components/dialog/ErrorDialogInstance.svelte';
-    import ConfirmDialogInstance from '$lib/components/dialog/ConfirmDialogInstance.svelte';
+    import ErrorDialogInstance from '#lib/components/dialog/ErrorDialogInstance.svelte';
+    import ConfirmDialogInstance from '#lib/components/dialog/ConfirmDialogInstance.svelte';
 
     let image_preview: ImagePreview
     let image_preview_container: HTMLElement

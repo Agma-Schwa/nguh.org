@@ -1,7 +1,7 @@
 <script>
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Page from "$lib/components/Page.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
 </script>
 
 <Page name="Tools" />

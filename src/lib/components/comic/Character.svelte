@@ -17,7 +17,7 @@
 </script>
 
 <div class="character">
-    <img src={image} alt="Character Image">
+    <img src={image} alt={name}>
     <div class="character-content">
         <h3 class="name">{name}</h3>
         <p class="info">

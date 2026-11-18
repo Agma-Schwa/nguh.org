@@ -1,5 +1,5 @@
 <script>
-    import BasicLanguagePage from "$lib/components/BasicLanguagePage.svelte";
+    import BasicLanguagePage from "#lib/components/BasicLanguagePage.svelte";
 </script>
 
 <BasicLanguagePage

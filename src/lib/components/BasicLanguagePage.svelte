@@ -1,8 +1,8 @@
 <script lang="ts">
-    import DocumentView from "$lib/components/DocumentView.svelte";
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
+    import DocumentView from "#lib/components/DocumentView.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
 
     interface Props {
         name: string;

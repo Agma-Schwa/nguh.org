@@ -1,25 +1,25 @@
 <script>
     import { style } from 'svelte-body';
 
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Page from "$lib/components/Page.svelte";
-    import Character from "$lib/components/comic/Character.svelte";
-    import Backdrop from "$lib/components/Backdrop.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Character from "#lib/components/comic/Character.svelte";
+    import Backdrop from "#lib/components/Backdrop.svelte";
 
-    import img_djonato from '$lib/images/comic/characters/Djonato.jpg'
-    import img_oni from '$lib/images/comic/characters/Oni.jpg'
-    import img_tinit from '$lib/images/comic/characters/Tinit.jpg'
-    import img_zan from '$lib/images/comic/characters/Zan.jpg'
-    import img_brazim from '$lib/images/comic/characters/brazim.jpg'
-    import img_djaz from '$lib/images/comic/characters/djaz.jpg'
-    import img_kira from '$lib/images/comic/characters/kira.jpg'
-    import img_moth from '$lib/images/comic/characters/moth.jpg'
-    import img_vezi from '$lib/images/comic/characters/Vezi.jpg'
-    import img_unknown from '$lib/images/comic/characters/unknown.jpg'
+    import img_djonato from '#lib/images/comic/characters/Djonato.jpg'
+    import img_oni from '#lib/images/comic/characters/Oni.jpg'
+    import img_tinit from '#lib/images/comic/characters/Tinit.jpg'
+    import img_zan from '#lib/images/comic/characters/Zan.jpg'
+    import img_brazim from '#lib/images/comic/characters/brazim.jpg'
+    import img_djaz from '#lib/images/comic/characters/djaz.jpg'
+    import img_kira from '#lib/images/comic/characters/kira.jpg'
+    import img_moth from '#lib/images/comic/characters/moth.jpg'
+    import img_vezi from '#lib/images/comic/characters/Vezi.jpg'
+    import img_unknown from '#lib/images/comic/characters/unknown.jpg'
 
-/*    import img_fwonnel_peninsula from '$lib/images/comic/world/Fwonnel Peninsula.PNG'
-    import img from '$lib/images/comic/world/world 2067.PNG'
-    import img from '$lib/images/comic/world/world.PNG'*/
+/*    import img_fwonnel_peninsula from '#lib/images/comic/world/Fwonnel Peninsula.PNG'
+    import img from '#lib/images/comic/world/world 2067.PNG'
+    import img from '#lib/images/comic/world/world.PNG'*/
 </script>
 
 <Page name="Meet the Characters" />

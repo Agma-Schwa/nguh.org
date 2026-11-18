@@ -1,6 +1,6 @@
 <script>
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
 </script>
 
 <Page name="Languages" />
@@ -62,7 +62,7 @@
                 <iframe jsname="L5Fo6c" jscontroller="usmiIb" jsaction="rcuQ6b:WYd;" class="embedded-doc"
                     id="scd_content"
                     sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
-                    aria-label="Spreadsheet, Sern-Cahilan Unified Dictionary" allowfullscreen=""
+                    title="Spreadsheet, Sern-Cahilan Unified Dictionary" allowfullscreen=""
                     src="https://docs.google.com/spreadsheets/d/1bQSqiCr2tH3JRQh2L0_kaBWdsBGAeRXBXafQoFm7oOA/htmlembed"
                     frameborder="0">
                 </iframe>

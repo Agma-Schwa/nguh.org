@@ -10,7 +10,7 @@ in the `src/routes` directory, in this case, create `/src/routes/foo/bar/baz`, a
 file in that directory, containing
 ```sveltehtml
 <script>
-  import Page from '$lib/components/Page.svelte';
+  import Page from '#lib/components/Page.svelte';
 </script>
 
 <Page name="Page Name Goes Here" />

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import img_youtube from '$lib/images/youtube.png'
-    import img_patreon from '$lib/images/patreon-creators-patreon.png'
-    import img_discord from '$lib/images/discord-logo-with-background.svg'
-    import img_twitter from '$lib/images/twitter.svg'
-    import img_instagram from '$lib/images/instagram.png'
-    import img_facebook from '$lib/images/facebook.png'
-    import img_reddit from '$lib/images/reddit.png'
-    import img_twitch from '$lib/images/twitch-logo-with-background.svg'
-    import img_github from '$lib/images/github-mark.svg'
+    import img_youtube from '#lib/images/youtube.png'
+    import img_patreon from '#lib/images/patreon-creators-patreon.png'
+    import img_discord from '#lib/images/discord-logo-with-background.svg'
+    import img_twitter from '#lib/images/twitter.svg'
+    import img_instagram from '#lib/images/instagram.png'
+    import img_facebook from '#lib/images/facebook.png'
+    import img_reddit from '#lib/images/reddit.png'
+    import img_twitch from '#lib/images/twitch-logo-with-background.svg'
+    import img_github from '#lib/images/github-mark.svg'
 
     // Compute the current season.
     function GetSeason() {
@@ -107,8 +107,8 @@
         @media (max-width: 900px) { height: 1.5rem; }
     }
 
-    .banner-spring { background-image: url("$lib/images/banner_spring.png"); }
-    .banner-summer { background-image: url("$lib/images/banner_summer.jpg"); }
-    .banner-autumn { background-image: url("$lib/images/banner_autumn.jpg"); }
-    .banner-winter { background-image: url("$lib/images/banner_winter.jpg"); }
+    .banner-spring { background-image: url("@lib/images/banner_spring.png"); }
+    .banner-summer { background-image: url("@lib/images/banner_summer.jpg"); }
+    .banner-autumn { background-image: url("@lib/images/banner_autumn.jpg"); }
+    .banner-winter { background-image: url("@lib/images/banner_winter.jpg"); }
 </style>

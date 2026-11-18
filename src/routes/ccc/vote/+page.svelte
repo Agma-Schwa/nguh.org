@@ -1,10 +1,10 @@
 <script lang="ts">
     import {page} from "$app/state";
-    import Page from "$lib/components/Page.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
     import {enhance, type ActionResult} from '$app/forms';
-    import SimpleDialog from '$lib/components/dialog/SimpleDialog.svelte';
-    import {Err} from '$lib/js/dialog.svelte';
+    import SimpleDialog from '#lib/components/dialog/SimpleDialog.svelte';
+    import {Err} from '#lib/js/dialog.svelte.js';
 
     let success_dialog: SimpleDialog
 

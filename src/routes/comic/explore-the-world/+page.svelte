@@ -1,9 +1,9 @@
 <script>
     import { style } from 'svelte-body';
 
-    import Stripe from "$lib/components/Stripe.svelte";
-    import Page from "$lib/components/Page.svelte";
-    import Backdrop from "$lib/components/Backdrop.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Backdrop from "#lib/components/Backdrop.svelte";
 </script>
 
 <Page name="The World of Djogawa Djororx" />
@@ -12,7 +12,7 @@
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
 
 <Stripe>The World, 2067 AR</Stripe>
-<img src="$lib/images/comic/world/world.png" style="margin-block: -3rem;" alt="">
+<img src="@lib/images/comic/world/world.png" style="margin-block: -3rem;" alt="">
 
 <Stripe>Introduction</Stripe>
 <section>
@@ -53,7 +53,7 @@
 </section>
 
 <Stripe>The Fwonnel Peninsula</Stripe>
-<img src="$lib/images/comic/world/Fwonnel Peninsula.png" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
+<img src="@lib/images/comic/world/Fwonnel Peninsula.png" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
 <section>
     <p>
         Kimzja Fwonnou, The Fwonnel Peninsula, is a peninsular landmass on the southwestern coast of Kradoy, south of
@@ -80,8 +80,8 @@
     </p>
 
     <div class="image-container">
-        <img src="$lib/images/comic/world/fwonnel-peninsula-flora.jpeg" alt="">
-        <img src="$lib/images/comic/world/fwonnel-peninsula-flora2.jpeg" alt="">
+        <img src="@lib/images/comic/world/fwonnel-peninsula-flora.jpeg" alt="">
+        <img src="@lib/images/comic/world/fwonnel-peninsula-flora2.jpeg" alt="">
     </div>
 
     <p>
@@ -111,7 +111,7 @@
 </section>
 
 <Stripe>The Ick</Stripe>
-<img src="$lib/images/comic/world/ick.jpeg" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
+<img src="@lib/images/comic/world/ick.jpeg" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
 <section>
     <p>
         The Ick, Ikaum, is a colonial fungal lifeform with spores light enough to germinate thousands of feet in the

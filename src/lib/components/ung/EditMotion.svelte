@@ -1,6 +1,6 @@
 <script lang='ts'>
-    import type {CreateMotion, MotionType} from '$lib/js/ung_types';
-    import {form} from '$lib/js/uŋ.svelte';
+    import type {CreateMotion, MotionType} from '#lib/js/ung_types';
+    import {form} from '#lib/js/uŋ.svelte';
 
     interface Props {
         on_submit: (data: CreateMotion) => void

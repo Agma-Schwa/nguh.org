@@ -1,24 +1,24 @@
 <script lang="ts">
-    import Page from "$lib/components/Page.svelte";
-    import Slideshow from "$lib/components/Slideshow.svelte";
-    import YouTubeVideo from "$lib/components/YouTubeVideo.svelte";
-    import Stripe from "$lib/components/Stripe.svelte";
+    import Page from "#lib/components/Page.svelte";
+    import Slideshow from "#lib/components/Slideshow.svelte";
+    import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
+    import Stripe from "#lib/components/Stripe.svelte";
 
-    import slide1 from "$lib/images/index/slide1.png"
-    import slide2 from "$lib/images/index/slide2.jpg"
-    import slide3 from "$lib/images/index/slide3.png"
-    import slide4 from "$lib/images/index/slide4.png"
-    import slide5 from "$lib/images/index/slide5.png"
-    import slide6 from "$lib/images/index/slide6.jpg"
-    import slide7 from "$lib/images/index/slide7.jpg"
-    import slide8 from "$lib/images/index/slide8.jpg"
-    import slide9 from "$lib/images/index/slide9.jpg"
-    import slide10 from "$lib/images/index/slide10.jpg"
+    import slide1 from "#lib/images/index/slide1.png"
+    import slide2 from "#lib/images/index/slide2.jpg"
+    import slide3 from "#lib/images/index/slide3.png"
+    import slide4 from "#lib/images/index/slide4.png"
+    import slide5 from "#lib/images/index/slide5.png"
+    import slide6 from "#lib/images/index/slide6.jpg"
+    import slide7 from "#lib/images/index/slide7.jpg"
+    import slide8 from "#lib/images/index/slide8.jpg"
+    import slide9 from "#lib/images/index/slide9.jpg"
+    import slide10 from "#lib/images/index/slide10.jpg"
 </script>
 
 <Page name="Agma Schwa" />
 
-<img src="$lib/images/index/banner 3.jpg" alt="banner 3.jpg">
+<img src="@lib/images/index/banner 3.jpg" alt="banner 3.jpg">
 
 <Stripe>Hey everybody, welcome to “Nguh”</Stripe>
 <section class="flex gap-8">
@@ -42,7 +42,7 @@
     </article>
     <article>
         <h3 class='mb-4 -mt-2'>“A Grammar of the Arodjun Language” for sale now!</h3>
-        <img src="$lib/images/merch/cover.jpg" alt="Arodjun Book Cover">
+        <img src="@lib/images/merch/cover.jpg" alt="Arodjun Book Cover">
         <h4 class='my-2'>$25 on Amazon</h4>
         <a href="https://www.amazon.com/dp/1737701502/" class="link-button">Buy Now</a>
     </article>
@@ -55,7 +55,7 @@
         <article class="flex *:basis-full gap-8">
             <div>
                 <img
-                    src="$lib/images/index/Zlevau djoDaxwex.png"
+                    src="@lib/images/index/Zlevau djoDaxwex.png"
                     alt="Zlevau djoDaxwex"
                     class="img-height-1 mb-8 w-full"
                 >
@@ -79,7 +79,7 @@
                     slide9,
                     slide10
                 ]}/>
-                <img src="$lib/images/index/color-wheel.png" alt="Arodjun Colour Wheel">
+                <img src="@lib/images/index/color-wheel.png" alt="Arodjun Colour Wheel">
             </div>
         </article>
     </div>
@@ -102,7 +102,7 @@
 
 <Stripe>Merch</Stripe>
 <section class="flex gap-8">
-    <article><img src="$lib/images/merch/merch.jpg" alt="Merch" class="mt-8 object-cover"></article>
+    <article><img src="@lib/images/merch/merch.jpg" alt="Merch" class="mt-8 object-cover"></article>
     <article class="flex flex-col justify-center">
         <h3 class="mb-8">Agma Schwa Merch Available Now!</h3>
         <div class="spaced-button-group">
