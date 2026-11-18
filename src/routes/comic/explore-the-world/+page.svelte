@@ -12,7 +12,7 @@
 <svelte:body use:style={'background-color: var(--body-background-colour);'} />
 
 <Stripe>The World, 2067 AR</Stripe>
-<img src="@lib/images/comic/world/world.png" style="margin-block: -3rem;" alt="">
+<img src="@lib/images/comic/world/world.png" class="-my-12" alt="">
 
 <Stripe>Introduction</Stripe>
 <section>
@@ -53,7 +53,7 @@
 </section>
 
 <Stripe>The Fwonnel Peninsula</Stripe>
-<img src="@lib/images/comic/world/Fwonnel Peninsula.png" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
+<img src="@lib/images/comic/world/Fwonnel Peninsula.png" class="-mt-12 mb-4" alt="">
 <section>
     <p>
         Kimzja Fwonnou, The Fwonnel Peninsula, is a peninsular landmass on the southwestern coast of Kradoy, south of
@@ -79,7 +79,7 @@
         reduces or ceases its flow for days, or sometimes months, at a time.
     </p>
 
-    <div class="image-container">
+    <div class="flex w-full justify-center gap-4 [&>img]:mb-4 [&>img]:h-auto [&>img]:w-140! [@media(max-width:1250px)]:flex-col [@media(max-width:1250px)]:items-center [@media(max-width:900px)]:[&>img]:w-full!">
         <img src="@lib/images/comic/world/fwonnel-peninsula-flora.jpeg" alt="">
         <img src="@lib/images/comic/world/fwonnel-peninsula-flora2.jpeg" alt="">
     </div>
@@ -111,7 +111,7 @@
 </section>
 
 <Stripe>The Ick</Stripe>
-<img src="@lib/images/comic/world/ick.jpeg" style="margin-top: -3rem; margin-bottom: 1rem" alt="">
+<img src="@lib/images/comic/world/ick.jpeg" class="-mt-12 mb-4" alt="">
 <section>
     <p>
         The Ick, Ikaum, is a colonial fungal lifeform with spores light enough to germinate thousands of feet in the
@@ -171,34 +171,3 @@
         2050’s.
     </p>
 </section>
-
-<style lang="scss">
-    .image-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 1rem;
-
-        width: 100%;
-
-        img {
-            width: 35rem !important;
-            height: auto;
-            margin-bottom: 1rem;
-        }
-    }
-
-    @media only screen and (max-width: 1250px) {
-        .image-container {
-            flex-direction: column;
-            align-items: center;
-        }
-    }
-
-    @media only screen and (max-width: 900px) {
-        .image-container img {
-            width: 100% !important;
-        }
-    }
-
-</style>

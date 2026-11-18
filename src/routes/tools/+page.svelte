@@ -12,7 +12,7 @@
 </section>
 
 <Stripe>List of Tools</Stripe>
-<section class='[&>h4]:text-left'>
+<section class='[&>h4]:text-left!'>
     <div class='w-full mb-8'>
         <h3 class='w-2/3 mx-auto text-center'>
             The following is a list of conlanging tools that I have reviewed, and/or will be reviewing in the future, with

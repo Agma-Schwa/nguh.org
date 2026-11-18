@@ -9,6 +9,7 @@ node_modules
 !.env.example
 .vercel
 .output
+.tmp
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 

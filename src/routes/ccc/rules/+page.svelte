@@ -108,7 +108,7 @@
     </SvelteMarkdown>
 </section>
 
-<style lang="scss">
+<style>
     :global(h3) {
         counter-set: h4 0;
         scroll-margin-top: var(--header-height);
@@ -127,10 +127,6 @@
         list-style: number;
         padding-left: 3rem;
         margin-block: 1rem;
-    }
-
-    :global(a:hover) {
-        text-decoration: underline;
     }
 
     #container {

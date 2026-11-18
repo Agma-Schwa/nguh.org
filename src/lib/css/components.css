@@ -1,0 +1,80 @@
+table:not(.table-no-style) {
+    tr:nth-child(even) { background-color: var(--accentlighter); }
+    th, td:first-child { background-color: var(--accentlight); }
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: .5rem;
+    border: 1px solid var(--accentcolour);
+    border-collapse: collapse;
+
+    td, th {
+        border-top: 1px solid var(--accentcolour);
+        padding: .5rem;
+        font-size: 1.3em;
+    }
+
+    @media (max-width: 900px) {
+        td, th { font-size: 1.1em; }
+    }
+
+    th {
+        font-weight: normal;
+        text-align: center;
+    }
+
+    .lborder { border-left: 1px solid var(--accentcolour); }
+    .align-right { text-align: right; }
+}
+
+.single-row-table {
+    border: 1px solid var(--accentcolour);
+    border-collapse: collapse;
+
+    td:nth-child(odd) { background-color: white; }
+    td:nth-child(even) { background-color: var(--accentlighter); }
+    td { border: 1px solid var(--accentcolour); }
+}
+
+.table-label {
+    display: block;
+    margin-bottom: .5rem;
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--accentcolour);
+}
+
+.table-wrapper {
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    scrollbar-color: var(--accentlight) white;
+
+    &::-webkit-scrollbar:vertical { width: .675rem; }
+    &::-webkit-scrollbar:horizontal { height: .675rem; }
+    &::-webkit-scrollbar-track { background: white; }
+    &::-webkit-scrollbar-thumb {
+        background: var(--accentlight);
+        border-radius: 15px;
+        border: 2px solid white;
+
+        &:hover { background: var(--accentcolour); }
+    }
+}
+
+img:not(.non-previewable-icon):hover { cursor: pointer; }
+
+.danger-button {
+    background: var(--accentred);
+    color: antiquewhite;
+
+    &:hover { background: var(--accentdarker); }
+}
+
+@media (max-width: 900px) {
+    table th, table td {
+        font-size: 1rem;
+        padding: .2rem;
+    }
+
+    #dialog-inner { inset: 1rem; }
+}

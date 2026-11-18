@@ -1,4 +1,5 @@
 <script>
+    import DocumentView from "#lib/components/DocumentView.svelte";
     import Page from "#lib/components/Page.svelte";
     import Stripe from "#lib/components/Stripe.svelte";
 </script>
@@ -50,23 +51,13 @@
     <p>There may be a few lingering errors in ID matches.</p>
     <p>See the <a href="/languages/hvasvan">Hvasvan</a> page for more information about Proto Sern-Cahilan.</p>
 
-    <div class="tab-wrapper">
-        <div class="tab">
-            <button class="tab-button" id="button_scd_docs" onclick={() => OpenTab('scd_docs')}>
-                Documentation
-            </button>
-        </div>
-        <div class="tab-container">
-
-            <div class="tab-content iframe-wrapper" id="scd_docs">
-                <iframe jsname="L5Fo6c" jscontroller="usmiIb" jsaction="rcuQ6b:WYd;" class="embedded-doc"
-                    id="scd_content"
-                    sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
-                    title="Spreadsheet, Sern-Cahilan Unified Dictionary" allowfullscreen=""
-                    src="https://docs.google.com/spreadsheets/d/1bQSqiCr2tH3JRQh2L0_kaBWdsBGAeRXBXafQoFm7oOA/htmlembed"
-                    frameborder="0">
-                </iframe>
-            </div>
-        </div>
-    </div>
+    <DocumentView
+        name="Documentation"
+        title="Spreadsheet, Sern-Cahilan Unified Dictionary"
+        src="https://docs.google.com/spreadsheets/d/1bQSqiCr2tH3JRQh2L0_kaBWdsBGAeRXBXafQoFm7oOA/htmlembed"
+        id="scd_docs"
+        frameId="scd_content"
+        selectable
+        sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
+    />
 </section>

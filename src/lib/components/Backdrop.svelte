@@ -13,19 +13,4 @@
     $effect(() => { div.style.background = `url('${image}'` })
 </script>
 
-<div bind:this={div} class="backdrop"></div>
-
-<style lang="scss">
-    .backdrop {
-        z-index: -10000;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        filter: blur(1rem);
-    }
-</style>
+<div bind:this={div} class="fixed top-0 left-0 -z-10000 h-screen w-screen bg-cover bg-center bg-no-repeat blur-[1rem]"></div>

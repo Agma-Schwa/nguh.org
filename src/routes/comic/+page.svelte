@@ -17,7 +17,7 @@
 <Backdrop image="/static/comic/1/0-en.png" />
 
 <Stripe>A Webcomic by Agma Schwa</Stripe>
-<img src="@lib/images/comic/image-cover.png" alt="Cover Page" style="margin-block: -3rem">
+<img src="@lib/images/comic/image-cover.png" alt="Cover Page" class="-my-12">
 
 <Stripe>About</Stripe>
 <section>
@@ -28,14 +28,14 @@
         and with a broken family.
     </p>
 
-    <div class="images">
+    <div class="mb-4 flex justify-center gap-4 [&>img]:w-[calc((100%-2rem)/3)]!">
         <img src="@lib/images/comic/image-1.png" alt="">
         <img src="@lib/images/comic/image-2.png" alt="">
         <img src="@lib/images/comic/image-3.png" alt="">
     </div>
 
-    <div class="flex comic-button">
-        <a class="link-button" href="/comic/en/1/0">READ THE COMIC</a>
+    <div class="mb-4 flex justify-center">
+        <a class="link-button h-16! w-140! text-5xl leading-16! [@media(max-width:900px)]:w-full!" href="/comic/en/1/0">READ THE COMIC</a>
     </div>
 
     <p>
@@ -52,52 +52,9 @@
         on mobile) that you can use to switch between the two at any time.
     </p>
 
-    <div class="flex buttons2">
+    <div class="flex justify-center gap-8 [&>a]:w-60! [@media(max-width:900px)]:[&>a]:w-full!">
         <a href="/comic/explore-the-world" class="link-button">Explore the World</a>
         <a href="/languages/arodjun" class="link-button">Learn About Arodjun</a>
         <a href="/comic/characters" class="link-button">Meet the Characters</a>
     </div>
 </section>
-
-
-<style lang="scss">
-    $image_gap: 1rem;
-
-    .comic-button {
-        justify-content: center;
-        margin-bottom: 1rem;
-
-        a {
-            display: block;
-            width: 35rem;
-            font-size: 3rem;
-            height: 4rem;
-            line-height: 4rem;
-        }
-    }
-
-    .buttons2 {
-        justify-content: center;
-        gap: 2rem;
-
-        a { width: 15rem; }
-    }
-
-    .images {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        margin-bottom: 1rem;
-        gap: $image_gap;
-
-        img {
-            width: calc((100% - #{$image_gap} * 2) / 3) !important;
-        }
-    }
-
-    @media only screen and (max-width: 900px) {
-        .comic-button, .buttons2 {
-            a { width: 100%; }
-        }
-    }
-</style>

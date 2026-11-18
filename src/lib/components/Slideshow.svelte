@@ -3,9 +3,12 @@
 
     interface Props {
         slides: string[];
+        class?: string;
     }
 
-    let { slides }: Props = $props();
+    let { slides, class: className }: Props = $props();
+
+    const arrowClass = 'absolute inset-y-0 z-1 flex cursor-pointer select-none items-center justify-center px-[.5em] text-[2rem] text-white mix-blend-difference transition-transform duration-500 hover:mix-blend-normal hover:shadow-[inset_0_0_0_1000px_rgb(0_0_0/.2)]'
 
     let slideshow: HTMLDivElement
     let active: number
@@ -79,9 +82,9 @@
     onDestroy(Unmount)
 </script>
 
-<div class="slideshow" bind:this={slideshow}>
-    <div class="slideshow-slides">
-        <div class="before" onclick={PreviousSlide} aria-hidden=true>❮</div>
+<div class={["slideshow", className]} bind:this={slideshow}>
+    <div class="relative grid place-items-center [grid-template-areas:'inner'] [&>img]:w-full [&>img]:opacity-0 [&>img]:[grid-area:inner] [&>img]:transition-opacity [&>img]:duration-1000 [&>img.active]:opacity-100">
+        <div class="left-0 {arrowClass}" onclick={PreviousSlide} aria-hidden=true>❮</div>
         {#each slides as slide, i}
             {#if i === 0}
                 <img class="active" src={slide} alt="Slide {i}">
@@ -89,9 +92,11 @@
                 <img src={slide} alt="Slide {i}">
             {/if}
         {/each}
-        <div class="after" onclick={NextSlide} aria-hidden=true>❯</div>
+        <div class="right-0 {arrowClass}" onclick={NextSlide} aria-hidden=true>❯</div>
     </div>
-    <div class="slideshow-navbar">
+    <div class="slideshow-navbar flex h-[2em] w-full items-center justify-center gap-[1em] hover:cursor-pointer
+               [&>div]:size-[.6em] [&>div]:rounded-full [&>div]:bg-[lightgrey] [&>div]:transition-colors
+               [&>div]:duration-200 [&>div.active]:bg-(--accentcolour) [&>div:hover]:bg-(--accentcolour)">
         {#each slides as _, i}
             {#if i === 0}
                 <div class="active" onclick={() => JumpToSlide(i)} aria-hidden=true></div>
@@ -101,79 +106,3 @@
         {/each}
     </div>
 </div>
-
-<style lang="scss">
-    $slideshow-navbar-height: 2em;
-
-    .slideshow {
-        &-slides {
-            position: relative;
-            display: grid;
-            place-items: center;
-            grid-template-areas: "inner";
-
-            img {
-                opacity: 0;
-                width: 100%;
-                grid-area: inner;
-                transition: opacity 1s;
-
-                &.active { opacity: 1; }
-            }
-
-            .before, .after {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                z-index: 1;
-                padding: 0 .5em;
-
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-
-                color: white;
-                font-size: 2rem;
-                transition: transform .5s;
-                cursor: pointer;
-                mix-blend-mode: difference;
-
-                &:hover {
-                    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .2);
-                    mix-blend-mode: normal;
-                }
-            }
-
-            .before { left: 0; }
-            .after { right: 0; }
-        }
-
-        &-navbar {
-            width: 100%;
-            height: $slideshow-navbar-height;
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            &:hover { cursor: pointer; }
-
-            div {
-                height: .6em;
-                width: .6em;
-
-                border-radius: 50%;
-                background: lightgrey;
-                transition: background .2s;
-
-                &:hover { background: var(--accentcolour); }
-
-                & + div { margin-left: 1em; }
-            }
-
-            .active { background: var(--accentcolour); }
-        }
-    }
-</style>

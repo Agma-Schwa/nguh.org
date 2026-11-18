@@ -1,5 +1,5 @@
 <script lang="ts">
-    import '#lib/css/speedrun.scss'
+    import '#lib/css/speedrun.css'
     import Page from "#lib/components/Page.svelte";
     import Stripe from "#lib/components/Stripe.svelte";
     import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
@@ -21,7 +21,7 @@
         </p>
         <p>
             If you make a speedrun and would like to submit your time for the leaderboard,
-            record your attempt with the time visible, upload it somewhere where it’s publically
+            record your attempt with the time visible, upload it somewhere where it’s publicly
             accessible (e.g. on YouTube), and submit it in the <strong>#speedrun</strong> channel
             on the <a href="https://discord.gg/zCA2Urv7Tc">Agma Schwa Discord Server</a>; include
             the time and the category you are submitting for in your submission.
@@ -42,19 +42,19 @@
             speedrun records according to this method.
         </p>
         <p>
-            Dice% is defined as: A run where any variables that are presented with dice
+            Dice % is defined as: A run where any variables that are presented with dice
             options are actually rolled, and the runner deals with the consequences
             of those rolls.
         </p>
         <p>
-            Any% is defined as: A run where the dice are either not rolled or are rolled
+            Any % is defined as: A run where the dice are either not rolled or are rolled
             selectively in order to improve the speed.
         </p>
 
     </article>
-    <article class="leaderboards">
+    <article class="mt-8 flex justify-evenly [@media(max-width:900px)]:flex-col [@media(max-width:900px)]:items-center">
         <Leaderboard
-            name="Original Dice%"
+            name="Original Dice %"
             image={dice_per_cent_image}
             scores={[
                 ['Kate the Pan', '21:34'],
@@ -71,7 +71,7 @@
         />
 
         <Leaderboard
-            name="Original Any%"
+            name="Original Any %"
             image={any_per_cent_image}
             scores={[
                 ['Kate the Pan', '21:55'],
@@ -83,11 +83,11 @@
     </article>
 </section>
 
-<Stripe>Agma Schwa’s Conlang Speedrun (Any%) Requirements</Stripe>
-<section>
+<Stripe>Agma Schwa’s Conlang Speedrun (Any %) Requirements</Stripe>
+<section class="[&_ol]:list-decimal [&_ul]:list-disc [&_:is(ol,ul)]:ps-8">
     <h3 class="text-left">Prerequisites</h3>
     <ul id="prerequisites">
-        <li>Have internet open; have Excel or Sheets open</li>
+        <li>Have a browser and either Excel or Sheets open.</li>
         <li><a target="_blank" rel="noopener noreferrer" href="https://en.wiktionary.org/wiki/Appendix:Swadesh_lists#Indo-European_languages(Proto-Indo-European)">Wiktionary Swadesh List Appendix</a>
         </li>
         <li><a target="_blank" rel="noopener noreferrer" href="http://akana.conlang.org/tools/awkwords/">Phonology and Word List</a></li>
@@ -96,14 +96,14 @@
         <li><a target="_blank" rel="noopener noreferrer" href="https://www.online-stopwatch.com/">Time Yourself</a></li>
     </ul>
 
-    <h3 class="text-left">RULES</h3>
+    <h3 id="rules" class="text-left scroll-mt-(--header-height)">RULES</h3>
     <ol>
         <li>
             <p class="list-head">Choose phonology</p>
-            <p>Cannot be website default, must have at least six differences from default</p>
+            <p>Your phonology must differ from the website’s default in at least six ways.</p>
         </li>
         <li>
-            <p class="list-head">Word Pattern (Roll d6)</p>
+            <p class="list-head">Word Pattern (Roll a d6)</p>
             <ol>
                 <li>CV(CV)(N)</li>
                 <li>CV(CV)</li>
@@ -116,9 +116,9 @@
         <li>
             <p class="list-head">Generate Words</p>
             <p>
-                Choose to generate 5000 words, filter duplicates, new line each (this will probably create around 1000 words),
-                put on Excel/Sheets. If it cannot generate at least 1000 words, more variables need to be added to phonology.
-                10-13 additions seems to always be sufficient, but six minimum for the game.
+                Generate 5,000 words, remove duplicates, and put the results in Excel or Sheets with one word per line.
+                This will probably leave around 1,000 words. If you get fewer than 1,000, add more variables to the phonology.
+                10–13 additions seem to be enough, but the minimum for the game is six.
             </p>
         </li>
         <li>
@@ -128,12 +128,12 @@
             <p class="list-head">Top 100/207 from one of Wiktionary’s Swadesh lists, put on Excel/Sheets</p>
         </li>
         <li>
-            <p class="list-head">Categories for Verbs, Nouns, Adjectives, Adverbs are marked using (d6): </p>
+            <p class="list-head">Mark categories for verbs, nouns, adjectives, and adverbs (roll a d6):</p>
             <ul>
-                <li class="_12">Prefixes</li>
-                <li class="_34">Suffixes</li>
-                <li class="_5">Infixes</li>
-                <li class="_6">Particles</li>
+                <li class="marker:content-['1,2._']">Prefixes</li>
+                <li class="marker:content-['3,4._']">Suffixes</li>
+                <li class="marker:content-['5._']">Infixes</li>
+                <li class="marker:content-['6._']">Particles</li>
             </ul>
         </li>
         <li>
@@ -150,8 +150,8 @@
         <li>
             <p class="list-head">Morphosyntactic Alignment</p>
             <ul>
-                <li class="_1234">Nominative/Accusative</li>
-                <li class="_56">Ergative/Absolutive</li>
+                <li class="marker:content-['1–4._']">Nominative/Accusative</li>
+                <li class="marker:content-['5,6._']">Ergative/Absolutive</li>
             </ul>
         </li>
         <li>
@@ -159,7 +159,10 @@
             <ol>
                 <li>
                     <p class="mgb0">Synthetic</p>
-                    <p class="no-mg-block-start mgt0">Create NOM/ERG, ACC/ABS, DAT, GEN markers according to phonology</p>
+                    <p class="no-mg-block-start mgt0">
+                        Create <span class="[font-variant-caps:all-small-caps]">NOM/ERG, ACC/ABS, DAT, GEN</span> markers
+                        according to the phonology.
+                    </p>
                 </li>
                 <li>Analytic</li>
             </ol>
@@ -168,26 +171,26 @@
             <p class="list-head">Verb Conjugation</p>
             <ol>
                 <li>None</li>
-                <li class="_23">Number+Tense</li>
-                <li class="_4">Number</li>
-                <li class="_56">Tense</li>
+                <li class="marker:content-['2,3._']">Number+Tense</li>
+                <li class="marker:content-['4._']">Number</li>
+                <li class="marker:content-['5,6._']">Tense</li>
             </ol>
         </li>
         <li>
             <p class="list-head">If no tense conjugation, create tense auxiliaries as follows, otherwise skip this step</p>
             <ol>
                 <li>None</li>
-                <li class="_2345">Past+Present+Future</li>
-                <li class="_6">Past+Present</li>
+                <li class="marker:content-['2–5._']">Past+Present+Future</li>
+                <li class="marker:content-['6._']">Past+Present</li>
             </ol>
         </li>
         <li>
             <p class="list-head">Grammatical Number</p>
             <ol>
-                <li class="_12">Singular/Plural</li>
-                <li class="_34">Singular/Dual/Plural</li>
-                <li class="_5">Singular/Paucal/Plural</li>
-                <li class="_6">Singular/Plural/Collective</li>
+                <li class="marker:content-['1,2._']">Singular/Plural</li>
+                <li class="marker:content-['3,4._']">Singular/Dual/Plural</li>
+                <li class="marker:content-['5._']">Singular/Paucal/Plural</li>
+                <li class="marker:content-['6._']">Singular/Plural/Collective</li>
             </ol>
         </li>
         <li>
@@ -207,39 +210,39 @@
         <li>
             <p class="list-head">Articles</p>
             <ol>
-                <li class="_12">None</li>
-                <li class="_3">Definite</li>
-                <li class="_4">Definite/Indefinite</li>
-                <li class="_56">Definite/Indefinite/Demonstrative</li>
+                <li class="marker:content-['1,2._']">None</li>
+                <li class="marker:content-['3._']">Definite</li>
+                <li class="marker:content-['4._']">Definite/Indefinite</li>
+                <li class="marker:content-['5,6._']">Definite/Indefinite/Demonstrative</li>
             </ol>
         </li>
         <li>
             <p class="list-head">Aspects</p>
             <p>First, roll a d4 to determine how many aspects to include.<br>
-                Next, roll a d6 that many times to find out which forms must be marked (Simple may be unmarked if it is not rolled)</p>
+                Next, roll a d6 that many times to find out which forms must be marked (simple may be unmarked if it is not rolled).</p>
             <ol>
-                <li class="_12">Perfective</li>
-                <li class="_3">Imperfective</li>
-                <li class="_4">Progressive</li>
-                <li class="_5">Habitual</li>
-                <li class="_6">Simple</li>
+                <li class="marker:content-['1,2._']">Perfective</li>
+                <li class="marker:content-['3._']">Imperfective</li>
+                <li class="marker:content-['4._']">Progressive</li>
+                <li class="marker:content-['5._']">Habitual</li>
+                <li class="marker:content-['6._']">Simple</li>
             </ol>
         </li>
         <li>
             <p class="list-head">Moods</p>
-            <p>First, roll D4 to determine how many moods to include<br>
-                Next, roll D6 that many times to find out which forms must be marked (Indicative may be unmarked if it is not rolled)</p>
+            <p>First, roll a d4 to determine how many moods to include.<br>
+                Next, roll a d6 that many times to find out which forms must be marked (indicative may be unmarked if it is not rolled).</p>
             <ol>
                 <li>Conditional</li>
-                <li class="_23">Indicative</li>
-                <li class="_4">Imperative</li>
-                <li class="_5">Interrogative</li>
-                <li class="_6">Inferential</li>
+                <li class="marker:content-['2,3._']">Indicative</li>
+                <li class="marker:content-['4._']">Imperative</li>
+                <li class="marker:content-['5._']">Interrogative</li>
+                <li class="marker:content-['6._']">Inferential</li>
             </ol>
         </li>
         <li>
             <p class="list-head">Name the Language</p>
-            <p>Roll d1000, choose from the word list. If it already has a definition, too bad, justify the weird name culturally</p>
+            <p>Roll a d1000 and choose the corresponding word from the word list. If it already has a definition, too bad. Justify the weird name culturally.</p>
         </li>
         <li>
             <p class="list-head">Make an Acceptable Translation of</p>

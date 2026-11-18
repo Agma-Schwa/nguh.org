@@ -1,9 +1,9 @@
 <script>
+    import DocumentView from "#lib/components/DocumentView.svelte";
     import Page from "#lib/components/Page.svelte";
     import Stripe from "#lib/components/Stripe.svelte";
     import YouTubeVideo from "#lib/components/YouTubeVideo.svelte";
 
-    import {OpenTab} from "#lib/js/menus.js";
 </script>
 
 <Page name="Arodjun" />
@@ -31,7 +31,7 @@
     </article>
 
     <div class="table-wrapper">
-        <table id="consonant-chart">
+        <table id="consonant-chart" class="mt-4 [&_td:not(:first-child)]:[font-family:var(--font-ipa)]">
             <colgroup>
                 <col>
                 <col class="lborder">
@@ -125,7 +125,7 @@
     <span>Common Clusters:</span>
 
     <div class="table-wrapper">
-        <table class="single-row-table" id="common-clusters">
+        <table class="single-row-table border-0! [font-family:var(--font-ipa)] [&_td]:w-1/4" id="common-clusters">
             <tbody>
                 <tr>
                     <td><strong>mj</strong> [mʲ]</td>
@@ -142,7 +142,7 @@
         seven-vowel system including a phonemic /ɛ/ (which merged with /e/)
         and /ə/ (which merged with phonemic /a/):</p>
 
-    <table id="vowels-table">
+    <table id="vowels-table" class="[&_th]:[border:1px_solid_var(--accentcolour)]! [&_td]:[border:1px_solid_var(--accentcolour)]! [&_td:not(:first-child)]:text-center [&_td:not(:first-child)]:[font-family:var(--font-ipa)]">
         <thead>
             <tr>
                 <th></th>
@@ -495,46 +495,13 @@
         The interactive Arodjun dictionary can be found <a href="/languages/arodjun/dictionary">here</a>.
     </p>
 
-    <div class="tab-wrapper">
-        <div class="tab">
-            <button class="tab-button" id="button_arodjun_docs" onclick={() => OpenTab('arodjun_docs')}>
-                Documentation
-            </button>
-        </div>
-        <div class="tab-container">
-
-            <div class="tab-content iframe-wrapper" id="arodjun_docs">
-                <iframe jsname="L5Fo6c" jscontroller="usmiIb" jsaction="rcuQ6b:WYd;" class="embedded-doc"
-                    id="arodjun_docs_content"
-                    sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
-                    title="Spreadsheet, Arodjun, Katauu 9.0.4" allowfullscreen=""
-                    src="https://docs.google.com/spreadsheets/d/1bVD4K2BA1b45YmQqa8I2wWBZ_ztr0Cr9Len-g6mBb7k/htmlembed"
-                    frameborder="0">
-                </iframe>
-            </div>
-        </div>
-    </div>
+    <DocumentView
+        name="Documentation"
+        title="Spreadsheet, Arodjun, Katauu 9.0.4"
+        src="https://docs.google.com/spreadsheets/d/1bVD4K2BA1b45YmQqa8I2wWBZ_ztr0Cr9Len-g6mBb7k/htmlembed"
+        id="arodjun_docs"
+        frameId="arodjun_docs_content"
+        selectable
+        sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads"
+    />
 </section>
-
-<style lang="scss">
-    @use '@lib/css/_vars.scss' as *;
-
-    #consonant-chart {
-        margin-top: 1rem;
-        td:not(:first-child) { font-family: $ipafont; }
-    }
-
-    #common-clusters {
-        border: none;
-        font-family: $ipafont;
-        td { width: 25%; }
-    }
-
-    #vowels-table {
-        th, td { border: 1px solid $accentcolour; }
-        td:not(:first-child) {
-            text-align: center;
-            font-family: $ipafont;
-        }
-    }
-</style>

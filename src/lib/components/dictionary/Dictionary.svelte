@@ -129,9 +129,9 @@
         {:else if node.macro.name === "ellipsis"}
             &hellip;
         {:else if node.macro.name === "italic"}
-            <em class='uf-font'>{@render Nodes(node.macro.args)}</em>
+            <em class='dictionary-serif'>{@render Nodes(node.macro.args)}</em>
         {:else if node.macro.name === "lemma"}
-            <span class='lemma'>{@render Nodes(node.macro.args)}</span>
+            <span class='dictionary-lemma'>{@render Nodes(node.macro.args)}</span>
         {:else if node.macro.name === "normal"}
             <span style='font-weight: normal; font-style: normal;'>
                 {@render Nodes(node.macro.args)}
@@ -141,7 +141,7 @@
         {:else if node.macro.name === "sense"}
             sense&nbsp;{@render Nodes(node.macro.args)}
         {:else if node.macro.name === "small_caps"}
-            <span class='smallcaps'>{@render Nodes(node.macro.args)}</span>
+            <span class='dictionary-small-caps'>{@render Nodes(node.macro.args)}</span>
         {:else if node.macro.name === "subscript"}
             <sub>{@render Nodes(node.macro.args)}</sub>
         {:else if node.macro.name === "superscript"}
@@ -187,15 +187,14 @@
 
 {#snippet renderItem(entry: Dictionary.Entry)}
     {#if IsFullEntry(entry)}
-        <details class='
+        <details class='dictionary-sans
             open:[&_.short-def]:hidden not-open:cursor-pointer
             not-open:[&_.uf-lemma]:min-w-0
-            [border-top:var(--border)]
         '>
             <summary class='p-1 marker:content-none grid grid-cols-[1fr_2fr] [&>*]:h-8 items-center whitespace-nowrap'>
-                <span class='uf-font uf-lemma inline-block overflow-x-clip text-ellipsis max-w-full'>
-                    <span class='lemma'>{@render Node(entry.word)}</span>
-                    <em class='uf-font'>{@render Node(entry.pos)}</em>
+                <span class='dictionary-serif uf-lemma inline-block overflow-x-clip text-ellipsis max-w-full'>
+                    <span class='dictionary-lemma'>{@render Node(entry.word)}</span>
+                    <em class='dictionary-serif'>{@render Node(entry.pos)}</em>
                 </span>
                 <span class='
                     short-def min-w-0
@@ -223,13 +222,13 @@
                 {#if entry.forms}
                     <p>
                         <strong>Forms: </strong>
-                        <em class='uf-font'>{@render Node(entry.forms)}</em>
+                        <em class='dictionary-serif'>{@render Node(entry.forms)}</em>
                     </p>
                 {/if}
                 {#if entry.ipa}
                     <p>
                         <strong>IPA:</strong>
-                        <span class='uf-font'>/{@render Node(entry.ipa)}/</span>
+                        <span class='dictionary-serif'>/{@render Node(entry.ipa)}/</span>
                     </p>
                 {/if}
                 {#if entry.primary_definition}
@@ -259,21 +258,21 @@
             </div>
         </details>
     {:else if IsRefEntry(entry)}
-        <button type='button' class='reference-entry block w-full text-left [border-top:var(--border)] cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
-            <span class='uf-font'>
-                <span class='lemma'>{@render Node(entry.word)}</span> →
-                <span class='lemma'>{@render Node(entry.ref)}</span>
+        <button type='button' class='block bg-transparent! p-1! text-inherit! w-full text-left cursor-pointer' onclick={() => search_value = RenderPlainText(entry, entry.ref)}>
+            <span class='dictionary-serif'>
+                <span class='dictionary-lemma'>{@render Node(entry.word)}</span> →
+                <span class='dictionary-lemma'>{@render Node(entry.ref)}</span>
             </span>
         </button>
     {/if}
 {/snippet}
 
-<section id="search-section" class='!mt-4 [--border:1px_solid_black]'>
+<section id="search-section" class='!mt-4 [--border:1px_solid_black] [&_p]:m-0! [&_strong]:text-(--accentdarker)'>
     <div id="search" class='h-10 mb-2'>
         <label for="dictionary-search">Search: </label>
-        <input id='dictionary-search' class='mr-8' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
+        <input id='dictionary-search' class='dictionary-lemma mr-8 h-full border border-black' type="text" placeholder="e.g. {search_example}" bind:value={search_value}>
         <label for="search-mode">By: </label>
-        <select id="search-mode" bind:value={search_mode.value}>
+        <select id="search-mode" class="dictionary-sans h-full border border-black bg-none text-(length:--text-large)" bind:value={search_mode.value}>
             {#each Object.keys(SearchMode) as mode}
                 <option value="{mode}" selected>{mode}</option>
             {/each}
@@ -285,48 +284,9 @@
     </p>
     <div class='
         w-full h-[36.9rem] [border:var(--border)]
-        [&_*:first-child>details]:border-t-0
-        [&_*:last-child>details]:[border-bottom:var(--border)]
+        [&_[data-svl-item]:not([data-original-index="0"])]:[border-top:var(--border)]
+        [&_[data-svl-item]:last-child]:[border-bottom:var(--border)]
     '>
         <VirtualList items={entries} {renderItem} />
     </div>
 </section>
-
-<style lang="scss">
-    @use '@lib/css/dictionary' as *;
-    @use "@lib/css/_vars" as vars;
-
-    .reference-entry {
-        background: transparent;
-        color: inherit;
-        padding: .25rem;
-    }
-    details { @include sans-font; }
-    .uf-font { @include serif-font; }
-    .lemma { @include word-format; }
-    .smallcaps { @include small-caps; }
-    strong { color: var(--accentdarker); }
-    p { margin: 0; }
-
-    #search {
-        input {
-            @include word-format;
-            height: 100%;
-            border: $border;
-        }
-
-        select {
-            @include sans-font;
-            font-size: var(--text-large);
-            height: 100%;
-            border: $border;
-            background: none;
-        }
-
-        input, select {
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-        }
-    }
-</style>

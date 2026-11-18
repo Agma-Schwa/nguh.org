@@ -9,6 +9,13 @@
     import img_twitch from '#lib/images/twitch-logo-with-background.svg'
     import img_github from '#lib/images/github-mark.svg'
 
+    import spring from '#lib/images/banner_spring.png';
+    import summer from '#lib/images/banner_summer.jpg';
+    import autumn from '#lib/images/banner_autumn.jpg';
+    import winter from '#lib/images/banner_winter.jpg';
+
+    const backgrounds = {spring, summer, autumn, winter};
+
     // Compute the current season.
     function GetSeason() {
         let month = new Date().getMonth()
@@ -45,10 +52,10 @@
 
 <div
     id="banner"
-    class='
-        relative
-        banner-{GetSeason()}
-    '
+    class='relative h-(--banner-height) bg-cover bg-no-repeat
+        shadow-[inset_0_0_0_1000px_rgb(0_0_0/.25),0_2px_1rem_black]
+        [.page-hide-banner_&]:hidden!'
+    style:background-image={`url("${backgrounds[GetSeason()]}")`}
 >   <div
         class='
             absolute
@@ -57,7 +64,7 @@
             min-[900px]:right-0
             max-[900px]:justify-center max-[900px]:w-full
             pb-4 pr-4
-            flex flex-wrap
+            flex flex-wrap [&_img]:ml-4 [&_img]:h-8 [@media(max-width:900px)]:[&_img]:h-6
         '
     >   <a href="https://www.youtube.com/@AgmaSchwa">
             <img src="{img_youtube}" alt="youtube" class="non-previewable-icon">
@@ -88,27 +95,3 @@
         </a>
     </div>
 </div>
-
-<style lang='scss'>
-    #banner {
-        height: var(--banner-height);
-        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .25), 0 2px 1rem black;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-
-    :global(body.page-hide-banner #banner) {
-        display: none !important;
-    }
-
-    img {
-        height: 2rem;
-        margin-left: 1rem;
-        @media (max-width: 900px) { height: 1.5rem; }
-    }
-
-    .banner-spring { background-image: url("@lib/images/banner_spring.png"); }
-    .banner-summer { background-image: url("@lib/images/banner_summer.jpg"); }
-    .banner-autumn { background-image: url("@lib/images/banner_autumn.jpg"); }
-    .banner-winter { background-image: url("@lib/images/banner_winter.jpg"); }
-</style>

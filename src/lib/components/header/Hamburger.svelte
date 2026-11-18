@@ -24,11 +24,11 @@
         aria-label='Navigation menu'
         aria-expanded={toggled || hovered}
         id='hamburger'
-        class='grid place-items-center px-4 bg-transparent header-bg-transition cursor-pointer'
+        class='grid place-items-center h-(--header-height) px-4 bg-transparent! hover:bg-white! transition-[background-color,color] duration-500 cursor-pointer'
         onclick={Toggle}
         onmouseenter={() => hovered = true}
         onmouseleave={() => hovered = false}
-    >   <svg width="1.5em" height="1.2em" xmlns="http://www.w3.org/2000/svg" class='pointer-events-none'>
+    >   <svg width="1.5em" height="1.2em" xmlns="http://www.w3.org/2000/svg" class='pointer-events-none fill-(--accentmedium)'>
             <rect width="1.5em" height=".2em"/>
             <rect width="1.5em" height=".2em" y=".5em"/>
             <rect width="1.5em" height=".2em" y="1em"/>
@@ -42,12 +42,3 @@
         {@render children()}
     </div>
 {/if}
-
-<style lang='scss'>
-    svg { fill: var(--accentmedium); }
-    #hamburger {
-        height: var(--header-height);
-        &:not(:hover) { background: transparent; }
-        &:hover { background: white; }
-    }
-</style>

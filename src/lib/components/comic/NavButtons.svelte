@@ -39,7 +39,11 @@
     }
 </script>
 
-<div class="buttons">
+<div class="flex justify-between py-4 [--button-margin:2rem]
+    px-[calc(45%-4*var(--button-margin))] [&>*+*]:ml-(--button-margin)
+    [@media(max-width:300px)]:px-0 [@media(max-width:300px)]:[--button-margin:0]
+    [&>a]:block [&>a]:min-w-14 [&>a]:select-none [&>a]:text-[20pt]
+    [&>a.disabled]:pointer-events-none [&>a.disabled]:cursor-default [&>a.disabled]:bg-[grey]!">
     <a
         class="link-button {BackButtonState(data)}"
         href="/comic/{data.lang}/1/0"
@@ -55,7 +59,7 @@
         href="/comic/{data.lang}/{data.page === 0 ? data.chapter - 1 : data.chapter}/{PreviousPage(data)}"
     >&lt;</a>
 
-    <span class="page-number">{data.chapter}.{data.page}</span>
+    <span class="block h-8 min-w-18 bg-(--accentlight) text-center text-[20pt] leading-8">{data.chapter}.{data.page}</span>
 
     <a
         class="link-button {ForwardButtonState(data)}"
@@ -76,52 +80,3 @@
         href="/comic/{data.lang}/{data.pages.length}/{LastPageForChapter(data, data.pages.length)}"
     >&gt;&gt;&gt;</a>
 </div>
-
-<style lang="scss">
-    .page-number {
-        display: block;
-        min-width: 4.5rem;
-        height: 2rem;
-        line-height: 2rem;
-
-        background: var(--accentlight);
-        font-size: 20pt;
-        text-align: center;
-    }
-
-    .buttons {
-        --button-margin: 2rem;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding-inline: calc(45% - 4 * var(--button-margin));
-        padding-block: 1rem;
-
-        a {
-            display: block;
-            min-width: 3.5rem;
-            font-size: 20pt;
-
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-
-            &.disabled {
-                pointer-events: none;
-                cursor: default;
-                background: grey;
-            }
-        }
-
-        // Lobotomised owl go brrr.
-        * + * { margin-left: var(--button-margin); }
-    }
-
-    @media only screen and (max-width: 300px) {
-        .buttons {
-            --button-margin: 0;
-            padding-inline: 0;
-        }
-    }
-</style>

@@ -11,3 +11,22 @@
         min-width: 100vw;
     }
 }
+
+@utility dictionary-serif {
+    font-family: CharisSIL, serif;
+    font-size: var(--text-size);
+}
+
+@utility dictionary-sans {
+    font-family: OpenSans, sans-serif;
+    font-style: normal;
+}
+
+@utility dictionary-lemma {
+    @apply dictionary-serif font-bold not-italic text-(--accentdarker);
+}
+
+@utility dictionary-small-caps {
+    @apply dictionary-sans text-(--accentcolour) text-(length:--text-large);
+    font-variant: all-small-caps;
+}

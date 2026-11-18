@@ -6,47 +6,10 @@
     let { children }: Props = $props();
 </script>
 
-<style lang="scss">
-.wrapper {
-    z-index: 1;
 
-    position: fixed;
-    top: 4rem;
-    right: 0;
-    left: 0;
-
-    .content {
-        width: 50%;
-
-        margin: 0 auto;
-        height: 2rem;
-        line-height: 2rem;
-
-        font-size: var(--text-size);
-        text-align: center;
-        color: white;
-    }
-}
-
-// If the screen is large enough, use a hack with borders to create sharp corners.
-@media (min-width: 500px) {
-    .content {
-        border-top: 2rem solid var(--accentblack);
-        border-right: 2.5rem solid transparent;
-        border-left: 2.5rem solid transparent;
-        div { transform: translateY(-2rem); }
-    }
-}
-
-// On tiny screens, just render a box.
-@media (max-width: 500px) {
-    .content div { background: var(--accentblack); }
-}
-</style>
-
-<div class="wrapper">
-    <div class="content">
-        <div>
+<div class="fixed inset-x-0 top-16 z-1">
+    <div class="mx-auto h-8 w-1/2 text-center text-(length:--text-size) leading-8 text-white min-[500px]:border-x-[2.5rem] min-[500px]:border-t-[2rem] min-[500px]:border-transparent min-[500px]:border-t-(--accentblack)">
+        <div class="min-[500px]:-translate-y-8 [@media(max-width:500px)]:bg-(--accentblack)">
             {@render children?.()}
         </div>
     </div>

@@ -1,10 +1,7 @@
-@use "sass:meta";
-@use 'vars' as *;
-
 @layer base {
     * {
         margin-block-start: 0;
-        accent-color: $accentlight;
+        accent-color: var(--accentlight);
     }
 }
 
@@ -26,7 +23,7 @@ img { display: block; }
 html, body { overflow-x: hidden; }
 
 html {
-    scrollbar-color: $accentlight $accentblack;
+    scrollbar-color: var(--accentlight) var(--accentblack);
     scrollbar-width: auto;
 }
 
@@ -34,26 +31,24 @@ p {
     text-align: justify;
 }
 
-p + p { margin-block-start: unset !important; }
 p:where(:not(:last-child)) { margin-bottom: .5rem; }
 
-::-webkit-scrollbar {
-    width: .675rem;
-    &-track { background: $accentblack; }
-    &-thumb {
-        border-radius: 15px;
-        border: 2px solid $accentblack;
-        background: $accentlight;
-        &:hover { background: $accentcolour; }
-    }
+::-webkit-scrollbar { width: .675rem; }
+::-webkit-scrollbar-track { background: var(--accentblack); }
+::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    border: 2px solid var(--accentblack);
+    background: var(--accentlight);
+
+    &:hover { background: var(--accentcolour); }
 }
 
 ::-moz-selection, ::selection {
     color: white;
-    background: $accentlight;
+    background: var(--accentlight);
 }
 
-code, pre, samp, kbd, var { font-family: $code-font; }
+code, pre, samp, kbd, var { font-family: var(--font-code); }
 
 body {
     --body-background-colour: #fafafe;
@@ -83,13 +78,10 @@ body.page-hide-banner {
     justify-content: center;
 }
 
-main {
-    background: var(--body-background-colour);
-}
 
 .bright-link {
-    color: $accentlight;
-    &:hover { color: $accentcolour; }
+    color: var(--accentlight);
+    &:hover { color: var(--accentcolour); }
 }
 
 .smaller-image { max-width: 17.5rem; }
@@ -118,63 +110,5 @@ main {
         gap: 2rem;
         align-items: center;
         justify-content: flex-start;
-    }
-}
-
-@include meta.load-css('text');
-@include meta.load-css('content');
-@include meta.load-css('components');
-@include meta.load-css('dialog');
-
-textarea {
-    border: 1px solid $accentcolour;
-    field-sizing: content;
-    padding-inline: .5rem;
-}
-
-input[type=submit][disabled=false] {
-    border: 1px solid $accentcolour;
-    width: 7rem;
-
-    background: $accentlighter;
-    font-size: 1rem;
-
-    &:hover {
-        background: $accentcolour;
-        color: white;
-        cursor: pointer;
-    }
-}
-
-button {
-    border: none;
-    padding-inline: 1rem;
-    font-size: var(--text-size);
-}
-
-#h1-underline {
-    position: absolute;
-    top: 12.5rem;
-    right: 0;
-    left: 0;
-    z-index: 1;
-
-    border: .4em solid $accentlight;
-    background: $accentlight;
-}
-
-@media all and (display-mode: fullscreen) {
-    header {
-        display: none !important;
-    }
-}
-
-#h1-underline {
-    width: var(--h1-underline-length);
-}
-
-@media (max-width: 900px) {
-    #h1-underline {
-        width: var(--h1-underline-length-short);
     }
 }

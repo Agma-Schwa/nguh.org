@@ -29,9 +29,11 @@
     <PageLink href='/support-us'>Support Us</PageLink>
 {/snippet}
 
-<header class='fixed top-0 w-full z-10000 flex select-none {mobile.current ? "" : "justify-between"}'>
+<header class='fixed top-0 z-10000 flex h-(--header-height) w-full select-none bg-(--nav-bg) [box-shadow:var(--main-shadow)]
+               [--nav-fg:var(--accentmedium)] [--nav-bg:var(--accentblack)] [--nav-link-min-wd:8.5rem] [--nav-a-padding-left:.5rem]
+               [@media(display-mode:fullscreen)]:hidden! {mobile.current ? "" : "justify-between"}'>
     <PageLink image={agma_logo} href='/'>AGMA SCHWA</PageLink>
-    <nav>
+    <nav class="[@media(max-width:900px)]:[--nav-link-min-wd:100%]">
         <Hamburger {mobile}>
             <PageLink href='/the-channel'>The Channel</PageLink>
             <Dropdown href='/languages' name='Languages' {mobile}>
@@ -54,26 +56,3 @@
         </Hamburger>
     </nav>
 </header>
-
-<style lang='scss'>
-    header {
-        --nav-fg: var(--accentmedium);
-        --nav-bg: var(--accentblack);
-        --nav-link-min-wd: 8.5rem;
-        --nav-a-padding-left: .5rem;
-        height: var(--header-height);
-        background: var(--nav-bg);
-        box-shadow: var(--main-shadow);
-    }
-
-    :global(.header-bg-transition) {
-        transition: background .5s, color .5s;
-        &:hover { background: white; }
-    }
-
-    @media (max-width: 900px) {
-        nav {
-            --nav-link-min-wd: 100%;
-        }
-    }
-</style>

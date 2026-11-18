@@ -1,0 +1,9 @@
+section {
+    padding: 0 4rem;
+    &:last-of-type { margin-bottom: 2rem; }
+}
+
+@media (max-width: 900px) {
+    section { padding: 0 1.5rem; }
+    .w50, .w70 { max-width: 100%; }
+}

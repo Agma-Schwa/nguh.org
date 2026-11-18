@@ -349,11 +349,13 @@
             })
         }
     }
+    const textboxClass = 'flex flex-col bg-(--accentlight) text-(--accentdarker) [&>label]:select-none [&>label]:px-[2px]'
+    const fieldClass = 'grow border border-(--accentlight)! bg-white! p-[2px]! [color:revert] [font-family:CharisSIL,Doulos_SIL,Times_New_Roman,serif]'
 </script>
 
 <Page name='Word Generator'></Page>
 <Stripe>Word Generator</Stripe>
-<section>
+<section class='[&_code]:text-(--accentdarker) [&_pre]:text-(--accentdarker)'>
     <div>
         <h3>Classes</h3>
         <p>
@@ -414,19 +416,19 @@ s = sn, st, sp
     </div>
     <div class='grid grid-cols-2 gap-8 mt-4 h-[35rem] max-h-[35rem]'>
         <div class='h-full flex flex-col'>
-            <div class='textbox grow'>
+            <div class='{textboxClass} grow'>
                 <label for="word-classes">Classes</label>
-                <textarea id="word-classes" bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
+                <textarea id="word-classes" class={fieldClass} bind:value={classes_str.value} name='classes' autocorrect='off' placeholder='C = p, t, k{"\n"}V = a, e, i, o'></textarea>
             </div>
 
-            <div class='textbox mt-8'>
+            <div class='{textboxClass} mt-8'>
                 <label for="word-phonotactics">Phonotactics</label>
-                <input id="word-phonotactics" bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
+                <input id="word-phonotactics" class={fieldClass} bind:value={phontactics.value} type='text' name='input' placeholder='(C)VCV(V)'>
             </div>
         </div>
-        <div class='textbox max-h-[inherit]'>
+        <div class='{textboxClass} max-h-[inherit]'>
             <label for="generated-words">Words</label>
-            <textarea id="generated-words" bind:value={output} class='overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
+            <textarea id="generated-words" bind:value={output} class='{fieldClass} overflow-y-auto' name='classes' autocorrect='off' readonly></textarea>
         </div>
     </div>
     <div class='flex justify-between items-center mt-8 gap-8'>
@@ -440,28 +442,3 @@ s = sn, st, sp
         </div>
     </div>
 </section>
-
-<style lang='scss'>
-    code, pre { color: var(--accentdarker); }
-    .textbox {
-        display: flex;
-        flex-direction: column;
-        background: var(--accentlight);
-        color: var(--accentdarker);
-    }
-
-    label {
-        padding-inline: 2px;
-        user-select: none;
-    }
-
-    textarea, input[type=text] {
-        flex-grow: 1;
-        border: 1px solid var(--accentlight);
-        color: revert;
-        padding: 2px;
-        background: white;
-        font-family: CharisSIL, Doulos SIL, Times New Roman, serif;
-    }
-
-</style>

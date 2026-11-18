@@ -14,7 +14,3 @@
         {@render children()}
     </label>
 </div>
-
-<style lang='scss'>
-
-</style>

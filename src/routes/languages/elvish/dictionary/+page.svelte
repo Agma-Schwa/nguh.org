@@ -14,7 +14,7 @@
 {#snippet CustomMacroHandler(node: Dict.CustomMacroNode, render_callback: Snippet<[Dict.Node]>)}
     {#if node.custom_macro.name === 'santaa' && node.custom_macro.args}
         Santaa
-        <span class='santaa'>{@render render_callback(node.custom_macro.args[0])}</span>
+        <span class='text-(--accentdarker) text-(length:--text-size) [font-family:Santaa,serif]'>{@render render_callback(node.custom_macro.args[0])}</span>
     {:else}
         &lt;UNSUPPORTED CUSTOM MACRO: {node.custom_macro.name}&gt;
     {/if}
@@ -27,12 +27,3 @@
     lang_code={'el'}
     search_example={'sánshų́'}
 />
-
-<style lang='scss'>
-    @use "@lib/css/dictionary" as *;
-    .santaa {
-        font-size: var(--text-size);
-        color: var(--accentdarker);
-        font-family: Santaa, serif;
-    }
-</style>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from '#lib/components/Header.svelte';
     import Banner from "#lib/components/Banner.svelte";
-    import '#lib/css/style.scss';
+    import '#lib/css/style.css';
     import '#lib/css/tailwind.css';
     import {onMount} from "svelte";
 
@@ -157,17 +157,17 @@
 <Banner />
 {#if page.data.user}
     <Ribbon>
-        Logged in as <span class='username'>{page.data.user.name}</span>
+        Logged in as <span class='font-bold text-(--accentlighter)'>{page.data.user.name}</span>
         •
-        <a href='/login' class='login-link'>Sign out</a>
+        <a href='/login' class='text-(--accentmedium)!'>Sign out</a>
     </Ribbon>
 {/if}
-<div id='h1-wrapper' class='absolute w-full flex flex-col items-center justify-center'>
+<div class='absolute top-(--header-height) flex h-[calc(var(--banner-height)-var(--header-height)-var(--header-offset))]
+    w-full flex-col items-center justify-center [.page-hide-banner_&]:hidden!'>
     <div class='mx-auto'>
         <h1
-            style='text-shadow: -3px 3px rgba(0, 0, 0, .8);'
             class='
-                p-0 block
+                p-0 block [text-shadow:-3px_3px_rgb(0_0_0/.8)]
                 font-black text-center
                 text-white
                 sm:text-[3rem]
@@ -179,68 +179,24 @@
             {$page_title === 'Agma Schwa' ? 'Welcome!' : $page_title}
         </h1>
         <hr
-            style='border: var(--h1-underline-height) solid var(--accentlight);'
-            class='m-auto -mt-3 w-3/4'
+            class='m-auto -mt-3 w-3/4 [border:var(--h1-underline-height)_solid_var(--accentlight)]'
         >
     </div>
 </div>
 
 <div
-    class='flex gap-4'
-    style='
-        padding-top: var(--content-top-offs);
-'>  <main
-        style='
-            box-shadow: var(--main-shadow);
-            max-width: min(90rem, 100vw);
-            width: 90rem;
-        '
-        class='relative my-0 mx-auto flex flex-col grow'
+    class='flex gap-4 pt-(--content-top-offs)'
+>   <main class='relative mx-auto my-0 flex w-[90rem] max-w-[min(90rem,100vw)] grow flex-col bg-(--body-background-colour) [box-shadow:var(--main-shadow)]'
     >
         {@render children?.()}
         <footer
             class='justify-end text-center pb-2 mt-4'
         >
             <hr
-                style='border: 2px solid var(--accentcolour);'
-                class='w-4/5 m-auto mb-2'
+                class='m-auto mb-2 w-4/5 border-2 border-(--accentcolour)'
             >
             For more information, see the YouTube channel
             <a href="https://www.youtube.com/@AgmaSchwa"><strong>Agma&nbsp;Schwa</strong></a>
         </footer>
     </main>
 </div>
-
-<style>
-    #h1-wrapper {
-        top: var(--header-height);
-        height: calc(var(--banner-height) - var(--header-height)  - var(--header-offset));
-    }
-
-    :global(body.page-hide-banner #h1-wrapper) {
-        display: none !important;
-    }
-
-    @media (max-width: 900px) {
-        :root {
-            --h1-underline-height: .35rem;
-            --header-offset: 2.5rem;
-        }
-    }
-
-    @media (max-width: 650px) {
-        :root {
-            --h1-underline-height: .2rem;
-            --header-offset: 1.5rem;
-        }
-    }
-
-    .username {
-        color: var(--accentlighter);
-        font-weight: bold;
-    }
-
-    .login-link {
-        color: var(--accentmedium);
-    }
-</style>

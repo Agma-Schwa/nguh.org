@@ -1,0 +1,32 @@
+@import './theme.css';
+@import './base.css';
+@import './text.css';
+@import './content.css';
+@import './components.css';
+@import './dialog.css';
+
+textarea {
+    border: 1px solid var(--accentcolour);
+    field-sizing: content;
+    padding-inline: .5rem;
+}
+
+input[type=submit][disabled=false] {
+    border: 1px solid var(--accentcolour);
+    width: 7rem;
+
+    background: var(--accentlighter);
+    font-size: 1rem;
+
+    &:hover {
+        background: var(--accentcolour);
+        color: white;
+        cursor: pointer;
+    }
+}
+
+button {
+    border: none;
+    padding-inline: 1rem;
+    font-size: var(--text-size);
+}

@@ -171,28 +171,26 @@
     }: Props = $props()
 </script>
 
-<dialog {id} bind:this={the_dialog} onclose={OnClose} class="modal">
-    <div class="dialog-title" role="presentation" onmousedown={StartDrag}>
-        <div class="dialog-title-content">{title}</div>
-        <button type="button" class="dialog-close-button" title="Close" aria-label="Close" onclick={() => the_promise?.reject("Closed by user")}>
-            <svg class="close-button-icon" width="1cm" height="1cm" viewBox="0 0 100 100"
+<dialog {id} bind:this={the_dialog} onclose={OnClose} class="modal absolute top-1/2 bottom-auto! left-1/2 right-auto! z-98 w-fit min-w-[50ch] max-w-[90vw]
+        flex-col justify-between [border:1px_solid_var(--bg-border)] bg-(--accentblack) p-0 text-(length:--text-size) text-white
+        [box-shadow:10px_10px_2em_rgb(0_0_0/.5)] not-open:hidden! backdrop:bg-[rgb(0_0_0/.5)]
+        [--title-bar-colour:var(--accentlight)] [--title-bar-text-colour:var(--accentdarker)]
+        [--svg-button-bg:var(--title-bar-colour)] [--svg-button-hover-bg:var(--accentcolour)]">
+    <div class="relative z-99 m-0 flex h-10 w-full justify-end bg-(--title-bar-colour) p-0 text-center
+            text-(--title-bar-text-colour) select-none [-webkit-user-drag:element]" role="presentation" onmousedown={StartDrag}>
+        <div class="absolute top-1/2 left-1/2 w-fit -translate-x-1/2 -translate-y-1/2">{title}</div>
+        <button type="button" class="h-full bg-transparent! p-0!" title="Close" aria-label="Close" onclick={() => the_promise?.reject("Closed by user")}>
+            <svg class="pointer-events-auto h-full bg-(--svg-button-bg) fill-(--title-bar-text-colour) hover:bg-(--svg-button-hover-bg)" width="1cm" height="1cm" viewBox="0 0 100 100"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M 40 38 L 62 60 L 60 62 L 38 40"></path>
                 <path d="M 60 38 L 38 60 L 40 62 L 62 40"></path>
             </svg>
         </button>
     </div>
-    <div class="dialog-content">
+    <div class="flex flex-col gap-3 overflow-y-auto px-4 pt-4 pb-2 [&_p]:my-0!">
         {@render content?.()}
     </div>
-    <div class="dialog-controls">
+    <div class="flex justify-evenly p-4 [&_button]:min-w-20">
         {@render controls()}
     </div>
 </dialog>
-
-<style lang="scss">
-    .dialog-close-button {
-        background: transparent;
-        padding: 0;
-    }
-</style>

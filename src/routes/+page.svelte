@@ -57,7 +57,7 @@
                 <img
                     src="@lib/images/index/Zlevau djoDaxwex.png"
                     alt="Zlevau djoDaxwex"
-                    class="img-height-1 mb-8 w-full"
+                    class="mb-8 h-[17em] w-full object-cover"
                 >
 
                 <div class="spaced-button-group">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div>
-                <Slideshow slides={[
+                <Slideshow class="[&_img]:h-[17em] [&_img]:object-cover" slides={[
                     slide1,
                     slide2,
                     slide3,
@@ -87,9 +87,9 @@
     <div>
         <article>
             <h3 class="mb-8">Join the Discord Server</h3>
-            <div class="iframe-wrapper">
+            <div class="flex items-center justify-center">
                 <iframe src="https://discord.com/widget?id=697450809390268467&theme=dark" width="350" height="500"
-                    allowtransparency="true" title="Discord Widget" frameborder="0"
+                    class="mx-auto border-0" allowtransparency="true" title="Discord Widget" frameborder="0"
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
                 </iframe>
             </div>
@@ -137,10 +137,3 @@
             but are not yet a part of copyrighted literature.</p>
     </article>
 </section>
-
-<style>
-    :global(.slideshow img), .img-height-1 {
-    object-fit: cover;
-    height: 17em;
-}
-</style>

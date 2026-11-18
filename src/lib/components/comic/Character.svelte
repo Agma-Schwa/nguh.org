@@ -16,11 +16,11 @@
     }: Props = $props();
 </script>
 
-<div class="character">
-    <img src={image} alt={name}>
-    <div class="character-content">
-        <h3 class="name">{name}</h3>
-        <p class="info">
+<div class="flex">
+    <img class="w-60!" src={image} alt={name}>
+    <div class="w-full pl-8">
+        <h3 class="w-full text-center">{name}</h3>
+        <p class="text-(--accentcolour)">
             {#each Object.entries(info) as [key, value], i}
                 {#if i !== 0} <br> {/if}
                 {key}: {value}
@@ -31,30 +31,5 @@
 </div>
 
 {#if rule_after}
-    <hr class="character-rule">
+    <hr class="my-4 border-(--accentcolour)">
 {/if}
-
-<style lang="scss">
-    .character {
-        display: flex;
-        flex-direction: row;
-
-        img { width: 15rem !important; }
-
-        .character-content {
-            width: 100%;
-            padding-left: 2rem;
-
-            h3 {
-                width: 100%;
-                text-align: center;
-            }
-            .info { color: var(--accentcolour); }
-        }
-    }
-
-    .character-rule {
-        margin-block: 1rem;
-        border-color: var(--accentcolour);
-    }
-</style>

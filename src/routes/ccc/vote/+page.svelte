@@ -22,30 +22,6 @@
     <p>Your votes have been submitted successfully.</p>
 </SimpleDialog>
 
-<style lang="scss">
-    #submit-form {
-        width: min(100%, 40rem);
-        display: flex;
-        align-items: center;
-
-        input[type=submit] {
-            margin-top: 1rem;
-            font-size: var(--text-size);
-            height: 2rem;
-            line-height: 2rem;
-            width: min(100%, 10rem);
-        }
-
-        label {
-            width: 100%;
-            height: 2.5rem;
-            line-height: 2.5rem;
-            display: flex;
-            gap: 1rem;
-            select { flex-grow: 1; }
-        }
-    }
-</style>
 
 <Page name="CCC Voting Form"/>
 <Stripe>Cursed Conlang Circus</Stripe>
@@ -69,11 +45,11 @@
         If you have questions, please contact Ætérnal on the Agma Schwa Discord server.
     </p>
 
-    <form method="POST" id="submit-form" use:enhance={() => ShowDialog}>
+    <form method="POST" id="submit-form" class="flex w-[min(100%,40rem)] items-center" use:enhance={() => ShowDialog}>
         {#each [1, 2, 3, 4, 5, 6] as entry}
-            <label>
+            <label class="flex h-10 w-full gap-4 leading-10">
                 Top {entry}:
-                <select name="top{entry}">
+                <select class="grow" name="top{entry}">
                     <option value="<none>">&lt;none&gt;</option>
                     {#each page.data.langs as lang}
                         {#if page.data.vote && page.data.vote[`top${entry}`] === lang}
@@ -85,7 +61,7 @@
                 </select>
             </label>
         {/each}
-        <input value="Vote" type="submit">
+        <input class="mt-4 h-8 w-[min(100%,10rem)] text-(length:--text-size) leading-8" value="Vote" type="submit">
     </form>
 </section>
 {:else}

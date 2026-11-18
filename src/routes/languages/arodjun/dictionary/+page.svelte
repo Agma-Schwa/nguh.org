@@ -49,8 +49,8 @@
 {#snippet CustomMacroHandler(node: Dict.CustomMacroNode, render_callback: Snippet<[Dict.Node]>)}
     {#if node.custom_macro.name === 'psc' && node.custom_macro.args}
         from
-        <span class='smallcaps'>psc&nbsp;#{@render render_callback(node.custom_macro.args[0])}</span>
-        <span class='lemma'>{@render render_callback(node.custom_macro.args[1])}</span>
+        <span class='dictionary-small-caps'>psc&nbsp;#{@render render_callback(node.custom_macro.args[0])}</span>
+        <span class='dictionary-lemma'>{@render render_callback(node.custom_macro.args[1])}</span>
     {:else}
         &lt;UNSUPPORTED CUSTOM MACRO: {node.custom_macro.name}&gt;
     {/if}
@@ -65,9 +65,3 @@
     search_example={'pjecijau'}
     capitalise={true}
 />
-
-<style lang='scss'>
-    @use "@lib/css/dictionary" as *;
-    .smallcaps { @include small-caps; }
-    .lemma { @include word-format; }
-</style>

@@ -19,7 +19,9 @@
     }
 </script>
 
-<a {href} class='flex items-center header-bg-transition text-nowrap pr-2 {active ? "active" : ""}'>
+<a {href} class='flex h-(--header-height) min-w-(--nav-link-min-wd) items-center
+          pr-2 pl-(--nav-a-padding-left) text-(length:--text-size) leading-(--header-height)
+          text-nowrap text-(--nav-fg)! transition-[background-color,color] duration-500 hover:bg-white {active ? "bg-white" : ""}'>
     {#if image}
         <img alt='' src={image} class='non-previewable-icon mr-2 h-12'>
     {/if}
@@ -27,16 +29,3 @@
         {@render children()}
     </span>
 </a>
-
-<style lang='scss'>
-    a {
-        height: var(--header-height);
-        line-height: var(--header-height);
-        font-size: var(--text-size);
-        min-width: var(--nav-link-min-wd);
-        padding-left: var(--nav-a-padding-left);
-        &, &:visited, &:hover:visited { color: var(--nav-fg); }
-    }
-
-    .active { background: white; }
-</style>

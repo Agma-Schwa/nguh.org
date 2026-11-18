@@ -61,9 +61,10 @@
                 {line}<br>
             {/each}
         </p>
-        <div class="flex file-input-control">
-            <input type="file" bind:this={input} onchange={UpdateInput}>
+        <div class="flex gap-[.55rem]">
+            <input class="hidden" type="file" bind:this={input} onchange={UpdateInput}>
             <input
+                class="w-full p-0 text-(length:--text-size)"
                 type="text"
                 placeholder="Enter a URL or click 'Browse Files'"
                 disabled={!!uploaded_file_data}
@@ -78,16 +79,3 @@
         <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
     {/snippet}
 </Dialog>
-
-<style lang="scss">
-    .file-input-control {
-        gap: .55rem;
-        button { width: 11.5rem; }
-        input[type=file] { display: none; }
-        input[type=text] {
-            font-size: var(--text-size);
-            width: 100%;
-            padding: 0;
-        }
-    }
-</style>

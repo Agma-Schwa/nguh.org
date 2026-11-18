@@ -5,7 +5,7 @@
 
 <Page name={page.status} />
 
-<section>
+<section class="[&_h2]:col-[1/span_3] [&_h2]:mt-12 [&_h2]:text-center [&_h2]:text-[4rem]! [&_h2]:uppercase [&_p]:mt-8 [&_p]:text-center [&_p]:text-[2rem] [&_p]:text-(--accentdarker) [&_p+p]:mb-8">
     {#if page.error}
         {#if page.error.message.includes('\n')}
             {@const first_newline = page.error.message.indexOf('\n')}
@@ -20,24 +20,3 @@
         <h2>Unknown error</h2>
     {/if}
 </section>
-
-<style>
-    h2 {
-        font-size: 4rem;
-        text-align: center;
-        grid-column: 1 / span 3;
-        margin-top: 3rem;
-        text-transform: uppercase;
-    }
-
-    p {
-        color: var(--accentdarker);
-        margin-top: 2rem;
-        font-size: 2rem;
-        text-align: center;
-    }
-
-    p + p {
-        margin-bottom: 2rem;
-    }
-</style>

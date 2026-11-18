@@ -51,8 +51,8 @@
 <Dialog bind:this={the_dialog} {title}>
     {#snippet content()}
         <p>{description}</p>
-        <div class="flex file-input-control">
-            <input type="file" multiple bind:this={input} onchange={UpdateInput}>
+        <div class="flex gap-[.55rem]">
+            <input class="hidden" type="file" multiple bind:this={input} onchange={UpdateInput}>
             <p class="ml-4">
                 {#each uploaded_files.slice(0, 10) as file}
                     {file.name}<br>
@@ -70,10 +70,3 @@
         <button onclick={() => the_dialog.reject('User pressed Cancel')}>Cancel</button>
     {/snippet}
 </Dialog>
-
-<style lang="scss">
-    .file-input-control {
-        gap: .55rem;
-        input[type=file] { display: none; }
-    }
-</style>

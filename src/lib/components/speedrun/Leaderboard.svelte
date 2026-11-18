@@ -8,32 +8,18 @@
     let { image, name, scores }: Props = $props();
 </script>
 
-<style lang="scss">
-    .leaderboard {
-        max-width: min(100%, 500px);
 
-        .speedrun-category-image {
-            width: 100%;
-        }
-    }
-</style>
-
-<div class="leaderboard">
-    <h4>{name}</h4>
-    <img src="{image}" alt="{name}" class="speedrun-category-image">
+<div class="w-3/4 min-w-0 max-w-[375px] [@media(width>900px)]:w-[37.5%]">
+    <h3>{name}</h3>
+    <img src={image} alt="{name}" class="h-auto w-full">
     {#if scores.length}
-        <table>
-            <colgroup>
-                <col>
-                <col>
-                <col>
-            </colgroup>
+        <table class="w-full [&_td]:text-(length:--text-size)!">
             <tbody>
                 {#each scores as [name, time], position}
                     <tr>
-                        <td>{position + 1}.</td>
-                        <td>{name}</td>
-                        <td class="speedrun-time-col">{time}</td>
+                        <td class="w-px whitespace-nowrap">{position + 1}.</td>
+                        <td class="wrap-anywhere">{name}</td>
+                        <td class="w-px text-right font-bold whitespace-nowrap">{time}</td>
                     </tr>
                 {/each}
             </tbody>

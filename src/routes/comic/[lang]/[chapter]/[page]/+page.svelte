@@ -30,47 +30,16 @@
     transparent={true}
 />
 
-<div class="switch-languages-button">
+<div class="fixed top-[50vh] right-18 [@media(max-width:1850px)]:right-4
+           [@media(max-width:1630px)]:static [@media(max-width:1630px)]:mb-4
+           [@media(max-width:1630px)]:flex [@media(max-width:1630px)]:justify-center">
     <a
         data-sveltekit-noscroll
-        class="link-button switch-languages"
+        class="link-button px-2 [@media(max-width:1630px)]:w-20!"
         href="/comic/{data.lang === 'en' ? 'ar' : 'en'}/{data.chapter}/{data.page}"
     ><span>EN</span>&nbsp;⟳&nbsp;<span>AR</span></a>
 </div>
 
 <NavButtons {data} />
-<img src='/static/comic/{data.chapter}/{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon page">
+<img src='/static/comic/{data.chapter}/{data.page}-{data.lang}.png' alt="Comic Page" class="non-previewable-icon cursor-default">
 <NavButtons {data} />
-
-<style lang="scss">
-    .switch-languages-button {
-        position: fixed;
-        right: 4.5rem;
-        top: 50vh;
-        a { padding-inline: .5rem; }
-    }
-
-    .page {
-        cursor: default;
-    }
-
-    @media only screen and (max-width: 1850px) {
-        .switch-languages-button {
-            right: 1rem;
-        }
-    }
-
-    @media only screen and (max-width: 1630px) {
-        .switch-languages-button {
-            position: unset;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            margin-bottom: 1rem;
-
-            a {
-                width: 5rem;
-            }
-        }
-    }
-</style>

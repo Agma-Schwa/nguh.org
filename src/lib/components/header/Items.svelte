@@ -16,38 +16,13 @@
         area so that it hides anything we scroll up and ‘under’ the header.
     -->
     {#if scroll_y}
-        <div id='background' class='absolute top-0 left-0 w-full'></div>
+        <div class='absolute top-0 left-0 -z-1 h-(--header-height) w-full bg-(--nav-bg)'></div>
     {/if}
 
-    <div class='items-wrapper absolute flex flex-col {scroll_y ? "topmost" : ""} {align === "right" ? "right-0" : "" }'>
+    <div class='items-wrapper absolute top-0 -z-2 flex min-w-(--nav-link-min-wd) flex-col
+                bg-(--nav-bg) pt-(--header-height) [&_a]:h-8! [&_a]:leading-8! [&_a_span]:text-left!
+                min-[900px]:[&_a]:px-5!
+                {scroll_y ? "h-screen overflow-y-scroll" : ""} {align === "right" ? "right-0" : ""}'>
         {@render children()}
     </div>
 {/if}
-
-<style lang='scss'>
-    #background {
-        z-index: -1;
-        background: var(--nav-bg);
-        height: var(--header-height);
-    }
-
-    .items-wrapper {
-        z-index: -2;
-        background: var(--nav-bg);
-        top: 0;
-        padding-top: var(--header-height);
-        min-width: var(--nav-link-min-wd);
-
-        :global(a span) { text-align: left; }
-        :global(a) {
-            height: 2rem;
-            line-height: 2rem;
-            @media (min-width: 900px) { padding-inline: 1.25rem; }
-        }
-    }
-
-    .topmost {
-        height: 100vh;
-        overflow-y: scroll;
-    }
-</style>
